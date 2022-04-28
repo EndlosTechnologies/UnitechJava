@@ -156,8 +156,6 @@ public class BloowRoomExcelService {
             createCell(row,countRow++,bloowRoom.getTarget_prod_variance_kg(),style);
             createCell(row,countRow++,bloowRoom.getTarget_prod_variance(),style);
 
-
-
         }
     }
 

@@ -15,7 +15,7 @@ public class ProductCategory {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long pid;
-    @Column(name = "p_name")
+    @Column(name = "p_name",unique = true)
     private String productName;
     private Date created;
 
