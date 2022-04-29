@@ -58,7 +58,7 @@ public class ImportExcel {
                 /*{"Id", "item name", "item Description","drawingNo"
             ,"catalogNo","frequency","tax","quantity","In Date",
             "expiry Date","item Category","item unit" };*/
-                row.createCell(0).setCellValue(storeitem.getItemId());
+
                 row.createCell(1).setCellValue(storeitem.getItemName());
                 row.createCell(2).setCellValue(storeitem.getItemDescription());
                 row.createCell(3).setCellValue(storeitem.getRemainingItem());

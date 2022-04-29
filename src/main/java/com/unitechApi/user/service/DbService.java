@@ -60,30 +60,20 @@ public class DbService {
     }
 
     public void excel(InputStream ls) {
-        String excelFilePath = "/home/endlos/Music/tutorials.xlsx";
 
         int batchSize = 20;
-
         Connection connection = null;
-
         try {
             long start = System.currentTimeMillis();
-
-            FileInputStream inputStream = new FileInputStream(excelFilePath);
-
             Workbook workbook = new XSSFWorkbook(ls);
-
             Sheet firstSheet = workbook.getSheetAt(0);
             Iterator<Row> rowIterator = firstSheet.iterator();
-
             connection = DriverManager.getConnection(JDBC_URL, DEFAULT_USERNAME, DEFAULT_PASSWORD);
             connection.setAutoCommit(false);
-
             String sql = "INSERT INTO store_management.item (itemname, itemdescription,remainingitem, drawingno,catalogno,frequency,paytax,quantity,created,expirydays,p_id,u_id) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)";
             PreparedStatement statement = connection.prepareStatement(sql);
 
             int count = 0;
-
             rowIterator.next(); // skip the header row
 
             while (rowIterator.hasNext()) {
@@ -131,7 +121,7 @@ public class DbService {
                             statement.setLong(8, quantity);
                             break;
                         case 8:
-                            Date created =  nextCell.getDateCellValue();
+                            Date created = nextCell.getDateCellValue();
                             statement.setTimestamp(9, new Timestamp(created.getTime()));
                             break;
                         case 9:
