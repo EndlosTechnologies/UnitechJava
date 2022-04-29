@@ -82,10 +82,7 @@ public class StoreItemService {
         s.setQuantity(newQuantity);
         storeItemRepository.save(s);
     }
-    public void savefile(MultipartFile file) throws IOException {
-        List<StoreItemModel> data= ImportExcel.excelToTutorials(file.getInputStream());
-        storeItemRepository.saveAll(data);
-    }
+
     public ByteArrayInputStream load()
     {
         List<StoreItemModel> data=storeItemRepository.findAll();

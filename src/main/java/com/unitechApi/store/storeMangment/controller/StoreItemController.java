@@ -99,25 +99,7 @@ public class StoreItemController {
         ItemExcel itemExcel = new ItemExcel(data);
         itemExcel.export(response);
     }
-    @PostMapping("/upload")
-    public ResponseEntity<MessageResponse> uploadFile(@RequestParam("file") MultipartFile file) {
-        String message = "";
 
-        if (ImportExcel.hasExcelFormat(file)) {
-            try {
-                storeItemService.savefile(file);
-
-                message = "Uploaded the file successfully: " + file.getOriginalFilename();
-                return ResponseEntity.status(HttpStatus.OK).body(new MessageResponse(message));
-            } catch (Exception e) {
-                message = "Could not upload the file: " + file.getOriginalFilename() + "!";
-                return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(new MessageResponse(message));
-            }
-        }
-
-        message = "Please upload an excel file!";
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new MessageResponse(message));
-    }
     @GetMapping("/download")
     public ResponseEntity<Resource> getFile() {
         String filename = "tutorials.xlsx";
