@@ -1,9 +1,8 @@
-package com.unitechApi.store.storeMangment.service;
+package com.unitechApi.store.productCategory.service;
 
 import com.unitechApi.exception.ExceptionService.ProductCategoryNotFound;
-import com.unitechApi.store.storeMangment.Model.ProductCategory;
-import com.unitechApi.store.storeMangment.repository.ProductCategoryRepository;
-import org.springframework.data.domain.Sort;
+import com.unitechApi.store.productCategory.model.ProductCategory;
+import com.unitechApi.store.productCategory.repository.ProductCategoryRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.Comparator;
@@ -53,4 +52,6 @@ public class ProductCategoryService {
     {
         return productCategoryRepository.findByProductName(product);
     }
+
+
 }

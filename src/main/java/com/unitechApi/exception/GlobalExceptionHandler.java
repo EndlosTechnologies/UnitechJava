@@ -2,7 +2,6 @@ package com.unitechApi.exception;
 
 import com.unitechApi.exception.ExceptionService.*;
 import com.unitechApi.exception.Model.ExceptionMOdel;
-import com.unitechApi.store.storeMangment.Model.ProductCategory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;

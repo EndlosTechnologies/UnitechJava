@@ -5,7 +5,6 @@ import com.unitechApi.exception.ExceptionService.ResourceNotFound;
 import com.unitechApi.store.issue.Repository.IssueRepository;
 import com.unitechApi.store.issue.model.IssueItem;
 import com.unitechApi.store.issue.model.IssueStatus;
-import com.unitechApi.store.storeMangment.ItemDto;
 import com.unitechApi.store.storeMangment.Model.StoreItemModel;
 import com.unitechApi.store.storeMangment.service.StoreItemService;
 import org.slf4j.Logger;

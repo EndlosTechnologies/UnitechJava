@@ -37,11 +37,11 @@ public class ResEntity {
 
     private Date created;
     private Long pdiId;
-    public Date getCreate() {
+    public Date getCreated() {
         return created;
     }
     @PrePersist
-    public void setCreate() {
+    public void setCreated() {
         this.created = new Date();
     }
 
@@ -89,14 +89,6 @@ public class ResEntity {
 
     public void setResStatus(ResStatus resStatus) {
         this.resStatus = resStatus;
-    }
-
-    public Date getCreated() {
-        return created;
-    }
-
-    public void setCreated(Date created) {
-        this.created = created;
     }
 
     public String getComments() {

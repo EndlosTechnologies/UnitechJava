@@ -126,11 +126,6 @@ public class Indent {
     }
 
 
-
-    public void setCreated(Date created) {
-        this.created = created;
-    }
-
     public StoreItemModel getStoreItem() {
         return storeItem;
     }

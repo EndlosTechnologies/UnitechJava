@@ -4,8 +4,9 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.unitechApi.AuditingAndResponse.Audit;
 import com.unitechApi.store.issue.model.IssueItem;
 import com.unitechApi.store.indent.Model.Indent;
+import com.unitechApi.store.productCategory.model.ProductCategory;
+import com.unitechApi.store.unit.model.Unit;
 import com.unitechApi.user.model.User;
-import org.apache.poi.ss.usermodel.CellType;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -24,25 +25,23 @@ public class StoreItemModel extends Audit<String> {
     private String drawingNo;
     private String catalogNo;
     private String frequency;
+    @Column(nullable = true)
     private int RemainingItem;
     private int paytax;
-    private String name;
     private Date created;
 
-    public Date getCreate() {
+    public Date getCreated() {
         return created;
     }
     @PrePersist
-    public void setCreate() {
+    public void setCreated() {
         this.created = new Date();
     }
 
     private Boolean activation;
-    private Date inDate;
+
     private int expiryDays;
     private long quantity;
-    @Enumerated(EnumType.STRING)
-    private ItemStatus itemStatus;
 
     @OneToMany(mappedBy = "storeItemModel",cascade = CascadeType.ALL)
     @JsonIgnoreProperties({"storeItemModel"})
@@ -143,10 +142,6 @@ public class StoreItemModel extends Audit<String> {
         this.unit = unit;
     }
 
-    public StoreItemModel() {
-        this.itemStatus = ItemStatus.PENDING;
-    }
-
     public Long getItemId() {
         return itemId;
     }
@@ -171,21 +166,6 @@ public class StoreItemModel extends Audit<String> {
         this.itemDescription = itemDescription;
     }
 
-    public Date getInDate() {
-        return inDate;
-    }
-
-    public void setInDate(Date inDate) {
-        this.inDate = inDate;
-    }
-
-    public Date getCreated() {
-        return created;
-    }
-
-    public void setCreated(Date created) {
-        this.created = created;
-    }
 
     public int getExpiryDays() {
         return expiryDays;
@@ -195,13 +175,7 @@ public class StoreItemModel extends Audit<String> {
         this.expiryDays = expiryDays;
     }
 
-    public ItemStatus getItemStatus() {
-        return itemStatus;
-    }
 
-    public void setItemStatus(ItemStatus itemStatus) {
-        this.itemStatus = itemStatus;
-    }
 
     public long getQuantity() {
         return quantity;
@@ -209,13 +183,6 @@ public class StoreItemModel extends Audit<String> {
 
     public void setQuantity(long quantity) {
         this.quantity = quantity;
-    }
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 
     public int getRemainingItem() {
@@ -244,13 +211,11 @@ public class StoreItemModel extends Audit<String> {
                 ", frequency='" + frequency + '\'' +
                 ", RemainingItem=" + RemainingItem +
                 ", paytax=" + paytax +
-                ", name='" + name + '\'' +
                 ", created=" + created +
                 ", activation=" + activation +
-                ", inDate=" + inDate +
                 ", expiryDate=" + expiryDays +
                 ", quantity=" + quantity +
-                ", itemStatus=" + itemStatus +
+
                 ", productCategory=" + productCategory +
                 ", unit=" + unit +
                 ", itemRequest=" + itemRequest +

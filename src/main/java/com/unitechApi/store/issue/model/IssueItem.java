@@ -1,6 +1,7 @@
 package com.unitechApi.store.issue.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.unitechApi.AuditingAndResponse.Audit;
 import com.unitechApi.store.indent.Model.Indent;
 import com.unitechApi.store.storeMangment.Model.StoreItemModel;
 import com.unitechApi.user.model.User;
@@ -13,7 +14,7 @@ import java.util.Set;
 @Entity
 @Table(name = "issueItem", schema = "store_management")
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-public class IssueItem {
+public class IssueItem extends Audit<String> {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long issueId;

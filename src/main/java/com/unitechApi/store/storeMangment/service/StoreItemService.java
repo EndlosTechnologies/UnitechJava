@@ -2,9 +2,11 @@ package com.unitechApi.store.storeMangment.service;
 
 import com.unitechApi.exception.ExceptionService.ItemNotFound;
 import com.unitechApi.store.storeMangment.ExcelService.ImportExcel;
+import com.unitechApi.store.storeMangment.Model.ExcelItem;
 import com.unitechApi.store.storeMangment.Model.StoreItemModel;
-import com.unitechApi.store.storeMangment.controller.StoreItemController;
+import com.unitechApi.store.storeMangment.repository.ExcelRepository;
 import com.unitechApi.store.storeMangment.repository.StoreItemRepository;
+import com.unitechApi.store.unit.model.Unit;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -17,15 +19,16 @@ import java.lang.reflect.Field;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 
 @Service
 public class StoreItemService {
     private final StoreItemRepository storeItemRepository;
+    private final ExcelRepository excelRepository;
     private static final Logger log = LoggerFactory.getLogger(StoreItemService.class);
 
-    public StoreItemService(StoreItemRepository storeItemRepository) {
+    public StoreItemService(StoreItemRepository storeItemRepository, ExcelRepository excelRepository) {
         this.storeItemRepository = storeItemRepository;
+        this.excelRepository = excelRepository;
     }
 
     public StoreItemModel saveData(StoreItemModel storeItemModel) {
@@ -89,6 +92,5 @@ public class StoreItemService {
         ByteArrayInputStream da=ImportExcel.tutorialsToExcel(data);
         return da;
     }
-
 }
 

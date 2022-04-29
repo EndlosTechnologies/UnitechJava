@@ -1,6 +1,6 @@
-package com.unitechApi.store.storeMangment.repository;
+package com.unitechApi.store.unit.repository;
 
-import com.unitechApi.store.storeMangment.Model.Unit;
+import com.unitechApi.store.unit.model.Unit;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Date;

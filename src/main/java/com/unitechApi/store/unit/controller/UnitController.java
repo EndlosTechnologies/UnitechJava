@@ -1,8 +1,8 @@
-package com.unitechApi.store.storeMangment.controller;
+package com.unitechApi.store.unit.controller;
 
 import com.unitechApi.Payload.response.PageResponse;
-import com.unitechApi.store.storeMangment.Model.Unit;
-import com.unitechApi.store.storeMangment.service.UnitService;
+import com.unitechApi.store.unit.model.Unit;
+import com.unitechApi.store.unit.service.UnitService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

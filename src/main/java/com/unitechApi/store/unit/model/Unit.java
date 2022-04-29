@@ -1,6 +1,7 @@
-package com.unitechApi.store.storeMangment.Model;
+package com.unitechApi.store.unit.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.unitechApi.store.storeMangment.Model.StoreItemModel;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -18,11 +19,11 @@ public class Unit {
     private String unitName;
     private Date created;
 
-    public Date getCreate() {
+    public Date getCreated() {
         return created;
     }
     @PrePersist
-    public void setCreate() {
+    public void setCreated() {
         this.created = new Date();
     }
 
@@ -45,14 +46,6 @@ public class Unit {
 
     public void setUnitName(String unitName) {
         this.unitName = unitName;
-    }
-
-    public Date getCreated() {
-        return created;
-    }
-
-    public void setCreated(Date created) {
-        this.created = created;
     }
 
     public List<StoreItemModel> getItemunit() {

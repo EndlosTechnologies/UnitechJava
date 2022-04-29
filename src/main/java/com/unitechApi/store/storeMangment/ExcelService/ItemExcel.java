@@ -87,9 +87,9 @@ public class ItemExcel {
             createCell(row,countRow++,storeItemModel.getCatalogNo(),style);
             createCell(row,countRow++,storeItemModel.getFrequency(),style);
             createCell(row,countRow++,storeItemModel.getPaytax(),style);
-            createCell(row,countRow++,storeItemModel.getName(),style);
+
             createCell(row,countRow++,storeItemModel.getQuantity(),style);
-            createCell(row,countRow++,storeItemModel.getInDate(),style);
+            createCell(row,countRow++,storeItemModel.getCreated(),style);
             createCell(row,countRow++,storeItemModel.getExpiryDays(),style);
             createCell(row,countRow++,storeItemModel.getProductCategory().getProductName(),style);
             createCell(row,countRow++,storeItemModel.getUnit().getUnitName(),style);

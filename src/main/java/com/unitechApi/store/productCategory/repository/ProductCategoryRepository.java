@@ -1,6 +1,6 @@
-package com.unitechApi.store.storeMangment.repository;
+package com.unitechApi.store.productCategory.repository;
 
-import com.unitechApi.store.storeMangment.Model.ProductCategory;
+import com.unitechApi.store.productCategory.model.ProductCategory;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Date;

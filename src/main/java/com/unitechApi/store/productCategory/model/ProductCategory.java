@@ -1,6 +1,7 @@
-package com.unitechApi.store.storeMangment.Model;
+package com.unitechApi.store.productCategory.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.unitechApi.store.storeMangment.Model.StoreItemModel;
 import org.apache.poi.ss.usermodel.CellType;
 
 import javax.persistence.*;
@@ -31,11 +32,11 @@ public class ProductCategory {
         id=getPid();
     }
 
-    public Date getCreate() {
+    public Date getCreated() {
         return created;
     }
     @PrePersist
-    public void setCreate() {
+    public void setCreated() {
         this.created = new Date();
     }
 
@@ -58,19 +59,21 @@ public class ProductCategory {
         this.productName = productName;
     }
 
-    public Date getCreated() {
-        return created;
-    }
-
-    public void setCreated(Date created) {
-        this.created = created;
-    }
-
     public List<StoreItemModel> getItem() {
         return item;
     }
 
     public void setItem(List<StoreItemModel> item) {
         this.item = item;
+    }
+
+    @Override
+    public String toString() {
+        return "ProductCategory{" +
+                "pid=" + pid +
+                ", productName='" + productName + '\'' +
+                ", created=" + created +
+                ", item=" + item +
+                '}';
     }
 }

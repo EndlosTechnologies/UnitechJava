@@ -1,9 +1,8 @@
-package com.unitechApi.store.storeMangment.service;
+package com.unitechApi.store.unit.service;
 
 import com.unitechApi.exception.ExceptionService.UnitNotFound;
-import com.unitechApi.store.storeMangment.Model.ProductCategory;
-import com.unitechApi.store.storeMangment.Model.Unit;
-import com.unitechApi.store.storeMangment.repository.UnitRepository;
+import com.unitechApi.store.unit.model.Unit;
+import com.unitechApi.store.unit.repository.UnitRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.Comparator;

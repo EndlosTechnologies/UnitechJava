@@ -4,16 +4,11 @@ import com.unitechApi.Payload.response.MessageResponse;
 import com.unitechApi.user.service.DbService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.sql.SQLException;
 import java.util.Map;
 
@@ -107,6 +102,12 @@ public class DbController {
             System.out.println(e.getMessage());
         }
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @GetMapping(value = "exc")
+    public void upload(@RequestParam("file") MultipartFile file) throws IOException {
+
+        dbService.excel(file.getInputStream());
     }
 
 }

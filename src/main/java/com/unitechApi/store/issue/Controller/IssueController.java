@@ -1,11 +1,9 @@
 package com.unitechApi.store.issue.Controller;
 
 import com.unitechApi.Payload.response.PageResponse;
-import com.unitechApi.store.indent.Model.Indent;
 import com.unitechApi.store.issue.Service.IssueService;
 import com.unitechApi.store.issue.model.IssueItem;
 import com.unitechApi.store.issue.model.IssueStatus;
-import com.unitechApi.store.storeMangment.ItemDto;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,7 +11,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
 import java.util.List;
-import java.util.Objects;
 
 @RestController
 @CrossOrigin
