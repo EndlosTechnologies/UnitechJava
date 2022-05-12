@@ -13,6 +13,7 @@ import java.sql.SQLException;
 import java.util.Map;
 
 @RestController
+@CrossOrigin
 @RequestMapping(value = "/db/")
 public class DbController {
     private final DbService dbService;
@@ -104,7 +105,7 @@ public class DbController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @GetMapping(value = "exc")
+    @PostMapping(value = "exc")
     public void upload(@RequestParam("file") MultipartFile file) throws IOException {
 
         dbService.excel(file.getInputStream());

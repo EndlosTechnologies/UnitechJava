@@ -96,7 +96,7 @@ public class Indent {
 
     public Indent ()
     {
-        this.indentStatus=IndentStatus.VP;
+        this.indentStatus=IndentStatus.GM;
     }
 
     public Long getIndentId() {
