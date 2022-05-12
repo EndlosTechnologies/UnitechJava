@@ -22,7 +22,7 @@ public class ImportExcel {
 
 
     public static String TYPE = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
-    static String[] HEADERs = {"Id", "item name", "item Description","remaining item","drawingNo"
+    static String[] HEADERs = { "item name", "item Description","remaining item","drawingNo"
             ,"catalogNo","frequency","tax","quantity","In Date",
             "expiry Date","item Category","item unit" };
     static String SHEET = "Item";
@@ -55,22 +55,19 @@ public class ImportExcel {
             int rowIdx = 1;
             for (StoreItemModel storeitem : storeItemModels) {
                 Row row = sheet.createRow(rowIdx++);
-                /*{"Id", "item name", "item Description","drawingNo"
-            ,"catalogNo","frequency","tax","quantity","In Date",
-            "expiry Date","item Category","item unit" };*/
 
-                row.createCell(1).setCellValue(storeitem.getItemName());
-                row.createCell(2).setCellValue(storeitem.getItemDescription());
-                row.createCell(3).setCellValue(storeitem.getRemainingItem());
-                row.createCell(4).setCellValue(storeitem.getDrawingNo());
-                row.createCell(5).setCellValue(storeitem.getCatalogNo());
-                row.createCell(6).setCellValue(storeitem.getFrequency());
-                row.createCell(7).setCellValue(storeitem.getPaytax());
-                row.createCell(8).setCellValue(storeitem.getQuantity());
-                row.createCell(9).setCellValue(storeitem.getCreated());
-                row.createCell(10).setCellValue(storeitem.getExpiryDays());
-                row.createCell(11).setCellValue(storeitem.getProductCategory().getProductName());
-                row.createCell(12).setCellValue(storeitem.getUnit().getUnitName());
+                row.createCell(0).setCellValue(storeitem.getItemName());
+                row.createCell(1).setCellValue(storeitem.getItemDescription());
+                row.createCell(2).setCellValue(storeitem.getRemainingItem());
+                row.createCell(3).setCellValue(storeitem.getDrawingNo());
+                row.createCell(4).setCellValue(storeitem.getCatalogNo());
+                row.createCell(5).setCellValue(storeitem.getFrequency());
+                row.createCell(6).setCellValue(storeitem.getPaytax());
+                row.createCell(7).setCellValue(storeitem.getQuantity());
+                row.createCell(8).setCellValue(storeitem.getCreated());
+                row.createCell(9).setCellValue(storeitem.getExpiryDays());
+                row.createCell(10).setCellValue(storeitem.getProductCategory().getProductName());
+                row.createCell(11).setCellValue(storeitem.getUnit().getUnitName());
 
 
             }
