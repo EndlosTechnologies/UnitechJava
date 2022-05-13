@@ -6,6 +6,7 @@ import com.unitechApi.exception.ExceptionService.ResourceNotFound;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 
@@ -23,7 +24,7 @@ public class AddWasteRoomService {
     }
 
     public Object ViewData() {
-        return wasteRoomRepository.findAll();
+        return wasteRoomRepository.findAll().stream().sorted(Comparator.comparing(AddWasteRoomeMAchine::getId));
     }
 
     public void DeleteReading(Long id) {

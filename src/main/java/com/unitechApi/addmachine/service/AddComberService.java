@@ -6,6 +6,7 @@ import com.unitechApi.exception.ExceptionService.ResourceNotFound;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 
@@ -25,7 +26,7 @@ public class AddComberService {
         return Optional.ofNullable(addComberRepository.findById(id).orElseThrow(() -> new ResourceNotFound("can't find data")));
     }
     public Object ViewData() {
-        return addComberRepository.findAll();
+        return addComberRepository.findAll().stream().sorted(Comparator.comparing(AddComber::getId));
 
     }
     public List<AddComber> Status(boolean status)

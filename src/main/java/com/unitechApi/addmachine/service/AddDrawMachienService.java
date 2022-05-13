@@ -7,6 +7,7 @@ import com.unitechApi.exception.ExceptionService.ResourceNotFound;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 
@@ -25,7 +26,7 @@ public class AddDrawMachienService {
     }
 
     public Object ViewData() {
-        return addDrawFramesRepository.findAll();
+        return addDrawFramesRepository.findAll().stream().sorted(Comparator.comparing(AddDrawFramesMachine::getId));
     }
 
     public void DeleteReading(Long id) {

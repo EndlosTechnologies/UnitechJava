@@ -1,11 +1,13 @@
 package com.unitechApi.addmachine.service;
 
+import com.unitechApi.addmachine.model.AddRingFramesMachine;
 import com.unitechApi.addmachine.model.AddSimplexMAchine;
 import com.unitechApi.addmachine.repositroy.AddSimplexRepository;
 import com.unitechApi.exception.ExceptionService.ResourceNotFound;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 
@@ -23,7 +25,7 @@ public class AddSimplexService {
     }
 
     public Object ViewData() {
-        return simplexRepository.findAll();
+        return simplexRepository.findAll().stream().sorted(Comparator.comparing(AddSimplexMAchine::getId));
     }
 
     public void DeleteReading(Long id) {
