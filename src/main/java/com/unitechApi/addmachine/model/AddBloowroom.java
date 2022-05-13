@@ -2,6 +2,7 @@ package com.unitechApi.addmachine.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.unitechApi.MachineSetParameter.model.BloowRoom;
+import com.unitechApi.store.indent.Model.UsageItem;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 
@@ -12,6 +13,7 @@ import java.util.Set;
 @Table(name = "add_blowroom", schema = "AddMachine")
 @NoArgsConstructor
 @AllArgsConstructor
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class AddBloowroom {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "id")
@@ -24,12 +26,21 @@ public class AddBloowroom {
     @Column(name = "status")
     private boolean status;
 
-
+    @OneToMany(mappedBy = "bloowusage",cascade = CascadeType.ALL)
+    @JsonIgnoreProperties("bloowusage")
+    private Set<UsageItem> bdata;
     @OneToMany(mappedBy = "addBloowroom",
             cascade = CascadeType.ALL)
     @JsonIgnoreProperties("addBloowroom")
     private Set<BloowRoom> bloowroomReading;
 
+    public Set<UsageItem> getBdata() {
+        return bdata;
+    }
+
+    public void setBdata(Set<UsageItem> bdata) {
+        this.bdata = bdata;
+    }
     public boolean isStatus() {
         return status;
     }

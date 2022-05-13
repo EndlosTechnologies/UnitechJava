@@ -2,6 +2,7 @@ package com.unitechApi.addmachine.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.unitechApi.MachineSetParameter.model.RingFrame;
+import com.unitechApi.store.indent.Model.UsageItem;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 
@@ -39,6 +40,17 @@ public class AddRingFramesMachine {
     @OneToMany(mappedBy = "ringframe", cascade = CascadeType.ALL)
     @JsonIgnoreProperties("ringframe")
     private Set<RingFrame> ringframesReading;
+    @OneToMany(mappedBy = "ringframeMachineusage",cascade = CascadeType.ALL)
+    @JsonIgnoreProperties("ringframeMachineusage")
+    private Set<UsageItem> usageItems;
+
+    public Set<UsageItem> getUsageItems() {
+        return usageItems;
+    }
+
+    public void setUsageItems(Set<UsageItem> usageItems) {
+        this.usageItems = usageItems;
+    }
 
     public Set<RingFrame> getRingframesReading() {
         return ringframesReading;

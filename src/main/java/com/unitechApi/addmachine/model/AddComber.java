@@ -2,6 +2,7 @@ package com.unitechApi.addmachine.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.unitechApi.MachineSetParameter.model.Comber;
+import com.unitechApi.store.indent.Model.UsageItem;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 
@@ -39,6 +40,17 @@ public class AddComber {
     @OneToMany(mappedBy = "addcomber", cascade = CascadeType.ALL)
     @JsonIgnoreProperties("addcomber")
     private Set<Comber> comberreading;
+    @OneToMany(mappedBy = "comberusage",cascade = CascadeType.ALL)
+    @JsonIgnoreProperties("comberusage")
+    private Set<UsageItem>  usageItems;
+
+    public Set<UsageItem> getUsageItems() {
+        return usageItems;
+    }
+
+    public void setUsageItems(Set<UsageItem> usageItems) {
+        this.usageItems = usageItems;
+    }
 
     public Long getId() {
         return id;

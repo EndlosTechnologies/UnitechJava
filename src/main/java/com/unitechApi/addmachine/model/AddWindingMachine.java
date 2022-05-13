@@ -2,6 +2,7 @@ package com.unitechApi.addmachine.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.unitechApi.MachineSetParameter.model.Winding;
+import com.unitechApi.store.indent.Model.UsageItem;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 
@@ -24,7 +25,9 @@ public class AddWindingMachine {
     @Column(name = "status")
     private boolean status;
 
-
+    @OneToMany(mappedBy = "windingMachineusage",cascade = CascadeType.ALL)
+    @JsonIgnoreProperties("windingMachineusage")
+    private Set<UsageItem> usageItems;
 
     public AddWindingMachine(boolean status) {
         this.status = true;

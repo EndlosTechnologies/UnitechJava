@@ -3,6 +3,7 @@ package com.unitechApi.addmachine.model;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.unitechApi.MachineSetParameter.model.DrawFramesPerHank;
 import com.unitechApi.MachineSetParameter.model.Drawframesperkg;
+import com.unitechApi.store.indent.Model.UsageItem;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 
@@ -45,6 +46,18 @@ public class AddDrawFramesMachine {
     @OneToMany(mappedBy = "drawFramesPerHanks", cascade = CascadeType.ALL)
     @JsonIgnoreProperties("drawFramesPerHanks")
     private Set<DrawFramesPerHank> drawFramesPerHanks;
+
+    @OneToMany(mappedBy = "drawFramesMachine",cascade = CascadeType.ALL)
+    @JsonIgnoreProperties("drawFramesMachine")
+    private Set<UsageItem> usageItems;
+
+    public Set<UsageItem> getUsageItems() {
+        return usageItems;
+    }
+
+    public void setUsageItems(Set<UsageItem> usageItems) {
+        this.usageItems = usageItems;
+    }
 
     public Long getId() {
         return id;

@@ -2,6 +2,7 @@ package com.unitechApi.addmachine.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.unitechApi.MachineSetParameter.model.Carding;
+import com.unitechApi.store.indent.Model.UsageItem;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 
@@ -39,6 +40,18 @@ public class AddCardingMachine {
     @OneToMany(mappedBy = "cardingMachine", cascade = CascadeType.ALL)
     @JsonIgnoreProperties("cardingMachine")
     private Set<Carding> cardingsreading;
+
+    @OneToMany(mappedBy = "cardingusage",cascade = CascadeType.ALL)
+    @JsonIgnoreProperties("cardingusage")
+    private Set<UsageItem> usageItems;
+
+    public Set<UsageItem> getUsageItems() {
+        return usageItems;
+    }
+
+    public void setUsageItems(Set<UsageItem> usageItems) {
+        this.usageItems = usageItems;
+    }
 
     public Set<Carding> getCardingsreading() {
         return cardingsreading;

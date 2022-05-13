@@ -3,6 +3,7 @@ package com.unitechApi.store.issue.model;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.unitechApi.AuditingAndResponse.Audit;
 import com.unitechApi.store.indent.Model.Indent;
+import com.unitechApi.store.indent.Model.UsageItem;
 import com.unitechApi.store.storeMangment.Model.StoreItemModel;
 import com.unitechApi.user.model.User;
 
@@ -41,6 +42,17 @@ public class IssueItem extends Audit<String> {
     @OneToMany(mappedBy = "issue",cascade = CascadeType.ALL)
     @JsonIgnoreProperties("issue")
     private Set<Indent> indents;
+    @OneToMany(mappedBy = "issuedItem",cascade = CascadeType.ALL)
+    @JsonIgnoreProperties("issuedItem")
+    private Set<UsageItem> usageItems;
+
+    public Set<UsageItem> getUsageItems() {
+        return usageItems;
+    }
+
+    public void setUsageItems(Set<UsageItem> usageItems) {
+        this.usageItems = usageItems;
+    }
 
     public Set<Indent> getIndents() {
         return indents;
@@ -54,9 +66,7 @@ public class IssueItem extends Audit<String> {
     {
         this.status=IssueStatus.PENDING;
     }
-    // milan time rajdhani kalyan ,
 
-    // night ma time ,main ratan ,kalyan ,milaln, rajdhani
     public User getEmp() {
         return Emp;
     }

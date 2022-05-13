@@ -3,6 +3,7 @@ package com.unitechApi.addmachine.model;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.unitechApi.MachineSetParameter.model.FinisherperHank;
 import com.unitechApi.MachineSetParameter.model.FinisherperKg;
+import com.unitechApi.store.indent.Model.UsageItem;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 
@@ -45,6 +46,17 @@ public class AddFinisherMachine {
     @JsonIgnoreProperties("finisherhankMachine")
     private Set<FinisherperHank> finisherperhankMachineReading;
 
+    @OneToMany(mappedBy = "finisherMachinedata",cascade = CascadeType.ALL)
+    @JsonIgnoreProperties("finisherMachinedata")
+    private Set<UsageItem> usageItems;
+
+    public Set<UsageItem> getUsageItems() {
+        return usageItems;
+    }
+
+    public void setUsageItems(Set<UsageItem> usageItems) {
+        this.usageItems = usageItems;
+    }
 
     public Set<FinisherperKg> getFinisherperKgReading() {
         return finisherperKgReading;

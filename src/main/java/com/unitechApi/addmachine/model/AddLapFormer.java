@@ -2,6 +2,7 @@ package com.unitechApi.addmachine.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.unitechApi.MachineSetParameter.model.LapFormer;
+import com.unitechApi.store.indent.Model.UsageItem;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 
@@ -23,6 +24,17 @@ public class AddLapFormer {
     private String descrption;
     @Column(name = "status")
     private boolean status;
+    @OneToMany(mappedBy = "lapFormerusage",cascade = CascadeType.ALL)
+    @JsonIgnoreProperties("lapFormerusage")
+    private Set<UsageItem> usageItems;
+
+    public Set<UsageItem> getUsageItems() {
+        return usageItems;
+    }
+
+    public void setUsageItems(Set<UsageItem> usageItems) {
+        this.usageItems = usageItems;
+    }
 
     public AddLapFormer(boolean status) {
         this.status = true;

@@ -2,6 +2,7 @@ package com.unitechApi.MachineSetParameter.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.unitechApi.addmachine.model.AddBloowroom;
+import com.unitechApi.store.indent.Model.UsageItem;
 import org.hibernate.annotations.GenericGenerator;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -10,6 +11,7 @@ import javax.validation.constraints.Digits;
 import java.text.DecimalFormat;
 import java.time.LocalDate;
 import java.util.Date;
+import java.util.Set;
 
 @Entity
 @Table(name = "bloowroom_machine", schema = "machinereading")
@@ -89,8 +91,8 @@ public class BloowRoom {
             name = "b_m_id", referencedColumnName = "m_id")
     @JsonIgnoreProperties("bloowroomReading")
     private AddBloowroom addBloowroom;
-    @Transient
-    DecimalFormat df = new DecimalFormat("#,##");
+
+
 
     @PrePersist
     private void CreatedAt() {
