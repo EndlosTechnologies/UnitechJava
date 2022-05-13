@@ -682,8 +682,9 @@ public class RingFrameController {
     private void mapRestModelTopersuistanceModelShiftATwoOne(RingFrameRest ringFrameRest, RingFrame ringFrame) {
         ringFrame.setMachineId(ringFrameRest.getId());
         ringFrame.setShift_a_twoHoursOne(ringFrameRest.getShift_a_twoHoursOne());
-        ringFrame.setAvervg_difference_a_twoHoursOne((ringFrame.getProductionSpindle2HoursKg() - ringFrame.getShift_a_twoHoursOne())
+        ringFrame.setAvervg_difference_a_twoHoursOne((ringFrame.getShift_a_twoHoursOne()-ringFrame.getProductionSpindle2HoursKg() )
                 / ringFrame.getProductionSpindle2HoursKg() * 100);
+
         ringFrame.setTotal_shift_prod_a(ringFrame.getShift_a_twoHoursOne() + ringFrame.getShift_a_twoHoursTwo() + ringFrame.getShift_a_twoHoursThree()
                 + ringFrame.getShift_a_twoHoursFour() + ringFrame.getShift_a_twoHoursFive() + ringFrame.getShift_a_twoHoursSix());
         ringFrame.setTotal_shift_prod_b(ringFrame.getShift_b_twoHoursOne() + ringFrame.getShift_b_twoHoursTwo() + ringFrame.getShift_b_twoHoursThree()

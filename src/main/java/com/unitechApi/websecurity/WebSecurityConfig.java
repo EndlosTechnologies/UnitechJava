@@ -2,6 +2,7 @@ package com.unitechApi.websecurity;
 
 
 import com.unitechApi.jwt.AuthEntryPointJwt;
+
 import com.unitechApi.jwt.AuthTokenFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -61,7 +62,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .authenticationEntryPoint(unauthorizedHandler).and()
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
-               // .x509().subjectPrincipalRegex("CN=(.*?)(?:,|$)").and()
+
                 .authorizeRequests().antMatchers("/unitech/api/v1/**").permitAll()
 //                .antMatchers("/unitech/api/v1/purchase/contract/**").hasAuthority("ROLE_ADMIN").anyRequest().authenticated()
                 .antMatchers("/api/test/**").permitAll()

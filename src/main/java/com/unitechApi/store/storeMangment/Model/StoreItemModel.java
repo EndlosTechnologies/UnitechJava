@@ -215,7 +215,6 @@ public class StoreItemModel extends Audit<String> {
                 ", activation=" + activation +
                 ", expiryDate=" + expiryDays +
                 ", quantity=" + quantity +
-
                 ", productCategory=" + productCategory +
                 ", unit=" + unit +
                 ", itemRequest=" + itemRequest +

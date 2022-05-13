@@ -2,6 +2,7 @@ package com.unitechApi.user.controller;
 
 import com.unitechApi.EventListener.OnRegisterEvent;
 import com.unitechApi.EventListener.RegistrationListener;
+import com.unitechApi.exception.ExceptionService.PasswordIncorrect;
 import com.unitechApi.exception.ExceptionService.ResourceNotFound;
 import com.unitechApi.exception.ExceptionService.RoleNotFound;
 import com.unitechApi.exception.ExceptionService.UserNotFound;
@@ -27,6 +28,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.util.ReflectionUtils;
@@ -78,52 +80,55 @@ public class AuthController {
         this.applicationEventPublisher = applicationEventPublisher;
         this.userNotificationService = userNotificationService;
     }
+
     @GetMapping("/time")
-    public LocalDateTime dateTime()
-    {
+    public LocalDateTime dateTime() {
         return LocalDateTime.now();
     }
+
     @PostMapping("/notification/{name}")
     public ResponseEntity<?> send(@PathVariable String name, @RequestBody Notification notification) {
         userNotificationService.pushNotification(name, notification.getUser());
         return ResponseEntity.ok().body("successfully done" + name);
     }
+
     User user = new User();
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
 //   @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_HR') or hasRole('ROLE_SUBADMIN') or hasRole('ROLE_MAINTENANCE') or hasRole('ROLE_STORE') or hasRole('ROLE_GENERALMANAGER')")
-    public Optional<User> FindById(@PathVariable Long id ) {
+    public Optional<User> FindById(@PathVariable Long id) {
 
         return userRepository.findById(id);
     }
 
 
     @PostMapping("/signin")
-    public ResponseEntity<?> authenticateUser( @RequestBody LoginRequest loginRequest) {
+    public ResponseEntity<?> authenticateUser(@RequestBody LoginRequest loginRequest) {
+        try {
+            Authentication authentication = authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(loginRequest.getPhoneno(), loginRequest.getPassword()));
 
-        Authentication authentication = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(loginRequest.getPhoneno(), loginRequest.getPassword()));
-
-        SecurityContextHolder.getContext().setAuthentication(authentication);
-        String jwt = jwtUtils.generateJwtToken(authentication);
-        UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
-        List<String> roles = userDetails.getAuthorities().stream().map(item -> item.getAuthority())
-                .collect(Collectors.toList());
-
-        applicationEventPublisher.publishEvent(new OnRegisterEvent(user));
-        return ResponseEntity.ok(new JwtResponse(jwt,
-                userDetails.getId(),
-                userDetails.getUsername(),
-                userDetails.getEmail(),
-                userDetails.getPhoneno(),
-                userDetails.getAddress(),
-                userDetails.getStatus(),
-                userDetails.getDatetime(), roles));
+            SecurityContextHolder.getContext().setAuthentication(authentication);
+            String jwt = jwtUtils.generateJwtToken(authentication);
+            UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
+            List<String> roles = userDetails.getAuthorities().stream().map(item -> item.getAuthority())
+                    .collect(Collectors.toList());
+            return ResponseEntity.ok(new JwtResponse(jwt,
+                    userDetails.getId(),
+                    userDetails.getUsername(),
+                    userDetails.getEmail(),
+                    userDetails.getPhoneno(),
+                    userDetails.getAddress(),
+                    userDetails.getStatus(),
+                    userDetails.getDatetime(), roles));
+        } catch (PasswordIncorrect e) {
+            throw new  PasswordIncorrect("password incorrect ");
+        }
     }
 
     @PostMapping("/signup")
     @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_HR') or hasRole('ROLE_SUBADMIN')")
-    public ResponseEntity<?> registerUser( @RequestBody SignupRequest signUpRequest) throws Exception {
+    public ResponseEntity<?> registerUser(@RequestBody SignupRequest signUpRequest) throws Exception {
 
 
         if (userRepository.existsByEmail(signUpRequest.getEmail())) {
@@ -205,11 +210,11 @@ public class AuthController {
                                 .orElseThrow(() -> new RoleNotFound("Error: Role is not found."));
                         roles.add(lebor);
                     case "MAINTENANCE":
-                        Role maintenance=roleRepository.findByName(ERole.ROLE_MAINTENANCE)
-                                        .orElseThrow(() -> new RoleNotFound("Error: Role is not found."));
+                        Role maintenance = roleRepository.findByName(ERole.ROLE_MAINTENANCE)
+                                .orElseThrow(() -> new RoleNotFound("Error: Role is not found."));
                         roles.add(maintenance);
                     case "STORE":
-                        Role store=roleRepository.findByName(ERole.ROLE_STORE)
+                        Role store = roleRepository.findByName(ERole.ROLE_STORE)
                                 .orElseThrow(() -> new RoleNotFound("Error: Role is not found."));
                         roles.add(store);
                         System.out.println("default values");
@@ -234,9 +239,9 @@ public class AuthController {
             @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "5") int size) {
         try {
             List<User> user = new ArrayList<User>();
-            org.springframework.data.domain.Pageable paging = PageRequest.of(page, size , Sort.by("id"));
+            org.springframework.data.domain.Pageable paging = PageRequest.of(page, size, Sort.by("id"));
 
-            Page<User> pageTuts =  userRepository.findAll(paging);
+            Page<User> pageTuts = userRepository.findAll(paging);
             user = pageTuts.getContent();
 
             Map<String, Object> response = new HashMap<String, Object>();

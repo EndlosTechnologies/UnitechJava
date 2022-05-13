@@ -128,4 +128,14 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         exceptionMOdel.setTimestamp((String.valueOf(LocalDateTime.now())));
         return new ResponseEntity(exceptionMOdel, HttpStatus.NOT_ACCEPTABLE);
     }
+    @ExceptionHandler(PasswordIncorrect.class)
+    public ResponseEntity PasswordIncorrect(PasswordIncorrect ex) {
+        ExceptionMOdel exceptionMOdel = new ExceptionMOdel();
+        exceptionMOdel.setDetails(ex.getClass().getCanonicalName());
+        exceptionMOdel.setDeveloperMessage(ex.fillInStackTrace().getMessage());
+        exceptionMOdel.setStatus(HttpStatus.UNAUTHORIZED.value());
+        exceptionMOdel.setTitle("Sorry ! time is gone");
+        exceptionMOdel.setTimestamp((String.valueOf(LocalDateTime.now())));
+        return new ResponseEntity(exceptionMOdel, HttpStatus.UNAUTHORIZED);
+    }
 }
