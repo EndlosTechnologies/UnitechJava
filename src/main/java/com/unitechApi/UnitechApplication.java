@@ -35,7 +35,7 @@ public class UnitechApplication implements ApplicationRunner {
     }
 
     @Override
-    public void run(ApplicationArguments args) throws Exception {
+    public void run(ApplicationArguments args) {
         User use = new User();
         PasswordEntity pass= new PasswordEntity();
         pass.setPassword(passwordEncoder.encode("admin"));

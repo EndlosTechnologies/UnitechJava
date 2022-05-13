@@ -67,7 +67,6 @@ public class BloowRoomExcelService {
         }else if (value instanceof Boolean){
             cell.setCellValue((Boolean) value);
         }else if (value instanceof Float){
-            //Float f=Float.parseFloat(String.format("%.2f"));
             cell.setCellValue(String.valueOf(value));
         }
         else {
