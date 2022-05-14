@@ -169,7 +169,7 @@ public class RingFrameController {
                 switch (change) {
                     case "shift_a_twoHoursOne":
 //                        ringFrameRest.setShift_a_twoHoursOne(value);
-                        ringFrameRest.setShift_a_HankOne(value);
+                        ringFrameRest.setShift_a_twoHoursOne(value);
                         break;
                 }
             });
@@ -681,8 +681,9 @@ public class RingFrameController {
 
     private void mapRestModelTopersuistanceModelShiftATwoOne(RingFrameRest ringFrameRest, RingFrame ringFrame) {
         ringFrame.setMachineId(ringFrameRest.getId());
-        ringFrame.setShift_a_twoHoursOne((float) ((ringFrame.getShift_a_HankOne()/(2.204*ringFrame.getRingFrameCount())) * 1440 * ringFrame.getMachineEfficiency()));
+
         ringFrame.setShift_a_twoHoursOne(ringFrameRest.getShift_a_twoHoursOne());
+        ringFrame.setAverageshift_a_HankOne((float) ((ringFrame.getShift_a_twoHoursOne()/(2.204*ringFrame.getRingFrameCount())) * 1440 * ringFrame.getMachineEfficiency()));
         ringFrame.setAvervg_difference_a_twoHoursOne((ringFrame.getShift_a_twoHoursOne()-ringFrame.getProductionSpindle2HoursKg() )
                 / ringFrame.getProductionSpindle2HoursKg() * 100);
 
