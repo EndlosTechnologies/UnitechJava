@@ -59,6 +59,17 @@ public class RingFrame {
     @Column(name = "shift_a_twoHoursOne")
     @Digits(integer = 4,fraction = 2,message = "can you enter the fraction part is 2 digit")
     private float shift_a_twoHoursOne;
+
+    public float getShift_a_HankOne() {
+        return shift_a_HankOne;
+    }
+
+    public void setShift_a_HankOne(float shift_a_HankOne) {
+        this.shift_a_HankOne = shift_a_HankOne;
+    }
+
+    @Column(name = "shift_a_HankOne")
+    private float shift_a_HankOne;
     @Column(name = "avervg_difference_a_twoHoursOne")
     private float avervg_difference_a_twoHoursOne;
 

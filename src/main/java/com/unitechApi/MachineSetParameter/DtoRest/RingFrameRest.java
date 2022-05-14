@@ -12,6 +12,7 @@ public class RingFrameRest {
 
 
     private float shift_a_twoHoursTwo;
+    private float Shift_a_HankOne;
     private float avervg_difference_a_twoHoursTwo;
 
 
