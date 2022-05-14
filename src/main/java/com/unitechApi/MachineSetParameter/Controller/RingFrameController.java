@@ -524,8 +524,7 @@ public class RingFrameController {
     private void mapRestModelTopersuistanceModelShiftBTwoFive(RingFrameRest ringFrameRest, RingFrame ringFrame) {
         ringFrame.setMachineId(ringFrameRest.getId());
         ringFrame.setShift_b_twoHoursFive(ringFrameRest.getShift_b_twoHoursFive());
-        ringFrame.setAvervg_difference_b_twoHoursFive((ringFrame.getShift_a_twoHoursFive() -
-                ringFrame.getProductionSpindle2HoursKg()) /
+        ringFrame.setAvervg_difference_b_twoHoursFive((ringFrame.getShift_b_twoHoursFive() - ringFrame.getProductionSpindle2HoursKg()) /
                 ringFrame.getProductionSpindle2HoursKg() * 100);
         ringFrame.setTotal_shift_prod_a(ringFrame.getShift_a_twoHoursOne() + ringFrame.getShift_a_twoHoursTwo() + ringFrame.getShift_a_twoHoursThree()
                 + ringFrame.getShift_a_twoHoursFour() + ringFrame.getShift_a_twoHoursFive() + ringFrame.getShift_a_twoHoursSix());
@@ -541,7 +540,7 @@ public class RingFrameController {
     private void mapRestModelTopersuistanceModelShiftBTwoFour(RingFrameRest ringFrameRest, RingFrame ringFrame) {
         ringFrame.setMachineId(ringFrameRest.getId());
         ringFrame.setShift_b_twoHoursFour(ringFrameRest.getShift_b_twoHoursFour());
-        ringFrame.setAvervg_difference_b_twoHoursFour((ringFrame.getShift_a_twoHoursFour() -
+        ringFrame.setAvervg_difference_b_twoHoursFour((ringFrame.getShift_b_twoHoursFour() -
                 ringFrame.getProductionSpindle2HoursKg()) /
                 ringFrame.getProductionSpindle2HoursKg() * 100);
         ringFrame.setTotal_shift_prod_a(ringFrame.getShift_a_twoHoursOne() + ringFrame.getShift_a_twoHoursTwo() + ringFrame.getShift_a_twoHoursThree()
@@ -557,7 +556,7 @@ public class RingFrameController {
     private void mapRestModelTopersuistanceModelShiftBTwoThree(RingFrameRest ringFrameRest, RingFrame ringFrame) {
         ringFrame.setMachineId(ringFrameRest.getId());
         ringFrame.setShift_b_twoHoursThree(ringFrameRest.getShift_b_twoHoursThree());
-        ringFrame.setAvervg_difference_b_twoHoursThree((ringFrame.getShift_a_twoHoursThree() -
+        ringFrame.setAvervg_difference_b_twoHoursThree((ringFrame.getShift_b_twoHoursThree() -
                 ringFrame.getProductionSpindle2HoursKg()) /
                 ringFrame.getProductionSpindle2HoursKg() * 100);
         ringFrame.setTotal_shift_prod_a(ringFrame.getShift_a_twoHoursOne() + ringFrame.getShift_a_twoHoursTwo() + ringFrame.getShift_a_twoHoursThree()
@@ -573,7 +572,7 @@ public class RingFrameController {
     private void mapRestModelTopersuistanceModelShiftBTwoTwo(RingFrameRest ringFrameRest, RingFrame ringFrame) {
         ringFrame.setMachineId(ringFrameRest.getId());
         ringFrame.setShift_b_twoHoursTwo(ringFrameRest.getShift_b_twoHoursTwo());
-        ringFrame.setAvervg_difference_b_twoHoursTwo((ringFrame.getShift_a_twoHoursTwo() -
+        ringFrame.setAvervg_difference_b_twoHoursTwo((ringFrame.getShift_b_twoHoursTwo() -
                 ringFrame.getProductionSpindle2HoursKg()) /
                 ringFrame.getProductionSpindle2HoursKg() * 100);
         ringFrame.setTotal_shift_prod_a(ringFrame.getShift_a_twoHoursOne() + ringFrame.getShift_a_twoHoursTwo() + ringFrame.getShift_a_twoHoursThree()
@@ -589,7 +588,7 @@ public class RingFrameController {
     private void mapRestModelTopersuistanceModelShiftBTwoOne(RingFrameRest ringFrameRest, RingFrame ringFrame) {
         ringFrame.setMachineId(ringFrameRest.getId());
         ringFrame.setShift_b_twoHoursOne(ringFrameRest.getShift_b_twoHoursOne());
-        ringFrame.setAvervg_difference_b_twoHoursOne((ringFrame.getShift_a_twoHoursOne() -
+        ringFrame.setAvervg_difference_b_twoHoursOne((ringFrame.getShift_b_twoHoursOne() -
                 ringFrame.getProductionSpindle2HoursKg()) /
                 ringFrame.getProductionSpindle2HoursKg() * 100);
         ringFrame.setTotal_shift_prod_a(ringFrame.getShift_a_twoHoursOne() + ringFrame.getShift_a_twoHoursTwo() + ringFrame.getShift_a_twoHoursThree()

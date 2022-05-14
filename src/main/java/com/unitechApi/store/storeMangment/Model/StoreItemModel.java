@@ -25,7 +25,7 @@ public class StoreItemModel extends Audit<String> {
     private String drawingNo;
     private String catalogNo;
     private String frequency;
-    @Column(nullable = true)
+    
     private int RemainingItem;
     private int paytax;
     private Date created;
