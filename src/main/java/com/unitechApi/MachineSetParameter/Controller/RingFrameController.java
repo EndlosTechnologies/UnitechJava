@@ -13,7 +13,6 @@ import com.unitechApi.addmachine.repositroy.AddRingFrameRepossitory;
 import com.unitechApi.exception.ExceptionService.ResourceNotFound;
 import com.unitechApi.exception.ExceptionService.TimeExtendException;
 import com.unitechApi.exception.ExceptionService.UserNotFound;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -26,7 +25,6 @@ import java.io.IOException;
 import java.lang.reflect.Field;
 import java.sql.Date;
 import java.text.DateFormat;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
@@ -69,7 +67,7 @@ public class RingFrameController {
     }
 
     @PatchMapping("/update")
-    public ResponseEntity<RingFrame> UpdateData(@PathVariable Long id, Map<Object, Object> fields) {
+    public ResponseEntity<RingFrame> UpdateData(@PathVariable Long id,@RequestBody Map<Object, Object> fields) {
         Optional<RingFrame> ringFrame = ringFrameRepossitory.findById(id);
         if (ringFrame.isPresent()) {
             fields.forEach((key, value) -> {
@@ -77,7 +75,7 @@ public class RingFrameController {
                 field.setAccessible(true);
                 ReflectionUtils.setField(field, ringFrame.get(), value);
             });
-            RingFrame saveuser = ringFrameRepossitory.save(ringFrame.get());
+            ringFrameRepossitory.save(ringFrame.get());
         } else {
             throw new UserNotFound("User Not Found " + id);
         }
@@ -99,14 +97,14 @@ public class RingFrameController {
                               @RequestParam Date end, HttpServletResponse response) throws IOException {
 
         response.setContentType("application/octet-stream");
-        DateFormat dateFormat = new SimpleDateFormat("dd-mm-yyyy");
+        DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
         String currentDate = dateFormat.format(new java.util.Date());
 
         String headerKey = "Content-Disposition";
         String headerValue = "attachment; filename=RingFrameData_" + currentDate + ".xlsx";
         response.setHeader(headerKey, headerValue);
         List<RingFrame> ListData = ringframesService.ExcelDateToDateReport(start, end);
-        ListData.forEach(carding -> System.out.println(carding));
+
 
         RingframeExcelService c = new RingframeExcelService(ListData);
         c.export(response);
@@ -118,7 +116,7 @@ public class RingFrameController {
                                     HttpServletResponse response) throws IOException {
 
         response.setContentType("application/octet-stream");
-        DateFormat dateFormat = new SimpleDateFormat("dd-mm-yyyy");
+        DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
         String currentDate = dateFormat.format(new java.util.Date());
 
         String headerKey = "Content-Disposition";
@@ -133,8 +131,8 @@ public class RingFrameController {
     }
 
     @GetMapping("/searchsingle")
-    public ResponseEntity<?> ParticularDate(@RequestParam Date start, @RequestParam int page, @RequestParam int pagesize) {
-        Pagination pagination = new Pagination(page, pagesize);
+    public ResponseEntity<?> ParticularDate(@RequestParam Date start, @RequestParam int page, @RequestParam int pageSize) {
+        Pagination pagination = new Pagination(page, pageSize);
         Page<RingFrame> bloowRooms = ringframesService.FindBySingleDate(start, pagination);
         return new ResponseEntity<>(PageResponse.pagebleResponse(bloowRooms, pagination), HttpStatus.OK);
     }
@@ -152,7 +150,7 @@ public class RingFrameController {
      * time 08:00 Am To time 08:00 Pm
      * */
     @PatchMapping("/updateshiftAOne/{id}")
-    public ResponseEntity<?> UpdateShiftAOneReading(@PathVariable Long id, @RequestBody Map<String, Float> reading) throws ParseException {
+    public ResponseEntity<?> UpdateShiftAOneReading(@PathVariable Long id, @RequestBody Map<String, Float> reading) {
         String timeColonPattern = "hh:mm:ss a";
         DateTimeFormatter timeColonFormatter = DateTimeFormatter.ofPattern(timeColonPattern);
         if (
@@ -182,7 +180,7 @@ public class RingFrameController {
     }
 
     @PatchMapping("/updateshiftATwo/{id}")
-    public ResponseEntity<?> UpdateShiftATwoReading(@PathVariable Long id, @RequestBody Map<String, Float> reading) throws ParseException {
+    public ResponseEntity<?> UpdateShiftATwoReading(@PathVariable Long id, @RequestBody Map<String, Float> reading) {
         String timeColonPattern = "hh:mm:ss a";
         DateTimeFormatter timeColonFormatter = DateTimeFormatter.ofPattern(timeColonPattern);
         if (
@@ -211,7 +209,7 @@ public class RingFrameController {
     }
 
     @PatchMapping("/updateshiftAThree/{id}")
-    public ResponseEntity<?> UpdateShiftAThreeReading(@PathVariable Long id, @RequestBody Map<String, Float> reading) throws ParseException {
+    public ResponseEntity<?> UpdateShiftAThreeReading(@PathVariable Long id, @RequestBody Map<String, Float> reading) {
         String timeColonPattern = "hh:mm:ss a";
         DateTimeFormatter timeColonFormatter = DateTimeFormatter.ofPattern(timeColonPattern);
         if (
@@ -240,7 +238,7 @@ public class RingFrameController {
     }
 
     @PatchMapping("/updateshiftAFour/{id}")
-    public ResponseEntity<?> UpdateShiftAFourReading(@PathVariable Long id, @RequestBody Map<String, Float> reading) throws ParseException {
+    public ResponseEntity<?> UpdateShiftAFourReading(@PathVariable Long id, @RequestBody Map<String, Float> reading) {
         String timeColonPattern = "hh:mm:ss a";
         DateTimeFormatter timeColonFormatter = DateTimeFormatter.ofPattern(timeColonPattern);
         if (
@@ -269,7 +267,7 @@ public class RingFrameController {
     }
 
     @PatchMapping("/updateshiftAFive/{id}")
-    public ResponseEntity<?> UpdateShiftAFiveReading(@PathVariable Long id, @RequestBody Map<String, Float> reading) throws ParseException {
+    public ResponseEntity<?> UpdateShiftAFiveReading(@PathVariable Long id, @RequestBody Map<String, Float> reading) {
         String timeColonPattern = "hh:mm:ss a";
         DateTimeFormatter timeColonFormatter = DateTimeFormatter.ofPattern(timeColonPattern);
         if (
@@ -298,7 +296,7 @@ public class RingFrameController {
     }
 
     @PatchMapping("/updateshiftASix/{id}")
-    public ResponseEntity<?> UpdateShiftASixReading(@PathVariable Long id, @RequestBody Map<String, Float> reading) throws ParseException {
+    public ResponseEntity<?> UpdateShiftASixReading(@PathVariable Long id, @RequestBody Map<String, Float> reading) {
         String timeColonPattern = "hh:mm:ss a";
         DateTimeFormatter timeColonFormatter = DateTimeFormatter.ofPattern(timeColonPattern);
         if (
@@ -331,7 +329,7 @@ public class RingFrameController {
      * time 08:00 Pm To time 08:00 Am
      * */
     @PatchMapping("/updateshiftBOne/{id}")
-    public ResponseEntity<?> UpdateShiftBOneReading(@PathVariable Long id, @RequestBody Map<String, Float> reading) throws ParseException {
+    public ResponseEntity<?> UpdateShiftBOneReading(@PathVariable Long id, @RequestBody Map<String, Float> reading) {
         String timeColonPattern = "hh:mm:ss a";
         DateTimeFormatter timeColonFormatter = DateTimeFormatter.ofPattern(timeColonPattern);
         if (
@@ -360,7 +358,7 @@ public class RingFrameController {
     }
 
     @PatchMapping("/updateshiftBTwo/{id}")
-    public ResponseEntity<?> UpdateShiftBTwoReading(@PathVariable Long id, @RequestBody Map<String, Float> reading) throws ParseException {
+    public ResponseEntity<?> UpdateShiftBTwoReading(@PathVariable Long id, @RequestBody Map<String, Float> reading) {
         String timeColonPattern = "hh:mm:ss a";
         DateTimeFormatter timeColonFormatter = DateTimeFormatter.ofPattern(timeColonPattern);
         if (
@@ -392,7 +390,7 @@ public class RingFrameController {
     }
 
     @PatchMapping("/updateshiftBThree/{id}")
-    public ResponseEntity<?> UpdateShiftBThreeReading(@PathVariable Long id, @RequestBody Map<String, Float> reading) throws ParseException {
+    public ResponseEntity<?> UpdateShiftBThreeReading(@PathVariable Long id, @RequestBody Map<String, Float> reading) {
         String timeColonPattern = "hh:mm:ss a";
         DateTimeFormatter timeColonFormatter = DateTimeFormatter.ofPattern(timeColonPattern);
         if (
@@ -421,7 +419,7 @@ public class RingFrameController {
     }
 
     @PatchMapping("/updateshiftBFour/{id}")
-    public ResponseEntity<?> UpdateShiftBFourReading(@PathVariable Long id, @RequestBody Map<String, Float> reading) throws ParseException {
+    public ResponseEntity<?> UpdateShiftBFourReading(@PathVariable Long id, @RequestBody Map<String, Float> reading) {
         String timeColonPattern = "hh:mm:ss a";
         DateTimeFormatter timeColonFormatter = DateTimeFormatter.ofPattern(timeColonPattern);
         if (
@@ -450,7 +448,7 @@ public class RingFrameController {
     }
 
     @PatchMapping("/updateshiftBFive/{id}")
-    public ResponseEntity<?> UpdateShiftBFiveReading(@PathVariable Long id, @RequestBody Map<String, Float> reading) throws ParseException {
+    public ResponseEntity<?> UpdateShiftBFiveReading(@PathVariable Long id, @RequestBody Map<String, Float> reading) {
         String timeColonPattern = "hh:mm:ss a";
         DateTimeFormatter timeColonFormatter = DateTimeFormatter.ofPattern(timeColonPattern);
         if (
@@ -479,7 +477,7 @@ public class RingFrameController {
     }
 
     @PatchMapping("/updateshiftBSix/{id}")
-    public ResponseEntity<?> UpdateShiftBSixReading(@PathVariable Long id, @RequestBody Map<String, Float> reading) throws ParseException {
+    public ResponseEntity<?> UpdateShiftBSixReading(@PathVariable Long id, @RequestBody Map<String, Float> reading) {
         String timeColonPattern = "hh:mm:ss a";
         DateTimeFormatter timeColonFormatter = DateTimeFormatter.ofPattern(timeColonPattern);
         if (
@@ -683,8 +681,8 @@ public class RingFrameController {
         ringFrame.setMachineId(ringFrameRest.getId());
 
         ringFrame.setShift_a_twoHoursOne(ringFrameRest.getShift_a_twoHoursOne());
-        ringFrame.setAverageshift_a_HankOne((float) ((ringFrame.getShift_a_twoHoursOne()/(2.204*ringFrame.getRingFrameCount())) * 1440 * ringFrame.getMachineEfficiency()));
-        ringFrame.setAvervg_difference_a_twoHoursOne((ringFrame.getShift_a_twoHoursOne()-ringFrame.getProductionSpindle2HoursKg() )
+        ringFrame.setAverageshift_a_HankOne((float) ((ringFrame.getShift_a_twoHoursOne()/(2.204*ringFrame.getRingFrameCount())) * 1440 * ringFrame.getMachineEfficiency())/100);
+        ringFrame.setAvervg_difference_a_twoHoursOne((ringFrame.getAverageshift_a_HankOne() - ringFrame.getProductionSpindle2HoursKg() )
                 / ringFrame.getProductionSpindle2HoursKg() * 100);
 
         ringFrame.setTotal_shift_prod_a(ringFrame.getShift_a_twoHoursOne() + ringFrame.getShift_a_twoHoursTwo() + ringFrame.getShift_a_twoHoursThree()
