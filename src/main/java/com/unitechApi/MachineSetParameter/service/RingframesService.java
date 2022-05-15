@@ -6,7 +6,6 @@ import com.unitechApi.Payload.response.Pagination;
 import com.unitechApi.exception.ExceptionService.DateMisMatchException;
 import com.unitechApi.exception.ExceptionService.ResourceNotFound;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
@@ -29,10 +28,11 @@ public class RingframesService {
     DecimalFormat df = new DecimalFormat("#.###");
 
     public RingFrame SaveData(RingFrame ringFrame) {
+        df.setMaximumFractionDigits(3);
 
-        ringFrame.setTPI(Float.parseFloat(df.format((float) (ringFrame.getTM() * (Math.sqrt(ringFrame.getRingFrameCount()))))));
-        ringFrame.setProductionSpindleGrams(Float.parseFloat(df.format(COSTANT * ringFrame.getSpindleRpm() * ringFrame.getMachineEfficiency()
-                / (ringFrame.getRingFrameCount() * ringFrame.getTPI() * 100))));
+        ringFrame.setTPI(Float.parseFloat(df.format( (ringFrame.getTM() * (Math.sqrt(ringFrame.getRingFrameCount()))))));
+        ringFrame.setProductionSpindleGrams(Float.parseFloat((df.format(COSTANT * ringFrame.getSpindleRpm() * ringFrame.getMachineEfficiency()
+                / (ringFrame.getRingFrameCount() * ringFrame.getTPI() * 100)))));
         ringFrame.setProductionSpindle8HoursKg(Float.parseFloat(df.format(ringFrame.getProductionSpindleGrams() * SPINDLE / 1000)));
         ringFrame.setProductionSpindle24HoursKg(Float.parseFloat(df.format(ringFrame.getProductionSpindle8HoursKg() * 3)));
         ringFrame.setTotalLoss(Float.parseFloat(df.format(ringFrame.getPneumafilWaste() + ringFrame.getIdleSpindle() + ringFrame.getDoffingLoss())));

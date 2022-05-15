@@ -23,9 +23,9 @@ public class IndentController {
         this.indentService = indentService;
     }
     @PostMapping()
-    public ResponseEntity<?> saveData(@RequestBody Indent indent)
+    public ResponseEntity<?> saveData(@RequestBody Indent indent ,@PathVariable Long id)
     {
-        Indent requestData= indentService.saveData(indent);
+        Indent requestData= indentService.saveData(indent,id);
         return new ResponseEntity<>(PageResponse.SuccessResponse(requestData), HttpStatus.CREATED);
     }
 

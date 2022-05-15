@@ -26,13 +26,14 @@ public class BloowRoomService {
     }
 
     public static final float CONSTANT = (float) 0.0354;
-    DecimalFormat df = new DecimalFormat("#.###");
+    DecimalFormat df = new DecimalFormat("0.000");
 
 
     public BloowRoom SaveData(BloowRoom bloowroom) {
-        df.setMaximumFractionDigits(3);
+        //df.setMinimumFractionDigits(3);
 
-
+        System.out.println((Float.parseFloat(df.format(CONSTANT * bloowroom.getDeliveryspeed() *
+                bloowroom.getMachineefficency() / (bloowroom.getSilverhank() * 100)))));
         bloowroom.setProductiononratekgcardperhour(Float.parseFloat(df.format(CONSTANT * bloowroom.getDeliveryspeed() *
                 bloowroom.getMachineefficency() / (bloowroom.getSilverhank() * 100))));
         bloowroom.setMachineefficencykgcardpershift(Float.parseFloat(df.format(bloowroom.getProductiononratekgcardperhour() * 12)));

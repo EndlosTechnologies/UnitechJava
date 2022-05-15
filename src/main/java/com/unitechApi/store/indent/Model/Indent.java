@@ -21,7 +21,7 @@ public class Indent {
     @Enumerated(EnumType.STRING)
     private IndentStatus indentStatus;
     private Long doid;
-
+    private double includingTax;
     private Date created;
 
     public Date getCreated() {
@@ -52,6 +52,14 @@ public class Indent {
 
     public void setEstimatedPrice(Long estimatedPrice) {
         this.estimatedPrice = estimatedPrice;
+    }
+
+    public double getIncludingTax() {
+        return includingTax;
+    }
+
+    public void setIncludingTax(double includingTax) {
+        this.includingTax = includingTax;
     }
 
     public Long getTotal() {
