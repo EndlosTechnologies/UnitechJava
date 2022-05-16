@@ -129,11 +129,11 @@ public class RingframeExcelService {
         Row rowHeader2=xssfSheet.createRow(2);
         CellStyle styleHeader=xssfWorkbook.createCellStyle();
         CellStyle styleHeader2=xssfWorkbook.createCellStyle();
-        for (int i = 1; i <= 60; ++i) {
+        for (int i = 1; i <= 59; ++i) {
             Cell cell = rowHeader.createCell(i);
             cell.setCellStyle(styleHeader);
         }
-        for (int j =17;j<=60 ;++j)
+        for (int j =18;j<=59 ;++j)
         {
             Cell cell = rowHeader2.createCell(j);
             cell.setCellStyle(styleHeader2);
@@ -143,10 +143,10 @@ public class RingframeExcelService {
         styleHeader2.setBorderLeft(BorderStyle.THICK);
         styleHeader2.setBorderRight(BorderStyle.THICK);
         xssfSheet.addMergedRegion(CellRangeAddress.valueOf("B5:R5"));
-        xssfSheet.addMergedRegion(CellRangeAddress.valueOf("S5:AE5"));
-        xssfSheet.addMergedRegion(CellRangeAddress.valueOf("AF5:AR5"));
-        xssfSheet.addMergedRegion(CellRangeAddress.valueOf("AS5:AV5"));
-        xssfSheet.addMergedRegion(CellRangeAddress.valueOf("T3:AV3"));
+        xssfSheet.addMergedRegion(CellRangeAddress.valueOf("S5:AK5"));
+        xssfSheet.addMergedRegion(CellRangeAddress.valueOf("AL5:BD5"));
+        xssfSheet.addMergedRegion(CellRangeAddress.valueOf("BE5:BH5"));
+        xssfSheet.addMergedRegion(CellRangeAddress.valueOf("S3:BH3"));
        // xssfSheet.addMergedRegion(CellRangeAddress.valueOf("G3:H3"));
         //xssfSheet.addMergedRegion(CellRangeAddress.valueOf("1:Y1"));
         styleHeader.setBorderBottom(BorderStyle.MEDIUM);
@@ -159,11 +159,11 @@ public class RingframeExcelService {
         styleHeader.setFont(fontHeader);
         // styleHeader.set
         createCell(rowHeader2,1,"ring frame ",styleHeader);
-        createCell(rowHeader2,17,"Shift Wise Production Report ",styleHeader);
+        createCell(rowHeader2,18,"Shift Wise Production Report ",styleHeader);
         createCell(rowHeader,1,"Targeted Production ",styleHeader);
-        createCell(rowHeader,17,"Shift A Data (Morning) ",styleHeader);
-        createCell(rowHeader,31,"Shift B Data (Evening) ",styleHeader);
-        createCell(rowHeader,44,"Original Production ",styleHeader);
+        createCell(rowHeader,18,"Shift A Data (Morning) ",styleHeader);
+        createCell(rowHeader,37,"Shift B Data (Evening) ",styleHeader);
+        createCell(rowHeader,56,"Original Production ",styleHeader);
 
 
 

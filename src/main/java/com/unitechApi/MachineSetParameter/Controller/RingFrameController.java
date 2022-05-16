@@ -13,6 +13,8 @@ import com.unitechApi.addmachine.repositroy.AddRingFrameRepossitory;
 import com.unitechApi.exception.ExceptionService.ResourceNotFound;
 import com.unitechApi.exception.ExceptionService.TimeExtendException;
 import com.unitechApi.exception.ExceptionService.UserNotFound;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -25,6 +27,7 @@ import java.io.IOException;
 import java.lang.reflect.Field;
 import java.sql.Date;
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
@@ -39,7 +42,7 @@ public class RingFrameController {
     private final RingFrameRepossitory ringFrameRepossitory;
     private final RingframesService ringframesService;
     private final AddRingFrameRepossitory addRingFrameRepossitory;
-
+    private static final Logger log= LoggerFactory.getLogger(RingFrameController.class);
     public RingFrameController(RingFrameRepossitory ringFrameRepossitory, RingframesService ringframesService, AddRingFrameRepossitory addRingFrameRepossitory) {
         this.ringFrameRepossitory = ringFrameRepossitory;
         this.ringframesService = ringframesService;
@@ -124,6 +127,8 @@ public class RingFrameController {
         response.setHeader(headerKey, headerValue);
         List<RingFrame> ListData = ringframesService.ExcelDateToPerDateReport(start);
         ListData.forEach(carding -> System.out.println(carding));
+        log.info("data  in  {} ",ListData);
+
 
         RingframeExcelService c = new RingframeExcelService(ListData);
         c.export(response);
@@ -150,8 +155,9 @@ public class RingFrameController {
      * time 08:00 Am To time 08:00 Pm
      * */
     @PatchMapping("/updateshiftAOne/{id}")
-    public ResponseEntity<?> UpdateShiftAOneReading(@PathVariable Long id, @RequestBody Map<String, Float> reading) {
+    public ResponseEntity<?> UpdateShiftAOneReading(@PathVariable Long id, @RequestBody Map<String, Float> reading) throws ParseException {
         String timeColonPattern = "hh:mm:ss a";
+        System.out.println(LocalTime.now());
         DateTimeFormatter timeColonFormatter = DateTimeFormatter.ofPattern(timeColonPattern);
         if (
                 LocalTime.now().isAfter(LocalTime.from(timeColonFormatter.parse("08:00:00 AM")))
