@@ -69,7 +69,41 @@ public class RingFrame {
     }
 
     @Column(name = "averageshift_a_HankOne")
+    @Digits(integer = 4,fraction = 2)
     private float averageshift_a_HankOne;
+    @Column(name = "averageshift_a_HankTwo")
+    @Digits(integer = 4,fraction = 2)
+    private float averageshift_a_HankTwo;
+    @Column(name = "averageshift_a_HankThree")
+    @Digits(integer = 4,fraction = 2)
+    private float averageshift_a_HankThree;
+    @Column(name = "averageshift_a_HankFour")
+    @Digits(integer = 4,fraction = 2)
+    private float averageshift_a_HankFour;
+    @Column(name = "averageshift_a_HankFive")
+    @Digits(integer = 4,fraction = 2)
+    private float averageshift_a_HankFive;
+    @Column(name = "averageshift_a_HankSix")
+    @Digits(integer = 4,fraction = 2)
+    private float averageshift_a_HankSix;
+    @Column(name = "averageshift_a_HankSeven")
+    @Digits(integer = 4,fraction = 2)
+    private float averageshift_a_HankSeven;
+    @Column(name = "averageshift_a_HankEight")
+    @Digits(integer = 4,fraction = 2)
+    private float averageshift_a_HankEight;
+    @Column(name = "averageshift_a_HankNine")
+    @Digits(integer = 4,fraction = 2)
+    private float averageshift_a_HankNine;
+    @Column(name = "averageshift_a_HankTen")
+    @Digits(integer = 4,fraction = 2)
+    private float averageshift_a_HankTen;
+    @Column(name = "averageshift_a_HankEleven")
+    @Digits(integer = 4,fraction = 2)
+    private float averageshift_a_HankEleven;
+    @Column(name = "averageshift_a_HankTwelve")
+    @Digits(integer = 4,fraction = 2)
+    private float averageshift_a_HankTwelev;
     @Column(name = "avervg_difference_a_twoHoursOne")
     private float avervg_difference_a_twoHoursOne;
 
@@ -562,6 +596,94 @@ public class RingFrame {
 
     public void setTarget_prod_variance(float target_prod_variance) {
         this.target_prod_variance = target_prod_variance;
+    }
+
+    public float getAverageshift_a_HankTwo() {
+        return averageshift_a_HankTwo;
+    }
+
+    public void setAverageshift_a_HankTwo(float averageshift_a_HankTwo) {
+        this.averageshift_a_HankTwo = averageshift_a_HankTwo;
+    }
+
+    public float getAverageshift_a_HankThree() {
+        return averageshift_a_HankThree;
+    }
+
+    public void setAverageshift_a_HankThree(float averageshift_a_HankThree) {
+        this.averageshift_a_HankThree = averageshift_a_HankThree;
+    }
+
+    public float getAverageshift_a_HankFour() {
+        return averageshift_a_HankFour;
+    }
+
+    public void setAverageshift_a_HankFour(float averageshift_a_HankFour) {
+        this.averageshift_a_HankFour = averageshift_a_HankFour;
+    }
+
+    public float getAverageshift_a_HankFive() {
+        return averageshift_a_HankFive;
+    }
+
+    public void setAverageshift_a_HankFive(float averageshift_a_HankFive) {
+        this.averageshift_a_HankFive = averageshift_a_HankFive;
+    }
+
+    public float getAverageshift_a_HankSix() {
+        return averageshift_a_HankSix;
+    }
+
+    public void setAverageshift_a_HankSix(float averageshift_a_HankSix) {
+        this.averageshift_a_HankSix = averageshift_a_HankSix;
+    }
+
+    public float getAverageshift_a_HankSeven() {
+        return averageshift_a_HankSeven;
+    }
+
+    public void setAverageshift_a_HankSeven(float averageshift_a_HankSeven) {
+        this.averageshift_a_HankSeven = averageshift_a_HankSeven;
+    }
+
+    public float getAverageshift_a_HankEight() {
+        return averageshift_a_HankEight;
+    }
+
+    public void setAverageshift_a_HankEight(float averageshift_a_HankEight) {
+        this.averageshift_a_HankEight = averageshift_a_HankEight;
+    }
+
+    public float getAverageshift_a_HankNine() {
+        return averageshift_a_HankNine;
+    }
+
+    public void setAverageshift_a_HankNine(float averageshift_a_HankNine) {
+        this.averageshift_a_HankNine = averageshift_a_HankNine;
+    }
+
+    public float getAverageshift_a_HankTen() {
+        return averageshift_a_HankTen;
+    }
+
+    public void setAverageshift_a_HankTen(float averageshift_a_HankTen) {
+        this.averageshift_a_HankTen = averageshift_a_HankTen;
+    }
+
+    public float getAverageshift_a_HankEleven() {
+        return averageshift_a_HankEleven;
+    }
+
+    public void setAverageshift_a_HankEleven(float averageshift_a_HankEleven) {
+        this.averageshift_a_HankEleven = averageshift_a_HankEleven;
+    }
+
+    public float getAverageshift_a_HankTwelev() {
+        return averageshift_a_HankTwelev;
+    }
+
+    public void setAverageshift_a_HankTwelev(float averageshift_a_HankTwelev) {
+        this.averageshift_a_HankTwelev = averageshift_a_HankTwelev;
     }
 
     public LocalDate getShiftDate() {

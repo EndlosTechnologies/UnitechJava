@@ -32,8 +32,6 @@ public class BloowRoomService {
     public BloowRoom SaveData(BloowRoom bloowroom) {
         //df.setMinimumFractionDigits(3);
 
-        System.out.println((Float.parseFloat(df.format(CONSTANT * bloowroom.getDeliveryspeed() *
-                bloowroom.getMachineefficency() / (bloowroom.getSilverhank() * 100)))));
         bloowroom.setProductiononratekgcardperhour(Float.parseFloat(df.format(CONSTANT * bloowroom.getDeliveryspeed() *
                 bloowroom.getMachineefficency() / (bloowroom.getSilverhank() * 100))));
         bloowroom.setMachineefficencykgcardpershift(Float.parseFloat(df.format(bloowroom.getProductiononratekgcardperhour() * 12)));
