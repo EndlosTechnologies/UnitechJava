@@ -12,6 +12,7 @@ import java.util.Set;
 @Entity
 @Table(name = "add_comber",schema = "AddMachine")@NoArgsConstructor
 @AllArgsConstructor
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class AddComber {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "id")

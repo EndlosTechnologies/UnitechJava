@@ -31,6 +31,8 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeFormatterBuilder;
+import java.time.temporal.ChronoField;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -427,6 +429,9 @@ public class RingFrameController {
     @PatchMapping("/updateshiftBFour/{id}")
     public ResponseEntity<?> UpdateShiftBFourReading(@PathVariable Long id, @RequestBody Map<String, Float> reading) {
         String timeColonPattern = "hh:mm:ss a";
+//        DateTimeFormatter formatter=new DateTimeFormatterBuilder()
+//                .appendPattern("hh:mm:ss a")
+//                .toFormatter();
         DateTimeFormatter timeColonFormatter = DateTimeFormatter.ofPattern(timeColonPattern);
         if (
                 LocalTime.now().isAfter(LocalTime.from(timeColonFormatter.parse("02:00:00 AM")))

@@ -1,5 +1,6 @@
 package com.unitechApi.store.storeMangment.service;
 
+import com.unitechApi.exception.ExceptionService.AddItemException;
 import com.unitechApi.exception.ExceptionService.ItemNotFound;
 import com.unitechApi.store.storeMangment.ExcelService.ImportExcel;
 import com.unitechApi.store.storeMangment.Model.ExcelItem;
@@ -35,6 +36,14 @@ public class StoreItemService {
         return storeItemRepository.save(storeItemModel);
     }
 
+    public void checkRemainingItem(Long id)
+    {
+        StoreItemModel storeItemModel = storeItemRepository.findById(id).orElseThrow(() -> new ItemNotFound("item Not Found"));
+        if (storeItemModel.getQuantity()<storeItemModel.getRemainingItem())
+        {
+            throw new AddItemException("Sorry You Can't take item in Store ! Please add Item in store ");
+        }
+    }
     public StoreItemModel findById(Long id) {
         StoreItemModel storeItemModel = storeItemRepository.findById(id).orElseThrow(() -> new ItemNotFound("item Not Found"));
         return storeItemModel;

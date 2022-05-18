@@ -6,9 +6,12 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonView;
 import com.unitechApi.addmachine.model.*;
 import com.unitechApi.store.issue.model.IssueItem;
+import com.unitechApi.store.storeMangment.Model.StoreItemModel;
+import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table(name = "usageItem",schema = "store_management")
@@ -19,6 +22,7 @@ public class UsageItem {
     private Long uId;
     private String deptName;
     private Date created;
+
 
     public Date getCreated() {
         return created;
@@ -34,7 +38,7 @@ public class UsageItem {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(foreignKey = @ForeignKey(name = "b_id"),name = "b_id",referencedColumnName = "m_id")
-    @JsonIgnoreProperties({"bdata","bloowroomReading","cardingusage"})
+    @JsonIgnoreProperties({"bdata","bloowroomReading"})
     private AddBloowroom bloowusage;
 
     @ManyToOne(fetch = FetchType.LAZY)

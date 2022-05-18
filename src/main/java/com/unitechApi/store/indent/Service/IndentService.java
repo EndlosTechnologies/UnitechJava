@@ -28,8 +28,8 @@ public class IndentService {
         this.storeItemRepository = storeItemRepository;
     }
 
-    public Indent saveData(Indent indent ,Long itemId) {
-        StoreItemModel itemModel=storeItemRepository.findById(itemId)
+    public Indent saveData(Indent indent ) {
+        StoreItemModel itemModel=storeItemRepository.findById(indent.getStoreItem().getItemId())
                 .orElseThrow(()-> new ItemNotFound("item not Found"));
         indent.setTotal(indent.getEstimatedPrice() * indent.getQuantity() );
         indent.setIncludingTax((indent.getTotal()*itemModel.getPaytax())/100);

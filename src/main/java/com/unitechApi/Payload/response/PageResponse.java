@@ -35,17 +35,16 @@ public class PageResponse {
     private static void AddSuccessStatus(Map<String, Object> responsemap) {
         responsemap.put("Done", Boolean.TRUE);
         responsemap.put("Message", RECORDFOUND);
+
     }
 
 
     public static Map<String, Object> pagebleResponse(Page<?> response, Pagination pagination) {
 
         pagination.setPagecount(response.getTotalPages());
-        System.out.println("TOtal_pages" + response.getTotalPages());
         pagination.setRowcount(response.getTotalElements());
         pagination.setSort(response.getSort());
         Map<String, Object> responsemap = new HashMap<>();
-
         responsemap.put("Data", response.getContent());
         responsemap.put("Pagination", pagination);
         AddSuccessStatus(responsemap);

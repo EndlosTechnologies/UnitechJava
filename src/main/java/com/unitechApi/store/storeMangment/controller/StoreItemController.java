@@ -87,6 +87,12 @@ public class StoreItemController {
         storeItemService.AddStock(uid,quantity);
         return new ResponseEntity<>(new MessageResponse("added Stock " + quantity),HttpStatus.OK);
     }
+    @GetMapping(value = "checkRemainItem/{itemId}")
+    public ResponseEntity<?> checkRemainingItem(@PathVariable Long itemId)
+    {
+        storeItemService.checkRemainingItem(itemId);
+        return new ResponseEntity<>(new MessageResponse("checked done "),HttpStatus.OK);
+    }
 
     @GetMapping(value = "/ex/d")
     public void downloadFile(HttpServletResponse response) throws IOException {

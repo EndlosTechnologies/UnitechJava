@@ -138,4 +138,14 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         exceptionMOdel.setTimestamp((String.valueOf(LocalDateTime.now())));
         return new ResponseEntity(exceptionMOdel, HttpStatus.UNAUTHORIZED);
     }
+    @ExceptionHandler(AddItemException.class)
+    public ResponseEntity AddItemException(AddItemException ex) {
+        ExceptionMOdel exceptionMOdel = new ExceptionMOdel();
+        exceptionMOdel.setDetails(ex.getClass().getCanonicalName());
+        exceptionMOdel.setDeveloperMessage(ex.fillInStackTrace().getMessage());
+        exceptionMOdel.setStatus(HttpStatus.UNAVAILABLE_FOR_LEGAL_REASONS.value());
+        exceptionMOdel.setTitle("Sorry ! time is gone");
+        exceptionMOdel.setTimestamp((String.valueOf(LocalDateTime.now())));
+        return new ResponseEntity(exceptionMOdel, HttpStatus.UNAVAILABLE_FOR_LEGAL_REASONS);
+    }
 }
