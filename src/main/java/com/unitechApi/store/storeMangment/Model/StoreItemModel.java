@@ -50,19 +50,16 @@ public class StoreItemModel extends Audit<String> {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(foreignKey = @ForeignKey(name = "p_id"), name = "p_id", referencedColumnName = "pid")
     @JsonIgnoreProperties({"item","unit"})
-  //  @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private ProductCategory productCategory;
 
     @ManyToOne(fetch = FetchType.LAZY )
     @JoinColumn(foreignKey = @ForeignKey(name = "u_id"), name = "u_id", referencedColumnName = "uid")
     @JsonIgnoreProperties({"itemunit"})
-  //  @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private Unit unit;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(foreignKey = @ForeignKey(name = "emp_id"), name = "emp_id", referencedColumnName = "user_profile_id")
     @JsonIgnoreProperties({"itemModelSet"})
-    //  @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private User employe;
 
     public User getEmploye() {

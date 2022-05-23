@@ -1,7 +1,6 @@
 package com.unitechApi.store.indent.Service;
 
 import com.unitechApi.Payload.response.Pagination;
-import com.unitechApi.exception.ExceptionService.ResourceNotFound;
 import com.unitechApi.store.indent.Model.UsageItem;
 import com.unitechApi.store.indent.Repository.UsageRepository;
 import org.springframework.data.domain.Page;
@@ -17,6 +16,7 @@ import java.util.stream.Stream;
 public class UsageService {
     private final UsageRepository usageRepository;
 
+
     public UsageService(UsageRepository usageRepository) {
         this.usageRepository = usageRepository;
     }
@@ -28,11 +28,10 @@ public class UsageService {
     public BaseStream<UsageItem, Stream<UsageItem>> FindAll() {
         return usageRepository.findAll().stream().sorted(Comparator.comparing(UsageItem::getuId));
     }
-    
+
     public List<UsageItem> findByDepName(String name) {
         return usageRepository.findByDeptName(name);
     }
-
 
 
     public Page<UsageItem> findByCardingDataAndDeptName(String deptname, Long id, Date start, Date end, Pagination pagination) {
@@ -114,3 +113,5 @@ public class UsageService {
     }
 
 }
+
+

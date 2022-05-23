@@ -22,7 +22,7 @@ import java.util.List;
 @Service
 public class DbService {
 
-    public static final String JDBC_URL = "jdbc:postgresql://localhost:5432/unitechdev";
+    public static final String JDBC_URL = "jdbc:postgresql://localhost:5432/unitech";
     private static final String DEFAULT_USERNAME = "postgres";
     private static final String DEFAULT_PASSWORD = "postgres";
     public static final Logger log = LoggerFactory.getLogger(DbService.class);
