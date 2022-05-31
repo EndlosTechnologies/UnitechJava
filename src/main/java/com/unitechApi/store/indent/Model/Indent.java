@@ -33,7 +33,7 @@ public class Indent {
     }
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(foreignKey = @ForeignKey(name = "item_id"),name = "item_id",referencedColumnName = "itemId")
-    @JsonIgnoreProperties("itemRequest")
+    @JsonIgnoreProperties({"itemRequest","issue"})
     private StoreItemModel storeItem;
 
     @ManyToOne(fetch = FetchType.LAZY)

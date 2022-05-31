@@ -109,7 +109,7 @@ public class UnitechApplication implements ApplicationRunner {
         password3.setPassword(passwordEncoder.encode("super1@1234"));
         user3.setDob(LocalDate.parse("1996-09-02"));
         user3.setEmail("superviser1@gmail.com");
-        user3.setUsername("SUPERVISER 1");
+        user3.setUsername("SUPERVISOR 1");
         user3.setIndentification("Don't KnoW");
         user3.setMaritalStatus("single");
         user3.setNationality("India");
@@ -124,7 +124,7 @@ public class UnitechApplication implements ApplicationRunner {
         User user4 = new User();
         PasswordEntity password4 = new PasswordEntity();
         password4.setPassword(passwordEncoder.encode("super2@1234"));
-        user4.setUsername("SUPERVISER 2");
+        user4.setUsername("SUPERVISOR 2");
         user4.setDob(LocalDate.parse("1996-09-02"));
         user4.setEmail("superviser2@gmail.com");
         user4.setIndentification("Don't KnoW");

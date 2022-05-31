@@ -65,15 +65,13 @@ public class IssueService {
                     storeItemModel.setQuantity(storeItemModel.getQuantity() - dta.getQuantity());
                     log.info("store item {}", storeItemModel);
                     itemRequest.setQuantity(dta.getQuantity());
-                }
-                else {
+                } else {
                     throw new OutOfStock("can't get any Resource");
                 }
             }
 //            log.info("store item {}", storeItemModel.getQuantity());
 //            issueRepository.save(itemRequest);
-        }
-        else {
+        } else {
             itemRequest.setStatus(dta.getStatus());
         }
         log.info("store item {}", storeItemModel.getQuantity());

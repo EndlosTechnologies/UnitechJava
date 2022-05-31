@@ -44,7 +44,7 @@ public class StoreItemModel extends Audit<String> {
     private long quantity;
 
     @OneToMany(mappedBy = "storeItemModel",cascade = CascadeType.ALL)
-    @JsonIgnoreProperties({"storeItemModel"})
+    @JsonIgnoreProperties({"storeItemModel","issue"})
     private Set<IssueItem> issueItem;
 
     @ManyToOne(fetch = FetchType.LAZY)
