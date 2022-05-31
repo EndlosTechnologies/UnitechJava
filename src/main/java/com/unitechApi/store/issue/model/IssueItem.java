@@ -31,7 +31,7 @@ public class IssueItem extends Audit<String> {
     private int requiredDays;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(foreignKey = @ForeignKey(name = "item_id"), name = "item_id", referencedColumnName = "itemId")
-    @JsonIgnoreProperties("issueItem")
+    @JsonIgnoreProperties({"issueItem","itemRequest"})
     private StoreItemModel storeItemModel;
 
     @ManyToOne(fetch = FetchType.LAZY)

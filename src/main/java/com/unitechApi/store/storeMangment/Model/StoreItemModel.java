@@ -44,7 +44,7 @@ public class StoreItemModel extends Audit<String> {
     private long quantity;
 
     @OneToMany(mappedBy = "storeItemModel",cascade = CascadeType.ALL)
-    @JsonIgnoreProperties({"storeItemModel","issue"})
+    @JsonIgnoreProperties({"storeItemModel","indents"})
     private Set<IssueItem> issueItem;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -61,6 +61,9 @@ public class StoreItemModel extends Audit<String> {
     @JoinColumn(foreignKey = @ForeignKey(name = "emp_id"), name = "emp_id", referencedColumnName = "user_profile_id")
     @JsonIgnoreProperties({"itemModelSet"})
     private User employe;
+    @OneToMany(mappedBy = "storeItem", cascade = CascadeType.ALL)
+    @JsonIgnoreProperties("storeItem")
+    private Set<Indent> itemRequest;
 
     public User getEmploye() {
         return employe;
@@ -70,9 +73,7 @@ public class StoreItemModel extends Audit<String> {
         this.employe = employe;
     }
 
-    @OneToMany(mappedBy = "storeItem", cascade = CascadeType.ALL)
-    @JsonIgnoreProperties("storeItem")
-    private Set<Indent> itemRequest;
+
 
     public Set<IssueItem> getIssueItem() {
         return issueItem;
