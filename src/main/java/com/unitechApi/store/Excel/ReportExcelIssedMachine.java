@@ -84,7 +84,7 @@ public class ReportExcelIssedMachine {
         } else if (value instanceof Integer) {
             cell.setCellValue((Integer) value);
         } else if (value instanceof Date) {
-            cell.setCellValue((Date) value);
+            cell.setCellValue(new Date());
             cell.setCellStyle(cellStyle);
         } else if (value instanceof IssueStatus) {
             cell.setCellValue((String.valueOf(value)));

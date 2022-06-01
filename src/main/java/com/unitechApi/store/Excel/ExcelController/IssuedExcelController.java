@@ -27,7 +27,6 @@ public class IssuedExcelController {
         this.usageRepository = usageRepository;
     }
     @GetMapping
-    @GetMapping
     public ResponseEntity<?> downloadDept(@RequestParam String deptname,
                                           HttpServletResponse response) throws IOException {
         response.setContentType("application/octet-stream");
