@@ -13,8 +13,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.BaseStream;
 import java.util.stream.Stream;
 
@@ -57,7 +59,7 @@ public class UsageController {
     )
     {
         Pagination pagination=new Pagination(page,pagesize);
-        Page<UsageItem> loadData=usageService.findByCardingDataAndDeptName(deptname,id,start,end,pagination);
+        Page<?> loadData=usageService.findByCardingDataAndDeptName(deptname,id,start,end,pagination);
         log.info("Id   {} data ",id);
         log.info("Date of {}" ,start);
         log.info("searching {} data ",loadData);

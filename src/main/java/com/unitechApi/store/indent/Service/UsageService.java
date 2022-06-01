@@ -33,79 +33,155 @@ public class UsageService {
         return usageRepository.findByDeptName(name);
     }
 
+    public List<UsageItem> ExcelReportDate(String deptname, Long id, Date start, Date end) {
+        if (deptname.equalsIgnoreCase("bloowroom")) {
+            if (id == null) {
+                return usageRepository.findByDepartment(deptname, start, end);
+            } else {
+                return usageRepository.findByDeptNameAndBloowusage(deptname, id, start, end);
+            }
+        } else if (deptname.equalsIgnoreCase("carding")) {
+            if (id == null) {
+                return usageRepository.findByDepartment(deptname, start, end);
+            } else {
+                return usageRepository.findByDeptNameAndCardingusage(deptname, id, start, end);
+            }
+        } else if (deptname.equalsIgnoreCase("comber")) {
+            if (id == null) {
+                return usageRepository.findByDepartment(deptname, start, end);
+            } else {
+                return usageRepository.findByDeptNameAndComberusage(deptname, id, start, end);
+            }
+        } else if (deptname.equalsIgnoreCase("drawframe")) {
+            if (id == null) {
+                return usageRepository.findByDepartment(deptname, start, end);
+            } else {
+                return usageRepository.findByDeptNameAndDrawFramesMachine(deptname, id, start, end);
+            }
+        } else if (deptname.equalsIgnoreCase("finisher")) {
+            if (id == null) {
+                return usageRepository.findByDepartment(deptname, start, end);
+            } else {
+                return usageRepository.findByDeptNameAndFinisherMachinedata(deptname, id, start, end);
+            }
+        } else if (deptname.equalsIgnoreCase("lapformer")) {
+            if (id == null) {
+                return usageRepository.findByDepartment(deptname, start, end);
+            } else {
+                return usageRepository.findByDeptNameAndLapFormerusage(deptname, id, start, end);
+            }
+        } else if (deptname.equalsIgnoreCase("ringframe")) {
+            if (id == null) {
+                return usageRepository.findByDepartment(deptname, start, end);
+            } else {
+                return usageRepository.findByDeptNameAndRingframeMachineusage(deptname, id, start, end);
+            }
+        } else if (deptname.equalsIgnoreCase("packing")) {
+            if (id == null) {
+                return usageRepository.findByDepartment(deptname, start, end);
+            } else {
+                return usageRepository.findByDeptNameAndPackingMachineusage(deptname, id, start, end);
+            }
+        } else if (deptname.equalsIgnoreCase("speedframe")) {
+            if (id == null) {
+                return usageRepository.findByDepartment(deptname, start, end);
+            } else {
+                return usageRepository.findByDeptNameAndSimplexMachineusage(deptname, id, start, end);
+            }
+        } else if (deptname.equalsIgnoreCase("utility")) {
+            if (id == null) {
+                return usageRepository.findByDepartment(deptname, start, end);
+            } else {
+                return usageRepository.findByDeptNameAndUtilliyMachineusage(deptname, id, start, end);
+            }
+        } else if (deptname.equalsIgnoreCase("wasteroom")) {
+            if (id == null) {
+                return usageRepository.findByDepartment(deptname, start, end);
+            } else {
+                return usageRepository.findByDeptNameAndWasteMachineusage(deptname, id, start, end);
+            }
+        } else if (deptname.equalsIgnoreCase("winding")) {
+            if (id == null) {
+                return usageRepository.findByDepartment(deptname, start, end);
+            } else {
+                return usageRepository.findByDeptNameAndWindingMachineusage(deptname, id, start, end);
+            }
+        }
+        return null;
+    }
 
     public Page<UsageItem> findByCardingDataAndDeptName(String deptname, Long id, Date start, Date end, Pagination pagination) {
         if (deptname.equalsIgnoreCase("bloowroom")) {
             if (id == null) {
-                return usageRepository.findByDeptNameAndCreatedBetween(deptname, start, end, pagination.getpageble());
+                return usageRepository.findByDeptNameAndCreatedDate(deptname, start, end, pagination.getpageble());
             } else {
-                return usageRepository.findByDeptNameAndBloowusageIdAndCreatedBetween(deptname, id, start, end, pagination.getpageble());
+                return usageRepository.findByDeptNameAndBloowusageIdAndCreated(deptname, id, start, end, pagination.getpageble());
             }
         } else if (deptname.equalsIgnoreCase("carding")) {
             if (id == null) {
-                return usageRepository.findByDeptNameAndCreatedBetween(deptname, start, end, pagination.getpageble());
+                return usageRepository.findByDeptNameAndCreatedDate(deptname, start, end, pagination.getpageble());
             } else {
-                return usageRepository.findByDeptNameAndCardingusageIdAndCreatedBetween(deptname, id, start, end, pagination.getpageble());
+                return usageRepository.findByDeptNameAndCardingusageIdAndCreated(deptname, id, start, end, pagination.getpageble());
             }
         } else if (deptname.equalsIgnoreCase("comber")) {
             if (id == null) {
-                return usageRepository.findByDeptNameAndCreatedBetween(deptname, start, end, pagination.getpageble());
+                return usageRepository.findByDeptNameAndCreatedDate(deptname, start, end, pagination.getpageble());
             } else {
-                return usageRepository.findByDeptNameAndComberusageIdAndCreatedBetween(deptname, id, start, end, pagination.getpageble());
+                return usageRepository.findByDeptNameAndComberusageIdAndCreated(deptname, id, start, end, pagination.getpageble());
             }
         } else if (deptname.equalsIgnoreCase("drawframe")) {
             if (id == null) {
-                return usageRepository.findByDeptNameAndCreatedBetween(deptname, start, end, pagination.getpageble());
+                return usageRepository.findByDeptNameAndCreatedDate(deptname, start, end, pagination.getpageble());
             } else {
-                return usageRepository.findByDeptNameAndDrawFramesMachineIdAndCreatedBetween(deptname, id, start, end, pagination.getpageble());
+                return usageRepository.findByDeptNameAndDrawFramesMachineIdAndCreated(deptname, id, start, end, pagination.getpageble());
             }
         } else if (deptname.equalsIgnoreCase("finisher")) {
             if (id == null) {
-                return usageRepository.findByDeptNameAndCreatedBetween(deptname, start, end, pagination.getpageble());
+                return usageRepository.findByDeptNameAndCreatedDate(deptname, start, end, pagination.getpageble());
             } else {
-                return usageRepository.findByDeptNameAndFinisherMachinedataIdAndCreatedBetween(deptname, id, start, end, pagination.getpageble());
+                return usageRepository.findByDeptNameAndFinisherMachinedataIdAndCreated(deptname, id, start, end, pagination.getpageble());
             }
         } else if (deptname.equalsIgnoreCase("lapformer")) {
             if (id == null) {
-                return usageRepository.findByDeptNameAndCreatedBetween(deptname, start, end, pagination.getpageble());
+                return usageRepository.findByDeptNameAndCreatedDate(deptname, start, end, pagination.getpageble());
             } else {
-                return usageRepository.findByDeptNameAndLapFormerusageIdAndCreatedBetween(deptname, id, start, end, pagination.getpageble());
+                return usageRepository.findByDeptNameAndLapFormerusageIdAndCreated(deptname, id, start, end, pagination.getpageble());
             }
         } else if (deptname.equalsIgnoreCase("ringframe")) {
             if (id == null) {
-                return usageRepository.findByDeptNameAndCreatedBetween(deptname, start, end, pagination.getpageble());
+                return usageRepository.findByDeptNameAndCreatedDate(deptname, start, end, pagination.getpageble());
             } else {
-                return usageRepository.findByDeptNameAndRingframeMachineusageIdAndCreatedBetween(deptname, id, start, end, pagination.getpageble());
+                return usageRepository.findByDeptNameAndRingframeMachineusageIdAndCreated(deptname, id, start, end, pagination.getpageble());
             }
         } else if (deptname.equalsIgnoreCase("packing")) {
             if (id == null) {
-                return usageRepository.findByDeptNameAndCreatedBetween(deptname, start, end, pagination.getpageble());
+                return usageRepository.findByDeptNameAndCreatedDate(deptname, start, end, pagination.getpageble());
             } else {
-                return usageRepository.findByDeptNameAndPackingMachineusageIdAndCreatedBetween(deptname, id, start, end, pagination.getpageble());
+                return usageRepository.findByDeptNameAndPackingMachineusageIdAndCreated(deptname, id, start, end, pagination.getpageble());
             }
         } else if (deptname.equalsIgnoreCase("speedframe")) {
             if (id == null) {
-                return usageRepository.findByDeptNameAndCreatedBetween(deptname, start, end, pagination.getpageble());
+                return usageRepository.findByDeptNameAndCreatedDate(deptname, start, end, pagination.getpageble());
             } else {
-                return usageRepository.findByDeptNameAndSimplexMachineusageIdAndCreatedBetween(deptname, id, start, end, pagination.getpageble());
+                return usageRepository.findByDeptNameAndSimplexMachineusageIdAndCreated(deptname, id, start, end, pagination.getpageble());
             }
         } else if (deptname.equalsIgnoreCase("utility")) {
             if (id == null) {
-                return usageRepository.findByDeptNameAndCreatedBetween(deptname, start, end, pagination.getpageble());
+                return usageRepository.findByDeptNameAndCreatedDate(deptname, start, end, pagination.getpageble());
             } else {
-                return usageRepository.findByDeptNameAndUtilliyMachineusageIdAndCreatedBetween(deptname, id, start, end, pagination.getpageble());
+                return usageRepository.findByDeptNameAndUtilliyMachineusageIdAndCreated(deptname, id, start, end, pagination.getpageble());
             }
         } else if (deptname.equalsIgnoreCase("wasteroom")) {
             if (id == null) {
-                return usageRepository.findByDeptNameAndCreatedBetween(deptname, start, end, pagination.getpageble());
+                return usageRepository.findByDeptNameAndCreatedDate(deptname, start, end, pagination.getpageble());
             } else {
-                return usageRepository.findByDeptNameAndWasteMachineusageIdAndCreatedBetween(deptname, id, start, end, pagination.getpageble());
+                return usageRepository.findByDeptNameAndWasteMachineusageIdAndCreated(deptname, id, start, end, pagination.getpageble());
             }
         } else if (deptname.equalsIgnoreCase("winding")) {
             if (id == null) {
-                return usageRepository.findByDeptNameAndCreatedBetween(deptname, start, end, pagination.getpageble());
+                return usageRepository.findByDeptNameAndCreatedDate(deptname, start, end, pagination.getpageble());
             } else {
-                return usageRepository.findByDeptNameAndWindingMachineusageIdAndCreatedBetween(deptname, id, start, end, pagination.getpageble());
+                return usageRepository.findByDeptNameAndWindingMachineusageIdAndCreated(deptname, id, start, end, pagination.getpageble());
             }
         }
 

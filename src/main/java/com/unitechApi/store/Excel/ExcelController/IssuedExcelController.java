@@ -1,9 +1,16 @@
 package com.unitechApi.store.Excel.ExcelController;
 
 import com.unitechApi.Payload.response.MessageResponse;
-import com.unitechApi.store.Excel.ReportExcelIssedMachine;
+import com.unitechApi.store.Excel.service.DepartmentWiseExcel;
+import com.unitechApi.store.Excel.service.IssueInItemExcel;
+import com.unitechApi.store.Excel.service.ReportExcelIssedMachine;
 import com.unitechApi.store.indent.Model.UsageItem;
 import com.unitechApi.store.indent.Repository.UsageRepository;
+import com.unitechApi.store.indent.Service.UsageService;
+import com.unitechApi.store.issue.Repository.IssueRepository;
+import com.unitechApi.store.issue.model.IssueItem;
+import com.unitechApi.store.unit.service.UnitService;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,6 +22,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.sql.Date;
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.List;
 
@@ -22,24 +30,63 @@ import java.util.List;
 @RequestMapping(value = "/unitech/api/v1/excel")
 public class IssuedExcelController {
     private final UsageRepository usageRepository;
-
-    public IssuedExcelController(UsageRepository usageRepository) {
+    private final IssueRepository issueRepository;
+    private final UsageService usageService;
+    public IssuedExcelController(UsageRepository usageRepository, IssueRepository issueRepository, UsageService usageService) {
         this.usageRepository = usageRepository;
+        this.issueRepository = issueRepository;
+        this.usageService = usageService;
     }
-    @GetMapping
+
+
+
+
+
     @GetMapping
     public ResponseEntity<?> downloadDept(@RequestParam String deptname,
                                           HttpServletResponse response) throws IOException {
         response.setContentType("application/octet-stream");
-        DateFormat dateFormat = new SimpleDateFormat("dd-mm-yyyy");
+        DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
         String currentDate = dateFormat.format(new java.util.Date());
 
         String headerKey = "Content-Disposition";
-        String headerValue = "attachment; filename=BloowRoomData" + currentDate + ".xlsx";
+        String headerValue = "attachment; filename=DepartmentData" + currentDate + ".xlsx";
         response.setHeader(headerKey, headerValue);
         List<UsageItem> listdata=usageRepository.findByDeptName(deptname);
         ReportExcelIssedMachine r=new ReportExcelIssedMachine(listdata);
         r.export(response);
+        return new ResponseEntity<>(new MessageResponse("upload SuccessFully"), HttpStatus.OK);
+    }
+    @GetMapping(value = "/issuedItem")
+    public ResponseEntity<?> downloadIssuedItem(@RequestParam String itemName,
+                                          @RequestParam Date start, @RequestParam Date end,
+                                          HttpServletResponse response) throws IOException {
+        response.setContentType("application/octet-stream");
+        DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+        String currentDate = dateFormat.format(new java.util.Date());
+        String headerKey = "Content-Disposition";
+        String headerValue = "attachment; filename=issuedItemData" + currentDate + ".xlsx";
+        response.setHeader(headerKey, headerValue);
+        List<IssueItem> listData=issueRepository.findByIssueDateBetween(start,end, Long.valueOf(itemName));
+        IssueInItemExcel issue=new IssueInItemExcel(listData);
+        issue.export(response);
+        return new ResponseEntity<>(new MessageResponse("upload SuccessFully"), HttpStatus.OK);
+    }
+    @GetMapping(value = "/departmentIssuedItem")
+    public ResponseEntity<?> downloadMachineWiseAndDate( @RequestParam(required = false) String deptname,
+                                                         @RequestParam(required = false) Long id
+            , @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") java.util.Date start
+            , @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") java.util.Date end,
+                                                HttpServletResponse response) throws IOException, ParseException {
+        response.setContentType("application/octet-stream");
+        DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+        String currentDate = dateFormat.format(new java.util.Date());
+        String headerKey = "Content-Disposition";
+        String headerValue = "attachment; filename=issuedItemData" + currentDate + ".xlsx";
+        response.setHeader(headerKey, headerValue);
+        List<UsageItem> listData=usageService.ExcelReportDate(deptname,id,start,end);
+        DepartmentWiseExcel issue=new DepartmentWiseExcel(listData);
+        issue.export(response);
         return new ResponseEntity<>(new MessageResponse("upload SuccessFully"), HttpStatus.OK);
     }
 

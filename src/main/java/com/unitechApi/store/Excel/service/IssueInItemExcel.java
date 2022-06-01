@@ -1,7 +1,8 @@
-package com.unitechApi.store.Excel;
+package com.unitechApi.store.Excel.service;
 
-import com.unitechApi.MachineSetParameter.model.BloowRoom;
+
 import com.unitechApi.store.indent.Model.UsageItem;
+import com.unitechApi.store.issue.model.IssueItem;
 import com.unitechApi.store.issue.model.IssueStatus;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFFont;
@@ -14,18 +15,16 @@ import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 
-public class ReportExcelIssedMachine {
+public class IssueInItemExcel {
     private XSSFWorkbook workbook;
     private XSSFSheet sheet;
-    private List<UsageItem> ListItem;
-
-    public ReportExcelIssedMachine(List<UsageItem> listData) {
+    private List<IssueItem> ListItem;
+    public IssueInItemExcel(List<IssueItem> listData) {
         this.ListItem = listData;
         workbook = new XSSFWorkbook();
     }
-
     private void writeHeaderLine() {
-        sheet = workbook.createSheet("BloowRoom Data");
+        sheet = workbook.createSheet("Issued Item Data");
         Row row = sheet.createRow(1);
         CellStyle style = workbook.createCellStyle();
         XSSFFont font = workbook.createFont();
@@ -41,7 +40,6 @@ public class ReportExcelIssedMachine {
         createCell(row, 6, "Status", style);
 
     }
-
     private void writeDataLine() {
 
         int rowcount = 2;
@@ -56,22 +54,21 @@ public class ReportExcelIssedMachine {
         font.setFontHeight(14);
         style.setAlignment(HorizontalAlignment.CENTER);
         style.setFont(font);
-        for (UsageItem usageItem : ListItem) {
+        for (IssueItem issueItem : ListItem) {
             Row row = sheet.createRow(rowcount++);
             int countRow = 1;
-            createCell(row, countRow++, usageItem.getIssuedItem().getIssueId(), style);
-            createCell(row, countRow++, usageItem.getIssuedItem().getStoreItemModel().getItemName(), style);
-            createCell(row, countRow++, usageItem.getIssuedItem().getDescription(), style);
-            createCell(row, countRow++, usageItem.getIssuedItem().getQuantity(), style);
-            createCell(row, countRow++, usageItem.getIssuedItem().getIssueDate(), style);
-            createCell(row, countRow++, usageItem.getIssuedItem().getStatus(), style);
+            createCell(row, countRow++, issueItem.getIssueId(), style);
+            createCell(row, countRow++, issueItem.getStoreItemModel().getItemName(), style);
+            createCell(row, countRow++, issueItem.getDescription(), style);
+            createCell(row, countRow++, issueItem.getQuantity(), style);
+            createCell(row, countRow++, issueItem.getIssueDate().toString(), style);
+            createCell(row, countRow++, issueItem.getStatus(), style);
         }
     }
-
     private void createCell(Row row, int i, Object value, CellStyle style) {
         CellStyle cellStyle = workbook.createCellStyle();
         CreationHelper createHelper = workbook.getCreationHelper();
-        cellStyle.setDataFormat(createHelper.createDataFormat().getFormat("m/d/yy h:mm"));
+        cellStyle.setDataFormat(createHelper.createDataFormat().getFormat("MMM/dd/yyyy hh:mm:ss"));
         sheet.autoSizeColumn(i);
         Cell cell = row.createCell(i);
 
