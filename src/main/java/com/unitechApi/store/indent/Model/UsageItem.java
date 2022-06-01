@@ -15,7 +15,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "usageItem",schema = "store_management")
-@JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.PROTECTED_AND_PUBLIC)
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class UsageItem {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

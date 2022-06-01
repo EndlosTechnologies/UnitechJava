@@ -35,13 +35,13 @@ public class UsageService {
 
 
     public Page<UsageItem> findByCardingDataAndDeptName(String deptname, Long id, Date start, Date end, Pagination pagination) {
-        if (deptname.equalsIgnoreCase("Bloowrom")) {
+        if (deptname.equalsIgnoreCase("bloowroom")) {
             if (id == null) {
                 return usageRepository.findByDeptNameAndCreatedBetween(deptname, start, end, pagination.getpageble());
             } else {
                 return usageRepository.findByDeptNameAndBloowusageIdAndCreatedBetween(deptname, id, start, end, pagination.getpageble());
             }
-        } else if (deptname.equalsIgnoreCase("Carding")) {
+        } else if (deptname.equalsIgnoreCase("carding")) {
             if (id == null) {
                 return usageRepository.findByDeptNameAndCreatedBetween(deptname, start, end, pagination.getpageble());
             } else {
@@ -53,7 +53,7 @@ public class UsageService {
             } else {
                 return usageRepository.findByDeptNameAndComberusageIdAndCreatedBetween(deptname, id, start, end, pagination.getpageble());
             }
-        } else if (deptname.equalsIgnoreCase("drawframes")) {
+        } else if (deptname.equalsIgnoreCase("drawframe")) {
             if (id == null) {
                 return usageRepository.findByDeptNameAndCreatedBetween(deptname, start, end, pagination.getpageble());
             } else {
@@ -83,19 +83,19 @@ public class UsageService {
             } else {
                 return usageRepository.findByDeptNameAndPackingMachineusageIdAndCreatedBetween(deptname, id, start, end, pagination.getpageble());
             }
-        } else if (deptname.equalsIgnoreCase("simplex")) {
+        } else if (deptname.equalsIgnoreCase("speedframe")) {
             if (id == null) {
                 return usageRepository.findByDeptNameAndCreatedBetween(deptname, start, end, pagination.getpageble());
             } else {
                 return usageRepository.findByDeptNameAndSimplexMachineusageIdAndCreatedBetween(deptname, id, start, end, pagination.getpageble());
             }
-        } else if (deptname.equalsIgnoreCase("utillity")) {
+        } else if (deptname.equalsIgnoreCase("utility")) {
             if (id == null) {
                 return usageRepository.findByDeptNameAndCreatedBetween(deptname, start, end, pagination.getpageble());
             } else {
                 return usageRepository.findByDeptNameAndUtilliyMachineusageIdAndCreatedBetween(deptname, id, start, end, pagination.getpageble());
             }
-        } else if (deptname.equalsIgnoreCase("waste")) {
+        } else if (deptname.equalsIgnoreCase("wasteroom")) {
             if (id == null) {
                 return usageRepository.findByDeptNameAndCreatedBetween(deptname, start, end, pagination.getpageble());
             } else {

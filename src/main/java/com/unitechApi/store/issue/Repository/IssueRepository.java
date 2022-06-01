@@ -16,8 +16,8 @@ public interface IssueRepository extends JpaRepository<IssueItem,Long> {
     @Query("select c from IssueItem c where DATE(c.issueDate) =?1")
     List<IssueItem> findByIssueDate(Date date);
     List<IssueItem> findByisRaised(boolean data);
-    @Query("select c from IssueItem c where DATE(c.issueDate) between :start and :end")
-    List<IssueItem> findByIssueDateBetween(Date start,Date end);
+    @Query("select c from IssueItem c where DATE(c.issueDate) between :start and :end and c.storeItemModel.itemId = :itemId")
+    List<IssueItem> findByIssueDateBetween(Date start,Date end,Long itemId);
     //List<IssueItem> findByisRaisedFalse(boolean data);
     Optional<IssueItem>  findByCloseresid(Long id);
 //    void findByIssueIdAndStoreItemModelItemId

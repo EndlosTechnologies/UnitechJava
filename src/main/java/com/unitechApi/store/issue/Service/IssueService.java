@@ -91,8 +91,8 @@ public class IssueService {
         return issueRepository.findByisRaised(data);
     }
 
-    public List<IssueItem> FindByIssueDateBetween(Date start, Date end) {
-        return issueRepository.findByIssueDateBetween(start, end);
+    public List<IssueItem> FindByIssueDateBetween(Date start, Date end, Long itemId) {
+        return issueRepository.findByIssueDateBetween(start, end, itemId);
     }
 
     public Optional<IssueItem> FindByCloseId(Long id) {

@@ -19,7 +19,8 @@ import java.util.stream.BaseStream;
 import java.util.stream.Stream;
 
 @RestController
-@RequestMapping(value = "/unitech/api/v1/itemusage/")
+@CrossOrigin
+@RequestMapping(value = "/unitech/api/v1/itemusage")
 public class UsageController {
     private static final Logger log = LoggerFactory.getLogger(UsageController.class);
     private final UsageService usageService;
@@ -34,7 +35,7 @@ public class UsageController {
         return new ResponseEntity<>(new MessageResponse("save Data "), HttpStatus.CREATED);
     }
 
-    @GetMapping("data")
+    @GetMapping("/data")
     public ResponseEntity<?> FindAlle() {
         BaseStream<UsageItem, Stream<UsageItem>> data = usageService.FindAll();
         return new ResponseEntity<>(PageResponse.SuccessResponse(data), HttpStatus.OK);
@@ -46,7 +47,7 @@ public class UsageController {
         return new ResponseEntity<>(PageResponse.SuccessResponse(data), HttpStatus.OK);
     }
 
-    @GetMapping("bDeptname")
+    @GetMapping("/bDeptname")
     public ResponseEntity<?> findByCarding(
             @RequestParam(required = false) String deptname, @RequestParam(required = false) Long id
             , @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") Date start

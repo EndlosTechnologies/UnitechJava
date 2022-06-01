@@ -10,6 +10,7 @@ import java.util.Date;
 
 @Entity
 @Table(name = "indent",schema = "store_management")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Indent {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
