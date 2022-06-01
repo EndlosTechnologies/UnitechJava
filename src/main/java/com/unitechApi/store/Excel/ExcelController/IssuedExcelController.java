@@ -26,7 +26,7 @@ public class IssuedExcelController {
     public IssuedExcelController(UsageRepository usageRepository) {
         this.usageRepository = usageRepository;
     }
-
+    @GetMapping
     @GetMapping
     public ResponseEntity<?> downloadDept(@RequestParam String deptname,
                                           HttpServletResponse response) throws IOException {

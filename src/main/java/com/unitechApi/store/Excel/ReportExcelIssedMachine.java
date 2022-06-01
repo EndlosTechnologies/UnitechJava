@@ -19,10 +19,11 @@ public class ReportExcelIssedMachine {
     private XSSFSheet sheet;
     private List<UsageItem> ListItem;
 
-    public ReportExcelIssedMachine(List<UsageItem> listData){
-        this.ListItem=listData;
-        workbook=new XSSFWorkbook();
+    public ReportExcelIssedMachine(List<UsageItem> listData) {
+        this.ListItem = listData;
+        workbook = new XSSFWorkbook();
     }
+
     private void writeHeaderLine() {
         sheet = workbook.createSheet("BloowRoom Data");
         Row row = sheet.createRow(1);
@@ -40,6 +41,7 @@ public class ReportExcelIssedMachine {
         createCell(row, 6, "Status", style);
 
     }
+
     private void writeDataLine() {
 
         int rowcount = 2;
@@ -49,12 +51,12 @@ public class ReportExcelIssedMachine {
 //        Row rowHeader2 = sheet.createRow(2);
 //        CellStyle styleHeader = workbook.createCellStyle();
 //        CellStyle styleHeader2 = workbook.createCellStyle();
-        XSSFFont font=workbook.createFont();
-        CellStyle style= workbook.createCellStyle();
+        XSSFFont font = workbook.createFont();
+        CellStyle style = workbook.createCellStyle();
         font.setFontHeight(14);
         style.setAlignment(HorizontalAlignment.CENTER);
         style.setFont(font);
-        for (UsageItem usageItem :ListItem) {
+        for (UsageItem usageItem : ListItem) {
             Row row = sheet.createRow(rowcount++);
             int countRow = 1;
             createCell(row, countRow++, usageItem.getIssuedItem().getIssueId(), style);
@@ -65,32 +67,37 @@ public class ReportExcelIssedMachine {
             createCell(row, countRow++, usageItem.getIssuedItem().getStatus(), style);
         }
     }
-    private void createCell(Row row, int i, Object value, CellStyle style) {
 
+    private void createCell(Row row, int i, Object value, CellStyle style) {
+        CellStyle cellStyle = workbook.createCellStyle();
+        CreationHelper createHelper = workbook.getCreationHelper();
+        cellStyle.setDataFormat(createHelper.createDataFormat().getFormat("m/d/yy h:mm"));
         sheet.autoSizeColumn(i);
-        Cell cell= row.createCell(i);
-        if (value instanceof Long){
+        Cell cell = row.createCell(i);
+
+        if (value instanceof Long) {
             cell.setCellValue((Long) value);
-        }else if (value instanceof Boolean){
+        } else if (value instanceof Boolean) {
             cell.setCellValue((Boolean) value);
-        }else if (value instanceof Float){
+        } else if (value instanceof Float) {
             cell.setCellValue(String.valueOf(value));
-        }else if(value instanceof Integer) {
+        } else if (value instanceof Integer) {
             cell.setCellValue((Integer) value);
-        }else if(value instanceof Date) {
+        } else if (value instanceof Date) {
             cell.setCellValue((Date) value);
-        }else if(value instanceof IssueStatus) {
-            cell.setCellValue((String.valueOf(value)) );
-        }
-        else {
+            cell.setCellStyle(cellStyle);
+        } else if (value instanceof IssueStatus) {
+            cell.setCellValue((String.valueOf(value)));
+        } else {
             cell.setCellValue((String) value);
         }
         cell.setCellStyle(style);
     }
+
     public void export(HttpServletResponse response) throws IOException {
         writeHeaderLine();
         writeDataLine();
-        ServletOutputStream outputStream=response.getOutputStream();
+        ServletOutputStream outputStream = response.getOutputStream();
         workbook.write(outputStream);
         workbook.close();
         outputStream.close();
