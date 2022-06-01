@@ -6,6 +6,7 @@ import com.unitechApi.store.indent.Model.UsageItem;
 import com.unitechApi.store.indent.Repository.UsageRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -26,6 +27,7 @@ public class IssuedExcelController {
         this.usageRepository = usageRepository;
     }
 
+    @GetMapping
     public ResponseEntity<?> downloadDept(@RequestParam String deptname,
                                           HttpServletResponse response) throws IOException {
         response.setContentType("application/octet-stream");

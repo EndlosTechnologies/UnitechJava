@@ -2,10 +2,8 @@ package com.unitechApi.store.Excel;
 
 import com.unitechApi.MachineSetParameter.model.BloowRoom;
 import com.unitechApi.store.indent.Model.UsageItem;
-import org.apache.poi.ss.usermodel.Cell;
-import org.apache.poi.ss.usermodel.CellStyle;
-import org.apache.poi.ss.usermodel.HorizontalAlignment;
-import org.apache.poi.ss.usermodel.Row;
+import com.unitechApi.store.issue.model.IssueStatus;
+import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFFont;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -13,6 +11,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Date;
 import java.util.List;
 
 public class ReportExcelIssedMachine {
@@ -26,7 +25,7 @@ public class ReportExcelIssedMachine {
     }
     private void writeHeaderLine() {
         sheet = workbook.createSheet("BloowRoom Data");
-        Row row = sheet.createRow(5);
+        Row row = sheet.createRow(1);
         CellStyle style = workbook.createCellStyle();
         XSSFFont font = workbook.createFont();
         font.setBold(true);
@@ -43,7 +42,7 @@ public class ReportExcelIssedMachine {
     }
     private void writeDataLine() {
 
-        int rowcount = 6;
+        int rowcount = 2;
 
 //        XSSFFont fontHeader = workbook.createFont();
 //        Row rowHeader = sheet.createRow(4);
@@ -76,6 +75,12 @@ public class ReportExcelIssedMachine {
             cell.setCellValue((Boolean) value);
         }else if (value instanceof Float){
             cell.setCellValue(String.valueOf(value));
+        }else if(value instanceof Integer) {
+            cell.setCellValue((Integer) value);
+        }else if(value instanceof Date) {
+            cell.setCellValue((Date) value);
+        }else if(value instanceof IssueStatus) {
+            cell.setCellValue((String.valueOf(value)) );
         }
         else {
             cell.setCellValue((String) value);
