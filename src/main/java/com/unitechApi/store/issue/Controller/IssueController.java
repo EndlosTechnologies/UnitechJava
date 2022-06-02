@@ -14,7 +14,7 @@ import java.util.List;
 
 @RestController
 @CrossOrigin
-@RequestMapping(value = "/unitech/api/v1/issue")
+    @RequestMapping(value = "/unitech/api/v1/issue")
 public class IssueController {
     private final IssueService issueService;
 

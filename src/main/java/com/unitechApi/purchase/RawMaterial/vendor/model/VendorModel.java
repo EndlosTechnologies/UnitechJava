@@ -26,6 +26,7 @@ public class VendorModel {
     private String gstno;
     @Column(name = "panno")
     private String panno;
+    private String paymentTermsConditions;
 
     @Temporal(TemporalType.TIMESTAMP)
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
@@ -104,5 +105,11 @@ public class VendorModel {
         this.panno = panno;
     }
 
+    public String getPaymentTermsConditions() {
+        return paymentTermsConditions;
+    }
 
+    public void setPaymentTermsConditions(String paymentTermsConditions) {
+        this.paymentTermsConditions = paymentTermsConditions;
+    }
 }

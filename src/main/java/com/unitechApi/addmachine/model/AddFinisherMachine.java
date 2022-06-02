@@ -14,6 +14,7 @@ import java.util.Set;
 @Table(name = "add_finisher", schema = "AddMachine")
 @NoArgsConstructor
 @AllArgsConstructor
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class AddFinisherMachine {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "id")

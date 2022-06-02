@@ -13,6 +13,7 @@ import java.util.Set;
 @Table(name = "add_wasteroom", schema = "AddMachine")
 @NoArgsConstructor
 @AllArgsConstructor
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class AddWasteRoomeMAchine {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "id")

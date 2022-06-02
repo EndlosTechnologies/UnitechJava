@@ -13,6 +13,8 @@ import java.util.Set;
 @Table(name = "add_packing", schema = "AddMachine")
 @NoArgsConstructor
 @AllArgsConstructor
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+
 public class AddPackingMachine {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "id")

@@ -43,7 +43,7 @@ public class IssueItem extends Audit<String> {
     @JsonIgnoreProperties("issue")
     private Set<Indent> indents;
     @OneToMany(mappedBy = "issuedItem",cascade = CascadeType.ALL)
-    @JsonIgnoreProperties("issuedItem")
+    @JsonIgnoreProperties({"issuedItem","bloowusage","cardingusage"})
     private Set<UsageItem> usageItems;
 
     public Set<UsageItem> getUsageItems() {

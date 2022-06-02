@@ -217,18 +217,18 @@ public class UsageItem {
                 ", deptName='" + deptName + '\'' +
                 ", created=" + created +
                 ", issuedItem=" + issuedItem +
-                ", bloowusage=" + bloowusage +
-                ", cardingusage=" + cardingusage +
-                ", comberusage=" + comberusage +
+                ", bloow usage=" + bloowusage +
+                ", carding usage=" + cardingusage +
+                ", comber-usage=" + comberusage +
                 ", drawFramesMachine=" + drawFramesMachine +
-                ", finisherMachinedata=" + finisherMachinedata +
-                ", lapFormerusage=" + lapFormerusage +
-                ", packingMachineusage=" + packingMachineusage +
-                ", ringframeMachineusage=" + ringframeMachineusage +
-                ", simplexMachineusage=" + simplexMachineusage +
-                ", utilliyMachineusage=" + utilliyMachineusage +
-                ", wasteMachineusage=" + wasteMachineusage +
-                ", windingMachineusage=" + windingMachineusage +
+                ", finisherMachine-data=" + finisherMachinedata +
+                ", lapFormer usage=" + lapFormerusage +
+                ", packingMachine usage=" + packingMachineusage +
+                ", ring-frameMachine usage=" + ringframeMachineusage +
+                ", simplexMachine usage=" + simplexMachineusage +
+                ", utilityMachine usage=" + utilliyMachineusage +
+                ", wasteMachine usage=" + wasteMachineusage +
+                ", windingMachine usage=" + windingMachineusage +
                 '}';
     }
 }

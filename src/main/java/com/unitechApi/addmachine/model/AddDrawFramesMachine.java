@@ -14,7 +14,7 @@ import java.util.Set;
 @Table(name = "add_DrawFrames", schema = "AddMachine")
 @NoArgsConstructor
 @AllArgsConstructor
-@JsonIgnoreProperties(ignoreUnknown = true)
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class AddDrawFramesMachine {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "id")

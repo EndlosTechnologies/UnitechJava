@@ -13,6 +13,8 @@ import java.util.Set;
 @Table(name = "add_ringframes", schema = "AddMachine")
 @NoArgsConstructor
 @AllArgsConstructor
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+
 public class AddRingFramesMachine {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "id")
