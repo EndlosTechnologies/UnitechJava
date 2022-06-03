@@ -75,7 +75,7 @@ public class IndentService {
     public List<Indent> findAll() {
         return indentRepository.findAll()
                 .stream()
-                .sorted(Comparator.comparing(Indent::getIndentId)).collect(Collectors.toList());
+                .sorted(Comparator.comparing(Indent::getIndentId).reversed()).collect(Collectors.toList());
     }
 
 
@@ -83,6 +83,9 @@ public class IndentService {
         return indentRepository.findByCreated(date);
     }
     public List<Indent> findByStatus(IndentStatus indentStatus) {
-        return indentRepository.findByIndentStatus(indentStatus);
+        return indentRepository.findByIndentStatus(indentStatus)
+                .stream()
+                .sorted(Comparator.comparing(Indent::getIndentId).reversed())
+                .collect(Collectors.toList());
     }
 }

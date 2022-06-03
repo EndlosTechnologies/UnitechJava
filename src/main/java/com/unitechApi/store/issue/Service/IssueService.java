@@ -41,7 +41,7 @@ public class IssueService {
     public List<IssueItem> findAll() {
         return issueRepository.findAll()
                 .stream()
-                .sorted(Comparator.comparing(IssueItem::getIssueId))
+                .sorted(Comparator.comparing(IssueItem::getIssueId).reversed())
                 .collect(Collectors.toList());
     }
 
@@ -80,7 +80,11 @@ public class IssueService {
     }
 
     public List<IssueItem> FindByStatus(IssueStatus status) {
-        return issueRepository.findByStatus(status);
+
+        return issueRepository.findByStatus(status)
+                .stream()
+                .sorted(Comparator.comparing(IssueItem::getIssueId).reversed())
+                .collect(Collectors.toList());
     }
 
     public List<IssueItem> findByIssueData(Date dateTime) {
