@@ -31,19 +31,21 @@ public class IssueItem extends Audit<String> {
     private int requiredDays;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(foreignKey = @ForeignKey(name = "item_id"), name = "item_id", referencedColumnName = "itemId")
-    @JsonIgnoreProperties({"issueItem","itemRequest"})
+    @JsonIgnoreProperties({"issueItem","itemRequest","employe","itemModelSet"})
     private StoreItemModel storeItemModel;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(foreignKey = @ForeignKey(name = "emp_id"), name = "emp_id", referencedColumnName = "user_profile_id")
-    @JsonIgnoreProperties("issueItemsData")
-    private User Emp;
+    @JsonIgnoreProperties({"issueItemsData","itemModelSet"
+            ,"userQualificationData","passwordEntity","hrModel","userExperienceData","indentData"
+               ,"familyDetails" })
+    private User emp;
 
     @OneToMany(mappedBy = "issue",cascade = CascadeType.ALL)
-    @JsonIgnoreProperties("issue")
+    @JsonIgnoreProperties({"issue","itemModelSet","employee"})
     private Set<Indent> indents;
     @OneToMany(mappedBy = "issuedItem",cascade = CascadeType.ALL)
-    @JsonIgnoreProperties({"issuedItem","bloowusage","cardingusage"})
+    @JsonIgnoreProperties({"issuedItem","bloowusage","cardingusage","itemModelSet"})
     private Set<UsageItem> usageItems;
 
     public Set<UsageItem> getUsageItems() {
@@ -68,11 +70,11 @@ public class IssueItem extends Audit<String> {
     }
 
     public User getEmp() {
-        return Emp;
+        return emp;
     }
 
     public void setEmp(User emp) {
-        Emp = emp;
+        this.emp = emp;
     }
 
     public void setIssueDate(Date issueDate) {
@@ -173,7 +175,7 @@ public class IssueItem extends Audit<String> {
                 ", isRaised=" + isRaised +
                 ", requiredDays=" + requiredDays +
                 ", storeItemModel=" + storeItemModel +
-                ", Emp=" + Emp +
+                ", Emp=" + emp +
                 '}';
     }
 }

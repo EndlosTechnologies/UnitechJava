@@ -34,17 +34,17 @@ public class Indent {
     }
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(foreignKey = @ForeignKey(name = "item_id"),name = "item_id",referencedColumnName = "itemId")
-    @JsonIgnoreProperties({"itemRequest","issueItem"})
+    @JsonIgnoreProperties({"itemRequest","issueItem","employe"})
     private StoreItemModel storeItem;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(foreignKey = @ForeignKey(name = "emp_id"),name = "emp_id",referencedColumnName = "user_profile_id")
-    @JsonIgnoreProperties({"indentData","itemRequest"})
+    @JsonIgnoreProperties({"indentData","itemRequest","itemModelSet","issueItemsData"})
     private User employee;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(foreignKey = @ForeignKey(name = "issue_id"),name = "issue_id",referencedColumnName = "issueId")
-    @JsonIgnoreProperties({"indents","itemRequest","storeItemModel","usageItems"})
+    @JsonIgnoreProperties({"indents","itemRequest","storeItemModel","usageItems","emp"})
     private IssueItem issue;
 
     public Long getEstimatedPrice() {

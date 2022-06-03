@@ -1,10 +1,7 @@
 package com.unitechApi.user.model;
 
 
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import com.fasterxml.jackson.annotation.*;
 import com.unitechApi.AuditingAndResponse.Audit;
 import com.unitechApi.store.Response.Model.ResEntity;
 import com.unitechApi.store.indent.Model.Indent;
@@ -119,6 +116,7 @@ public class User extends Audit<String> {
 
     @OneToOne(mappedBy = "user",cascade = CascadeType.ALL)
     @JsonManagedReference
+    @JsonIgnore
     private PasswordEntity passwordEntity;
 
 
@@ -132,8 +130,8 @@ public class User extends Audit<String> {
     @JsonManagedReference
     private Set<ExperienceModel> userExperienceData;
 
-    @OneToMany(mappedBy = "Emp",cascade = CascadeType.ALL)
-    @JsonIgnoreProperties("Emp")
+    @OneToMany(mappedBy = "emp",cascade = CascadeType.ALL)
+    @JsonIgnoreProperties("emp")
     private Set<IssueItem> issueItemsData;
 
     @OneToMany(mappedBy = "employe",cascade = CascadeType.ALL)

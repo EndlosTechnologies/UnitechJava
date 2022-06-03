@@ -62,7 +62,7 @@ public class StoreItemModel extends Audit<String> {
     @JsonIgnoreProperties({"itemModelSet","issueItemsData","itemRequest"})
     private User employe;
     @OneToMany(mappedBy = "storeItem", cascade = CascadeType.ALL)
-    @JsonIgnoreProperties("storeItem")
+    @JsonIgnoreProperties({"storeItem","employee"})
     private Set<Indent> itemRequest;
 
     public User getEmploye() {
