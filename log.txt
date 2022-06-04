@@ -1,0 +1,371 @@
+2022-06-04 11:19:53.701  INFO 11743 --- [restartedMain] com.unitechApi.UnitechApplication        : Starting UnitechApplication using Java 17.0.3.1 on endlos-H410M-S2-V2 with PID 11743 (/home/endlos/Music/unitech/target/classes started by endlos in /home/endlos/Music/unitech)
+2022-06-04 11:19:53.702 DEBUG 11743 --- [restartedMain] com.unitechApi.UnitechApplication        : Running with Spring Boot v2.6.7, Spring v5.3.19
+2022-06-04 11:19:53.702  INFO 11743 --- [restartedMain] com.unitechApi.UnitechApplication        : The following 1 profile is active: "dev"
+2022-06-04 11:19:53.733  INFO 11743 --- [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2022-06-04 11:19:53.733  INFO 11743 --- [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2022-06-04 11:19:54.262  INFO 11743 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2022-06-04 11:19:54.344  INFO 11743 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 75 ms. Found 49 JPA repository interfaces.
+2022-06-04 11:19:54.671  INFO 11743 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 9090 (http)
+2022-06-04 11:19:54.675  INFO 11743 --- [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2022-06-04 11:19:54.675  INFO 11743 --- [restartedMain] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.62]
+2022-06-04 11:19:54.700  INFO 11743 --- [restartedMain] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2022-06-04 11:19:54.700  INFO 11743 --- [restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 967 ms
+2022-06-04 11:19:54.793  WARN 11743 --- [restartedMain] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2022-06-04 11:19:54.860  INFO 11743 --- [restartedMain] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2022-06-04 11:19:54.877  INFO 11743 --- [restartedMain] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 5.6.8.Final
+2022-06-04 11:19:54.934  INFO 11743 --- [restartedMain] o.hibernate.annotations.common.Version   : HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
+2022-06-04 11:19:54.981  INFO 11743 --- [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2022-06-04 11:19:55.112  INFO 11743 --- [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2022-06-04 11:19:55.121  INFO 11743 --- [restartedMain] org.hibernate.dialect.Dialect            : HHH000400: Using dialect: org.hibernate.dialect.PostgreSQL10Dialect
+2022-06-04 11:19:56.152  INFO 11743 --- [restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2022-06-04 11:19:56.156  INFO 11743 --- [restartedMain] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2022-06-04 11:19:56.503 DEBUG 11743 --- [restartedMain] com.unitechApi.jwt.AuthTokenFilter       : Filter 'authenticationJwtTokenFilter' configured for use
+2022-06-04 11:19:57.842  INFO 11743 --- [restartedMain] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 1 endpoint(s) beneath base path '/actuator'
+2022-06-04 11:19:57.860  INFO 11743 --- [restartedMain] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with [org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@6f592183, org.springframework.security.web.context.SecurityContextPersistenceFilter@555452f9, org.springframework.security.web.header.HeaderWriterFilter@4d4dae5b, org.springframework.web.filter.CorsFilter@6740dddb, org.springframework.security.web.authentication.logout.LogoutFilter@6f5baa0b, com.unitechApi.jwt.AuthTokenFilter@65bb008c, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@424f7540, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@71215fd7, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@141a85d5, org.springframework.security.web.session.SessionManagementFilter@159209a0, org.springframework.security.web.access.ExceptionTranslationFilter@2c3ca692, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@4a07d53f]
+2022-06-04 11:19:57.988  INFO 11743 --- [restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : LiveReload server is running on port 35729
+2022-06-04 11:19:58.023  INFO 11743 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 9090 (http) with context path ''
+2022-06-04 11:19:58.024  INFO 11743 --- [restartedMain] o.s.m.s.b.SimpleBrokerMessageHandler     : Starting...
+2022-06-04 11:19:58.024  INFO 11743 --- [restartedMain] o.s.m.s.b.SimpleBrokerMessageHandler     : BrokerAvailabilityEvent[available=true, SimpleBrokerMessageHandler [org.springframework.messaging.simp.broker.DefaultSubscriptionRegistry@7515b4f0]]
+2022-06-04 11:19:58.024  INFO 11743 --- [restartedMain] o.s.m.s.b.SimpleBrokerMessageHandler     : Started.
+2022-06-04 11:19:58.035  INFO 11743 --- [restartedMain] com.unitechApi.UnitechApplication        : Started UnitechApplication in 4.513 seconds (JVM running for 4.817)
+2022-06-04 11:19:59.014  INFO 11743 --- [RMI TCP Connection(1)-127.0.0.1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2022-06-04 11:19:59.014  INFO 11743 --- [RMI TCP Connection(1)-127.0.0.1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2022-06-04 11:19:59.016  INFO 11743 --- [RMI TCP Connection(1)-127.0.0.1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 2 ms
+2022-06-04 11:20:57.582  INFO 11743 --- [MessageBroker-1] o.s.w.s.c.WebSocketMessageBrokerStats    : WebSocketSession[0 current WS(0)-HttpStream(0)-HttpPoll(0), 0 total, 0 closed abnormally (0 connect failure, 0 send limit, 0 transport error)], stompSubProtocol[processed CONNECT(0)-CONNECTED(0)-DISCONNECT(0)], stompBrokerRelay[null], inboundChannel[pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 0], outboundChannel[pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 0], sockJsScheduler[pool size = 1, active threads = 1, queued tasks = 0, completed tasks = 0]
+2022-06-04 11:22:42.891  WARN 11743 --- [http-nio-9090-exec-5] .m.m.a.ExceptionHandlerExceptionResolver : Resolved [org.springframework.web.method.annotation.MethodArgumentTypeMismatchException: Failed to convert value of type 'java.lang.String' to required type 'long'; nested exception is java.lang.NumberFormatException: For input string: "req"]
+2022-06-04 11:23:41.379  INFO 11743 --- [Thread-5] o.s.m.s.b.SimpleBrokerMessageHandler     : Stopping...
+2022-06-04 11:23:41.380  INFO 11743 --- [Thread-5] o.s.m.s.b.SimpleBrokerMessageHandler     : BrokerAvailabilityEvent[available=false, SimpleBrokerMessageHandler [org.springframework.messaging.simp.broker.DefaultSubscriptionRegistry@7515b4f0]]
+2022-06-04 11:23:41.381  INFO 11743 --- [Thread-5] o.s.m.s.b.SimpleBrokerMessageHandler     : Stopped.
+2022-06-04 11:23:41.421  INFO 11743 --- [Thread-5] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2022-06-04 11:23:41.423  INFO 11743 --- [Thread-5] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2022-06-04 11:23:41.431  INFO 11743 --- [Thread-5] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+2022-06-04 11:23:54.028  INFO 11743 --- [restartedMain] com.unitechApi.UnitechApplication        : Starting UnitechApplication using Java 17.0.3.1 on endlos-H410M-S2-V2 with PID 11743 (/home/endlos/Music/unitech/target/classes started by endlos in /home/endlos/Music/unitech)
+2022-06-04 11:23:54.028 DEBUG 11743 --- [restartedMain] com.unitechApi.UnitechApplication        : Running with Spring Boot v2.6.7, Spring v5.3.19
+2022-06-04 11:23:54.029  INFO 11743 --- [restartedMain] com.unitechApi.UnitechApplication        : The following 1 profile is active: "prod"
+2022-06-04 11:23:54.031 ERROR 11743 --- [restartedMain] o.s.boot.SpringApplication               : Application run failed
+
+java.lang.NoClassDefFoundError: com/unitechApi/user/Repository/RoleRepository
+	at java.base/java.lang.Class.getDeclaredConstructors0(Native Method) ~[na:na]
+	at java.base/java.lang.Class.privateGetDeclaredConstructors(Class.java:3373) ~[na:na]
+	at java.base/java.lang.Class.getDeclaredConstructors(Class.java:2555) ~[na:na]
+	at org.springframework.boot.BeanDefinitionLoader.hasNoConstructors(BeanDefinitionLoader.java:306) ~[spring-boot-2.6.7.jar:2.6.7]
+	at org.springframework.boot.BeanDefinitionLoader.isEligible(BeanDefinitionLoader.java:298) ~[spring-boot-2.6.7.jar:2.6.7]
+	at org.springframework.boot.BeanDefinitionLoader.load(BeanDefinitionLoader.java:170) ~[spring-boot-2.6.7.jar:2.6.7]
+	at org.springframework.boot.BeanDefinitionLoader.load(BeanDefinitionLoader.java:146) ~[spring-boot-2.6.7.jar:2.6.7]
+	at org.springframework.boot.BeanDefinitionLoader.load(BeanDefinitionLoader.java:139) ~[spring-boot-2.6.7.jar:2.6.7]
+	at org.springframework.boot.SpringApplication.load(SpringApplication.java:685) ~[spring-boot-2.6.7.jar:2.6.7]
+	at org.springframework.boot.SpringApplication.prepareContext(SpringApplication.java:407) ~[spring-boot-2.6.7.jar:2.6.7]
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:302) ~[spring-boot-2.6.7.jar:2.6.7]
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1312) ~[spring-boot-2.6.7.jar:2.6.7]
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1301) ~[spring-boot-2.6.7.jar:2.6.7]
+	at com.unitechApi.UnitechApplication.main(UnitechApplication.java:34) ~[classes/:na]
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[na:na]
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77) ~[na:na]
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[na:na]
+	at java.base/java.lang.reflect.Method.invoke(Method.java:568) ~[na:na]
+	at org.springframework.boot.devtools.restart.RestartLauncher.run(RestartLauncher.java:49) ~[spring-boot-devtools-2.6.7.jar:2.6.7]
+Caused by: java.lang.ClassNotFoundException: com.unitechApi.user.Repository.RoleRepository
+	at java.base/jdk.internal.loader.BuiltinClassLoader.loadClass(BuiltinClassLoader.java:641) ~[na:na]
+	at java.base/jdk.internal.loader.ClassLoaders$AppClassLoader.loadClass(ClassLoaders.java:188) ~[na:na]
+	at java.base/java.lang.ClassLoader.loadClass(ClassLoader.java:520) ~[na:na]
+	... 19 common frames omitted
+
+2022-06-04 11:23:58.472  INFO 11743 --- [restartedMain] com.unitechApi.UnitechApplication        : Starting UnitechApplication using Java 17.0.3.1 on endlos-H410M-S2-V2 with PID 11743 (/home/endlos/Music/unitech/target/classes started by endlos in /home/endlos/Music/unitech)
+2022-06-04 11:23:58.472 DEBUG 11743 --- [restartedMain] com.unitechApi.UnitechApplication        : Running with Spring Boot v2.6.7, Spring v5.3.19
+2022-06-04 11:23:58.472  INFO 11743 --- [restartedMain] com.unitechApi.UnitechApplication        : The following 1 profile is active: "prod"
+2022-06-04 11:23:58.703  INFO 11743 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2022-06-04 11:23:58.754  INFO 12685 --- [main] com.unitechApi.UnitechApplicationTests   : Starting UnitechApplicationTests using Java 17.0.3.1 on endlos-H410M-S2-V2 with PID 12685 (started by endlos in /home/endlos/Music/unitech)
+2022-06-04 11:23:58.755 DEBUG 12685 --- [main] com.unitechApi.UnitechApplicationTests   : Running with Spring Boot v2.6.7, Spring v5.3.19
+2022-06-04 11:23:58.755  INFO 12685 --- [main] com.unitechApi.UnitechApplicationTests   : The following 1 profile is active: "prod"
+2022-06-04 11:23:58.756  INFO 11743 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 52 ms. Found 49 JPA repository interfaces.
+2022-06-04 11:23:58.858  INFO 11743 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 9292 (http)
+2022-06-04 11:23:58.859  INFO 11743 --- [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2022-06-04 11:23:58.859  INFO 11743 --- [restartedMain] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.62]
+2022-06-04 11:23:58.864  INFO 11743 --- [restartedMain] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2022-06-04 11:23:58.865  INFO 11743 --- [restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 390 ms
+2022-06-04 11:23:58.918  WARN 11743 --- [restartedMain] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2022-06-04 11:23:58.974  INFO 11743 --- [restartedMain] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2022-06-04 11:23:58.982  INFO 11743 --- [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-2 - Starting...
+2022-06-04 11:23:59.010  INFO 11743 --- [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-2 - Start completed.
+2022-06-04 11:23:59.010  INFO 11743 --- [restartedMain] org.hibernate.dialect.Dialect            : HHH000400: Using dialect: org.hibernate.dialect.PostgreSQL10Dialect
+2022-06-04 11:23:59.458  INFO 12685 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2022-06-04 11:23:59.562  INFO 12685 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 99 ms. Found 49 JPA repository interfaces.
+2022-06-04 11:23:59.858  INFO 11743 --- [restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2022-06-04 11:23:59.858  INFO 11743 --- [restartedMain] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2022-06-04 11:24:00.040  INFO 12685 --- [main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2022-06-04 11:24:00.076  INFO 12685 --- [main] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 5.6.8.Final
+2022-06-04 11:24:00.083 DEBUG 11743 --- [restartedMain] com.unitechApi.jwt.AuthTokenFilter       : Filter 'authenticationJwtTokenFilter' configured for use
+2022-06-04 11:24:00.175  INFO 12685 --- [main] o.hibernate.annotations.common.Version   : HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
+2022-06-04 11:24:00.243  INFO 12685 --- [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2022-06-04 11:24:00.442  INFO 12685 --- [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2022-06-04 11:24:00.462  INFO 12685 --- [main] org.hibernate.dialect.Dialect            : HHH000400: Using dialect: org.hibernate.dialect.PostgreSQL10Dialect
+2022-06-04 11:24:01.287  INFO 11743 --- [restartedMain] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 1 endpoint(s) beneath base path '/actuator'
+2022-06-04 11:24:01.301  INFO 11743 --- [restartedMain] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with [org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@1e0e0d6a, org.springframework.security.web.context.SecurityContextPersistenceFilter@10e9f2ba, org.springframework.security.web.header.HeaderWriterFilter@58953e9, org.springframework.web.filter.CorsFilter@66714ac5, org.springframework.security.web.authentication.logout.LogoutFilter@4189a01a, com.unitechApi.jwt.AuthTokenFilter@697cba98, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@780563cf, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@375c713d, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@3c44cd59, org.springframework.security.web.session.SessionManagementFilter@2671f5d4, org.springframework.security.web.access.ExceptionTranslationFilter@337b6fff, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@f3bf1cd]
+2022-06-04 11:24:01.393  INFO 11743 --- [restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : LiveReload server is running on port 35729
+2022-06-04 11:24:01.413  INFO 11743 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 9292 (http) with context path ''
+2022-06-04 11:24:01.413  INFO 11743 --- [restartedMain] o.s.m.s.b.SimpleBrokerMessageHandler     : Starting...
+2022-06-04 11:24:01.413  INFO 11743 --- [restartedMain] o.s.m.s.b.SimpleBrokerMessageHandler     : BrokerAvailabilityEvent[available=true, SimpleBrokerMessageHandler [org.springframework.messaging.simp.broker.DefaultSubscriptionRegistry@279b5de7]]
+2022-06-04 11:24:01.413  INFO 11743 --- [restartedMain] o.s.m.s.b.SimpleBrokerMessageHandler     : Started.
+2022-06-04 11:24:01.420  INFO 11743 --- [restartedMain] com.unitechApi.UnitechApplication        : Started UnitechApplication in 2.96 seconds (JVM running for 248.202)
+2022-06-04 11:24:01.727  INFO 12685 --- [main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2022-06-04 11:24:01.731  INFO 12685 --- [main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2022-06-04 11:24:02.162  INFO 11743 --- [restartedMain] .ConditionEvaluationDeltaLoggingListener : Condition evaluation unchanged
+2022-06-04 11:24:02.240  WARN 12685 --- [main] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2022-06-04 11:24:03.789  INFO 12685 --- [main] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 1 endpoint(s) beneath base path '/actuator'
+2022-06-04 11:24:03.812  INFO 12685 --- [main] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with [org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@70fdecff, org.springframework.security.web.context.SecurityContextPersistenceFilter@4d8af13c, org.springframework.security.web.header.HeaderWriterFilter@a929b6, org.springframework.web.filter.CorsFilter@7a6cab6f, org.springframework.security.web.authentication.logout.LogoutFilter@11f415e4, com.unitechApi.jwt.AuthTokenFilter@12f4b3a2, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@6c5fbe8a, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@78333d5a, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@22a05923, org.springframework.security.web.session.SessionManagementFilter@2a6600ab, org.springframework.security.web.access.ExceptionTranslationFilter@7b9e4a2a, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@dcdf733]
+2022-06-04 11:24:04.051  INFO 12685 --- [main] o.s.m.s.b.SimpleBrokerMessageHandler     : Starting...
+2022-06-04 11:24:04.052  INFO 12685 --- [main] o.s.m.s.b.SimpleBrokerMessageHandler     : BrokerAvailabilityEvent[available=true, SimpleBrokerMessageHandler [org.springframework.messaging.simp.broker.DefaultSubscriptionRegistry@11f4d2b8]]
+2022-06-04 11:24:04.052  INFO 12685 --- [main] o.s.m.s.b.SimpleBrokerMessageHandler     : Started.
+2022-06-04 11:24:04.061  INFO 12685 --- [main] com.unitechApi.UnitechApplicationTests   : Started UnitechApplicationTests in 5.488 seconds (JVM running for 6.02)
+2022-06-04 11:24:04.845  INFO 12685 --- [SpringApplicationShutdownHook] o.s.m.s.b.SimpleBrokerMessageHandler     : Stopping...
+2022-06-04 11:24:04.845  INFO 12685 --- [SpringApplicationShutdownHook] o.s.m.s.b.SimpleBrokerMessageHandler     : BrokerAvailabilityEvent[available=false, SimpleBrokerMessageHandler [org.springframework.messaging.simp.broker.DefaultSubscriptionRegistry@11f4d2b8]]
+2022-06-04 11:24:04.845  INFO 12685 --- [SpringApplicationShutdownHook] o.s.m.s.b.SimpleBrokerMessageHandler     : Stopped.
+2022-06-04 11:24:04.867  INFO 12685 --- [SpringApplicationShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2022-06-04 11:24:04.868  INFO 12685 --- [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2022-06-04 11:24:04.873  INFO 12685 --- [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+2022-06-04 11:25:01.142  INFO 11743 --- [MessageBroker-1] o.s.w.s.c.WebSocketMessageBrokerStats    : WebSocketSession[0 current WS(0)-HttpStream(0)-HttpPoll(0), 0 total, 0 closed abnormally (0 connect failure, 0 send limit, 0 transport error)], stompSubProtocol[processed CONNECT(0)-CONNECTED(0)-DISCONNECT(0)], stompBrokerRelay[null], inboundChannel[pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 0], outboundChannel[pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 0], sockJsScheduler[pool size = 1, active threads = 1, queued tasks = 0, completed tasks = 0]
+2022-06-04 11:55:01.143  INFO 11743 --- [MessageBroker-1] o.s.w.s.c.WebSocketMessageBrokerStats    : WebSocketSession[0 current WS(0)-HttpStream(0)-HttpPoll(0), 0 total, 0 closed abnormally (0 connect failure, 0 send limit, 0 transport error)], stompSubProtocol[processed CONNECT(0)-CONNECTED(0)-DISCONNECT(0)], stompBrokerRelay[null], inboundChannel[pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 0], outboundChannel[pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 0], sockJsScheduler[pool size = 2, active threads = 1, queued tasks = 0, completed tasks = 1]
+2022-06-04 12:01:11.026  INFO 11743 --- [SpringApplicationShutdownHook] o.s.m.s.b.SimpleBrokerMessageHandler     : Stopping...
+2022-06-04 12:01:11.027  INFO 11743 --- [SpringApplicationShutdownHook] o.s.m.s.b.SimpleBrokerMessageHandler     : BrokerAvailabilityEvent[available=false, SimpleBrokerMessageHandler [org.springframework.messaging.simp.broker.DefaultSubscriptionRegistry@279b5de7]]
+2022-06-04 12:01:11.027  INFO 11743 --- [SpringApplicationShutdownHook] o.s.m.s.b.SimpleBrokerMessageHandler     : Stopped.
+2022-06-04 12:01:11.040  INFO 11743 --- [SpringApplicationShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2022-06-04 12:01:11.041  INFO 11743 --- [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-2 - Shutdown initiated...
+2022-06-04 12:01:11.043  INFO 11743 --- [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-2 - Shutdown completed.
+2022-06-04 12:01:13.779  INFO 16572 --- [restartedMain] com.unitechApi.UnitechApplication        : Starting UnitechApplication using Java 17.0.3.1 on endlos-H410M-S2-V2 with PID 16572 (/home/endlos/Music/unitech/target/classes started by endlos in /home/endlos/Music/unitech)
+2022-06-04 12:01:13.780 DEBUG 16572 --- [restartedMain] com.unitechApi.UnitechApplication        : Running with Spring Boot v2.6.7, Spring v5.3.19
+2022-06-04 12:01:13.781  INFO 16572 --- [restartedMain] com.unitechApi.UnitechApplication        : The following 1 profile is active: "prod"
+2022-06-04 12:01:13.834  INFO 16572 --- [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2022-06-04 12:01:13.834  INFO 16572 --- [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2022-06-04 12:01:14.347  INFO 16572 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2022-06-04 12:01:14.424  INFO 16572 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 74 ms. Found 49 JPA repository interfaces.
+2022-06-04 12:01:14.766  INFO 16572 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 9292 (http)
+2022-06-04 12:01:14.771  INFO 16572 --- [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2022-06-04 12:01:14.771  INFO 16572 --- [restartedMain] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.62]
+2022-06-04 12:01:14.798  INFO 16572 --- [restartedMain] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2022-06-04 12:01:14.799  INFO 16572 --- [restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 964 ms
+2022-06-04 12:01:14.891  WARN 16572 --- [restartedMain] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2022-06-04 12:01:14.959  INFO 16572 --- [restartedMain] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2022-06-04 12:01:14.981  INFO 16572 --- [restartedMain] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 5.6.8.Final
+2022-06-04 12:01:15.037  INFO 16572 --- [restartedMain] o.hibernate.annotations.common.Version   : HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
+2022-06-04 12:01:15.074  INFO 16572 --- [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2022-06-04 12:01:15.233  INFO 16572 --- [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2022-06-04 12:01:15.242  INFO 16572 --- [restartedMain] org.hibernate.dialect.Dialect            : HHH000400: Using dialect: org.hibernate.dialect.PostgreSQL10Dialect
+2022-06-04 12:01:16.296  INFO 16572 --- [restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2022-06-04 12:01:16.299  INFO 16572 --- [restartedMain] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2022-06-04 12:01:16.632 DEBUG 16572 --- [restartedMain] com.unitechApi.jwt.AuthTokenFilter       : Filter 'authenticationJwtTokenFilter' configured for use
+2022-06-04 12:01:17.973  INFO 16572 --- [restartedMain] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 1 endpoint(s) beneath base path '/actuator'
+2022-06-04 12:01:17.990  INFO 16572 --- [restartedMain] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with [org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@27a7c402, org.springframework.security.web.context.SecurityContextPersistenceFilter@71527928, org.springframework.security.web.header.HeaderWriterFilter@cf77ef1, org.springframework.web.filter.CorsFilter@3d9e6058, org.springframework.security.web.authentication.logout.LogoutFilter@4c0480f4, com.unitechApi.jwt.AuthTokenFilter@2d3310a6, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@1bf5c7d4, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@473f1f42, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@38162682, org.springframework.security.web.session.SessionManagementFilter@4a7d2656, org.springframework.security.web.access.ExceptionTranslationFilter@4d76c1bc, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@5656a62d]
+2022-06-04 12:01:18.119  INFO 16572 --- [restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : LiveReload server is running on port 35729
+2022-06-04 12:01:18.147  INFO 16572 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 9292 (http) with context path ''
+2022-06-04 12:01:18.149  INFO 16572 --- [restartedMain] o.s.m.s.b.SimpleBrokerMessageHandler     : Starting...
+2022-06-04 12:01:18.149  INFO 16572 --- [restartedMain] o.s.m.s.b.SimpleBrokerMessageHandler     : BrokerAvailabilityEvent[available=true, SimpleBrokerMessageHandler [org.springframework.messaging.simp.broker.DefaultSubscriptionRegistry@143b2dfb]]
+2022-06-04 12:01:18.149  INFO 16572 --- [restartedMain] o.s.m.s.b.SimpleBrokerMessageHandler     : Started.
+2022-06-04 12:01:18.159  INFO 16572 --- [restartedMain] com.unitechApi.UnitechApplication        : Started UnitechApplication in 4.608 seconds (JVM running for 4.942)
+2022-06-04 12:01:19.034  INFO 16572 --- [RMI TCP Connection(1)-127.0.0.1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2022-06-04 12:01:19.034  INFO 16572 --- [RMI TCP Connection(1)-127.0.0.1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2022-06-04 12:01:19.035  INFO 16572 --- [RMI TCP Connection(1)-127.0.0.1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 1 ms
+2022-06-04 12:02:17.725  INFO 16572 --- [MessageBroker-1] o.s.w.s.c.WebSocketMessageBrokerStats    : WebSocketSession[0 current WS(0)-HttpStream(0)-HttpPoll(0), 0 total, 0 closed abnormally (0 connect failure, 0 send limit, 0 transport error)], stompSubProtocol[processed CONNECT(0)-CONNECTED(0)-DISCONNECT(0)], stompBrokerRelay[null], inboundChannel[pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 0], outboundChannel[pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 0], sockJsScheduler[pool size = 1, active threads = 1, queued tasks = 0, completed tasks = 0]
+2022-06-04 12:02:47.466  INFO 16572 --- [SpringApplicationShutdownHook] o.s.m.s.b.SimpleBrokerMessageHandler     : Stopping...
+2022-06-04 12:02:47.466  INFO 16572 --- [SpringApplicationShutdownHook] o.s.m.s.b.SimpleBrokerMessageHandler     : BrokerAvailabilityEvent[available=false, SimpleBrokerMessageHandler [org.springframework.messaging.simp.broker.DefaultSubscriptionRegistry@143b2dfb]]
+2022-06-04 12:02:47.466  INFO 16572 --- [SpringApplicationShutdownHook] o.s.m.s.b.SimpleBrokerMessageHandler     : Stopped.
+2022-06-04 12:02:47.489  INFO 16572 --- [SpringApplicationShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2022-06-04 12:02:47.490  INFO 16572 --- [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2022-06-04 12:02:47.494  INFO 16572 --- [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+2022-06-04 12:02:49.259  INFO 16974 --- [restartedMain] com.unitechApi.UnitechApplication        : Starting UnitechApplication using Java 17.0.3.1 on endlos-H410M-S2-V2 with PID 16974 (/home/endlos/Music/unitech/target/classes started by endlos in /home/endlos/Music/unitech)
+2022-06-04 12:02:49.260 DEBUG 16974 --- [restartedMain] com.unitechApi.UnitechApplication        : Running with Spring Boot v2.6.7, Spring v5.3.19
+2022-06-04 12:02:49.260  INFO 16974 --- [restartedMain] com.unitechApi.UnitechApplication        : The following 1 profile is active: "prod"
+2022-06-04 12:02:49.293  INFO 16974 --- [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2022-06-04 12:02:49.293  INFO 16974 --- [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2022-06-04 12:02:49.797  INFO 16974 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2022-06-04 12:02:49.878  INFO 16974 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 74 ms. Found 49 JPA repository interfaces.
+2022-06-04 12:02:50.212  INFO 16974 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 9292 (http)
+2022-06-04 12:02:50.216  INFO 16974 --- [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2022-06-04 12:02:50.216  INFO 16974 --- [restartedMain] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.62]
+2022-06-04 12:02:50.243  INFO 16974 --- [restartedMain] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2022-06-04 12:02:50.243  INFO 16974 --- [restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 950 ms
+2022-06-04 12:02:50.335  WARN 16974 --- [restartedMain] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2022-06-04 12:02:50.407  INFO 16974 --- [restartedMain] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2022-06-04 12:02:50.426  INFO 16974 --- [restartedMain] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 5.6.8.Final
+2022-06-04 12:02:50.481  INFO 16974 --- [restartedMain] o.hibernate.annotations.common.Version   : HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
+2022-06-04 12:02:50.518  INFO 16974 --- [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2022-06-04 12:02:50.658  INFO 16974 --- [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2022-06-04 12:02:50.669  INFO 16974 --- [restartedMain] org.hibernate.dialect.Dialect            : HHH000400: Using dialect: org.hibernate.dialect.PostgreSQL10Dialect
+2022-06-04 12:02:51.717  INFO 16974 --- [restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2022-06-04 12:02:51.720  INFO 16974 --- [restartedMain] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2022-06-04 12:02:52.071 DEBUG 16974 --- [restartedMain] com.unitechApi.jwt.AuthTokenFilter       : Filter 'authenticationJwtTokenFilter' configured for use
+2022-06-04 12:02:53.352  INFO 16974 --- [restartedMain] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 1 endpoint(s) beneath base path '/actuator'
+2022-06-04 12:02:53.369  INFO 16974 --- [restartedMain] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with [org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@3bdc6db4, org.springframework.security.web.context.SecurityContextPersistenceFilter@17e40b, org.springframework.security.web.header.HeaderWriterFilter@3b97cf0d, org.springframework.web.filter.CorsFilter@6c54518f, org.springframework.security.web.authentication.logout.LogoutFilter@42948a37, com.unitechApi.jwt.AuthTokenFilter@178973a5, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@76006f04, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@693bb9f5, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@e43aca5, org.springframework.security.web.session.SessionManagementFilter@21935f1d, org.springframework.security.web.access.ExceptionTranslationFilter@6561ffd5, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@18b4ab11]
+2022-06-04 12:02:53.493  INFO 16974 --- [restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : LiveReload server is running on port 35729
+2022-06-04 12:02:53.523  INFO 16974 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 9292 (http) with context path ''
+2022-06-04 12:02:53.524  INFO 16974 --- [restartedMain] o.s.m.s.b.SimpleBrokerMessageHandler     : Starting...
+2022-06-04 12:02:53.524  INFO 16974 --- [restartedMain] o.s.m.s.b.SimpleBrokerMessageHandler     : BrokerAvailabilityEvent[available=true, SimpleBrokerMessageHandler [org.springframework.messaging.simp.broker.DefaultSubscriptionRegistry@63da3528]]
+2022-06-04 12:02:53.524  INFO 16974 --- [restartedMain] o.s.m.s.b.SimpleBrokerMessageHandler     : Started.
+2022-06-04 12:02:53.536  INFO 16974 --- [restartedMain] com.unitechApi.UnitechApplication        : Started UnitechApplication in 4.48 seconds (JVM running for 4.957)
+2022-06-04 12:02:54.563  INFO 16974 --- [RMI TCP Connection(1)-127.0.0.1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2022-06-04 12:02:54.563  INFO 16974 --- [RMI TCP Connection(1)-127.0.0.1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2022-06-04 12:02:54.565  INFO 16974 --- [RMI TCP Connection(1)-127.0.0.1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 1 ms
+2022-06-04 12:03:21.838  INFO 16974 --- [SpringApplicationShutdownHook] o.s.m.s.b.SimpleBrokerMessageHandler     : Stopping...
+2022-06-04 12:03:21.838  INFO 16974 --- [SpringApplicationShutdownHook] o.s.m.s.b.SimpleBrokerMessageHandler     : BrokerAvailabilityEvent[available=false, SimpleBrokerMessageHandler [org.springframework.messaging.simp.broker.DefaultSubscriptionRegistry@63da3528]]
+2022-06-04 12:03:21.839  INFO 16974 --- [SpringApplicationShutdownHook] o.s.m.s.b.SimpleBrokerMessageHandler     : Stopped.
+2022-06-04 12:03:21.862  INFO 16974 --- [SpringApplicationShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2022-06-04 12:03:21.864  INFO 16974 --- [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2022-06-04 12:03:21.867  INFO 16974 --- [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+2022-06-04 12:03:23.771  INFO 17227 --- [restartedMain] com.unitechApi.UnitechApplication        : Starting UnitechApplication using Java 17.0.3.1 on endlos-H410M-S2-V2 with PID 17227 (/home/endlos/Music/unitech/target/classes started by endlos in /home/endlos/Music/unitech)
+2022-06-04 12:03:23.772 DEBUG 17227 --- [restartedMain] com.unitechApi.UnitechApplication        : Running with Spring Boot v2.6.7, Spring v5.3.19
+2022-06-04 12:03:23.772  INFO 17227 --- [restartedMain] com.unitechApi.UnitechApplication        : The following 1 profile is active: "prod"
+2022-06-04 12:03:23.806  INFO 17227 --- [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2022-06-04 12:03:23.806  INFO 17227 --- [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2022-06-04 12:03:24.307  INFO 17227 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2022-06-04 12:03:24.388  INFO 17227 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 73 ms. Found 49 JPA repository interfaces.
+2022-06-04 12:03:24.726  INFO 17227 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 9292 (http)
+2022-06-04 12:03:24.730  INFO 17227 --- [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2022-06-04 12:03:24.731  INFO 17227 --- [restartedMain] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.62]
+2022-06-04 12:03:24.759  INFO 17227 --- [restartedMain] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2022-06-04 12:03:24.759  INFO 17227 --- [restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 952 ms
+2022-06-04 12:03:24.863  WARN 17227 --- [restartedMain] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2022-06-04 12:03:24.925  INFO 17227 --- [restartedMain] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2022-06-04 12:03:24.942  INFO 17227 --- [restartedMain] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 5.6.8.Final
+2022-06-04 12:03:24.990  INFO 17227 --- [restartedMain] o.hibernate.annotations.common.Version   : HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
+2022-06-04 12:03:25.028  INFO 17227 --- [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2022-06-04 12:03:25.164  INFO 17227 --- [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2022-06-04 12:03:25.173  INFO 17227 --- [restartedMain] org.hibernate.dialect.Dialect            : HHH000400: Using dialect: org.hibernate.dialect.PostgreSQL10Dialect
+2022-06-04 12:03:26.163  INFO 17227 --- [restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2022-06-04 12:03:26.167  INFO 17227 --- [restartedMain] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2022-06-04 12:03:26.509 DEBUG 17227 --- [restartedMain] com.unitechApi.jwt.AuthTokenFilter       : Filter 'authenticationJwtTokenFilter' configured for use
+2022-06-04 12:03:27.903  INFO 17227 --- [restartedMain] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 1 endpoint(s) beneath base path '/actuator'
+2022-06-04 12:03:27.921  INFO 17227 --- [restartedMain] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with [org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@7d137a7c, org.springframework.security.web.context.SecurityContextPersistenceFilter@4c0480f4, org.springframework.security.web.header.HeaderWriterFilter@72ac09cf, org.springframework.web.filter.CorsFilter@5573a5e9, org.springframework.security.web.authentication.logout.LogoutFilter@2c4658f3, com.unitechApi.jwt.AuthTokenFilter@4c5ad9fb, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@5f570ee3, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@3223657a, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@7de7509, org.springframework.security.web.session.SessionManagementFilter@11691b4b, org.springframework.security.web.access.ExceptionTranslationFilter@7000f753, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@511a40fc]
+2022-06-04 12:03:28.050  INFO 17227 --- [restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : LiveReload server is running on port 35729
+2022-06-04 12:03:28.081  INFO 17227 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 9292 (http) with context path ''
+2022-06-04 12:03:28.082  INFO 17227 --- [restartedMain] o.s.m.s.b.SimpleBrokerMessageHandler     : Starting...
+2022-06-04 12:03:28.082  INFO 17227 --- [restartedMain] o.s.m.s.b.SimpleBrokerMessageHandler     : BrokerAvailabilityEvent[available=true, SimpleBrokerMessageHandler [org.springframework.messaging.simp.broker.DefaultSubscriptionRegistry@540b4f12]]
+2022-06-04 12:03:28.083  INFO 17227 --- [restartedMain] o.s.m.s.b.SimpleBrokerMessageHandler     : Started.
+2022-06-04 12:03:28.095  INFO 17227 --- [restartedMain] com.unitechApi.UnitechApplication        : Started UnitechApplication in 4.505 seconds (JVM running for 4.93)
+2022-06-04 12:03:29.116  INFO 17227 --- [RMI TCP Connection(4)-127.0.0.1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2022-06-04 12:03:29.117  INFO 17227 --- [RMI TCP Connection(4)-127.0.0.1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2022-06-04 12:03:29.118  INFO 17227 --- [RMI TCP Connection(4)-127.0.0.1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 1 ms
+2022-06-04 12:03:50.802  INFO 17227 --- [SpringApplicationShutdownHook] o.s.m.s.b.SimpleBrokerMessageHandler     : Stopping...
+2022-06-04 12:03:50.802  INFO 17227 --- [SpringApplicationShutdownHook] o.s.m.s.b.SimpleBrokerMessageHandler     : BrokerAvailabilityEvent[available=false, SimpleBrokerMessageHandler [org.springframework.messaging.simp.broker.DefaultSubscriptionRegistry@540b4f12]]
+2022-06-04 12:03:50.802  INFO 17227 --- [SpringApplicationShutdownHook] o.s.m.s.b.SimpleBrokerMessageHandler     : Stopped.
+2022-06-04 12:03:50.835  INFO 17227 --- [SpringApplicationShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2022-06-04 12:03:50.838  INFO 17227 --- [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2022-06-04 12:03:50.842  INFO 17227 --- [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+2022-06-04 12:03:52.691  INFO 17446 --- [restartedMain] com.unitechApi.UnitechApplication        : Starting UnitechApplication using Java 17.0.3.1 on endlos-H410M-S2-V2 with PID 17446 (/home/endlos/Music/unitech/target/classes started by endlos in /home/endlos/Music/unitech)
+2022-06-04 12:03:52.692 DEBUG 17446 --- [restartedMain] com.unitechApi.UnitechApplication        : Running with Spring Boot v2.6.7, Spring v5.3.19
+2022-06-04 12:03:52.694  INFO 17446 --- [restartedMain] com.unitechApi.UnitechApplication        : The following 1 profile is active: "prod"
+2022-06-04 12:03:52.724  INFO 17446 --- [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2022-06-04 12:03:52.725  INFO 17446 --- [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2022-06-04 12:03:53.246  INFO 17446 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2022-06-04 12:03:53.327  INFO 17446 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 74 ms. Found 49 JPA repository interfaces.
+2022-06-04 12:03:53.682  INFO 17446 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 9292 (http)
+2022-06-04 12:03:53.686  INFO 17446 --- [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2022-06-04 12:03:53.687  INFO 17446 --- [restartedMain] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.62]
+2022-06-04 12:03:53.714  INFO 17446 --- [restartedMain] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2022-06-04 12:03:53.714  INFO 17446 --- [restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 989 ms
+2022-06-04 12:03:53.807  WARN 17446 --- [restartedMain] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2022-06-04 12:03:53.873  INFO 17446 --- [restartedMain] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2022-06-04 12:03:53.890  INFO 17446 --- [restartedMain] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 5.6.8.Final
+2022-06-04 12:03:53.939  INFO 17446 --- [restartedMain] o.hibernate.annotations.common.Version   : HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
+2022-06-04 12:03:53.974  INFO 17446 --- [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2022-06-04 12:03:54.111  INFO 17446 --- [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2022-06-04 12:03:54.119  INFO 17446 --- [restartedMain] org.hibernate.dialect.Dialect            : HHH000400: Using dialect: org.hibernate.dialect.PostgreSQL10Dialect
+2022-06-04 12:03:55.153  INFO 17446 --- [restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2022-06-04 12:03:55.157  INFO 17446 --- [restartedMain] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2022-06-04 12:03:55.486 DEBUG 17446 --- [restartedMain] com.unitechApi.jwt.AuthTokenFilter       : Filter 'authenticationJwtTokenFilter' configured for use
+2022-06-04 12:03:56.816  INFO 17446 --- [restartedMain] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 1 endpoint(s) beneath base path '/actuator'
+2022-06-04 12:03:56.833  INFO 17446 --- [restartedMain] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with [org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@4a4e12d1, org.springframework.security.web.context.SecurityContextPersistenceFilter@7ffd100, org.springframework.security.web.header.HeaderWriterFilter@51e26eb7, org.springframework.web.filter.CorsFilter@71998254, org.springframework.security.web.authentication.logout.LogoutFilter@32f029c8, com.unitechApi.jwt.AuthTokenFilter@2ce61d7e, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@6909d318, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@dc306e3, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@54e8c657, org.springframework.security.web.session.SessionManagementFilter@4443c5e9, org.springframework.security.web.access.ExceptionTranslationFilter@f77aefa, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@36635f2]
+2022-06-04 12:03:56.960  INFO 17446 --- [restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : LiveReload server is running on port 35729
+2022-06-04 12:03:56.996  INFO 17446 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 9292 (http) with context path ''
+2022-06-04 12:03:56.997  INFO 17446 --- [restartedMain] o.s.m.s.b.SimpleBrokerMessageHandler     : Starting...
+2022-06-04 12:03:56.997  INFO 17446 --- [restartedMain] o.s.m.s.b.SimpleBrokerMessageHandler     : BrokerAvailabilityEvent[available=true, SimpleBrokerMessageHandler [org.springframework.messaging.simp.broker.DefaultSubscriptionRegistry@386545d1]]
+2022-06-04 12:03:56.997  INFO 17446 --- [restartedMain] o.s.m.s.b.SimpleBrokerMessageHandler     : Started.
+2022-06-04 12:03:57.008  INFO 17446 --- [restartedMain] com.unitechApi.UnitechApplication        : Started UnitechApplication in 4.52 seconds (JVM running for 4.978)
+2022-06-04 12:03:57.961  INFO 17446 --- [RMI TCP Connection(3)-127.0.0.1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2022-06-04 12:03:57.961  INFO 17446 --- [RMI TCP Connection(3)-127.0.0.1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2022-06-04 12:03:57.963  INFO 17446 --- [RMI TCP Connection(3)-127.0.0.1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 2 ms
+2022-06-04 12:04:56.568  INFO 17446 --- [MessageBroker-1] o.s.w.s.c.WebSocketMessageBrokerStats    : WebSocketSession[0 current WS(0)-HttpStream(0)-HttpPoll(0), 0 total, 0 closed abnormally (0 connect failure, 0 send limit, 0 transport error)], stompSubProtocol[processed CONNECT(0)-CONNECTED(0)-DISCONNECT(0)], stompBrokerRelay[null], inboundChannel[pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 0], outboundChannel[pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 0], sockJsScheduler[pool size = 1, active threads = 1, queued tasks = 0, completed tasks = 0]
+2022-06-04 12:05:01.527  INFO 17446 --- [SpringApplicationShutdownHook] o.s.m.s.b.SimpleBrokerMessageHandler     : Stopping...
+2022-06-04 12:05:01.528  INFO 17446 --- [SpringApplicationShutdownHook] o.s.m.s.b.SimpleBrokerMessageHandler     : BrokerAvailabilityEvent[available=false, SimpleBrokerMessageHandler [org.springframework.messaging.simp.broker.DefaultSubscriptionRegistry@386545d1]]
+2022-06-04 12:05:01.528  INFO 17446 --- [SpringApplicationShutdownHook] o.s.m.s.b.SimpleBrokerMessageHandler     : Stopped.
+2022-06-04 12:05:01.551  INFO 17446 --- [SpringApplicationShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2022-06-04 12:05:01.552  INFO 17446 --- [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2022-06-04 12:05:01.556  INFO 17446 --- [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+2022-06-04 12:05:03.310  INFO 17754 --- [restartedMain] com.unitechApi.UnitechApplication        : Starting UnitechApplication using Java 17.0.3.1 on endlos-H410M-S2-V2 with PID 17754 (/home/endlos/Music/unitech/target/classes started by endlos in /home/endlos/Music/unitech)
+2022-06-04 12:05:03.310 DEBUG 17754 --- [restartedMain] com.unitechApi.UnitechApplication        : Running with Spring Boot v2.6.7, Spring v5.3.19
+2022-06-04 12:05:03.311  INFO 17754 --- [restartedMain] com.unitechApi.UnitechApplication        : The following 1 profile is active: "prod"
+2022-06-04 12:05:03.341  INFO 17754 --- [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2022-06-04 12:05:03.341  INFO 17754 --- [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2022-06-04 12:05:03.840  INFO 17754 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2022-06-04 12:05:03.919  INFO 17754 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 71 ms. Found 49 JPA repository interfaces.
+2022-06-04 12:05:04.242  INFO 17754 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 9292 (http)
+2022-06-04 12:05:04.246  INFO 17754 --- [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2022-06-04 12:05:04.247  INFO 17754 --- [restartedMain] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.62]
+2022-06-04 12:05:04.272  INFO 17754 --- [restartedMain] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2022-06-04 12:05:04.272  INFO 17754 --- [restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 931 ms
+2022-06-04 12:05:04.366  WARN 17754 --- [restartedMain] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2022-06-04 12:05:04.429  INFO 17754 --- [restartedMain] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2022-06-04 12:05:04.447  INFO 17754 --- [restartedMain] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 5.6.8.Final
+2022-06-04 12:05:04.501  INFO 17754 --- [restartedMain] o.hibernate.annotations.common.Version   : HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
+2022-06-04 12:05:04.540  INFO 17754 --- [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2022-06-04 12:05:04.675  INFO 17754 --- [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2022-06-04 12:05:04.683  INFO 17754 --- [restartedMain] org.hibernate.dialect.Dialect            : HHH000400: Using dialect: org.hibernate.dialect.PostgreSQL10Dialect
+2022-06-04 12:05:05.713  INFO 17754 --- [restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2022-06-04 12:05:05.716  INFO 17754 --- [restartedMain] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2022-06-04 12:05:06.068 DEBUG 17754 --- [restartedMain] com.unitechApi.jwt.AuthTokenFilter       : Filter 'authenticationJwtTokenFilter' configured for use
+2022-06-04 12:05:07.379  INFO 17754 --- [restartedMain] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 1 endpoint(s) beneath base path '/actuator'
+2022-06-04 12:05:07.397  INFO 17754 --- [restartedMain] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with [org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@290ff9c3, org.springframework.security.web.context.SecurityContextPersistenceFilter@605ddd26, org.springframework.security.web.header.HeaderWriterFilter@6bdee3c, org.springframework.web.filter.CorsFilter@5611c5b0, org.springframework.security.web.authentication.logout.LogoutFilter@5dcc514b, com.unitechApi.jwt.AuthTokenFilter@5d79eed4, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@58244164, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@1f4f6546, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@26b455c6, org.springframework.security.web.session.SessionManagementFilter@4423c2e7, org.springframework.security.web.access.ExceptionTranslationFilter@45d1f45c, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@3fd4edea]
+2022-06-04 12:05:07.525  INFO 17754 --- [restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : LiveReload server is running on port 35729
+2022-06-04 12:05:07.553  INFO 17754 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 9292 (http) with context path ''
+2022-06-04 12:05:07.554  INFO 17754 --- [restartedMain] o.s.m.s.b.SimpleBrokerMessageHandler     : Starting...
+2022-06-04 12:05:07.554  INFO 17754 --- [restartedMain] o.s.m.s.b.SimpleBrokerMessageHandler     : BrokerAvailabilityEvent[available=true, SimpleBrokerMessageHandler [org.springframework.messaging.simp.broker.DefaultSubscriptionRegistry@7338e45d]]
+2022-06-04 12:05:07.555  INFO 17754 --- [restartedMain] o.s.m.s.b.SimpleBrokerMessageHandler     : Started.
+2022-06-04 12:05:07.565  INFO 17754 --- [restartedMain] com.unitechApi.UnitechApplication        : Started UnitechApplication in 4.428 seconds (JVM running for 4.748)
+2022-06-04 12:05:08.614  INFO 17754 --- [RMI TCP Connection(3)-127.0.0.1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2022-06-04 12:05:08.614  INFO 17754 --- [RMI TCP Connection(3)-127.0.0.1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2022-06-04 12:05:08.616  INFO 17754 --- [RMI TCP Connection(3)-127.0.0.1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 2 ms
+2022-06-04 12:06:07.144  INFO 17754 --- [MessageBroker-1] o.s.w.s.c.WebSocketMessageBrokerStats    : WebSocketSession[0 current WS(0)-HttpStream(0)-HttpPoll(0), 0 total, 0 closed abnormally (0 connect failure, 0 send limit, 0 transport error)], stompSubProtocol[processed CONNECT(0)-CONNECTED(0)-DISCONNECT(0)], stompBrokerRelay[null], inboundChannel[pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 0], outboundChannel[pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 0], sockJsScheduler[pool size = 1, active threads = 1, queued tasks = 0, completed tasks = 0]
+2022-06-04 12:06:49.469  INFO 17754 --- [SpringApplicationShutdownHook] o.s.m.s.b.SimpleBrokerMessageHandler     : Stopping...
+2022-06-04 12:06:49.469  INFO 17754 --- [SpringApplicationShutdownHook] o.s.m.s.b.SimpleBrokerMessageHandler     : BrokerAvailabilityEvent[available=false, SimpleBrokerMessageHandler [org.springframework.messaging.simp.broker.DefaultSubscriptionRegistry@7338e45d]]
+2022-06-04 12:06:49.469  INFO 17754 --- [SpringApplicationShutdownHook] o.s.m.s.b.SimpleBrokerMessageHandler     : Stopped.
+2022-06-04 12:06:49.492  INFO 17754 --- [SpringApplicationShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2022-06-04 12:06:49.494  INFO 17754 --- [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2022-06-04 12:06:49.497  INFO 17754 --- [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+2022-06-04 12:06:51.242  INFO 18138 --- [restartedMain] com.unitechApi.UnitechApplication        : Starting UnitechApplication using Java 17.0.3.1 on endlos-H410M-S2-V2 with PID 18138 (/home/endlos/Music/unitech/target/classes started by endlos in /home/endlos/Music/unitech)
+2022-06-04 12:06:51.242 DEBUG 18138 --- [restartedMain] com.unitechApi.UnitechApplication        : Running with Spring Boot v2.6.7, Spring v5.3.19
+2022-06-04 12:06:51.243  INFO 18138 --- [restartedMain] com.unitechApi.UnitechApplication        : The following 1 profile is active: "prod"
+2022-06-04 12:06:51.296  INFO 18138 --- [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2022-06-04 12:06:51.296  INFO 18138 --- [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2022-06-04 12:06:51.888  INFO 18138 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2022-06-04 12:06:51.971  INFO 18138 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 80 ms. Found 49 JPA repository interfaces.
+2022-06-04 12:06:52.288  INFO 18138 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 9292 (http)
+2022-06-04 12:06:52.292  INFO 18138 --- [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2022-06-04 12:06:52.292  INFO 18138 --- [restartedMain] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.62]
+2022-06-04 12:06:52.317  INFO 18138 --- [restartedMain] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2022-06-04 12:06:52.317  INFO 18138 --- [restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 1020 ms
+2022-06-04 12:06:52.408  WARN 18138 --- [restartedMain] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2022-06-04 12:06:52.474  INFO 18138 --- [restartedMain] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2022-06-04 12:06:52.492  INFO 18138 --- [restartedMain] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 5.6.8.Final
+2022-06-04 12:06:52.544  INFO 18138 --- [restartedMain] o.hibernate.annotations.common.Version   : HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
+2022-06-04 12:06:52.581  INFO 18138 --- [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2022-06-04 12:06:52.717  INFO 18138 --- [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2022-06-04 12:06:52.726  INFO 18138 --- [restartedMain] org.hibernate.dialect.Dialect            : HHH000400: Using dialect: org.hibernate.dialect.PostgreSQL10Dialect
+2022-06-04 12:06:53.800  INFO 18138 --- [restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2022-06-04 12:06:53.804  INFO 18138 --- [restartedMain] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2022-06-04 12:06:54.173 DEBUG 18138 --- [restartedMain] com.unitechApi.jwt.AuthTokenFilter       : Filter 'authenticationJwtTokenFilter' configured for use
+2022-06-04 12:06:55.487  INFO 18138 --- [restartedMain] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 1 endpoint(s) beneath base path '/actuator'
+2022-06-04 12:06:55.505  INFO 18138 --- [restartedMain] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with [org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@345401d, org.springframework.security.web.context.SecurityContextPersistenceFilter@6425b4e9, org.springframework.security.web.header.HeaderWriterFilter@1f6fc596, org.springframework.web.filter.CorsFilter@20259e50, org.springframework.security.web.authentication.logout.LogoutFilter@45d1f45c, com.unitechApi.jwt.AuthTokenFilter@1deda216, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@2777e533, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@24151782, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@24f3970b, org.springframework.security.web.session.SessionManagementFilter@31cb9587, org.springframework.security.web.access.ExceptionTranslationFilter@38fd56c2, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@39260a10]
+2022-06-04 12:06:55.628  INFO 18138 --- [restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : LiveReload server is running on port 35729
+2022-06-04 12:06:55.657  INFO 18138 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 9292 (http) with context path ''
+2022-06-04 12:06:55.659  INFO 18138 --- [restartedMain] o.s.m.s.b.SimpleBrokerMessageHandler     : Starting...
+2022-06-04 12:06:55.659  INFO 18138 --- [restartedMain] o.s.m.s.b.SimpleBrokerMessageHandler     : BrokerAvailabilityEvent[available=true, SimpleBrokerMessageHandler [org.springframework.messaging.simp.broker.DefaultSubscriptionRegistry@16993958]]
+2022-06-04 12:06:55.659  INFO 18138 --- [restartedMain] o.s.m.s.b.SimpleBrokerMessageHandler     : Started.
+2022-06-04 12:06:55.670  INFO 18138 --- [restartedMain] com.unitechApi.UnitechApplication        : Started UnitechApplication in 4.606 seconds (JVM running for 4.941)
+2022-06-04 12:06:56.592  INFO 18138 --- [RMI TCP Connection(1)-127.0.0.1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2022-06-04 12:06:56.593  INFO 18138 --- [RMI TCP Connection(1)-127.0.0.1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2022-06-04 12:06:56.595  INFO 18138 --- [RMI TCP Connection(1)-127.0.0.1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 2 ms
+2022-06-04 12:07:55.259  INFO 18138 --- [MessageBroker-1] o.s.w.s.c.WebSocketMessageBrokerStats    : WebSocketSession[0 current WS(0)-HttpStream(0)-HttpPoll(0), 0 total, 0 closed abnormally (0 connect failure, 0 send limit, 0 transport error)], stompSubProtocol[processed CONNECT(0)-CONNECTED(0)-DISCONNECT(0)], stompBrokerRelay[null], inboundChannel[pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 0], outboundChannel[pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 0], sockJsScheduler[pool size = 1, active threads = 1, queued tasks = 0, completed tasks = 0]
+2022-06-04 12:10:31.306  INFO 18138 --- [SpringApplicationShutdownHook] o.s.m.s.b.SimpleBrokerMessageHandler     : Stopping...
+2022-06-04 12:10:31.306  INFO 18138 --- [SpringApplicationShutdownHook] o.s.m.s.b.SimpleBrokerMessageHandler     : BrokerAvailabilityEvent[available=false, SimpleBrokerMessageHandler [org.springframework.messaging.simp.broker.DefaultSubscriptionRegistry@16993958]]
+2022-06-04 12:10:31.306  INFO 18138 --- [SpringApplicationShutdownHook] o.s.m.s.b.SimpleBrokerMessageHandler     : Stopped.
+2022-06-04 12:10:31.329  INFO 18138 --- [SpringApplicationShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2022-06-04 12:10:31.331  INFO 18138 --- [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2022-06-04 12:10:31.334  INFO 18138 --- [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.

@@ -211,7 +211,7 @@ public class RingFrame {
     }
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(foreignKey = @ForeignKey(name = "r_m_id"), name = "r_m_id", referencedColumnName = "m_id")
-    @JsonIgnoreProperties("ringframesReading")
+    @JsonIgnoreProperties({"ringframesReading","usageItems"})
     private AddRingFramesMachine ringframe;
 
     public AddRingFramesMachine getRingframe() {
