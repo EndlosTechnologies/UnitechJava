@@ -20,7 +20,7 @@ public class AddSimplexMAchine {
     @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "id")
     @Column(name = "m_id")
     private Long id;
-    @Column(name = "machine_name")
+    @Column(name = "machine_name",unique = true)
     private String name;
     @Column(name = "machine_descrption")
     private String descrption;

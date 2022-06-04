@@ -64,7 +64,7 @@ public class ImportExcel {
                 row.createCell(5).setCellValue(storeitem.getFrequency());
                 row.createCell(6).setCellValue(storeitem.getPaytax());
                 row.createCell(7).setCellValue(storeitem.getQuantity());
-                row.createCell(8).setCellValue(storeitem.getCreated());
+                row.createCell(8).setCellValue(storeitem.getCreated().toString());
                 row.createCell(9).setCellValue(storeitem.getExpiryDays());
                 row.createCell(10).setCellValue(storeitem.getProductCategory().getProductName());
                 row.createCell(11).setCellValue(storeitem.getUnit().getUnitName());

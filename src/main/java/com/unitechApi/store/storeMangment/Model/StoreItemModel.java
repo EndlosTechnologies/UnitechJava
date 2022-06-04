@@ -20,9 +20,12 @@ public class StoreItemModel extends Audit<String> {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long itemId;
+    @Column(unique = true)
     private String itemName;
     private String itemDescription;
+    @Column(unique = true)
     private String drawingNo;
+    @Column(unique = true)
     private String catalogNo;
     private String frequency;
     
