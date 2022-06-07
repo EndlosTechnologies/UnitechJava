@@ -2,10 +2,12 @@ package com.unitechApi.purchase.RawMaterial.vendor.model;
 
 import com.fasterxml.jackson.annotation.*;
 import com.unitechApi.purchase.RawMaterial.Contract.Model.ContractModel;
+import com.unitechApi.store.storeMangment.Model.StoreItemModel;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -35,6 +37,17 @@ public class VendorModel {
     @OneToMany(mappedBy = "vendorModel",cascade = CascadeType.ALL)
     @JsonIgnoreProperties("vendorModel")
     private Set<ContractModel> contractModels;
+    @ManyToMany(mappedBy = "dataVendorAndItem")
+    @JsonIgnoreProperties({"dataVendorAndItem","itemRequest","issueItem"})
+    private Set<StoreItemModel> dataVendorAndItem=new HashSet<>();
+
+    public Set<StoreItemModel> getDataVendorAndItem() {
+        return dataVendorAndItem;
+    }
+
+    public void setDataVendorAndItem(Set<StoreItemModel> dataVendorAndItem) {
+        this.dataVendorAndItem = dataVendorAndItem;
+    }
 
     public Set<ContractModel> getContractModels() {
         return contractModels;

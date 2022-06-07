@@ -1,17 +1,11 @@
 package com.unitechApi.store.indent.Model;
 
-import com.fasterxml.jackson.annotation.JsonAutoDetect;
-import com.fasterxml.jackson.annotation.JsonFilter;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonView;
 import com.unitechApi.addmachine.model.*;
 import com.unitechApi.store.issue.model.IssueItem;
-import com.unitechApi.store.storeMangment.Model.StoreItemModel;
-import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 import java.util.Date;
-import java.util.List;
 
 @Entity
 @Table(name = "usageItem",schema = "store_management")
@@ -216,19 +210,19 @@ public class UsageItem {
                 "uId=" + uId +
                 ", deptName='" + deptName + '\'' +
                 ", created=" + created +
-                ", issuedItem=" + issuedItem +
-                ", bloow usage=" + bloowusage +
-                ", carding usage=" + cardingusage +
-                ", comber-usage=" + comberusage +
-                ", drawFramesMachine=" + drawFramesMachine +
-                ", finisherMachine-data=" + finisherMachinedata +
-                ", lapFormer usage=" + lapFormerusage +
-                ", packingMachine usage=" + packingMachineusage +
-                ", ring-frameMachine usage=" + ringframeMachineusage +
-                ", simplexMachine usage=" + simplexMachineusage +
-                ", utilityMachine usage=" + utilliyMachineusage +
-                ", wasteMachine usage=" + wasteMachineusage +
-                ", windingMachine usage=" + windingMachineusage +
+                ", issuedItem=" + issuedItem.getIssueId() +
+                ", bloow usage=" + bloowusage.getId() +
+                ", carding usage=" + cardingusage.getId() +
+                ", comber-usage=" + comberusage.getId() +
+                ", drawFramesMachine=" + drawFramesMachine.getId() +
+                ", finisherMachine-data=" + finisherMachinedata.getId() +
+                ", lapFormer usage=" + lapFormerusage.getId() +
+                ", packingMachine usage=" + packingMachineusage.getId() +
+                ", ring-frameMachine usage=" + ringframeMachineusage.getId() +
+                ", simplexMachine usage=" + simplexMachineusage.getId() +
+                ", utilityMachine usage=" + utilliyMachineusage.getId() +
+                ", wasteMachine usage=" + wasteMachineusage.getId() +
+                ", windingMachine usage=" + windingMachineusage.getId() +
                 '}';
     }
 }

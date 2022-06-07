@@ -1,7 +1,9 @@
 package com.unitechApi.store.productCategory.controller;
 
+import com.unitechApi.Payload.response.MessageResponse;
 import com.unitechApi.Payload.response.PageResponse;
 import com.unitechApi.store.productCategory.model.ProductCategory;
+import com.unitechApi.store.productCategory.repository.ProductCategoryRepository;
 import com.unitechApi.store.productCategory.service.ProductCategoryService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,13 +17,19 @@ import java.util.List;
 @RequestMapping(value = "/unitech/api/v1/pCategory")
 public class ProductCategoryController {
     private final ProductCategoryService productCategoryService;
+    private  final ProductCategoryRepository productCategoryRepository;
 
-    public ProductCategoryController(ProductCategoryService productCategoryService) {
+    public ProductCategoryController(ProductCategoryService productCategoryService, ProductCategoryRepository productCategoryRepository) {
         this.productCategoryService = productCategoryService;
+        this.productCategoryRepository = productCategoryRepository;
     }
     @PostMapping
     public ResponseEntity<?>  saveProductCategoryData(@RequestBody ProductCategory productCategory)
     {
+        if (productCategoryRepository.existsByProductName(productCategory.getProductName()))
+        {
+            return ResponseEntity.badRequest().body(new MessageResponse("Already Exists "+productCategory.getProductName()));
+        }
         ProductCategory data=productCategoryService.saveData(productCategory);
         return new ResponseEntity<>(PageResponse.SuccessResponse(data), HttpStatus.CREATED);
     }

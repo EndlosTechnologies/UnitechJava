@@ -10,6 +10,7 @@ import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.BaseStream;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 @Service
@@ -22,11 +23,20 @@ public class UsageService {
     }
 
     public void save(UsageItem usageItem) {
+
         this.usageRepository.save(usageItem);
     }
 
-    public BaseStream<UsageItem, Stream<UsageItem>> FindAll() {
-        return usageRepository.findAll().stream().sorted(Comparator.comparing(UsageItem::getuId));
+    public List<UsageItem> FindAll() {
+        return usageRepository
+                .findAll()
+                .stream()
+                .sorted(Comparator.comparing(UsageItem::getuId))
+                .collect(Collectors.toList());
+    }
+    public List<UsageItem> allSaveData(List<UsageItem> data)
+    {
+        return usageRepository.saveAll(data);
     }
 
     public List<UsageItem> findByDepName(String name) {

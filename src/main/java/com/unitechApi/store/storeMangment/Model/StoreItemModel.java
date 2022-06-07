@@ -2,6 +2,7 @@ package com.unitechApi.store.storeMangment.Model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.unitechApi.AuditingAndResponse.Audit;
+import com.unitechApi.purchase.RawMaterial.vendor.model.VendorModel;
 import com.unitechApi.store.issue.model.IssueItem;
 import com.unitechApi.store.indent.Model.Indent;
 import com.unitechApi.store.productCategory.model.ProductCategory;
@@ -10,6 +11,7 @@ import com.unitechApi.user.model.User;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Set;
 
 
@@ -27,7 +29,7 @@ public class StoreItemModel extends Audit<String> {
     private String drawingNo;
     @Column(unique = true)
     private String catalogNo;
-    private String frequency;
+    private long frequency;
     
     private int RemainingItem;
     private int paytax;
@@ -67,6 +69,20 @@ public class StoreItemModel extends Audit<String> {
     @OneToMany(mappedBy = "storeItem", cascade = CascadeType.ALL)
     @JsonIgnoreProperties({"storeItem","employee"})
     private Set<Indent> itemRequest;
+
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(schema = "store_management",name = "item_Vendor_details",
+            joinColumns = @JoinColumn(name = "item_id"), inverseJoinColumns = @JoinColumn(name = "vendor_id"))
+    @JsonIgnoreProperties({"contractModels","dataVendorAndItem"})
+    private Set<VendorModel> dataVendorAndItem=new HashSet<>();
+
+    public Set<VendorModel> getDataVendorAndItem() {
+        return dataVendorAndItem;
+    }
+
+    public void setDataVendorAndItem(Set<VendorModel> dataVendorAndItem) {
+        this.dataVendorAndItem = dataVendorAndItem;
+    }
 
     public User getEmploye() {
         return employe;
@@ -110,11 +126,11 @@ public class StoreItemModel extends Audit<String> {
         this.catalogNo = catalogNo;
     }
 
-    public String getFrequency() {
+    public long getFrequency() {
         return frequency;
     }
 
-    public void setFrequency(String frequency) {
+    public void setFrequency(Long frequency) {
         this.frequency = frequency;
     }
 
@@ -201,6 +217,9 @@ public class StoreItemModel extends Audit<String> {
     public void setPaytax(int paytax) {
         this.paytax = paytax;
     }
+    public void deleteVendor(VendorModel vendorModel) {
+        dataVendorAndItem.remove(vendorModel);
+    }
     @Override
     public String toString() {
         return "StoreItemModel{" +
@@ -221,4 +240,6 @@ public class StoreItemModel extends Audit<String> {
                 ", itemRequest=" + itemRequest +
                 '}';
     }
+
+
 }

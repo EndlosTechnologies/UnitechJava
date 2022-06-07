@@ -28,7 +28,7 @@ public class User extends Audit<String> {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_profile_id")
     private Long id;
-
+    private String surName;
     @NotBlank(message = "please fill Unique Name ")
     @Size(min = 3, max = 20, message = " required Username is not accept  < 3 or > 20")
     private String username;
@@ -102,7 +102,8 @@ public class User extends Audit<String> {
         datetime = new Date();
     }
     @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(schema = "profiledetails",name = "user_roles", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
+    @JoinTable(schema = "profiledetails",name = "user_roles"
+            , joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles = new HashSet<>();
     @OneToMany(mappedBy = "userProfileModel", cascade = CascadeType.ALL)
     @JsonManagedReference
@@ -181,7 +182,13 @@ public class User extends Audit<String> {
         this.itemModelSet = itemModelSet;
     }
 
+    public String getSurName() {
+        return surName;
+    }
 
+    public void setSurName(String surName) {
+        this.surName = surName;
+    }
 
     public User() {
     }

@@ -55,7 +55,7 @@ public class ImportExcel {
             int rowIdx = 1;
             for (StoreItemModel storeitem : storeItemModels) {
                 Row row = sheet.createRow(rowIdx++);
-
+                System.out.println(storeitem.getProductCategory().getProductName());
                 row.createCell(0).setCellValue(storeitem.getItemName());
                 row.createCell(1).setCellValue(storeitem.getItemDescription());
                 row.createCell(2).setCellValue(storeitem.getRemainingItem());
@@ -64,8 +64,9 @@ public class ImportExcel {
                 row.createCell(5).setCellValue(storeitem.getFrequency());
                 row.createCell(6).setCellValue(storeitem.getPaytax());
                 row.createCell(7).setCellValue(storeitem.getQuantity());
-                row.createCell(8).setCellValue(storeitem.getCreated().toString());
+                row.createCell(8).setCellValue(storeitem.getCreated());
                 row.createCell(9).setCellValue(storeitem.getExpiryDays());
+                System.out.println(storeitem.getProductCategory().getProductName());
                 row.createCell(10).setCellValue(storeitem.getProductCategory().getProductName());
                 row.createCell(11).setCellValue(storeitem.getUnit().getUnitName());
 

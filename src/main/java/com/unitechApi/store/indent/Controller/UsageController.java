@@ -39,7 +39,7 @@ public class UsageController {
 
     @GetMapping("/data")
     public ResponseEntity<?> FindAlle() {
-        BaseStream<UsageItem, Stream<UsageItem>> data = usageService.FindAll();
+        List<UsageItem> data = usageService.FindAll();
         return new ResponseEntity<>(PageResponse.SuccessResponse(data), HttpStatus.OK);
     }
 

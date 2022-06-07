@@ -10,4 +10,5 @@ public interface ProductCategoryRepository extends JpaRepository<ProductCategory
     List<ProductCategory>  findByProductName(String product);
 
     List<ProductCategory> findByCreated(Date data);
+    Boolean existsByProductName(String productName);
 }

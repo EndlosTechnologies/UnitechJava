@@ -15,14 +15,14 @@ public class Indent {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long indentId;
-    private Long estimatedPrice;
-    private Long total;
+    private float estimatedPrice;
+    private float total;
     private Long responseId;
     private Long quantity;
     @Enumerated(EnumType.STRING)
     private IndentStatus indentStatus;
     private Long doid;
-    private double includingTax;
+    private float includingTax;
     private Date created;
 
     public Date getCreated() {
@@ -47,7 +47,7 @@ public class Indent {
     @JsonIgnoreProperties({"indents","itemRequest","storeItemModel","usageItems","emp"})
     private IssueItem issue;
 
-    public Long getEstimatedPrice() {
+    public Float getEstimatedPrice() {
         return estimatedPrice;
     }
 
@@ -55,15 +55,15 @@ public class Indent {
         this.estimatedPrice = estimatedPrice;
     }
 
-    public double getIncludingTax() {
+    public Float getIncludingTax() {
         return includingTax;
     }
 
-    public void setIncludingTax(double includingTax) {
+    public void setIncludingTax(float includingTax) {
         this.includingTax = includingTax;
     }
 
-    public Long getTotal() {
+    public Float getTotal() {
         return total;
     }
 

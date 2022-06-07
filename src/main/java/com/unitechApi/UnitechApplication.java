@@ -40,6 +40,7 @@ public class UnitechApplication implements ApplicationRunner {
         PasswordEntity pass= new PasswordEntity();
         pass.setPassword(passwordEncoder.encode("admin"));
         use.setUsername("Admin");
+        use.setSurName("surname");
         use.setDob(LocalDate.parse("1996-09-02"));
         use.setEmail("adminmain@gmail.com");
         use.setIndentification("Don't KnoW");
@@ -57,6 +58,7 @@ public class UnitechApplication implements ApplicationRunner {
         PasswordEntity password = new PasswordEntity();
         password.setPassword(passwordEncoder.encode("admin@0987"));
         user.setUsername("Admin");
+        user.setSurName("surname");
         user.setDob(LocalDate.parse("1996-09-02"));
         user.setEmail("admin@gmail.com");
         user.setIndentification("Don't KnoW");
@@ -74,6 +76,7 @@ public class UnitechApplication implements ApplicationRunner {
         PasswordEntity password1 = new PasswordEntity();
         password1.setPassword(passwordEncoder.encode("admin@987"));
         user1.setUsername("sub admin");
+        user1.setSurName("surname");
         user1.setDob(LocalDate.parse("1996-09-02"));
         user1.setEmail("subadmin@gmail.com");
         user1.setIndentification("Don't KnoW");
@@ -91,6 +94,7 @@ public class UnitechApplication implements ApplicationRunner {
         PasswordEntity password2 = new PasswordEntity();
         password2.setPassword(passwordEncoder.encode("qc@123"));
         user2.setUsername("QC manager");
+        user2.setSurName("surname");
         user2.setDob(LocalDate.parse("1996-09-02"));
         user2.setEmail("qc@gmail.com");
         user2.setIndentification("Don't KnoW");
@@ -108,6 +112,7 @@ public class UnitechApplication implements ApplicationRunner {
         PasswordEntity password3 = new PasswordEntity();
         password3.setPassword(passwordEncoder.encode("super1@1234"));
         user3.setDob(LocalDate.parse("1996-09-02"));
+        user3.setSurName("surname");
         user3.setEmail("superviser1@gmail.com");
         user3.setUsername("SUPERVISOR 1");
         user3.setIndentification("Don't KnoW");
@@ -125,6 +130,7 @@ public class UnitechApplication implements ApplicationRunner {
         PasswordEntity password4 = new PasswordEntity();
         password4.setPassword(passwordEncoder.encode("super2@1234"));
         user4.setUsername("SUPERVISOR 2");
+        user4.setSurName("surname");
         user4.setDob(LocalDate.parse("1996-09-02"));
         user4.setEmail("superviser2@gmail.com");
         user4.setIndentification("Don't KnoW");
@@ -143,6 +149,7 @@ public class UnitechApplication implements ApplicationRunner {
         PasswordEntity password5 = new PasswordEntity();
         password5.setPassword(passwordEncoder.encode("admin"));
         user5.setUsername("MAINTENANCE");
+        user5.setSurName("surname");
         user5.setDob(LocalDate.parse("1996-09-02"));
         user5.setEmail("MAINTENANCE@gmail.com");
         user5.setIndentification("Don't KnoW");
@@ -160,6 +167,7 @@ public class UnitechApplication implements ApplicationRunner {
         PasswordEntity password6 = new PasswordEntity();
         password6.setPassword(passwordEncoder.encode("admin"));
         user6.setUsername("STORE");
+        user6.setSurName("surname");
         user6.setDob(LocalDate.parse("1996-09-02"));
         user6.setEmail("STORE@gmail.com");
         user6.setIndentification("Don't KnoW");
@@ -177,6 +185,7 @@ public class UnitechApplication implements ApplicationRunner {
         PasswordEntity password7 = new PasswordEntity();
         password7.setPassword(passwordEncoder.encode("admin"));
         user7.setDob(LocalDate.parse("1996-09-02"));
+        user7.setSurName("surname");
         user7.setEmail("GENERALMANAGER@gmail.com");
         user7.setUsername("GENERALMANAGER");
         user7.setIndentification("Don't KnoW");
@@ -194,6 +203,7 @@ public class UnitechApplication implements ApplicationRunner {
         PasswordEntity password8 = new PasswordEntity();
         password8.setPassword(passwordEncoder.encode("admin"));
         user8.setUsername("ACCOUNT");
+        user8.setSurName("surname");
         user8.setDob(LocalDate.parse("1996-09-02"));
         user8.setEmail("ACCOUNT@gmail.com");
         user8.setIndentification("Don't KnoW");

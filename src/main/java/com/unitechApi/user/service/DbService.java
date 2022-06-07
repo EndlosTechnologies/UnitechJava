@@ -5,16 +5,19 @@ import com.unitechApi.store.productCategory.model.ProductCategory;
 import com.unitechApi.store.productCategory.repository.ProductCategoryRepository;
 import com.unitechApi.store.unit.model.Unit;
 import com.unitechApi.store.unit.repository.UnitRepository;
-import org.apache.poi.ss.usermodel.*;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import java.io.*;
-
+import java.io.IOException;
+import java.io.InputStream;
 import java.sql.*;
-import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
@@ -22,9 +25,16 @@ import java.util.List;
 @Service
 public class DbService {
 
-    public static final String JDBC_URL = "jdbc:postgresql://localhost:5432/unitech";
-    private static final String DEFAULT_USERNAME = "postgres";
-    private static final String DEFAULT_PASSWORD = "postgres";
+    @Value("${spring.datasource.url}")
+    private String url;
+    //public static final String JDBC_URL = "jdbc:postgresql://localhost:5432/unitechdev";
+
+    @Value("${spring.datasource.username}")
+    private String username;
+    //private static final String DEFAULT_USERNAME = "postgres";
+    @Value("${spring.datasource.password}")
+    private String password;
+    // private static final String DEFAULT_PASSWORD = "postgres";
     public static final Logger log = LoggerFactory.getLogger(DbService.class);
     private final ProductCategoryRepository productCategoryRepository;
     private final UnitRepository unitRepository;
@@ -35,8 +45,8 @@ public class DbService {
     }
 
 
-    private static Connection createdConnecton() throws SQLException {
-        return DriverManager.getConnection(JDBC_URL, DEFAULT_PASSWORD, DEFAULT_USERNAME);
+    private Connection createdConnecton() throws SQLException {
+        return DriverManager.getConnection(url, username, password);
     }
 
     public void machineReadingDelete() throws SQLException {
@@ -68,7 +78,7 @@ public class DbService {
             Workbook workbook = new XSSFWorkbook(ls);
             Sheet firstSheet = workbook.getSheetAt(0);
             Iterator<Row> rowIterator = firstSheet.iterator();
-            connection = DriverManager.getConnection(JDBC_URL, DEFAULT_USERNAME, DEFAULT_PASSWORD);
+            connection = DriverManager.getConnection(url, username, password);
             connection.setAutoCommit(false);
             String sql = "INSERT INTO store_management.item (itemname, itemdescription,remainingitem, drawingno,catalogno,frequency,paytax,quantity,created,expirydays,p_id,u_id) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)";
             PreparedStatement statement = connection.prepareStatement(sql);
@@ -77,6 +87,7 @@ public class DbService {
             rowIterator.next(); // skip the header row
 
             while (rowIterator.hasNext()) {
+
                 Row nextRow = rowIterator.next();
                 Iterator<Cell> cellIterator = nextRow.cellIterator();
 
@@ -102,15 +113,15 @@ public class DbService {
                         case 3:
                             String drawingno = nextCell.getStringCellValue();
                             statement.setString(4, drawingno);
-                            //drawingno,catalogno,frequency,paytax,quantity,indate,expirydays,p_id,u_id
+                            //drawing,catalog,frequency,pay-tax,quantity,indate,expirydays,p_id,u_id
                             break;
                         case 4:
                             String catalogno = nextCell.getStringCellValue();
                             statement.setString(5, catalogno);
                             break;
                         case 5:
-                            String frequency = nextCell.getStringCellValue();
-                            statement.setString(6, frequency);
+                            double frequency = nextCell.getNumericCellValue();
+                            statement.setLong(6, (long) frequency);
                             break;
                         case 6:
                             int paytax = (int) nextCell.getNumericCellValue();
@@ -121,7 +132,8 @@ public class DbService {
                             statement.setLong(8, quantity);
                             break;
                         case 8:
-                            Date created = nextCell.getDateCellValue();
+                            java.util.Date created = nextCell.getDateCellValue();
+                            log.info("Date value in ", created);
                             statement.setTimestamp(9, new Timestamp(created.getTime()));
                             break;
                         case 9:
@@ -133,6 +145,7 @@ public class DbService {
                             log.info("excel product name {}", nextCell.getStringCellValue());
                             List<ProductCategory> productCategory = productCategoryRepository.findAll();
                             for (ProductCategory p : productCategory) {
+                                log.info("product id ", productCategory.toArray().length);
                                 if (p.getProductName().equals(p_id)) {
                                     statement.setLong(11, p.getPid());
                                 }

@@ -3,13 +3,15 @@ package com.unitechApi.store.Excel.ExcelController;
 import com.unitechApi.Payload.response.MessageResponse;
 import com.unitechApi.store.Excel.service.DepartmentWiseExcel;
 import com.unitechApi.store.Excel.service.IssueInItemExcel;
+import com.unitechApi.store.Excel.service.ItemExcel;
 import com.unitechApi.store.Excel.service.ReportExcelIssedMachine;
 import com.unitechApi.store.indent.Model.UsageItem;
 import com.unitechApi.store.indent.Repository.UsageRepository;
 import com.unitechApi.store.indent.Service.UsageService;
 import com.unitechApi.store.issue.Repository.IssueRepository;
 import com.unitechApi.store.issue.model.IssueItem;
-import com.unitechApi.store.unit.service.UnitService;
+import com.unitechApi.store.storeMangment.Model.StoreItemModel;
+import com.unitechApi.store.storeMangment.repository.StoreItemRepository;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,7 +26,9 @@ import java.sql.Date;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping(value = "/unitech/api/v1/excel")
@@ -32,10 +36,13 @@ public class IssuedExcelController {
     private final UsageRepository usageRepository;
     private final IssueRepository issueRepository;
     private final UsageService usageService;
-    public IssuedExcelController(UsageRepository usageRepository, IssueRepository issueRepository, UsageService usageService) {
+    private final StoreItemRepository storeItemRepository;
+    public IssuedExcelController(UsageRepository usageRepository, IssueRepository issueRepository, UsageService usageService, StoreItemRepository storeItemRepository) {
         this.usageRepository = usageRepository;
         this.issueRepository = issueRepository;
         this.usageService = usageService;
+
+        this.storeItemRepository = storeItemRepository;
     }
 
 
@@ -88,6 +95,19 @@ public class IssuedExcelController {
         DepartmentWiseExcel issue=new DepartmentWiseExcel(listData);
         issue.export(response);
         return new ResponseEntity<>(new MessageResponse("upload SuccessFully"), HttpStatus.OK);
+    }
+    @GetMapping("/storeItem")
+    public ResponseEntity<?> storeItemExcel(HttpServletResponse response) throws IOException {
+        response.setContentType("application/octet-stream");
+        DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+        String currentDate = dateFormat.format(new java.util.Date());
+        String headerKey = "Content-Disposition";
+        String headerValue = "attachment; filename=item" + currentDate + ".xlsx";
+        response.setHeader(headerKey, headerValue);
+        List<StoreItemModel> storeItemModelList=storeItemRepository.findAll().stream().sorted(Comparator.comparing(StoreItemModel::getItemId)).collect(Collectors.toList());
+        ItemExcel itemExcel=new ItemExcel(storeItemModelList);
+        itemExcel.export(response);
+        return new ResponseEntity<>(new MessageResponse("Download SuccessFully"), HttpStatus.OK);
     }
 
 }

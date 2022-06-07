@@ -2,7 +2,6 @@ package com.unitechApi.store.storeMangment.controller;
 
 import com.unitechApi.Payload.response.MessageResponse;
 import com.unitechApi.Payload.response.PageResponse;
-import com.unitechApi.store.storeMangment.ExcelService.ImportExcel;
 import com.unitechApi.store.storeMangment.ExcelService.ItemExcel;
 import com.unitechApi.store.storeMangment.Model.StoreItemModel;
 import com.unitechApi.store.storeMangment.service.StoreItemService;
@@ -15,7 +14,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -35,7 +33,7 @@ public class StoreItemController {
     }
 
     @PostMapping(value = "")
-    public ResponseEntity<?> saveItemdata(@RequestBody StoreItemModel storeItemModel) {
+    public ResponseEntity<?> saveItemData(@RequestBody StoreItemModel storeItemModel) {
         StoreItemModel itemData = storeItemService.saveData(storeItemModel);
         return new ResponseEntity<>(PageResponse.SuccessResponse(itemData), HttpStatus.CREATED);
     }
@@ -93,7 +91,12 @@ public class StoreItemController {
         storeItemService.checkRemainingItem(itemId);
         return new ResponseEntity<>(new MessageResponse("checked done "),HttpStatus.OK);
     }
-
+    @DeleteMapping(value = "{item_id}/rmVendor/{vendor_id}")
+    public ResponseEntity<?> deleteVendor(@PathVariable Long item_id,@PathVariable Long vendor_id)
+    {
+        storeItemService.deleteVendor(item_id,vendor_id);
+        return new ResponseEntity<>(new MessageResponse("Deleted Successfully"),HttpStatus.NO_CONTENT);
+    }
     @GetMapping(value = "/ex/d")
     public void downloadFile(HttpServletResponse response) throws IOException {
         response.setContentType("application/octet-stream");
@@ -101,7 +104,7 @@ public class StoreItemController {
         String headerValue = "attachment; filename=itemList.xlsx";
         response.setHeader(headerKey, headerValue);
         List<StoreItemModel> data = storeItemService.findAll();
-        data.stream().forEach(storeItemModel -> System.out.println(storeItemModel));
+        data.forEach(System.out::println);
         ItemExcel itemExcel = new ItemExcel(data);
         itemExcel.export(response);
     }

@@ -20,7 +20,7 @@ public class VendorController {
         this.vendorService = vendorService;
     }
 
-    @PostMapping("/save")
+    @PostMapping
     //@PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<?> SaveData(@RequestBody VendorModel vendorModel)
 
