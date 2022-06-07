@@ -7,4 +7,5 @@ import java.util.List;
 
 public interface AddDrawFramesRepository extends JpaRepository<AddDrawFramesMachine, Long> {
     List<AddDrawFramesMachine> findByStatus(boolean status);
+    Boolean existsByName(String name);
 }

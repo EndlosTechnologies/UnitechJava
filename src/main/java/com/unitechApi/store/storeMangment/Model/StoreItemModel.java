@@ -217,6 +217,7 @@ public class StoreItemModel extends Audit<String> {
     public void setPaytax(int paytax) {
         this.paytax = paytax;
     }
+
     public void deleteVendor(VendorModel vendorModel) {
         dataVendorAndItem.remove(vendorModel);
     }

@@ -7,4 +7,5 @@ import java.util.List;
 
 public interface AddBloowRoomRepository extends JpaRepository<AddBloowroom, Long> {
     List<AddBloowroom> findByStatus(boolean status);
+    Boolean existsByName(String name);
 }

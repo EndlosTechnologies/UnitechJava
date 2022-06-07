@@ -9,4 +9,5 @@ import java.util.List;
 public interface UnitRepository extends JpaRepository<Unit,Long> {
     List<Unit> findByUnitName(String name);
     List<Unit> findByCreated(Date date);
+    Boolean existsByUnitName(String unit);
 }

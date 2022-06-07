@@ -14,9 +14,11 @@ import org.springframework.util.ReflectionUtils;
 import org.springframework.web.bind.annotation.*;
 
 import java.lang.reflect.Field;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @RestController
 @CrossOrigin
@@ -34,6 +36,10 @@ public class AddLapFormerController {
 
     @PostMapping("/save")
     public ResponseEntity<?> SaveData(@RequestBody AddLapFormer addLapFormer) {
+        if (addLapFormerRepository.existsByName(addLapFormer.getName()))
+        {
+            return ResponseEntity.badRequest().body(new MessageResponse("Already Exists " + addLapFormer.getName()));
+        }
         return new ResponseEntity<>(addLapFormerService.savemachine(addLapFormer), HttpStatus.CREATED);
     }
 
@@ -63,11 +69,12 @@ public class AddLapFormerController {
                 field.setAccessible(true);
                 ReflectionUtils.setField(field, addlapformer.get(), value);
             });
-            AddLapFormer saveuser = addLapFormerRepository.save(addlapformer.get());
+
+             addLapFormerRepository.save(addlapformer.get());
         } else {
             throw new UserNotFound("User Not Found " + id);
         }
-        log.info("{} Status Updated ", addlapformer);
-        return new ResponseEntity<>(new MessageResponse("Updated "), HttpStatus.OK);
+        log.info(" Status Updated {} ", fields);
+        return new ResponseEntity<>(new MessageResponse("Updated :->" + new ArrayList<>(fields.entrySet())), HttpStatus.OK);
     }
 }

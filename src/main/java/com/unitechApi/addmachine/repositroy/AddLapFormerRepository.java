@@ -7,4 +7,5 @@ import java.util.List;
 
 public interface AddLapFormerRepository extends JpaRepository<AddLapFormer , Long> {
     List<AddLapFormer> findByStatus(boolean status);
+    Boolean existsByName(String name);
 }

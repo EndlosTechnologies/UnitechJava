@@ -7,4 +7,5 @@ import java.util.List;
 
 public interface AddWindingRepository extends JpaRepository<AddWindingMachine, Long> {
     List<AddWindingMachine> findByStatus(boolean status);
+    Boolean existsByName(String name);
 }

@@ -7,4 +7,5 @@ import java.util.List;
 
 public interface AddRingFrameRepossitory extends JpaRepository<AddRingFramesMachine, Long> {
     List<AddRingFramesMachine> findByStatus(boolean status);
+    Boolean existsByName(String name);
 }

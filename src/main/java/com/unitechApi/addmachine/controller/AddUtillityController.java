@@ -15,9 +15,11 @@ import org.springframework.util.ReflectionUtils;
 import org.springframework.web.bind.annotation.*;
 
 import java.lang.reflect.Field;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @RestController
 @CrossOrigin
@@ -34,7 +36,10 @@ public class AddUtillityController {
     }
 
     @PostMapping("/save")
-    public ResponseEntity<AddUtillityMachine> SaveBlowRoom(@RequestBody AddUtillityMachine addUtillityMachine) {
+    public ResponseEntity<?> SaveBlowRoom(@RequestBody AddUtillityMachine addUtillityMachine) {
+        if (addUtilityRepository.existsByName(addUtillityMachine.getName())) {
+            return ResponseEntity.badRequest().body(new MessageResponse("Already Exists " + addUtillityMachine.getName()));
+        }
         return ResponseEntity.status(HttpStatus.CREATED).body(addUtilityService.SaveData(addUtillityMachine));
     }
 
@@ -59,7 +64,7 @@ public class AddUtillityController {
         return new ResponseEntity<>(PageResponse.SuccessResponse(Data), HttpStatus.OK);
     }
 
-    @PatchMapping("/update")
+    @PatchMapping("/update/{id}")
     public ResponseEntity<?> UpdateData(@PathVariable Long id, @RequestBody Map<Object, Object> fields) {
         Optional<AddUtillityMachine> addUtillityMachine = Optional.ofNullable(addUtilityRepository.findById(id).orElseThrow(() -> new ResourceNotFound("Resourse Not Found")));
         if (addUtillityMachine.isPresent()) {
@@ -68,11 +73,12 @@ public class AddUtillityController {
                 field.setAccessible(true);
                 ReflectionUtils.setField(field, addUtillityMachine.get(), value);
             });
-            AddUtillityMachine saveuser = addUtilityRepository.save(addUtillityMachine.get());
+
+            addUtilityRepository.save(addUtillityMachine.get());
         } else {
             throw new UserNotFound("User Not Found " + id);
         }
-        log.info("{} Status Updated ", addUtillityMachine);
-        return new ResponseEntity<>(new MessageResponse("Updated "), HttpStatus.OK);
+        log.info(" Status Updated {} ", fields);
+        return new ResponseEntity<>(new MessageResponse("Updated :->" + new ArrayList<>(fields.entrySet())), HttpStatus.OK);
     }
 }

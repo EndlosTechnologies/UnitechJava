@@ -15,9 +15,11 @@ import org.springframework.util.ReflectionUtils;
 import org.springframework.web.bind.annotation.*;
 
 import java.lang.reflect.Field;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @RestController
 @CrossOrigin
@@ -25,8 +27,8 @@ import java.util.Optional;
 @Slf4j
 public class AddSimplexController {
 
-   private final AddSimplexService addSimplexService;
-   private final AddSimplexRepository addSimplexRepository;
+    private final AddSimplexService addSimplexService;
+    private final AddSimplexRepository addSimplexRepository;
 
     public AddSimplexController(AddSimplexService addSimplexService, AddSimplexRepository addSimplexRepository) {
         this.addSimplexService = addSimplexService;
@@ -34,7 +36,10 @@ public class AddSimplexController {
     }
 
     @PostMapping("/save")
-    public ResponseEntity<AddSimplexMAchine> SaveBlowRoom(@RequestBody AddSimplexMAchine addRingFramesMachine) {
+    public ResponseEntity<?> SaveBlowRoom(@RequestBody AddSimplexMAchine addRingFramesMachine) {
+        if (addSimplexRepository.existsByName(addRingFramesMachine.getName())) {
+            return ResponseEntity.badRequest().body(new MessageResponse("Already Exists " + addRingFramesMachine.getName()));
+        }
         return ResponseEntity.status(HttpStatus.CREATED).body(addSimplexService.SaveData(addRingFramesMachine));
     }
 
@@ -47,18 +52,20 @@ public class AddSimplexController {
     public ResponseEntity<Object> FindAll() {
         return ResponseEntity.status(HttpStatus.OK).body(addSimplexService.ViewData());
     }
+
     @DeleteMapping("/del/{id}")
     public void deleteByid(@PathVariable Long id) {
         addSimplexService.DeleteReading(id);
     }
-    @GetMapping ("/status/")
-    public ResponseEntity<?> FindByStatus(@RequestParam boolean status)
-    {
-        List<AddSimplexMAchine> Data=addSimplexService.Status(status);
-        return new ResponseEntity<>(PageResponse.SuccessResponse(Data),HttpStatus.OK);
+
+    @GetMapping("/status/")
+    public ResponseEntity<?> FindByStatus(@RequestParam boolean status) {
+        List<AddSimplexMAchine> Data = addSimplexService.Status(status);
+        return new ResponseEntity<>(PageResponse.SuccessResponse(Data), HttpStatus.OK);
     }
-    @PatchMapping("/update")
-    public ResponseEntity<?> UpdateData(@PathVariable Long id,@RequestBody Map<Object, Object> fields) {
+
+    @PatchMapping("/update/{id}")
+    public ResponseEntity<?> UpdateData(@PathVariable Long id, @RequestBody Map<Object, Object> fields) {
         Optional<AddSimplexMAchine> addSimplexMAchine = Optional.ofNullable(addSimplexRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFound("Resource Not Found")));
         if (addSimplexMAchine.isPresent()) {
@@ -67,12 +74,11 @@ public class AddSimplexController {
                 field.setAccessible(true);
                 ReflectionUtils.setField(field, addSimplexMAchine.get(), value);
             });
-            AddSimplexMAchine saveuser=addSimplexRepository.save(addSimplexMAchine.get());
+            addSimplexRepository.save(addSimplexMAchine.get());
+        } else {
+            throw new UserNotFound("User Not Found " + id);
         }
-        else
-        {
-            throw new UserNotFound("User Not Found "+id);
-        }
-        log.info("{} Status Updated ",addSimplexMAchine);
-        return new ResponseEntity<>(new MessageResponse("Updated "),HttpStatus.OK);    }
+        log.info(" Status Updated {} ", fields);
+        return new ResponseEntity<>(new MessageResponse("Updated :->" + new ArrayList<>(fields.entrySet())), HttpStatus.OK);
+    }
 }

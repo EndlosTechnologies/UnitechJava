@@ -7,4 +7,5 @@ import java.util.List;
 
 public interface AddUtilityRepository extends JpaRepository<AddUtillityMachine, Long> {
     List<AddUtillityMachine> findByStatus(boolean status);
+    Boolean existsByName(String name);
 }

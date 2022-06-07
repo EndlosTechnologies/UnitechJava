@@ -7,4 +7,5 @@ import java.util.List;
 
 public interface AddWasteRoomRepository extends JpaRepository<AddWasteRoomeMAchine, Long> {
     List<AddWasteRoomeMAchine> findByStatus(boolean status);
+    Boolean existsByName(String name);
 }

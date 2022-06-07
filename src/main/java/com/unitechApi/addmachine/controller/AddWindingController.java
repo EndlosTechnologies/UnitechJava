@@ -14,9 +14,11 @@ import org.springframework.util.ReflectionUtils;
 import org.springframework.web.bind.annotation.*;
 
 import java.lang.reflect.Field;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @RestController
 @CrossOrigin
@@ -24,8 +26,8 @@ import java.util.Optional;
 @Slf4j
 public class AddWindingController {
 
-   private final AddWindinfService addWindinfService;
-   private final AddWindingRepository addWindingRepository;
+    private final AddWindinfService addWindinfService;
+    private final AddWindingRepository addWindingRepository;
 
     public AddWindingController(AddWindinfService addWindinfService, AddWindingRepository addWindingRepository) {
         this.addWindinfService = addWindinfService;
@@ -33,8 +35,11 @@ public class AddWindingController {
     }
 
     @PostMapping("/save")
-    public ResponseEntity<AddWindingMachine> SaveBlowRoom(@RequestBody AddWindingMachine addRingFramesMachine) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(addWindinfService.SaveData(addRingFramesMachine));
+    public ResponseEntity<?> SaveBlowRoom(@RequestBody AddWindingMachine addWindingMachine) {
+        if (addWindingRepository.existsByName(addWindingMachine.getName())) {
+            return ResponseEntity.badRequest().body(new MessageResponse("Already Exists " + addWindingMachine.getName()));
+        }
+        return ResponseEntity.status(HttpStatus.CREATED).body(addWindinfService.SaveData(addWindingMachine));
     }
 
     @GetMapping("/{id}")
@@ -46,18 +51,20 @@ public class AddWindingController {
     public ResponseEntity<Object> FindAll() {
         return ResponseEntity.status(HttpStatus.OK).body(addWindinfService.ViewData());
     }
+
     @DeleteMapping("/del/{id}")
     public void deleteByid(@PathVariable Long id) {
         addWindinfService.DeleteReading(id);
     }
-    @GetMapping ("/status/")
-    public ResponseEntity<?> FindByStatus(@RequestParam boolean status)
-    {
-        List<AddWindingMachine> Data=addWindinfService.Status(status);
-        return new ResponseEntity<>(PageResponse.SuccessResponse(Data),HttpStatus.OK);
+
+    @GetMapping("/status/")
+    public ResponseEntity<?> FindByStatus(@RequestParam boolean status) {
+        List<AddWindingMachine> Data = addWindinfService.Status(status);
+        return new ResponseEntity<>(PageResponse.SuccessResponse(Data), HttpStatus.OK);
     }
-    @PatchMapping("/update")
-    public ResponseEntity<?> UpdateData(@PathVariable Long id,@RequestBody Map<Object, Object> fields) {
+
+    @PatchMapping("/update/{id}")
+    public ResponseEntity<?> UpdateData(@PathVariable Long id, @RequestBody Map<Object, Object> fields) {
         Optional<AddWindingMachine> addWindingMachine = Optional.ofNullable(addWindingRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFound("Resource Not Found")));
         if (addWindingMachine.isPresent()) {
@@ -66,12 +73,11 @@ public class AddWindingController {
                 field.setAccessible(true);
                 ReflectionUtils.setField(field, addWindingMachine.get(), value);
             });
-            AddWindingMachine saveuser=addWindingRepository.save(addWindingMachine.get());
+             addWindingRepository.save(addWindingMachine.get());
+        } else {
+            throw new ResourceNotFound("Resource Not Found " + id);
         }
-        else
-        {
-            throw new ResourceNotFound("Resource Not Found "+id);
-        }
-        log.info("{} Status Updated ",addWindingMachine);
-        return new ResponseEntity<>(new MessageResponse("Updated "),HttpStatus.OK);    }
+        log.info(" Status Updated {} ", fields);
+        return new ResponseEntity<>(new MessageResponse("Updated :->" + new ArrayList<>(fields.entrySet())), HttpStatus.OK);
+    }
 }

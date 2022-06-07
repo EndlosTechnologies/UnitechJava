@@ -15,9 +15,11 @@ import org.springframework.util.ReflectionUtils;
 import org.springframework.web.bind.annotation.*;
 
 import java.lang.reflect.Field;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @RestController
 @CrossOrigin
@@ -27,13 +29,17 @@ public class AddWasteRoomController {
 
     private final AddWasteRoomService addWasteRoomService;
     private final AddWasteRoomRepository addWasteRoomRepository;
+
     public AddWasteRoomController(AddWasteRoomService addWasteRoomService, AddWasteRoomRepository addWasteRoomRepository) {
         this.addWasteRoomService = addWasteRoomService;
         this.addWasteRoomRepository = addWasteRoomRepository;
     }
 
     @PostMapping("/save")
-    public ResponseEntity<AddWasteRoomeMAchine> SaveBlowRoom(@RequestBody AddWasteRoomeMAchine addWasteRoomeMAchine) {
+    public ResponseEntity<?> SaveBlowRoom(@RequestBody AddWasteRoomeMAchine addWasteRoomeMAchine) {
+        if (addWasteRoomRepository.existsByName(addWasteRoomeMAchine.getName())) {
+            return ResponseEntity.badRequest().body(new MessageResponse("Already Exists " + addWasteRoomeMAchine.getName()));
+        }
         return ResponseEntity.status(HttpStatus.CREATED).body(addWasteRoomService.SaveData(addWasteRoomeMAchine));
     }
 
@@ -46,18 +52,20 @@ public class AddWasteRoomController {
     public ResponseEntity<Object> FindAll() {
         return ResponseEntity.status(HttpStatus.OK).body(addWasteRoomService.ViewData());
     }
+
     @DeleteMapping("/del/{id}")
     public void deleteByid(@PathVariable Long id) {
         addWasteRoomService.DeleteReading(id);
     }
-    @GetMapping ("/status/")
-    public ResponseEntity<?> FindByStatus(@RequestParam boolean status)
-    {
-        List<AddWasteRoomeMAchine> Data=addWasteRoomService.Status(status);
-        return new ResponseEntity<>(PageResponse.SuccessResponse(Data),HttpStatus.OK);
+
+    @GetMapping("/status/")
+    public ResponseEntity<?> FindByStatus(@RequestParam boolean status) {
+        List<AddWasteRoomeMAchine> Data = addWasteRoomService.Status(status);
+        return new ResponseEntity<>(PageResponse.SuccessResponse(Data), HttpStatus.OK);
     }
-    @PatchMapping("/update")
-    public ResponseEntity<?> UpdateData(@PathVariable Long id,@RequestBody Map<Object, Object> fields) {
+
+    @PatchMapping("/update/{id}")
+    public ResponseEntity<?> UpdateData(@PathVariable Long id, @RequestBody Map<Object, Object> fields) {
         Optional<AddWasteRoomeMAchine> addWasteRoomeMAchine = Optional.ofNullable(addWasteRoomRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFound("Resource Not Found")));
         if (addWasteRoomeMAchine.isPresent()) {
@@ -66,12 +74,12 @@ public class AddWasteRoomController {
                 field.setAccessible(true);
                 ReflectionUtils.setField(field, addWasteRoomeMAchine.get(), value);
             });
-            AddWasteRoomeMAchine saveuser=addWasteRoomRepository.save(addWasteRoomeMAchine.get());
+
+            addWasteRoomRepository.save(addWasteRoomeMAchine.get());
+        } else {
+            throw new UserNotFound("User Not Found " + id);
         }
-        else
-        {
-            throw new UserNotFound("User Not Found "+id);
-        }
-        log.info("{} Status Updated ",addWasteRoomeMAchine);
-        return new ResponseEntity<>(new MessageResponse("Updated "),HttpStatus.OK);    }
+        log.info(" Status Updated {} ", fields);
+        return new ResponseEntity<>(new MessageResponse("Updated :->" + new ArrayList<>(fields.entrySet())), HttpStatus.OK);
+    }
 }

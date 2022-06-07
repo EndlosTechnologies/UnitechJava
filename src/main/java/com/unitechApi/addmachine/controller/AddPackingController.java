@@ -15,9 +15,11 @@ import org.springframework.util.ReflectionUtils;
 import org.springframework.web.bind.annotation.*;
 
 import java.lang.reflect.Field;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @RestController
 @CrossOrigin
@@ -34,7 +36,10 @@ public class AddPackingController {
     }
 
     @PostMapping("/save")
-    public ResponseEntity<AddPackingMachine> SaveBlowRoom(@RequestBody AddPackingMachine addPackingMachine) {
+    public ResponseEntity<?> SaveBlowRoom(@RequestBody AddPackingMachine addPackingMachine) {
+        if (addPackingRepository.existsByName(addPackingMachine.getName())) {
+            return ResponseEntity.badRequest().body(new MessageResponse("Already Exists " + addPackingMachine.getName()));
+        }
         return ResponseEntity.status(HttpStatus.CREATED).body(addPackingService.SaveData(addPackingMachine));
     }
 
@@ -47,20 +52,22 @@ public class AddPackingController {
     public ResponseEntity<Object> FindAll() {
         return ResponseEntity.status(HttpStatus.OK).body(addPackingService.ViewData());
     }
+
     @DeleteMapping("/del/{id}")
     public void deleteByid(@PathVariable Long id) {
         addPackingService.DeleteReading(id);
 
     }
-    @GetMapping ("/status/")
-    public ResponseEntity<?> FindByStatus(@RequestParam boolean status)
-    {
-        List<AddPackingMachine> Data=addPackingService.Status(status);
-        return new ResponseEntity<>(PageResponse.SuccessResponse(Data),HttpStatus.OK);
+
+    @GetMapping("/status/")
+    public ResponseEntity<?> FindByStatus(@RequestParam boolean status) {
+        List<AddPackingMachine> Data = addPackingService.Status(status);
+        return new ResponseEntity<>(PageResponse.SuccessResponse(Data), HttpStatus.OK);
     }
-    @PatchMapping("/update")
-    public ResponseEntity<?> UpdateData(@PathVariable Long id,@RequestBody Map<Object, Object> fields) {
-       Optional<AddPackingMachine> addPackingMachine = Optional.ofNullable(addPackingRepository.findById(id)
+
+    @PatchMapping("/update/{id}")
+    public ResponseEntity<?> UpdateData(@PathVariable Long id, @RequestBody Map<Object, Object> fields) {
+        Optional<AddPackingMachine> addPackingMachine = Optional.ofNullable(addPackingRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFound("Resource Not Found")));
         if (addPackingMachine.isPresent()) {
             fields.forEach((key, value) -> {
@@ -68,12 +75,12 @@ public class AddPackingController {
                 field.setAccessible(true);
                 ReflectionUtils.setField(field, addPackingMachine.get(), value);
             });
-            AddPackingMachine saveuser=addPackingRepository.save(addPackingMachine.get());
+
+           addPackingRepository.save(addPackingMachine.get());
+        } else {
+            throw new UserNotFound("User Not Found " + id);
         }
-        else
-        {
-            throw new UserNotFound("User Not Found "+id);
-        }
-        log.info("{} Status Updated ",addPackingMachine);
-        return new ResponseEntity<>(new MessageResponse("Updated "),HttpStatus.OK);    }
+        log.info(" Status Updated {} ", fields);
+        return new ResponseEntity<>(new MessageResponse("Updated :->" + new ArrayList<>(fields.entrySet())), HttpStatus.OK);
+    }
 }

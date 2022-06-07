@@ -7,4 +7,5 @@ import java.util.List;
 
 public interface AddComberRepository extends JpaRepository<AddComber ,Long> {
     List<AddComber> findByStatus(boolean status);
+    Boolean existsByName(String name);
 }

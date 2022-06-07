@@ -7,4 +7,5 @@ import java.util.List;
 
 public interface AddCardingRepository extends JpaRepository<AddCardingMachine, Long> {
     List<AddCardingMachine> findByStatus(boolean status);
+    Boolean existsByName(String name);
 }

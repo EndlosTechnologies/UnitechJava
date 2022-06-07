@@ -1,5 +1,6 @@
 package com.unitechApi.addmachine.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.unitechApi.MachineSetParameter.model.BloowRoom;
 import com.unitechApi.store.indent.Model.UsageItem;
@@ -28,6 +29,7 @@ public class AddBloowroom {
 
     @OneToMany(mappedBy = "bloowusage",cascade = CascadeType.ALL)
     @JsonIgnoreProperties("bloowusage")
+    @JsonIgnore
     private Set<UsageItem> bdata;
     @OneToMany(mappedBy = "addBloowroom",
             cascade = CascadeType.ALL)

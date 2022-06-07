@@ -43,6 +43,11 @@ public class ProductCategory {
     @OneToMany(mappedBy = "productCategory",cascade = CascadeType.ALL)
     @JsonIgnoreProperties({"productCategory","unit"})
     private List<StoreItemModel> item;
+
+    public void addProductCateGory(StoreItemModel  productCategory)
+    {
+        this.item.add(productCategory);
+    }
     public Long getPid() {
         return pid;
     }

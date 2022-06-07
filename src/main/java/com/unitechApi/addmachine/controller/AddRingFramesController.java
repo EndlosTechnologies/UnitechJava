@@ -15,9 +15,11 @@ import org.springframework.util.ReflectionUtils;
 import org.springframework.web.bind.annotation.*;
 
 import java.lang.reflect.Field;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @RestController
 @CrossOrigin
@@ -34,7 +36,10 @@ public class AddRingFramesController {
     }
 
     @PostMapping("/save")
-    public ResponseEntity<AddRingFramesMachine> SaveBlowRoom(@RequestBody AddRingFramesMachine addRingFramesMachine) {
+    public ResponseEntity<?> SaveBlowRoom(@RequestBody AddRingFramesMachine addRingFramesMachine) {
+      if (addRingFrameRepossitory.existsByName(addRingFramesMachine.getName())) {
+          return ResponseEntity.badRequest().body(new MessageResponse("Already Exists " + addRingFramesMachine.getName()));
+      }
         return ResponseEntity.status(HttpStatus.CREATED).body(addRingframesService.SaveData(addRingFramesMachine));
     }
 
@@ -59,7 +64,7 @@ public class AddRingFramesController {
         return new ResponseEntity<>(PageResponse.SuccessResponse(Data), HttpStatus.OK);
     }
 
-    @PatchMapping("/update")
+    @PatchMapping("/update/{id}")
     public ResponseEntity<?> UpdateData(@PathVariable Long id, @RequestBody Map<Object, Object> fields) {
         Optional<AddRingFramesMachine> addRingFramesMachine = Optional.ofNullable(addRingFrameRepossitory.findById(id)
                 .orElseThrow(() -> new ResourceNotFound("Resource Not found")));
@@ -69,11 +74,12 @@ public class AddRingFramesController {
                 field.setAccessible(true);
                 ReflectionUtils.setField(field, addRingFramesMachine.get(), value);
             });
-            AddRingFramesMachine saveuser = addRingFrameRepossitory.save(addRingFramesMachine.get());
+
+            addRingFrameRepossitory.save(addRingFramesMachine.get());
         } else {
             throw new UserNotFound("User Not Found " + id);
         }
-        log.info("{} Status Updated ", addRingFramesMachine);
-        return new ResponseEntity<>(new MessageResponse("Updated "), HttpStatus.OK);
+        log.info(" Status Updated {} ", fields);
+        return new ResponseEntity<>(new MessageResponse("Updated :->" + new ArrayList<>(fields.entrySet())), HttpStatus.OK);
     }
 }

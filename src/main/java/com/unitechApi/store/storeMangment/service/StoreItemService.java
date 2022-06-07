@@ -57,6 +57,7 @@ public class StoreItemService {
             field.setAccessible(true);
             ReflectionUtils.setField(field, itemId, value);
         });
+
         StoreItemModel item = storeItemRepository.save(itemId);
 
         return item;

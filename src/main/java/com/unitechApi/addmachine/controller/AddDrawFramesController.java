@@ -8,16 +8,17 @@ import com.unitechApi.addmachine.service.AddDrawMachienService;
 import com.unitechApi.exception.ExceptionService.ResourceNotFound;
 import com.unitechApi.exception.ExceptionService.UserNotFound;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.ReflectionUtils;
 import org.springframework.web.bind.annotation.*;
 
 import java.lang.reflect.Field;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @RestController
 @CrossOrigin
@@ -34,7 +35,11 @@ public class AddDrawFramesController {
     }
 
     @PostMapping("/save")
-    public ResponseEntity<AddDrawFramesMachine> SaveBlowRoom(@RequestBody AddDrawFramesMachine addDrawFramesMachine) {
+    public ResponseEntity<?> SaveBlowRoom(@RequestBody AddDrawFramesMachine addDrawFramesMachine) {
+        if (addDrawFramesRepository.existsByName(addDrawFramesMachine.getName()))
+        {
+            return ResponseEntity.badRequest().body(new MessageResponse("Already Exists " + addDrawFramesMachine.getName()));
+        }
         return ResponseEntity.status(HttpStatus.CREATED).body(addDrawMachienService.savemachineDraw(addDrawFramesMachine));
     }
 
@@ -59,7 +64,7 @@ public class AddDrawFramesController {
         return new ResponseEntity<>(PageResponse.SuccessResponse(Data), HttpStatus.OK);
     }
 
-    @PatchMapping("/update")
+    @PatchMapping("/update/{id}")
     public ResponseEntity<?> UpdateData(@PathVariable Long id, @RequestBody Map<Object, Object> fields) {
         Optional<AddDrawFramesMachine> addDrawFramesMachine = Optional.ofNullable(addDrawFramesRepository.findById(id).
                 orElseThrow(() -> new ResourceNotFound("Resource Not Found")));
@@ -69,11 +74,12 @@ public class AddDrawFramesController {
                 field.setAccessible(true);
                 ReflectionUtils.setField(field, addDrawFramesMachine.get(), value);
             });
-            AddDrawFramesMachine saveuser = addDrawFramesRepository.save(addDrawFramesMachine.get());
+
+            addDrawFramesRepository.save(addDrawFramesMachine.get());
         } else {
             throw new UserNotFound("User Not Found " + id);
         }
-        log.info("{} Status Updated ", addDrawFramesMachine);
-        return new ResponseEntity<>(new MessageResponse("Updated "), HttpStatus.OK);
+        log.info(" Status Updated {} ", fields);
+        return new ResponseEntity<>(new MessageResponse("Updated :->" + new ArrayList<>(fields.entrySet())), HttpStatus.OK);
     }
 }

@@ -7,4 +7,5 @@ import java.util.List;
 
 public interface AddSimplexRepository extends JpaRepository<AddSimplexMAchine, Long> {
     List<AddSimplexMAchine> findByStatus(boolean status);
+    Boolean existsByName(String name);
 }

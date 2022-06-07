@@ -7,4 +7,5 @@ import java.util.List;
 
 public interface AddPackingRepository extends JpaRepository<AddPackingMachine, Long> {
     List<AddPackingMachine> findByStatus(boolean status);
+    Boolean existsByName(String name);
 }

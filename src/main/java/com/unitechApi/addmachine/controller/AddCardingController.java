@@ -8,16 +8,17 @@ import com.unitechApi.addmachine.service.AddCardingService;
 import com.unitechApi.exception.ExceptionService.ResourceNotFound;
 import com.unitechApi.exception.ExceptionService.UserNotFound;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.ReflectionUtils;
 import org.springframework.web.bind.annotation.*;
 
 import java.lang.reflect.Field;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @RestController
 @CrossOrigin
@@ -34,7 +35,11 @@ public class AddCardingController {
     }
 
     @PostMapping("/save")
-    public ResponseEntity<AddCardingMachine> SaveBlowRoom(@RequestBody AddCardingMachine addCardingMachine) {
+    public ResponseEntity<?> SaveBlowRoom(@RequestBody AddCardingMachine addCardingMachine) {
+        if (addCardingRepository.existsByName(addCardingMachine.getName())) {
+            return ResponseEntity.badRequest().body(new MessageResponse("Already Exists " + addCardingMachine.getName()));
+
+        }
         return ResponseEntity.status(HttpStatus.CREATED).body(addCardingService.Savecarding(addCardingMachine));
     }
 
@@ -69,11 +74,11 @@ public class AddCardingController {
                 field.setAccessible(true);
                 ReflectionUtils.setField(field, addCardingMachine.get(), value);
             });
-            AddCardingMachine saveuser = addCardingRepository.save(addCardingMachine.get());
+            addCardingRepository.save(addCardingMachine.get());
         } else {
             throw new UserNotFound("User Not Found " + id);
         }
-        log.info("{} Status Updated ", addCardingMachine);
-        return new ResponseEntity<>(new MessageResponse("Updated "), HttpStatus.OK);
+        log.info(" Status Updated {} ", fields);
+        return new ResponseEntity<>(new MessageResponse("Updated :->" + new ArrayList<>(fields.entrySet())), HttpStatus.OK);
     }
 }

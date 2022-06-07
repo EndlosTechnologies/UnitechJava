@@ -8,7 +8,6 @@ import com.unitechApi.addmachine.service.Addbloowroomservice;
 import com.unitechApi.exception.ExceptionService.ResourceNotFound;
 import com.unitechApi.exception.ExceptionService.UserNotFound;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -16,13 +15,14 @@ import org.springframework.util.ReflectionUtils;
 import org.springframework.web.bind.annotation.*;
 
 import java.lang.reflect.Field;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
 @RestController
 @CrossOrigin
-@RequestMapping("/unitech/api/v1/addmachine/bloowroom")
+@RequestMapping("/unitech/api/v1/addMachine/bloowRoom")
 @Slf4j
 public class AddBloowRoomController {
     private final Addbloowroomservice addbloowroomservice;
@@ -33,11 +33,14 @@ public class AddBloowRoomController {
         this.addBloowRoomRepository = addBloowRoomRepository;
     }
 
-    @PostMapping("/save")
+    @PostMapping()
     @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_HR')")
-    public ResponseEntity<?> SaveBlowRoom(@RequestBody AddBloowroom addBloowroom) {
-        AddBloowroom addBloowroomData = addbloowroomservice.savemachine(addBloowroom);
-        return new ResponseEntity<>(PageResponse.SuccessResponse(addBloowroomData), HttpStatus.CREATED);
+    public ResponseEntity<?> SaveBlowRoom(@RequestBody AddBloowroom addBloowRoom) {
+        if (addBloowRoomRepository.existsByName(addBloowRoom.getName())) {
+            return ResponseEntity.badRequest().body(new MessageResponse("Already Exists " + addBloowRoom.getName()));
+        }
+        AddBloowroom addBloowRoomData = addbloowroomservice.savemachine(addBloowRoom);
+        return new ResponseEntity<>(PageResponse.SuccessResponse(addBloowRoomData), HttpStatus.CREATED);
     }
 
     @GetMapping("/{id}")
@@ -63,21 +66,27 @@ public class AddBloowRoomController {
 
     @PatchMapping("/update/{id}")
     public ResponseEntity<?> UpdateData(@PathVariable Long id, @RequestBody Map<Object, Object> fields) {
-        Optional<AddBloowroom> addBloowroom = Optional.ofNullable(addBloowRoomRepository.findById(id).orElseThrow(() -> new ResourceNotFound(
+        Optional<AddBloowroom> addBloowRoom = Optional.ofNullable(addBloowRoomRepository.findById(id).orElseThrow(() -> new ResourceNotFound(
                 "Resource Not Found"
         )));
-        if (addBloowroom.isPresent()) {
+        log.info("machine name {}",addBloowRoom.get().getName());
+        if (addBloowRoom.isPresent()) {
+
             fields.forEach((key, value) -> {
+
                 Field field = ReflectionUtils.findField(AddBloowroom.class, (String) key);
+                assert field != null;
                 field.setAccessible(true);
-                ReflectionUtils.setField(field, addBloowroom.get(), value);
+                ReflectionUtils.setField(field, addBloowRoom.get(), value);
+                log.info("field {}",field);
             });
-            AddBloowroom saveuser = addBloowRoomRepository.save(addBloowroom.get());
+            AddBloowroom addBloowroom = addBloowRoomRepository.save(addBloowRoom.get());
+
         } else {
             throw new UserNotFound("User Not Found " + id);
         }
-        log.info("{} Status Updated ", addBloowroom);
-        return new ResponseEntity<>(new MessageResponse("Updated "), HttpStatus.OK);
+        log.info(" Status Updated {} ", fields);
+        return new ResponseEntity<>(new MessageResponse("Updated :->" + new ArrayList<>(fields.entrySet())), HttpStatus.OK);
     }
 }
 
