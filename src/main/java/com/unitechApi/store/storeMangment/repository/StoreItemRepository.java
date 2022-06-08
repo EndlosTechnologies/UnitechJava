@@ -12,5 +12,4 @@ public interface StoreItemRepository extends JpaRepository<StoreItemModel,Long> 
     List<StoreItemModel> findByDrawingNo(String name);
     List<StoreItemModel> findByCreated(Date date);
 
-
 }

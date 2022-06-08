@@ -2,9 +2,18 @@ package com.unitechApi.store.storeMangment.controller;
 
 import com.unitechApi.Payload.response.MessageResponse;
 import com.unitechApi.Payload.response.PageResponse;
+import com.unitechApi.exception.ExceptionService.ItemNotFound;
+import com.unitechApi.exception.ExceptionService.ResourceNotFound;
+import com.unitechApi.exception.ExceptionService.UnitNotFound;
+import com.unitechApi.store.Dto.ProductRest;
+import com.unitechApi.store.productCategory.model.ProductCategory;
+import com.unitechApi.store.productCategory.repository.ProductCategoryRepository;
 import com.unitechApi.store.storeMangment.ExcelService.ItemExcel;
 import com.unitechApi.store.storeMangment.Model.StoreItemModel;
+import com.unitechApi.store.storeMangment.repository.StoreItemRepository;
 import com.unitechApi.store.storeMangment.service.StoreItemService;
+import com.unitechApi.store.unit.model.Unit;
+import com.unitechApi.store.unit.repository.UnitRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.io.InputStreamResource;
@@ -20,17 +29,23 @@ import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 @RestController
 @CrossOrigin
 @RequestMapping(value = "/unitech/api/v1/store")
 public class StoreItemController {
-    public static final Logger log= LoggerFactory.getLogger(StoreItemController.class);
+    public static final Logger log = LoggerFactory.getLogger(StoreItemController.class);
     private final StoreItemService storeItemService;
+    private final StoreItemRepository storeItemRepository;
+    private final UnitRepository unitRepository;
+    private final ProductCategoryRepository productCategoryRepository;
 
-    public StoreItemController(StoreItemService storeitemService) {
+    public StoreItemController(StoreItemService storeitemService, StoreItemRepository storeItemRepository, UnitRepository unitRepository, ProductCategoryRepository productCategoryRepository) {
         this.storeItemService = storeitemService;
+        this.storeItemRepository = storeItemRepository;
+        this.unitRepository = unitRepository;
+
+        this.productCategoryRepository = productCategoryRepository;
     }
 
     @PostMapping(value = "")
@@ -52,9 +67,9 @@ public class StoreItemController {
     }
 
     @PatchMapping(value = "/{id}")
-    public ResponseEntity<?> updateData(@PathVariable long id, @RequestBody Map<Object, Object> itemData) {
-        StoreItemModel storeItemModel = storeItemService.updateItem(id, itemData);
-        return new ResponseEntity<>(PageResponse.SuccessResponse(storeItemModel), HttpStatus.OK);
+    public ResponseEntity<?> updateData(@PathVariable long id, @RequestBody Map<Object, Object> storeItemModel) {
+        Object s = storeItemService.updateItem(id, storeItemModel);
+        return new ResponseEntity<>(PageResponse.SuccessResponse(s), HttpStatus.OK);
     }
 
     @GetMapping(value = "/itemName/")
@@ -80,24 +95,25 @@ public class StoreItemController {
         List<StoreItemModel> data = storeItemService.findByCreatedDate(date);
         return new ResponseEntity<>(PageResponse.SuccessResponse(data), HttpStatus.OK);
     }
+
     @PatchMapping("update/{uid}/{quantity}")
-    public ResponseEntity<?> updateStock(@PathVariable long uid,@PathVariable Long quantity)
-    {
-        storeItemService.AddStock(uid,quantity);
-        return new ResponseEntity<>(new MessageResponse("added Stock " + quantity),HttpStatus.OK);
+    public ResponseEntity<?> updateStock(@PathVariable long uid, @PathVariable Long quantity) {
+        storeItemService.AddStock(uid, quantity);
+        return new ResponseEntity<>(new MessageResponse("added Stock " + quantity), HttpStatus.OK);
     }
+
     @GetMapping(value = "checkRemainItem/{itemId}")
-    public ResponseEntity<?> checkRemainingItem(@PathVariable Long itemId)
-    {
+    public ResponseEntity<?> checkRemainingItem(@PathVariable Long itemId) {
         storeItemService.checkRemainingItem(itemId);
-        return new ResponseEntity<>(new MessageResponse("checked done "),HttpStatus.OK);
+        return new ResponseEntity<>(new MessageResponse("checked done "), HttpStatus.OK);
     }
+
     @DeleteMapping(value = "{item_id}/rmVendor/{vendor_id}")
-    public ResponseEntity<?> deleteVendor(@PathVariable Long item_id,@PathVariable Long vendor_id)
-    {
-        storeItemService.deleteVendor(item_id,vendor_id);
-        return new ResponseEntity<>(new MessageResponse("Deleted Successfully"),HttpStatus.NO_CONTENT);
+    public ResponseEntity<?> deleteVendor(@PathVariable Long item_id, @PathVariable Long vendor_id) {
+        storeItemService.deleteVendor(item_id, vendor_id);
+        return new ResponseEntity<>(new MessageResponse("Deleted Successfully"), HttpStatus.NO_CONTENT);
     }
+
     @GetMapping(value = "/ex/d")
     public void downloadFile(HttpServletResponse response) throws IOException {
         response.setContentType("application/octet-stream");
@@ -121,6 +137,73 @@ public class StoreItemController {
                 .body(file);
     }
 
+
+
+
+//    public ResponseEntity<?> updateStore(@PathVariable Long id, @RequestBody Map<String,String> storeItemModel)
+//    {
+//        StoreItemModel storeItem = storeItemRepository.findById(id).get();
+//        ProductRest productRest=mapPersistenceToRestModel(storeItem);
+//        storeItemModel.forEach((change,value)->{
+//            switch (change)
+//            {
+//                case "itemName":
+//                    productRest.setItemName(value);
+//                    break;
+//            }
+//        });
+//    }
+//
+//    private ProductRest mapPersistenceToRestModel(StoreItemModel storeItem) {
+//
+//    }
+
+    @RequestMapping(
+            value = "up/{id}",
+            method = {
+                    RequestMethod.PATCH
+            })
+    public ResponseEntity<?> updateStore(@PathVariable Long id, @RequestBody StoreItemModel storeItemModel) {
+        StoreItemModel storeItem = storeItemRepository.findById(id).get();
+        if (storeItem == null) {
+            throw new ItemNotFound("Item Not Found ");
+        }
+        storeItem.setItemName(storeItemModel.getItemName());
+        storeItem.setItemDescription(storeItemModel.getItemDescription());
+        storeItem.setDrawingNo(storeItemModel.getDrawingNo());
+        storeItem.setCatalogNo(storeItemModel.getCatalogNo());
+        storeItem.setFrequency(storeItemModel.getFrequency());
+        log.info("frequenct ,{}",storeItem.getFrequency());
+        storeItem.setPaytax(storeItemModel.getPaytax());
+        storeItem.setActivation(storeItemModel.getActivation());
+        storeItem.setExpiryDays(storeItemModel.getExpiryDays());
+        storeItem.setQuantity(storeItemModel.getQuantity());
+        if (storeItemModel.getProductCategory() != null) {
+            ProductCategory productCategory = productCategoryRepository.findById(storeItemModel.getProductCategory().getPid()).get();
+            if (productCategory == null) {
+                throw  new ResourceNotFound("Product category Not Found" +productCategory.getProductName());
+            }
+            productCategory.getItem().add(storeItem);
+          //  log.info("product added in {} ", productCategory);
+            storeItem.setProductCategory(productCategory);
+            productCategoryRepository.save(productCategory);
+        }  if (storeItemModel.getUnit()!= null) {
+            Unit unit = unitRepository.findById(storeItemModel.getUnit().getUid()).get();
+            if (unit == null)
+            {
+                throw new UnitNotFound("unit Not Found "+unit.getUnitName());
+            }
+            unit.getItemunit().add(storeItem);
+            storeItem.setUnit(unit);
+            unitRepository.save(unit);
+        } else {
+            storeItem.setProductCategory(null);
+            storeItem.setUnit(null);
+        }
+        storeItem = storeItemRepository.save(storeItem);
+        log.info("save in item data {}", storeItem);
+            return new ResponseEntity<>(PageResponse.SuccessResponse(storeItem), HttpStatus.OK);
+    }
 
 
 }

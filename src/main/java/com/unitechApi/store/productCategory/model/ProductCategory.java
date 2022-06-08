@@ -7,6 +7,7 @@ import org.apache.poi.ss.usermodel.CellType;
 import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 
 @Entity
@@ -44,10 +45,6 @@ public class ProductCategory {
     @JsonIgnoreProperties({"productCategory","unit"})
     private List<StoreItemModel> item;
 
-    public void addProductCateGory(StoreItemModel  productCategory)
-    {
-        this.item.add(productCategory);
-    }
     public Long getPid() {
         return pid;
     }
@@ -73,12 +70,25 @@ public class ProductCategory {
     }
 
     @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        ProductCategory that = (ProductCategory) o;
+        return pid.equals(that.pid) && productName.equals(that.productName) && created.equals(that.created) && item.equals(that.item);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(pid, productName, created, item);
+    }
+
+    @Override
     public String toString() {
         return "ProductCategory{" +
                 "pid=" + pid +
                 ", productName='" + productName + '\'' +
                 ", created=" + created +
-                ", item=" + item +
+               // ", item=" + item +
                 '}';
     }
 }

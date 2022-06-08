@@ -2,8 +2,11 @@ package com.unitechApi.store.storeMangment.service;
 
 import com.unitechApi.exception.ExceptionService.AddItemException;
 import com.unitechApi.exception.ExceptionService.ItemNotFound;
+import com.unitechApi.exception.ExceptionService.ResourceNotFound;
 import com.unitechApi.purchase.RawMaterial.vendor.Repository.VendorRepository;
 import com.unitechApi.purchase.RawMaterial.vendor.model.VendorModel;
+import com.unitechApi.store.productCategory.model.ProductCategory;
+import com.unitechApi.store.productCategory.repository.ProductCategoryRepository;
 import com.unitechApi.store.storeMangment.ExcelService.ImportExcel;
 import com.unitechApi.store.storeMangment.Model.StoreItemModel;
 import com.unitechApi.store.storeMangment.repository.ExcelRepository;
@@ -24,12 +27,14 @@ public class StoreItemService {
     private final StoreItemRepository storeItemRepository;
     private final ExcelRepository excelRepository;
     private final VendorRepository vendorRepository;
+    private  final ProductCategoryRepository productCategoryRepository;
     private static final Logger log = LoggerFactory.getLogger(StoreItemService.class);
 
-    public StoreItemService(StoreItemRepository storeItemRepository, ExcelRepository excelRepository, VendorRepository vendorRepository) {
+    public StoreItemService(StoreItemRepository storeItemRepository, ExcelRepository excelRepository, VendorRepository vendorRepository, ProductCategoryRepository productCategoryRepository) {
         this.storeItemRepository = storeItemRepository;
         this.excelRepository = excelRepository;
         this.vendorRepository = vendorRepository;
+        this.productCategoryRepository = productCategoryRepository;
     }
 
     public StoreItemModel saveData(StoreItemModel storeItemModel) {
@@ -51,11 +56,11 @@ public class StoreItemService {
 
     public StoreItemModel updateItem(Long id, Map<Object, Object> itemData) {
         StoreItemModel itemId = storeItemRepository.findById(id).orElseThrow(() -> new ItemNotFound("item Not Found"));
-
         itemData.forEach((key, value) -> {
             Field field = ReflectionUtils.findField(StoreItemModel.class, (String) key);
             field.setAccessible(true);
             ReflectionUtils.setField(field, itemId, value);
+
         });
 
         StoreItemModel item = storeItemRepository.save(itemId);

@@ -8,14 +8,19 @@ import com.unitechApi.store.indent.Model.Indent;
 import com.unitechApi.store.productCategory.model.ProductCategory;
 import com.unitechApi.store.unit.model.Unit;
 import com.unitechApi.user.model.User;
+import lombok.Getter;
+import lombok.ToString;
+import lombok.ToString.Exclude;
 
 import javax.persistence.*;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 
 @Entity
+@Getter
 @Table(name = "item", schema = "store_management")
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class StoreItemModel extends Audit<String> {
@@ -221,6 +226,21 @@ public class StoreItemModel extends Audit<String> {
     public void deleteVendor(VendorModel vendorModel) {
         dataVendorAndItem.remove(vendorModel);
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        StoreItemModel that = (StoreItemModel) o;
+        return frequency == that.frequency && RemainingItem == that.RemainingItem && paytax == that.paytax && expiryDays == that.expiryDays && quantity == that.quantity && itemId.equals(that.itemId) && itemName.equals(that.itemName) && itemDescription.equals(that.itemDescription) && drawingNo.equals(that.drawingNo) && catalogNo.equals(that.catalogNo) && created.equals(that.created) && activation.equals(that.activation) && issueItem.equals(that.issueItem) && productCategory.equals(that.productCategory) && unit.equals(that.unit) && employe.equals(that.employe) && itemRequest.equals(that.itemRequest) && dataVendorAndItem.equals(that.dataVendorAndItem);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(itemId, itemName, itemDescription, drawingNo, catalogNo, frequency, RemainingItem, paytax, created, activation, expiryDays, quantity, issueItem, productCategory, unit, employe, itemRequest, dataVendorAndItem);
+    }
+
+
     @Override
     public String toString() {
         return "StoreItemModel{" +
@@ -229,18 +249,19 @@ public class StoreItemModel extends Audit<String> {
                 ", itemDescription='" + itemDescription + '\'' +
                 ", drawingNo='" + drawingNo + '\'' +
                 ", catalogNo='" + catalogNo + '\'' +
-                ", frequency='" + frequency + '\'' +
+                ", frequency=" + frequency +
                 ", RemainingItem=" + RemainingItem +
                 ", paytax=" + paytax +
                 ", created=" + created +
                 ", activation=" + activation +
-                ", expiryDate=" + expiryDays +
+                ", expiryDays=" + expiryDays +
                 ", quantity=" + quantity +
+                ", issueItem=" + issueItem +
                 ", productCategory=" + productCategory +
                 ", unit=" + unit +
+                ", employe=" + employe +
                 ", itemRequest=" + itemRequest +
+                ", dataVendorAndItem=" + dataVendorAndItem +
                 '}';
     }
-
-
 }
