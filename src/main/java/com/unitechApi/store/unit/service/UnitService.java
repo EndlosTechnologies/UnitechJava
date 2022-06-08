@@ -24,7 +24,7 @@ public class UnitService {
     }
 
     public Optional<Unit> findById(Long id) {
-        return Optional.ofNullable(unitRepository.findById(id)).orElseThrow(() -> new UnitNotFound("Unit Not Found " + id));
+        return Optional.of(unitRepository.findById(id)).orElseThrow(() -> new UnitNotFound("Unit Not Found " + id));
     }
 
     public Unit deleteData(Long id) {

@@ -4,7 +4,6 @@ import com.unitechApi.Payload.response.PageResponse;
 import com.unitechApi.store.indent.Model.Indent;
 import com.unitechApi.store.indent.Model.IndentStatus;
 import com.unitechApi.store.indent.Service.IndentService;
-import com.unitechApi.store.issue.model.IssueItem;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -63,7 +62,7 @@ public class IndentController {
         return new ResponseEntity<>(PageResponse.SuccessResponse(data),HttpStatus.OK);
     }
     @GetMapping(value = "/Istatus")
-    public ResponseEntity<?> findByIndenetStatus(@RequestParam IndentStatus indentStatus)
+    public ResponseEntity<?> findByIndentStatus(@RequestParam IndentStatus indentStatus)
     {
         List<Indent> data= indentService.findByStatus(indentStatus);
         return new ResponseEntity<>(PageResponse.SuccessResponse(data),HttpStatus.OK);

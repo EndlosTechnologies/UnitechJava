@@ -12,10 +12,10 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
 
-public class RingframeExcelService {
-    private XSSFWorkbook xssfWorkbook;
+public class    RingframeExcelService {
+    private final XSSFWorkbook xssfWorkbook;
     private XSSFSheet xssfSheet;
-    private List<RingFrame> ringFrameData;
+    private final List<RingFrame> ringFrameData;
 
     public RingframeExcelService(List<RingFrame> ringFrameData) {
         this.ringFrameData = ringFrameData;
@@ -71,7 +71,7 @@ public class RingframeExcelService {
         createCell(row,32,"Shift A Avg. Difference from Target",style);
 
         createCell(row,33,"2 Hours",style);
-        createCell(row,34,"result in Hank",style);;
+        createCell(row,34,"result in Hank",style);
         createCell(row,35,"Shift A Avg. Difference from Target",style);
         createCell(row,36,"Total Shift A Production",style);
 
@@ -255,9 +255,6 @@ public class RingframeExcelService {
             createCell(row,countRow++,ringframe.getEfficiency(),style);
             createCell(row,countRow++,ringframe.getTarget_prod_variance_kg(),style);
             createCell(row,countRow++,ringframe.getTarget_prod_variance(),style);
-
-
-
         }
     }
 

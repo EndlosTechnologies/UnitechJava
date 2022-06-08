@@ -9,12 +9,12 @@ import com.unitechApi.Payload.response.PageResponse;
 import com.unitechApi.Payload.response.Pagination;
 import com.unitechApi.addmachine.model.AddBloowroom;
 import com.unitechApi.addmachine.repositroy.AddBloowRoomRepository;
+import com.unitechApi.exception.ExceptionService.MachineNotFound;
 import com.unitechApi.exception.ExceptionService.ResourceNotFound;
 import com.unitechApi.exception.ExceptionService.TimeExtendException;
 import com.unitechApi.user.controller.AuthController;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -86,6 +86,7 @@ public class BloowRoomController {
     public ResponseEntity<?> ParticularDate(@RequestParam Date start, @RequestParam int page, @RequestParam int pagesize) {
         Pagination pagination = new Pagination(page, pagesize);
         Page<BloowRoom> bloowRooms = bloowRoomService.listOfData(start, pagination);
+        logger.info("search single {}" ,bloowRooms);
         return new ResponseEntity<>(PageResponse.pagebleResponse(bloowRooms, pagination), HttpStatus.OK);
     }
 
@@ -93,7 +94,7 @@ public class BloowRoomController {
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public void exportToExcel(@RequestParam Date start, @RequestParam Date end, HttpServletResponse response) throws IOException {
         response.setContentType("application/octet-stream");
-        DateFormat dateFormat = new SimpleDateFormat("dd-mm-yyyy");
+        DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
         String currentDate = dateFormat.format(new java.util.Date());
         String headerKey = "Content-Disposition";
         String headerValue = "attachment; filename=BloowRoomData" + currentDate + ".xlsx";
@@ -109,14 +110,14 @@ public class BloowRoomController {
     public void perDayExportToExcel(@RequestParam Date start,
                                     HttpServletResponse response) throws IOException {
         response.setContentType("application/octet-stream");
-        DateFormat dateFormat = new SimpleDateFormat("dd-mm-yyyy");
+        DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
         String currentDate = dateFormat.format(new java.util.Date());
 
         String headerKey = "Content-Disposition";
         String headerValue = "attachment; filename=BloowRoomData" + currentDate + ".xlsx";
         response.setHeader(headerKey, headerValue);
         List<BloowRoom> ListData = bloowRoomService.ExcelDateToPerDateReport(start);
-        ListData.forEach(carding -> System.out.println(carding));
+        ListData.forEach(System.out::println);
 
         BloowRoomExcelService c = new BloowRoomExcelService(ListData);
         c.export(response);
@@ -125,8 +126,8 @@ public class BloowRoomController {
 
     @PutMapping("/{add_blow_id}/update/{blow_id}")
     public BloowRoom updateidBlowroom(@PathVariable Long add_blow_id, @PathVariable Long blow_id) {
-        AddBloowroom addBloowroom = addBloowRoomRepository.findById(add_blow_id).get();
-        BloowRoom bloowroom = bloowRoomRepository.findById(blow_id).get();
+        AddBloowroom addBloowroom = addBloowRoomRepository.findById(add_blow_id).orElseThrow(()->new MachineNotFound("machine Not Found "+ add_blow_id));
+        BloowRoom bloowroom = bloowRoomRepository.findById(blow_id).orElseThrow(()->new ResourceNotFound("Bloow Room Not Found"));
         bloowroom.UpdateidBlowRoom(addBloowroom);
         return bloowRoomRepository.save(bloowroom);
     }

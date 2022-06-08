@@ -1,6 +1,5 @@
 package com.unitechApi.store.productCategory.service;
 
-import com.unitechApi.Payload.response.MessageResponse;
 import com.unitechApi.exception.ExceptionService.ProductCategoryNotFound;
 import com.unitechApi.store.productCategory.model.ProductCategory;
 import com.unitechApi.store.productCategory.repository.ProductCategoryRepository;
@@ -26,10 +25,9 @@ public class ProductCategoryService {
     }
 
     public ProductCategory findById(Long id) {
-        ProductCategory productCategory = productCategoryRepository
+        return productCategoryRepository
                 .findById(id)
                 .orElseThrow(() -> new ProductCategoryNotFound("Product Not Found :" + id));
-        return productCategory;
     }
 
     public Object deleteCategory(Long id) {
@@ -46,7 +44,7 @@ public class ProductCategoryService {
                 .sorted(Comparator.comparing(ProductCategory::getPid))
                 .collect(Collectors.toList());
     }
-    public List<ProductCategory> FindCretaeDate(Date  data)
+    public List<ProductCategory> FindCreateDate(Date  data)
     {
         return productCategoryRepository.findByCreated(data);
     }

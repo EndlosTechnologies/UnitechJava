@@ -60,7 +60,7 @@ public class ProductCategoryController {
     @GetMapping(value = "/date")
     public ResponseEntity<?> findByDate(@RequestParam Date date)
     {
-        Object data=productCategoryService.FindCretaeDate(date);
+        Object data=productCategoryService.FindCreateDate(date);
         return new ResponseEntity<>(PageResponse.SuccessResponse(data),HttpStatus.OK);
     }
 

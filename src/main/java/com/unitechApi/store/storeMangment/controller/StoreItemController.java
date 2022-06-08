@@ -3,9 +3,8 @@ package com.unitechApi.store.storeMangment.controller;
 import com.unitechApi.Payload.response.MessageResponse;
 import com.unitechApi.Payload.response.PageResponse;
 import com.unitechApi.exception.ExceptionService.ItemNotFound;
-import com.unitechApi.exception.ExceptionService.ResourceNotFound;
+import com.unitechApi.exception.ExceptionService.ProductCategoryNotFound;
 import com.unitechApi.exception.ExceptionService.UnitNotFound;
-import com.unitechApi.store.Dto.ProductRest;
 import com.unitechApi.store.productCategory.model.ProductCategory;
 import com.unitechApi.store.productCategory.repository.ProductCategoryRepository;
 import com.unitechApi.store.storeMangment.ExcelService.ItemExcel;
@@ -16,11 +15,7 @@ import com.unitechApi.store.unit.model.Unit;
 import com.unitechApi.store.unit.repository.UnitRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.core.io.InputStreamResource;
-import org.springframework.core.io.Resource;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -107,6 +102,47 @@ public class StoreItemController {
         storeItemService.checkRemainingItem(itemId);
         return new ResponseEntity<>(new MessageResponse("checked done "), HttpStatus.OK);
     }
+    @RequestMapping(
+            value = "up/{id}",
+            method = {
+                    RequestMethod.PATCH
+            })
+    public ResponseEntity<?> updateStore(@PathVariable Long id, @RequestBody StoreItemModel storeItemModel) {
+        StoreItemModel storeItem = storeItemRepository.findById(id).orElseThrow(()-> new ItemNotFound("item Not Found"));
+        if (storeItem == null) {
+            throw new ItemNotFound("Item Not Found ");
+        }
+        storeItem.setItemName(storeItemModel.getItemName());
+        storeItem.setItemDescription(storeItemModel.getItemDescription());
+        storeItem.setDrawingNo(storeItemModel.getDrawingNo());
+        storeItem.setCatalogNo(storeItemModel.getCatalogNo());
+        storeItem.setFrequency(storeItemModel.getFrequency());
+        log.info("frequency ,{}", storeItem.getFrequency());
+        storeItem.setPaytax(storeItemModel.getPaytax());
+        storeItem.setActivation(storeItemModel.getActivation());
+        storeItem.setExpiryDays(storeItemModel.getExpiryDays());
+        storeItem.setQuantity(storeItemModel.getQuantity());
+        if (storeItemModel.getProductCategory() != null) {
+            ProductCategory productCategory = productCategoryRepository.findById(storeItemModel.getProductCategory().getPid()).orElseThrow(()->new ProductCategoryNotFound("product category Not found"));
+            productCategory.getItem().add(storeItem);
+            //  log.info("product added in {} ", productCategory);
+            storeItem.setProductCategory(productCategory);
+            productCategoryRepository.save(productCategory);
+        }
+        if (storeItemModel.getUnit() != null) {
+            Unit unit = unitRepository.findById(storeItemModel.getUnit().getUid()).orElseThrow(()->new UnitNotFound("product unit Not found"));
+            unit.getItemunit().add(storeItem);
+            storeItem.setUnit(unit);
+            unitRepository.save(unit);
+        } else {
+            storeItem.setProductCategory(storeItem.getProductCategory());
+            storeItem.setUnit(storeItem.getUnit());
+        }
+        storeItem = storeItemRepository.save(storeItem);
+        log.info("save in item data {}", storeItem);
+        return new ResponseEntity<>(PageResponse.SuccessResponse(storeItem), HttpStatus.OK);
+    }
+
 
     @DeleteMapping(value = "{item_id}/rmVendor/{vendor_id}")
     public ResponseEntity<?> deleteVendor(@PathVariable Long item_id, @PathVariable Long vendor_id) {
@@ -125,85 +161,4 @@ public class StoreItemController {
         ItemExcel itemExcel = new ItemExcel(data);
         itemExcel.export(response);
     }
-
-    @GetMapping("/download")
-    public ResponseEntity<Resource> getFile() {
-        String filename = "tutorials.xlsx";
-        InputStreamResource file = new InputStreamResource(storeItemService.load());
-
-        return ResponseEntity.ok()
-                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + filename)
-                .contentType(MediaType.parseMediaType("application/vnd.ms-excel"))
-                .body(file);
-    }
-
-
-
-
-//    public ResponseEntity<?> updateStore(@PathVariable Long id, @RequestBody Map<String,String> storeItemModel)
-//    {
-//        StoreItemModel storeItem = storeItemRepository.findById(id).get();
-//        ProductRest productRest=mapPersistenceToRestModel(storeItem);
-//        storeItemModel.forEach((change,value)->{
-//            switch (change)
-//            {
-//                case "itemName":
-//                    productRest.setItemName(value);
-//                    break;
-//            }
-//        });
-//    }
-//
-//    private ProductRest mapPersistenceToRestModel(StoreItemModel storeItem) {
-//
-//    }
-
-    @RequestMapping(
-            value = "up/{id}",
-            method = {
-                    RequestMethod.PATCH
-            })
-    public ResponseEntity<?> updateStore(@PathVariable Long id, @RequestBody StoreItemModel storeItemModel) {
-        StoreItemModel storeItem = storeItemRepository.findById(id).get();
-        if (storeItem == null) {
-            throw new ItemNotFound("Item Not Found ");
-        }
-        storeItem.setItemName(storeItemModel.getItemName());
-        storeItem.setItemDescription(storeItemModel.getItemDescription());
-        storeItem.setDrawingNo(storeItemModel.getDrawingNo());
-        storeItem.setCatalogNo(storeItemModel.getCatalogNo());
-        storeItem.setFrequency(storeItemModel.getFrequency());
-        log.info("frequenct ,{}",storeItem.getFrequency());
-        storeItem.setPaytax(storeItemModel.getPaytax());
-        storeItem.setActivation(storeItemModel.getActivation());
-        storeItem.setExpiryDays(storeItemModel.getExpiryDays());
-        storeItem.setQuantity(storeItemModel.getQuantity());
-        if (storeItemModel.getProductCategory() != null) {
-            ProductCategory productCategory = productCategoryRepository.findById(storeItemModel.getProductCategory().getPid()).get();
-            if (productCategory == null) {
-                throw  new ResourceNotFound("Product category Not Found" +productCategory.getProductName());
-            }
-            productCategory.getItem().add(storeItem);
-          //  log.info("product added in {} ", productCategory);
-            storeItem.setProductCategory(productCategory);
-            productCategoryRepository.save(productCategory);
-        }  if (storeItemModel.getUnit()!= null) {
-            Unit unit = unitRepository.findById(storeItemModel.getUnit().getUid()).get();
-            if (unit == null)
-            {
-                throw new UnitNotFound("unit Not Found "+unit.getUnitName());
-            }
-            unit.getItemunit().add(storeItem);
-            storeItem.setUnit(unit);
-            unitRepository.save(unit);
-        } else {
-            storeItem.setProductCategory(null);
-            storeItem.setUnit(null);
-        }
-        storeItem = storeItemRepository.save(storeItem);
-        log.info("save in item data {}", storeItem);
-            return new ResponseEntity<>(PageResponse.SuccessResponse(storeItem), HttpStatus.OK);
-    }
-
-
 }

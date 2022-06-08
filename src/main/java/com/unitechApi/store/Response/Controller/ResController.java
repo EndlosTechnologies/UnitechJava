@@ -79,7 +79,7 @@ public class ResController {
         return new ResponseEntity<>(PageResponse.SuccessResponse(data), HttpStatus.OK);
     }
     @GetMapping(value = "/resAndPdi")
-    public ResponseEntity<?> findByResStausAndPdiId(@RequestParam ResStatus resStatus,@RequestParam Long pdiId) {
+    public ResponseEntity<?> findByResStatusAndPdiId(@RequestParam ResStatus resStatus,@RequestParam Long pdiId) {
         List<ResEntity> data = resService.findByResStatus(resStatus,pdiId);
         return new ResponseEntity<>(PageResponse.SuccessResponse(data), HttpStatus.OK);
     }

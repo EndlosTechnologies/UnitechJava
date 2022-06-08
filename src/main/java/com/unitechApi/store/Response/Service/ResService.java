@@ -50,8 +50,8 @@ public class ResService {
         return resEntityRepository.findByCreated(date);
     }
 
-    public List<ResEntity> findByResStatus(String staus) {
-        return resEntityRepository.findByResStatus(staus);
+    public List<ResEntity> findByResStatus(String status) {
+        return resEntityRepository.findByResStatus(status);
     }
 
 

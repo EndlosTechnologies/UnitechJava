@@ -34,8 +34,7 @@ public class IssueService {
     }
 
     public IssueItem findByIdIssue(@PathVariable Long id) {
-        IssueItem dataFindById = issueRepository.findById(id).orElseThrow(() -> new ResourceNotFound("Issue Not Found"));
-        return dataFindById;
+        return issueRepository.findById(id).orElseThrow(() -> new ResourceNotFound("Issue Not Found"));
     }
 
     public List<IssueItem> findAll() {

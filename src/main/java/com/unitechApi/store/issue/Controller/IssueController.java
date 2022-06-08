@@ -61,7 +61,7 @@ public class IssueController {
         return new ResponseEntity<>(PageResponse.SuccessResponse(data),HttpStatus.OK);
     }
     @GetMapping(value = "/dbetween")
-    public ResponseEntity<?> findByIssueDatebetween(@RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") Date start,
+    public ResponseEntity<?> findByIssueDateBetween(@RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") Date start,
                                                     @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd")Date end,
                                                     @RequestParam Long itemId)
     {

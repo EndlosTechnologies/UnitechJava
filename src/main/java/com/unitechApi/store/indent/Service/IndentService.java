@@ -38,15 +38,15 @@ public class IndentService {
     }
 
     public Indent findByid(Long id) {
-        Indent req = indentRepository.findById(id)
+        return indentRepository.findById(id)
                 .orElseThrow(() -> new ItemNotFound("Sorry ! Item Was Not Found"));
-        return req;
     }
 
     public Indent updateData(Long id, Map<Object, Object> request) {
         Indent req = indentRepository.findById(id).orElseThrow(() -> new ItemNotFound("Sorry ! Item Was Not Found"));
         request.forEach((key, value) -> {
             Field field = ReflectionUtils.findField(Indent.class, (String) key);
+            assert field != null;
             field.setAccessible(true);
             ReflectionUtils.setField(field, req, value);
         });
