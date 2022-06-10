@@ -75,19 +75,12 @@ public class StoreItemModel extends Audit<String> {
     @JsonIgnoreProperties({"storeItem","employee"})
     private Set<Indent> itemRequest;
 
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(schema = "store_management",name = "item_Vendor_details",
-            joinColumns = @JoinColumn(name = "item_id"), inverseJoinColumns = @JoinColumn(name = "vendor_id"))
-    @JsonIgnoreProperties({"contractModels","dataVendorAndItem"})
-    private Set<VendorModel> dataVendorAndItem=new HashSet<>();
 
-    public Set<VendorModel> getDataVendorAndItem() {
-        return dataVendorAndItem;
+
+    public void setFrequency(long frequency) {
+        this.frequency = frequency;
     }
 
-    public void setDataVendorAndItem(Set<VendorModel> dataVendorAndItem) {
-        this.dataVendorAndItem = dataVendorAndItem;
-    }
 
     public User getEmploye() {
         return employe;
@@ -223,21 +216,21 @@ public class StoreItemModel extends Audit<String> {
         this.paytax = paytax;
     }
 
-    public void deleteVendor(VendorModel vendorModel) {
-        dataVendorAndItem.remove(vendorModel);
-    }
+//    public void deleteVendor(VendorModel vendorModel) {
+//        dataVendor.remove(vendorModel);
+//    }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         StoreItemModel that = (StoreItemModel) o;
-        return frequency == that.frequency && RemainingItem == that.RemainingItem && paytax == that.paytax && expiryDays == that.expiryDays && quantity == that.quantity && itemId.equals(that.itemId) && itemName.equals(that.itemName) && itemDescription.equals(that.itemDescription) && drawingNo.equals(that.drawingNo) && catalogNo.equals(that.catalogNo) && created.equals(that.created) && activation.equals(that.activation) && issueItem.equals(that.issueItem) && productCategory.equals(that.productCategory) && unit.equals(that.unit) && employe.equals(that.employe) && itemRequest.equals(that.itemRequest) && dataVendorAndItem.equals(that.dataVendorAndItem);
+        return frequency == that.frequency && RemainingItem == that.RemainingItem && paytax == that.paytax && expiryDays == that.expiryDays && quantity == that.quantity && itemId.equals(that.itemId) && itemName.equals(that.itemName) && itemDescription.equals(that.itemDescription) && drawingNo.equals(that.drawingNo) && catalogNo.equals(that.catalogNo) && created.equals(that.created) && activation.equals(that.activation) && issueItem.equals(that.issueItem) && productCategory.equals(that.productCategory) && unit.equals(that.unit) && employe.equals(that.employe) && itemRequest.equals(that.itemRequest) ;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(itemId, itemName, itemDescription, drawingNo, catalogNo, frequency, RemainingItem, paytax, created, activation, expiryDays, quantity, issueItem, productCategory, unit, employe, itemRequest, dataVendorAndItem);
+        return Objects.hash(itemId, itemName, itemDescription, drawingNo, catalogNo, frequency, RemainingItem, paytax, created, activation, expiryDays, quantity, issueItem, productCategory, unit, employe, itemRequest);
     }
 
 
@@ -261,7 +254,6 @@ public class StoreItemModel extends Audit<String> {
                 ", unit=" + unit +
                 ", employe=" + employe +
                 ", itemRequest=" + itemRequest +
-                ", dataVendorAndItem=" + dataVendorAndItem +
                 '}';
     }
 }

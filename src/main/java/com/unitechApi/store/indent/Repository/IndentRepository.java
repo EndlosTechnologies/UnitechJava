@@ -11,4 +11,5 @@ public interface IndentRepository extends JpaRepository<Indent,Long> {
     List<Indent> findByIndentStatus(IndentStatus indentStatus);
     List<Indent> findByCreated(Date date);
 
+
 }

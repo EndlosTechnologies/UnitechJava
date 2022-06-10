@@ -87,14 +87,13 @@ public class StoreItemService {
         storeItemRepository.save(s);
     }
 
-    public void deleteVendor(long item_id, long vendor_id)
-    {
-        StoreItemModel storeItemModel = storeItemRepository.findById(item_id).orElseThrow(() -> new ItemNotFound("item Not Found"));
-        VendorModel vendorModel=vendorRepository.findById(vendor_id).orElseThrow(() -> new ResourceNotFound("Vendor Not Found"));
-
-        storeItemModel.deleteVendor(vendorModel);
-        storeItemRepository.save(storeItemModel);
-    }
+//    public void deleteVendor(long item_id, long vendor_id)
+//    {
+//        StoreItemModel storeItemModel = storeItemRepository.findById(item_id).orElseThrow(() -> new ItemNotFound("item Not Found"));
+//        VendorModel vendorModel=vendorRepository.findById(vendor_id).orElseThrow(() -> new ResourceNotFound("Vendor Not Found"));
+//        storeItemModel.deleteVendor(vendorModel);
+//        storeItemRepository.save(storeItemModel);
+//    }
 
 }
 

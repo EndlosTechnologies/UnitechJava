@@ -144,11 +144,11 @@ public class StoreItemController {
     }
 
 
-    @DeleteMapping(value = "{item_id}/rmVendor/{vendor_id}")
-    public ResponseEntity<?> deleteVendor(@PathVariable Long item_id, @PathVariable Long vendor_id) {
-        storeItemService.deleteVendor(item_id, vendor_id);
-        return new ResponseEntity<>(new MessageResponse("Deleted Successfully"), HttpStatus.NO_CONTENT);
-    }
+//    @DeleteMapping(value = "{item_id}/rmVendor/{vendor_id}")
+//    public ResponseEntity<?> deleteVendor(@PathVariable Long item_id, @PathVariable Long vendor_id) {
+//        storeItemService.deleteVendor(item_id, vendor_id);
+//        return new ResponseEntity<>(new MessageResponse("Deleted Successfully"), HttpStatus.NO_CONTENT);
+//    }
 
     @GetMapping(value = "/ex/d")
     public void downloadFile(HttpServletResponse response) throws IOException {

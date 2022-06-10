@@ -39,12 +39,24 @@ public class VendorModel {
     @OneToMany(mappedBy = "vendorModel",cascade = CascadeType.ALL)
     @JsonIgnoreProperties("vendorModel")
     private Set<ContractModel> contractModels;
-    @ManyToMany(mappedBy = "dataVendorAndItem")
-    @JsonIgnoreProperties({"dataVendorAndItem","itemRequest","issueItem"})
-    private Set<StoreItemModel> dataVendorAndItem=new HashSet<>();
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(schema = "store_management",name = "item_Vendor_details",
+            joinColumns = @JoinColumn(name = "item_id"), inverseJoinColumns = @JoinColumn(name = "vendor_id"))
+    @JsonIgnoreProperties({"contractModels","dataVendorAndItem"})
+    private Set<StoreItemModel> dataVendor=new HashSet<>();
+
+    public Set<StoreItemModel> getDataVendor() {
+        return dataVendor;
+    }
+
+    public void setDataVendor(Set<StoreItemModel> dataVendor) {
+        this.dataVendor = dataVendor;
+    }
+
     @OneToOne(mappedBy = "vendorDetails",cascade = CascadeType.ALL)
     @JsonIgnoreProperties({"vendorDetails"})
     private Indent chooseVendorDetailsInIndent;
+
 
     public Indent getChooseVendorDetailsInIndent() {
         return chooseVendorDetailsInIndent;
@@ -52,14 +64,6 @@ public class VendorModel {
 
     public void setChooseVendorDetailsInIndent(Indent chooseVendorDetailsInIndent) {
         this.chooseVendorDetailsInIndent = chooseVendorDetailsInIndent;
-    }
-
-    public Set<StoreItemModel> getDataVendorAndItem() {
-        return dataVendorAndItem;
-    }
-
-    public void setDataVendorAndItem(Set<StoreItemModel> dataVendorAndItem) {
-        this.dataVendorAndItem = dataVendorAndItem;
     }
 
     public Set<ContractModel> getContractModels() {
