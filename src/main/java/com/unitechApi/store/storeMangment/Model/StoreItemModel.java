@@ -74,8 +74,17 @@ public class StoreItemModel extends Audit<String> {
     @OneToMany(mappedBy = "storeItem", cascade = CascadeType.ALL)
     @JsonIgnoreProperties({"storeItem","employee"})
     private Set<Indent> itemRequest;
+    @ManyToMany(mappedBy = "itemData")
+    @JsonIgnoreProperties({"itemData"})
+    private Set<VendorModel> vendorDate=new HashSet<>();
 
+    public Set<VendorModel> getVendorDate() {
+        return vendorDate;
+    }
 
+    public void setVendorDate(Set<VendorModel> vendorDate) {
+        this.vendorDate = vendorDate;
+    }
 
     public void setFrequency(long frequency) {
         this.frequency = frequency;

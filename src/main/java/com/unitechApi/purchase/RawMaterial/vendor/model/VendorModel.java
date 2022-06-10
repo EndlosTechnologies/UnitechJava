@@ -41,14 +41,14 @@ public class VendorModel {
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(schema = "store_management",name = "item_Vendor_details",
             joinColumns = @JoinColumn(name = "vendor_id"), inverseJoinColumns = @JoinColumn(name = "item_id"))
-    @JsonIgnoreProperties({"contractModels","dataVendorAndItem"})
+    @JsonIgnoreProperties({"contractModels","itemRequest","issueItem","vendorDate","unit","productCategory","employe"})
     private Set<StoreItemModel> itemData=new HashSet<>();
 
-    public Set<StoreItemModel> getDataVendor() {
+    public Set<StoreItemModel> getItemData() {
         return itemData;
     }
 
-    public void setDataVendor(Set<StoreItemModel> itemData) {
+    public void setItemData(Set<StoreItemModel> itemData) {
         this.itemData = itemData;
     }
 
