@@ -1,10 +1,9 @@
 package com.unitechApi.purchase.RawMaterial.vendor.model;
 
-import com.fasterxml.jackson.annotation.*;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.unitechApi.purchase.RawMaterial.Contract.Model.ContractModel;
 import com.unitechApi.store.indent.Model.Indent;
 import com.unitechApi.store.storeMangment.Model.StoreItemModel;
-import com.unitechApi.user.model.User;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
@@ -41,16 +40,16 @@ public class VendorModel {
     private Set<ContractModel> contractModels;
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(schema = "store_management",name = "item_Vendor_details",
-            joinColumns = @JoinColumn(name = "item_id"), inverseJoinColumns = @JoinColumn(name = "vendor_id"))
+            joinColumns = @JoinColumn(name = "vendor_id"), inverseJoinColumns = @JoinColumn(name = "item_id"))
     @JsonIgnoreProperties({"contractModels","dataVendorAndItem"})
-    private Set<StoreItemModel> dataVendor=new HashSet<>();
+    private Set<StoreItemModel> itemData=new HashSet<>();
 
     public Set<StoreItemModel> getDataVendor() {
-        return dataVendor;
+        return itemData;
     }
 
-    public void setDataVendor(Set<StoreItemModel> dataVendor) {
-        this.dataVendor = dataVendor;
+    public void setDataVendor(Set<StoreItemModel> itemData) {
+        this.itemData = itemData;
     }
 
     @OneToOne(mappedBy = "vendorDetails",cascade = CascadeType.ALL)
