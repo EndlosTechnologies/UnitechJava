@@ -1,6 +1,9 @@
 package com.unitechApi.store.indent.Service;
 
 import com.unitechApi.exception.ExceptionService.ItemNotFound;
+import com.unitechApi.purchase.RawMaterial.vendor.Repository.VendorRepository;
+import com.unitechApi.purchase.RawMaterial.vendor.Service.VendorService;
+import com.unitechApi.purchase.RawMaterial.vendor.model.VendorModel;
 import com.unitechApi.store.indent.Model.Indent;
 import com.unitechApi.store.indent.Model.IndentStatus;
 import com.unitechApi.store.indent.Repository.IndentRepository;
@@ -21,18 +24,22 @@ import java.util.stream.Collectors;
 public class IndentService {
     private final IndentRepository indentRepository;
     private final StoreItemRepository storeItemRepository;
+    private final VendorService vendorService;
     private static final Logger LOG = LoggerFactory.getLogger(IndentService.class);
 
-    public IndentService(IndentRepository indentRepository, StoreItemRepository storeItemRepository) {
+    public IndentService(IndentRepository indentRepository, StoreItemRepository storeItemRepository, VendorService vendorService) {
         this.indentRepository = indentRepository;
         this.storeItemRepository = storeItemRepository;
+        this.vendorService = vendorService;
     }
 
     public Indent saveData(Indent indent ) {
-        StoreItemModel itemModel=storeItemRepository.findById(indent.getStoreItem().getItemId())
-                .orElseThrow(()-> new ItemNotFound("item not Found"));
-        indent.setTotal((long) (indent.getEstimatedPrice() * indent.getQuantity()));
-        indent.setIncludingTax(((indent.getTotal() * itemModel.getPaytax())/100)+indent.getTotal());
+//        StoreItemModel itemModel=storeItemRepository.findById(indent.getStoreItem().getItemId())
+//                .orElseThrow(()-> new ItemNotFound("item not Found"));
+////        VendorModel vendorModel=vendorService.FindById(indent.getVendorDetails().getId());
+////        indent.setVendorDetails(vendorModel);
+//        indent.setTotal((long) (indent.getEstimatedPrice() * indent.getQuantity()));
+//        indent.setIncludingTax(((indent.getTotal() * itemModel.getPaytax())/100)+indent.getTotal());
    //     indent.set((long) (indent.getTotal() + indent.getIncludingTax()));
         return indentRepository.save(indent);
     }
@@ -63,6 +70,11 @@ public class IndentService {
                 .findById(itemId)
                 .orElseThrow(() -> new ItemNotFound("Sorry ! Item Was Not Found"));
 
+        if (itemRequest.getIndentStatus().equals(IndentStatus.ADMIN))
+        {
+            Indent indent=findByid(itemRequest.getIndentId());
+            dta.setVendorDetails(indent.getVendorDetails());
+        }
 //        if (itemRequest.getIndentStatus().equals(IndentStatus.VP)) {
                 itemRequest.setIndentStatus(dta.getIndentStatus());
 

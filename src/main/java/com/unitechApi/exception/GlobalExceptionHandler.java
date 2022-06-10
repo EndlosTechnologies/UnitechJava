@@ -147,7 +147,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         exceptionMOdel.setTimestamp((String.valueOf(LocalDateTime.now())));
         return new ResponseEntity<>(exceptionMOdel, HttpStatus.UNAVAILABLE_FOR_LEGAL_REASONS);
     }
-    @ExceptionHandler(AddItemException.class)
+    @ExceptionHandler(MachineNotFound.class)
     public ResponseEntity<?> MachineNotFound(MachineNotFound ex) {
         ExceptionMOdel exceptionMOdel = new ExceptionMOdel();
         exceptionMOdel.setDetails(ex.getClass().getCanonicalName());

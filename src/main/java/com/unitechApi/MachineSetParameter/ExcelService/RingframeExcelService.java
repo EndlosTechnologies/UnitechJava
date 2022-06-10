@@ -22,21 +22,23 @@ public class    RingframeExcelService {
         xssfWorkbook=new XSSFWorkbook();
     }
     private void writeHeaderLine() {
-        xssfSheet=xssfWorkbook.createSheet("carding Data");
-        Row row=xssfSheet.createRow(5);
+        xssfSheet=xssfWorkbook.createSheet("RingFrame Data");
+        Row row=xssfSheet.createRow(3);
         CellStyle style= xssfWorkbook.createCellStyle();
         XSSFFont font=xssfWorkbook.createFont();
         font.setBold(true);
         font.setFontHeight(12);
         style.setAlignment(HorizontalAlignment.CENTER);
         style.setFont(font);
-        createCell(row,1,"Machine No",style);
-        createCell(row,2,"Spindle SPEED (RPM)",style);
-        createCell(row,3,"Type",style);
-        createCell(row,4,"Count",style);
 
-        createCell(row,5,"TM",style);
-        createCell(row,6,  "TPI",style);
+        createCell(row,0,"  Index  ",style);
+        createCell(row,1,"Machine Name",style);
+        createCell(row,2,"Spindle SPEED (RPM)",style);
+        createCell(row,3,"  Type ",style);
+        createCell(row,4,"  Count  ",style);
+
+        createCell(row,5,"  TM  ",style);
+        createCell(row,6,  "  TPI  ",style);
         createCell(row,7,"Machine Efficiency %",style);
         createCell(row,8,"Production Spindle (Grams)",style);
         createCell(row,9,"Production / Spindle  / 8 Hours (Kg)",style);
@@ -115,6 +117,9 @@ public class    RingframeExcelService {
         }else if (value instanceof Float){
             cell.setCellValue(String.valueOf(value));
         }
+        else if (value instanceof Integer){
+            cell.setCellValue(String.valueOf(value));
+        }
         else {
             cell.setCellValue((String) value);
         }
@@ -122,15 +127,21 @@ public class    RingframeExcelService {
     }
     private void writeDataLine() {
 
-        int rowcount=6;
+        int rowcount=4;
 
         XSSFFont fontHeader=xssfWorkbook.createFont();
-        Row rowHeader=xssfSheet.createRow(4);
-        Row rowHeader2=xssfSheet.createRow(2);
+        Row rowHeader=xssfSheet.createRow(2);
+        Row rowHeader2=xssfSheet.createRow(1);
+        Row rowHeaderTitle= xssfSheet.createRow(0);
         CellStyle styleHeader=xssfWorkbook.createCellStyle();
         CellStyle styleHeader2=xssfWorkbook.createCellStyle();
-        for (int i = 1; i <= 59; ++i) {
+        CellStyle TitleStyleHeader2=xssfWorkbook.createCellStyle();
+        fontHeader.setFontHeight(18);
+        TitleStyleHeader2.setAlignment(HorizontalAlignment.CENTER);
+        TitleStyleHeader2.setFont(fontHeader);
+        for (int i = 0; i <= 59; ++i) {
             Cell cell = rowHeader.createCell(i);
+
             cell.setCellStyle(styleHeader);
         }
         for (int j =18;j<=59 ;++j)
@@ -138,17 +149,34 @@ public class    RingframeExcelService {
             Cell cell = rowHeader2.createCell(j);
             cell.setCellStyle(styleHeader2);
         }
+        for (int title=1;title<=2;title++)
+        {
+            Cell cell=rowHeaderTitle.createCell(title);
+            cell.setCellStyle(TitleStyleHeader2);
+        }
+        //Title Border
+        TitleStyleHeader2.setBorderBottom(BorderStyle.THICK);
+        TitleStyleHeader2.setBorderTop(BorderStyle.THICK);
+        TitleStyleHeader2.setBorderLeft(BorderStyle.THICK);
+        TitleStyleHeader2.setBorderRight(BorderStyle.THICK);
+
+        // another Border
         styleHeader2.setBorderBottom(BorderStyle.THICK);
         styleHeader2.setBorderTop(BorderStyle.THICK);
         styleHeader2.setBorderLeft(BorderStyle.THICK);
         styleHeader2.setBorderRight(BorderStyle.THICK);
-        xssfSheet.addMergedRegion(CellRangeAddress.valueOf("B5:R5"));
-        xssfSheet.addMergedRegion(CellRangeAddress.valueOf("S5:AK5"));
-        xssfSheet.addMergedRegion(CellRangeAddress.valueOf("AL5:BD5"));
-        xssfSheet.addMergedRegion(CellRangeAddress.valueOf("BE5:BH5"));
-        xssfSheet.addMergedRegion(CellRangeAddress.valueOf("S3:BH3"));
-       // xssfSheet.addMergedRegion(CellRangeAddress.valueOf("G3:H3"));
-        //xssfSheet.addMergedRegion(CellRangeAddress.valueOf("1:Y1"));
+        //cell merged Ring Frame Title
+        xssfSheet.addMergedRegion(CellRangeAddress.valueOf("B1:C1"));
+        //cell merged  Title Shift Wise Production
+        xssfSheet.addMergedRegion(CellRangeAddress.valueOf("S2:BH2"));
+
+        xssfSheet.addMergedRegion(CellRangeAddress.valueOf("A3:R3"));
+        xssfSheet.addMergedRegion(CellRangeAddress.valueOf("S3:AK3"));
+        xssfSheet.addMergedRegion(CellRangeAddress.valueOf("AL3:BD3"));
+        xssfSheet.addMergedRegion(CellRangeAddress.valueOf("BE3:BH3"));
+
+
+
         styleHeader.setBorderBottom(BorderStyle.MEDIUM);
         styleHeader.setBorderTop(BorderStyle.MEDIUM);
         styleHeader.setBorderLeft(BorderStyle.MEDIUM);
@@ -158,9 +186,9 @@ public class    RingframeExcelService {
         styleHeader.setAlignment(HorizontalAlignment.CENTER);
         styleHeader.setFont(fontHeader);
         // styleHeader.set
-        createCell(rowHeader2,1,"ring frame ",styleHeader);
+        createCell(rowHeaderTitle,1," Ring frame Data ",TitleStyleHeader2);
         createCell(rowHeader2,18,"Shift Wise Production Report ",styleHeader);
-        createCell(rowHeader,1,"Targeted Production ",styleHeader);
+        createCell(rowHeader,0,"Targeted Production ",styleHeader);
         createCell(rowHeader,18,"Shift A Data (Morning) ",styleHeader);
         createCell(rowHeader,37,"Shift B Data (Evening) ",styleHeader);
         createCell(rowHeader,56,"Original Production ",styleHeader);
@@ -172,13 +200,14 @@ public class    RingframeExcelService {
         font.setFontHeight(14);
         style.setAlignment(HorizontalAlignment.CENTER);
         style.setFont(font);
+        int serialNumber = 1;
         for (RingFrame ringframe :ringFrameData){
             Row row=xssfSheet.createRow(rowcount++);
-            int countRow=1;
+            int countRow=0;
             /*
              *   Quality Checker Data
              * */
-
+            createCell(row,countRow++,serialNumber++,style);
             createCell(row,countRow++,ringframe.getRingframe().getName(),style);
             createCell(row,countRow++,ringframe.getSpindleRpm(),style);
             createCell(row,countRow++,ringframe.getType().name(),style);

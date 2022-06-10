@@ -1,12 +1,19 @@
 package com.unitechApi.store.indent.Model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.unitechApi.purchase.RawMaterial.vendor.model.VendorModel;
 import com.unitechApi.store.issue.model.IssueItem;
 import com.unitechApi.store.storeMangment.Model.StoreItemModel;
+import com.unitechApi.user.model.PasswordEntity;
 import com.unitechApi.user.model.User;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "indent",schema = "store_management")
@@ -46,6 +53,42 @@ public class Indent {
     @JoinColumn(foreignKey = @ForeignKey(name = "issue_id"),name = "issue_id",referencedColumnName = "issueId")
     @JsonIgnoreProperties({"indents","itemRequest","storeItemModel","usageItems","emp"})
     private IssueItem issue;
+
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(schema = "store_management",name = "indent_vendor_detailsID",
+            joinColumns = @JoinColumn(name = "indent_id"), inverseJoinColumns = @JoinColumn(name = "vendor_id"))
+    @JsonIgnoreProperties({"contractModels","dataVendorAndItem"})
+    private Set<VendorModel> dataVendorAndIndent=new HashSet<>();
+
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "ven_id", referencedColumnName = "vendor_id")
+    @JsonIgnoreProperties({"chooseVendorDetailsInIndent"})
+    private VendorModel vendorDetails;
+
+    public VendorModel getVendorDetails() {
+        return vendorDetails;
+    }
+
+    public void setVendorDetails(VendorModel vendorDetails) {
+        this.vendorDetails = vendorDetails;
+    }
+
+    public void setEstimatedPrice(float estimatedPrice) {
+        this.estimatedPrice = estimatedPrice;
+    }
+
+    public void setTotal(float total) {
+        this.total = total;
+    }
+
+    public Set<VendorModel> getDataVendorAndIndent() {
+        return dataVendorAndIndent;
+    }
+
+    public void setDataVendorAndIndent(Set<VendorModel> dataVendorAndIndent) {
+        this.dataVendorAndIndent = dataVendorAndIndent;
+    }
 
     public Float getEstimatedPrice() {
         return estimatedPrice;

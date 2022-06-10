@@ -10,6 +10,7 @@ import com.unitechApi.Payload.response.PageResponse;
 import com.unitechApi.Payload.response.Pagination;
 import com.unitechApi.addmachine.model.AddRingFramesMachine;
 import com.unitechApi.addmachine.repositroy.AddRingFrameRepossitory;
+import com.unitechApi.exception.ExceptionService.MachineNotFound;
 import com.unitechApi.exception.ExceptionService.ResourceNotFound;
 import com.unitechApi.exception.ExceptionService.TimeExtendException;
 import com.unitechApi.exception.ExceptionService.UserNotFound;
@@ -27,15 +28,13 @@ import java.io.IOException;
 import java.lang.reflect.Field;
 import java.sql.Date;
 import java.text.DateFormat;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeFormatterBuilder;
-import java.time.temporal.ChronoField;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @RestController
 @CrossOrigin
@@ -62,7 +61,7 @@ public class RingFrameController {
     }
 
     @GetMapping("/all")
-    public ResponseEntity<Object> findall() {
+    public ResponseEntity<Object> findAll() {
         return ResponseEntity.ok(ringframesService.ViewData());
     }
 
@@ -71,12 +70,13 @@ public class RingFrameController {
         ringframesService.DeleteReading(id);
     }
 
-    @PatchMapping("/update")
+    @PatchMapping("/update/{id}")
     public ResponseEntity<RingFrame> UpdateData(@PathVariable Long id,@RequestBody Map<Object, Object> fields) {
         Optional<RingFrame> ringFrame = ringFrameRepossitory.findById(id);
         if (ringFrame.isPresent()) {
             fields.forEach((key, value) -> {
                 Field field = ReflectionUtils.findField(RingFrame.class, (String) key);
+                assert field != null;
                 field.setAccessible(true);
                 ReflectionUtils.setField(field, ringFrame.get(), value);
             });
@@ -128,8 +128,7 @@ public class RingFrameController {
         String headerValue = "attachment; filename=RingFrameData_" + currentDate + ".xlsx";
         response.setHeader(headerKey, headerValue);
         List<RingFrame> ListData = ringframesService.ExcelDateToPerDateReport(start);
-        ListData.forEach(carding -> System.out.println(carding));
-        log.info("data  in  {} ",ListData);
+        log.info("data  in  {} ",ListData.stream().collect(Collectors.toList()));
 
 
         RingframeExcelService c = new RingframeExcelService(ListData);
@@ -146,8 +145,8 @@ public class RingFrameController {
 
     @PutMapping("/{r_a_id}/update/{r_id}")
     public RingFrame updateid(@PathVariable Long r_a_id, @PathVariable Long r_id) {
-        AddRingFramesMachine addRingFramesMachine = addRingFrameRepossitory.findById(r_a_id).get();
-        RingFrame ringFrame = ringFrameRepossitory.findById(r_id).get();
+        AddRingFramesMachine addRingFramesMachine = addRingFrameRepossitory.findById(r_a_id).orElseThrow(()->new MachineNotFound("Machine Not Found"));
+        RingFrame ringFrame = ringFrameRepossitory.findById(r_id).orElseThrow(()->new ResourceNotFound("Resource Not Found"));
         ringFrame.idupdate(addRingFramesMachine);
         return ringFrameRepossitory.save(ringFrame);
     }
@@ -157,7 +156,7 @@ public class RingFrameController {
      * time 08:00 Am To time 08:00 Pm
      * */
     @PatchMapping("/updateshiftAOne/{id}")
-    public ResponseEntity<?> UpdateShiftAOneReading(@PathVariable Long id, @RequestBody Map<String, Float> reading) throws ParseException {
+    public ResponseEntity<?> UpdateShiftAOneReading(@PathVariable Long id, @RequestBody Map<String, Float> reading) {
         String timeColonPattern = "hh:mm:ss a";
         System.out.println(LocalTime.now());
         DateTimeFormatter timeColonFormatter = DateTimeFormatter.ofPattern(timeColonPattern);
@@ -429,9 +428,7 @@ public class RingFrameController {
     @PatchMapping("/updateshiftBFour/{id}")
     public ResponseEntity<?> UpdateShiftBFourReading(@PathVariable Long id, @RequestBody Map<String, Float> reading) {
         String timeColonPattern = "hh:mm:ss a";
-//        DateTimeFormatter formatter=new DateTimeFormatterBuilder()
-//                .appendPattern("hh:mm:ss a")
-//                .toFormatter();
+
         DateTimeFormatter timeColonFormatter = DateTimeFormatter.ofPattern(timeColonPattern);
         if (
                 LocalTime.now().isAfter(LocalTime.from(timeColonFormatter.parse("02:00:00 AM")))

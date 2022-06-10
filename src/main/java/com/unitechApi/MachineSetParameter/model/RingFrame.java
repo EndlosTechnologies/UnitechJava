@@ -2,6 +2,7 @@ package com.unitechApi.MachineSetParameter.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.unitechApi.addmachine.model.AddRingFramesMachine;
+import lombok.ToString;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.GenericGenerator;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -13,6 +14,7 @@ import java.util.Date;
 
 @Entity
 @Table(name = "ringframe_machine", schema = "machinereading")
+@ToString
 public class RingFrame {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "id")

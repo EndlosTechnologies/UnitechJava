@@ -2,7 +2,9 @@ package com.unitechApi.purchase.RawMaterial.vendor.model;
 
 import com.fasterxml.jackson.annotation.*;
 import com.unitechApi.purchase.RawMaterial.Contract.Model.ContractModel;
+import com.unitechApi.store.indent.Model.Indent;
 import com.unitechApi.store.storeMangment.Model.StoreItemModel;
+import com.unitechApi.user.model.User;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
@@ -40,6 +42,17 @@ public class VendorModel {
     @ManyToMany(mappedBy = "dataVendorAndItem")
     @JsonIgnoreProperties({"dataVendorAndItem","itemRequest","issueItem"})
     private Set<StoreItemModel> dataVendorAndItem=new HashSet<>();
+    @OneToOne(mappedBy = "vendorDetails",cascade = CascadeType.ALL)
+    @JsonIgnoreProperties({"vendorDetails"})
+    private Indent chooseVendorDetailsInIndent;
+
+    public Indent getChooseVendorDetailsInIndent() {
+        return chooseVendorDetailsInIndent;
+    }
+
+    public void setChooseVendorDetailsInIndent(Indent chooseVendorDetailsInIndent) {
+        this.chooseVendorDetailsInIndent = chooseVendorDetailsInIndent;
+    }
 
     public Set<StoreItemModel> getDataVendorAndItem() {
         return dataVendorAndItem;

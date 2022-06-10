@@ -14,9 +14,9 @@ import java.io.IOException;
 import java.util.List;
 @Slf4j
 public class BloowRoomExcelService {
-    private XSSFWorkbook workbook;
+    private final XSSFWorkbook workbook;
     private XSSFSheet sheet;
-    private List<BloowRoom> ListUser;
+    private final List<BloowRoom> ListUser;
 
 
     public BloowRoomExcelService(List<BloowRoom> listData){
