@@ -75,9 +75,11 @@ public class IndentService {
 
         if (itemRequest.getIndentStatus().equals(IndentStatus.ADMIN))
         {
-            VendorModel vendorModel=vendorService.FindById(dta.getVendorDetails().getId());
+            log.info("vendor id {}",dta.getVendorData().getId());
+            VendorModel vendorModel=vendorService.FindById(dta.getVendorData().getId());
+            vendorModel.getIndentList().add(itemRequest);
             log.info(" vendor first details {} ",vendorModel);
-            itemRequest.setVendorDetails(vendorModel);
+            itemRequest.setVendorData(vendorModel);
             log.info(" vendor details {} ",vendorModel);
 
         }
@@ -85,9 +87,9 @@ public class IndentService {
                 itemRequest.setIndentStatus(dta.getIndentStatus());
 
             log.info("item Request {}", itemRequest);
-            indentRepository.save(itemRequest);
+
 //        }
-        return null;
+        return  indentRepository.save(itemRequest);
     }
 
     public List<Indent> findAll() {
@@ -106,11 +108,11 @@ public class IndentService {
                 .sorted(Comparator.comparing(Indent::getIndentId).reversed())
                 .collect(Collectors.toList());
     }
-    public List<Indent> findByIndentIdAndVendorId(Long vendorId,Long indentId)
-    {
-        return indentRepository.findByVendorDetailsIdAndAndIndentId(vendorId,indentId)
-                .stream()
-                .sorted(Comparator.comparing(Indent::getIndentId))
-                .collect(Collectors.toList());
-    }
+//    public List<Indent> findByIndentIdAndVendorId(Long vendorId,Long indentId)
+//    {
+//        return indentRepository.findByVendorDetailsIdAndAndIndentId(vendorId,indentId)
+//                .stream()
+//                .sorted(Comparator.comparing(Indent::getIndentId))
+//                .collect(Collectors.toList());
+//    }
 }

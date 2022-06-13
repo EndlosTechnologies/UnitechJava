@@ -61,17 +61,17 @@ public class Indent {
     private Set<VendorModel> dataVendorAndIndent=new HashSet<>();
 
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "ven_id", referencedColumnName = "vendor_id")
-    @JsonIgnoreProperties({"chooseVendorDetailsInIndent"})
-    private VendorModel vendorDetails;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(foreignKey = @ForeignKey(name = "ven_id"),name = "ven_id", referencedColumnName = "vendor_id")
+    @JsonIgnoreProperties({"chooseVendorDetailsInIndent","indentList"})
+    private VendorModel vendorData;
 
-    public VendorModel getVendorDetails() {
-        return vendorDetails;
+    public VendorModel getVendorData() {
+        return vendorData;
     }
 
-    public void setVendorDetails(VendorModel vendorDetails) {
-        this.vendorDetails = vendorDetails;
+    public void setVendorData(VendorModel vendorData) {
+        this.vendorData = vendorData;
     }
 
     public void setEstimatedPrice(float estimatedPrice) {

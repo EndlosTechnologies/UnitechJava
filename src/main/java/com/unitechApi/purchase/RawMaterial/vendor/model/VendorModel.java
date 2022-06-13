@@ -16,6 +16,8 @@ import java.util.Set;
 @Table(name = "vendor_details",schema = "purchaser")
 @ToString
 //@JsonIdentityInfo(generator=ObjectIdGenerators.PropertyGenerator.class, property="id")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+
 public class VendorModel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "id")
@@ -46,6 +48,17 @@ public class VendorModel {
     @JsonIgnoreProperties({"contractModels","itemRequest","issueItem","vendorDate","unit","productCategory","employe"})
     private Set<StoreItemModel> itemData=new HashSet<>();
 
+    public Set<Indent> getIndentList() {
+        return indentList;
+    }
+
+    public void setIndentList(Set<Indent> indentList) {
+        this.indentList = indentList;
+    }
+
+    @OneToMany(mappedBy = "vendorData",cascade = CascadeType.ALL)
+    @JsonIgnoreProperties("vendorData")
+    private Set<Indent> indentList;
     public Set<StoreItemModel> getItemData() {
         return itemData;
     }
@@ -54,18 +67,6 @@ public class VendorModel {
         this.itemData = itemData;
     }
 
-    @OneToOne(mappedBy = "vendorDetails",cascade = CascadeType.ALL)
-    @JsonIgnoreProperties({"vendorDetails"})
-    private Indent chooseVendorDetailsInIndent;
-
-
-    public Indent getChooseVendorDetailsInIndent() {
-        return chooseVendorDetailsInIndent;
-    }
-
-    public void setChooseVendorDetailsInIndent(Indent chooseVendorDetailsInIndent) {
-        this.chooseVendorDetailsInIndent = chooseVendorDetailsInIndent;
-    }
 
     public Set<ContractModel> getContractModels() {
         return contractModels;
