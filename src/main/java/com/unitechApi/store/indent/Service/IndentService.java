@@ -28,7 +28,7 @@ public class IndentService {
     private final IndentRepository indentRepository;
     private final StoreItemRepository storeItemRepository;
     private final VendorService vendorService;
-    private static final Logger LOG = LoggerFactory.getLogger(IndentService.class);
+    private static final Logger log = LoggerFactory.getLogger(IndentService.class);
 
     public IndentService(IndentRepository indentRepository, StoreItemRepository storeItemRepository, VendorService vendorService) {
         this.indentRepository = indentRepository;
@@ -61,7 +61,7 @@ public class IndentService {
             ReflectionUtils.setField(field, req, value);
         });
         Indent requestData = indentRepository.save(req);
-        LOG.trace("updated Data  {}", requestData);
+        log.trace("updated Data  {}", requestData);
         return requestData;
     }
 
@@ -76,13 +76,15 @@ public class IndentService {
         if (itemRequest.getIndentStatus().equals(IndentStatus.ADMIN))
         {
             VendorModel vendorModel=vendorService.FindById(dta.getVendorDetails().getId());
-            itemRequest.getDataVendorAndIndent().add(vendorModel);
-            itemRequest.setVendorDetails(vendorModel.getChooseVendorDetailsInIndent().getVendorDetails());
+            log.info(" vendor first details {} ",vendorModel);
+            itemRequest.setVendorDetails(vendorModel);
+            log.info(" vendor details {} ",vendorModel);
+
         }
 //        if (itemRequest.getIndentStatus().equals(IndentStatus.VP)) {
                 itemRequest.setIndentStatus(dta.getIndentStatus());
 
-            LOG.info("item Request {}", itemRequest);
+            log.info("item Request {}", itemRequest);
             indentRepository.save(itemRequest);
 //        }
         return null;
