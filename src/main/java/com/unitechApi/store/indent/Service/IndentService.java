@@ -1,6 +1,7 @@
 package com.unitechApi.store.indent.Service;
 
 import com.unitechApi.exception.ExceptionService.ItemNotFound;
+import com.unitechApi.exception.ExceptionService.ResourceNotFound;
 import com.unitechApi.purchase.RawMaterial.vendor.Repository.VendorRepository;
 import com.unitechApi.purchase.RawMaterial.vendor.Service.VendorService;
 import com.unitechApi.purchase.RawMaterial.vendor.model.VendorModel;
@@ -13,6 +14,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ReflectionUtils;
+
+import javax.persistence.criteria.CriteriaBuilder;
 import java.lang.reflect.Field;
 import java.util.Comparator;
 import java.util.Date;
@@ -34,19 +37,19 @@ public class IndentService {
     }
 
     public Indent saveData(Indent indent ) {
-        StoreItemModel itemModel=storeItemRepository.findById(indent.getStoreItem().getItemId())
-                .orElseThrow(()-> new ItemNotFound("item not Found"));
-//        VendorModel vendorModel=vendorService.FindById(indent.getVendorDetails().getId());
-//        indent.setVendorDetails(vendorModel);
-        indent.setTotal((long) (indent.getEstimatedPrice() * indent.getQuantity()));
-        indent.setIncludingTax(((indent.getTotal() * itemModel.getPaytax())/100)+indent.getTotal());
-  //      indent.set((long) (indent.getTotal() + indent.getIncludingTax()));
+//        StoreItemModel itemModel=storeItemRepository.findById(indent.getStoreItem().getItemId())
+//                .orElseThrow(()-> new ItemNotFound("item not Found"));
+////        VendorModel vendorModel=vendorService.FindById(indent.getVendorDetails().getId());
+////        indent.setVendorDetails(vendorModel);
+//        indent.setTotal((long) (indent.getEstimatedPrice() * indent.getQuantity()));
+//        indent.setIncludingTax(((indent.getTotal() * itemModel.getPaytax())/100)+indent.getTotal());
+//  //      indent.set((long) (indent.getTotal() + indent.getIncludingTax()));
         return indentRepository.save(indent);
     }
 
     public Indent findByid(Long id) {
         return indentRepository.findById(id)
-                .orElseThrow(() -> new ItemNotFound("Sorry ! Item Was Not Found"));
+                .orElseThrow(() -> new ResourceNotFound("Sorry ! Indent Was Not Found"));
     }
 
     public Indent updateData(Long id, Map<Object, Object> request) {
@@ -72,8 +75,9 @@ public class IndentService {
 
         if (itemRequest.getIndentStatus().equals(IndentStatus.ADMIN))
         {
-            Indent indent=findByid(itemRequest.getIndentId());
-            dta.setVendorDetails(indent.getVendorDetails());
+            VendorModel vendorModel=vendorService.FindById(dta.getVendorDetails().getId());
+            itemRequest.getDataVendorAndIndent().add(vendorModel);
+            itemRequest.setVendorDetails(vendorModel.getChooseVendorDetailsInIndent().getVendorDetails());
         }
 //        if (itemRequest.getIndentStatus().equals(IndentStatus.VP)) {
                 itemRequest.setIndentStatus(dta.getIndentStatus());
@@ -98,6 +102,13 @@ public class IndentService {
         return indentRepository.findByIndentStatus(indentStatus)
                 .stream()
                 .sorted(Comparator.comparing(Indent::getIndentId).reversed())
+                .collect(Collectors.toList());
+    }
+    public List<Indent> findByIndentIdAndVendorId(Long vendorId,Long indentId)
+    {
+        return indentRepository.findByVendorDetailsIdAndAndIndentId(vendorId,indentId)
+                .stream()
+                .sorted(Comparator.comparing(Indent::getIndentId))
                 .collect(Collectors.toList());
     }
 }

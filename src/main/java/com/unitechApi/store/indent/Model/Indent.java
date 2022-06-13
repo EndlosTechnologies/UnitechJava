@@ -57,7 +57,7 @@ public class Indent {
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(schema = "store_management",name = "indent_vendor_detailsID",
             joinColumns = @JoinColumn(name = "indent_id"), inverseJoinColumns = @JoinColumn(name = "vendor_id"))
-    @JsonIgnoreProperties({"contractModels","dataVendorAndItem"})
+    @JsonIgnoreProperties({"contractModels","itemData","chooseVendorDetailsInIndent"})
     private Set<VendorModel> dataVendorAndIndent=new HashSet<>();
 
 
