@@ -69,13 +69,14 @@ public class StoreItemModel extends Audit<String> {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(foreignKey = @ForeignKey(name = "emp_id"), name = "emp_id", referencedColumnName = "user_profile_id")
-    @JsonIgnoreProperties({"itemModelSet","issueItemsData","itemRequest"})
+    @JsonIgnoreProperties({"itemModelSet","issueItemsData","itemRequest","response","hrModel","familyDetails","userExperienceData"
+    ,"passwordEntity","userQualificationData","roles","indentData"})
     private User employe;
     @OneToMany(mappedBy = "storeItem", cascade = CascadeType.ALL)
     @JsonIgnoreProperties({"storeItem","employee"})
     private Set<Indent> itemRequest;
     @ManyToMany(mappedBy = "itemData")
-    @JsonIgnoreProperties({"itemData"})
+    @JsonIgnoreProperties({"itemData","indentList"})
     private Set<VendorModel> vendorDate=new HashSet<>();
 
     public Set<VendorModel> getVendorDate() {

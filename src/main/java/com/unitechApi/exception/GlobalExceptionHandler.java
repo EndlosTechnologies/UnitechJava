@@ -83,7 +83,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         exceptionMOdel.setDetails(ex.getClass().getCanonicalName());
         exceptionMOdel.setDeveloperMessage(ex.fillInStackTrace().getMessage());
         exceptionMOdel.setStatus(HttpStatus.NOT_ACCEPTABLE.value());
-        exceptionMOdel.setTitle("Sorry ! time is gone");
+        exceptionMOdel.setTitle("Sorry ! Time Extend Exception");
         exceptionMOdel.setTimestamp((String.valueOf(LocalDateTime.now())));
         return new ResponseEntity<>(exceptionMOdel, HttpStatus.NOT_ACCEPTABLE);
     }
@@ -93,7 +93,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         exceptionMOdel.setDetails(ex.getClass().getCanonicalName());
         exceptionMOdel.setDeveloperMessage(ex.fillInStackTrace().getMessage());
         exceptionMOdel.setStatus(HttpStatus.NOT_ACCEPTABLE.value());
-        exceptionMOdel.setTitle("Sorry ! time is gone");
+        exceptionMOdel.setTitle("Sorry ! Product Category Not Found");
         exceptionMOdel.setTimestamp((String.valueOf(LocalDateTime.now())));
         return new ResponseEntity<>(exceptionMOdel, HttpStatus.NOT_ACCEPTABLE);
     }
@@ -103,7 +103,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         exceptionMOdel.setDetails(ex.getClass().getCanonicalName());
         exceptionMOdel.setDeveloperMessage(ex.fillInStackTrace().getMessage());
         exceptionMOdel.setStatus(HttpStatus.NOT_ACCEPTABLE.value());
-        exceptionMOdel.setTitle("Sorry ! time is gone");
+        exceptionMOdel.setTitle("Sorry ! Item Not Found");
         exceptionMOdel.setTimestamp((String.valueOf(LocalDateTime.now())));
         return new ResponseEntity<>(exceptionMOdel, HttpStatus.NOT_ACCEPTABLE);
     }
@@ -113,7 +113,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         exceptionMOdel.setDetails(ex.getClass().getCanonicalName());
         exceptionMOdel.setDeveloperMessage(ex.fillInStackTrace().getMessage());
         exceptionMOdel.setStatus(HttpStatus.NOT_ACCEPTABLE.value());
-        exceptionMOdel.setTitle("Sorry ! time is gone");
+        exceptionMOdel.setTitle("Sorry ! Unit Not Found");
         exceptionMOdel.setTimestamp((String.valueOf(LocalDateTime.now())));
         return new ResponseEntity<>(exceptionMOdel, HttpStatus.NOT_ACCEPTABLE);
     }
@@ -123,7 +123,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         exceptionMOdel.setDetails(ex.getClass().getCanonicalName());
         exceptionMOdel.setDeveloperMessage(ex.fillInStackTrace().getMessage());
         exceptionMOdel.setStatus(HttpStatus.NOT_FOUND.value());
-        exceptionMOdel.setTitle("Sorry ! time is gone");
+        exceptionMOdel.setTitle("Sorry ! Out Of Stock");
         exceptionMOdel.setTimestamp((String.valueOf(LocalDateTime.now())));
         return new ResponseEntity<>(exceptionMOdel, HttpStatus.NOT_ACCEPTABLE);
     }
@@ -133,7 +133,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         exceptionMOdel.setDetails(ex.getClass().getCanonicalName());
         exceptionMOdel.setDeveloperMessage(ex.fillInStackTrace().getMessage());
         exceptionMOdel.setStatus(HttpStatus.UNAUTHORIZED.value());
-        exceptionMOdel.setTitle("Sorry ! time is gone");
+        exceptionMOdel.setTitle("Sorry ! Password Incorrect");
         exceptionMOdel.setTimestamp((String.valueOf(LocalDateTime.now())));
         return new ResponseEntity<>(exceptionMOdel, HttpStatus.UNAUTHORIZED);
     }
@@ -143,7 +143,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         exceptionMOdel.setDetails(ex.getClass().getCanonicalName());
         exceptionMOdel.setDeveloperMessage(ex.fillInStackTrace().getMessage());
         exceptionMOdel.setStatus(HttpStatus.UNAVAILABLE_FOR_LEGAL_REASONS.value());
-        exceptionMOdel.setTitle("Sorry ! time is gone");
+        exceptionMOdel.setTitle("Sorry ! Add Item Exception");
         exceptionMOdel.setTimestamp((String.valueOf(LocalDateTime.now())));
         return new ResponseEntity<>(exceptionMOdel, HttpStatus.UNAVAILABLE_FOR_LEGAL_REASONS);
     }
@@ -153,7 +153,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         exceptionMOdel.setDetails(ex.getClass().getCanonicalName());
         exceptionMOdel.setDeveloperMessage(ex.fillInStackTrace().getMessage());
         exceptionMOdel.setStatus(HttpStatus.NOT_FOUND.value());
-        exceptionMOdel.setTitle("Sorry ! time is gone");
+        exceptionMOdel.setTitle("Sorry ! MachineNotFound");
         exceptionMOdel.setTimestamp((String.valueOf(LocalDateTime.now())));
         return new ResponseEntity<>(exceptionMOdel, HttpStatus.NOT_FOUND);
     }
