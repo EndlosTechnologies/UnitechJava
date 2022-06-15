@@ -11,8 +11,10 @@ import org.springframework.stereotype.Service;
 
 import java.sql.Date;
 import java.text.DecimalFormat;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @Slf4j
@@ -71,15 +73,15 @@ public class RingframesService {
         return ringFrameRepossitory.findByCreatedAtBetween(start, end, pagination.getpageble());
     }
 
-    public Page<RingFrame> FindBySingleDate(Date start, Pagination pagination) {
-        return ringFrameRepossitory.findByCreatedAt(start, pagination.getpageble());
+    public List<RingFrame> FindBySingleDate(Date start) {
+        return ringFrameRepossitory.findByCreatedAt(start).stream().sorted(Comparator.comparing(o -> o.getRingframe().getId())).collect(Collectors.toList());
     }
 
     public List<RingFrame> ExcelDateToPerDateReport(Date start) {
-        return ringFrameRepossitory.findByShiftdate(start);
+        return ringFrameRepossitory.findByShiftdate(start).stream().sorted(Comparator.comparing(o -> o.getRingframe().getId())).collect(Collectors.toList());
     }
 
     public List<RingFrame> ExcelDateToDateReport(Date start, Date end) {
-        return ringFrameRepossitory.findByShiftdateBetween(start, end);
+        return ringFrameRepossitory.findByShiftdateBetween(start, end).stream().sorted(Comparator.comparing(o -> o.getRingframe().getId())).collect(Collectors.toList());
     }
 }

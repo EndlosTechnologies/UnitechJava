@@ -22,7 +22,7 @@ import java.util.Optional;
 
 @RestController
 @CrossOrigin
-@RequestMapping("/unitech/api/v1/addMachine/bloowRoom")
+@RequestMapping("/unitech/api/v1/addmachine/bloowroom")
 @Slf4j
 public class AddBloowRoomController {
     private final Addbloowroomservice addbloowroomservice;

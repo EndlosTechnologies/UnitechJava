@@ -137,10 +137,10 @@ public class RingFrameController {
     }
 
     @GetMapping("/searchsingle")
-    public ResponseEntity<?> ParticularDate(@RequestParam Date start, @RequestParam int page, @RequestParam int pageSize) {
-        Pagination pagination = new Pagination(page, pageSize);
-        Page<RingFrame> bloowRooms = ringframesService.FindBySingleDate(start, pagination);
-        return new ResponseEntity<>(PageResponse.pagebleResponse(bloowRooms, pagination), HttpStatus.OK);
+    public ResponseEntity<?> ParticularDate(@RequestParam Date start) {
+
+        List<RingFrame> bloowRooms = ringframesService.FindBySingleDate(start);
+        return new ResponseEntity<>(PageResponse.SuccessResponse(bloowRooms), HttpStatus.OK);
     }
 
     @PutMapping("/{r_a_id}/update/{r_id}")

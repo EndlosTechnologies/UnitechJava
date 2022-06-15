@@ -26,7 +26,7 @@ public class DbService {
 
 //    @Value("${spring.datasource.url}")
 //    private String url;
-    public static final String URL = "jdbc:postgresql://localhost:5432/unitechdev";
+    public static final String URL = "jdbc:postgresql://localhost:5432/unitech";
 
 //    @Value("${spring.datasource.username}")
 //    private String username;

@@ -14,7 +14,7 @@ public interface RingFrameRepossitory extends JpaRepository<RingFrame, Long> {
     @Query("select r from RingFrame r where DATE(r.createdAt) between :start and :end")
     Page<RingFrame> findByCreatedAtBetween(Date start, Date end , Pageable pageable);
     @Query("select r from RingFrame r where DATE(r.createdAt) =:createdAt")
-    Page<RingFrame> findByCreatedAt(@Param("createdAt")Date d1,Pageable pageable);
+    List<RingFrame> findByCreatedAt(@Param("createdAt")Date d1);
     @Query("select c  from RingFrame c where DATE(c.shiftDate) between :start and :end")
     List<RingFrame> findByShiftdateBetween(Date start, Date end );
     @Query("select c from RingFrame c where DATE(c.shiftDate) =?1")
