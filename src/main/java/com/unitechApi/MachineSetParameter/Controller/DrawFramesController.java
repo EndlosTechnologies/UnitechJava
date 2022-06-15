@@ -7,14 +7,11 @@ import com.unitechApi.MachineSetParameter.repository.DrawFramesRepository;
 import com.unitechApi.MachineSetParameter.service.DrawframesService;
 import com.unitechApi.Payload.response.MessageResponse;
 import com.unitechApi.Payload.response.PageResponse;
-import com.unitechApi.Payload.response.Pagination;
 import com.unitechApi.addmachine.model.AddDrawFramesMachine;
 import com.unitechApi.addmachine.repositroy.AddDrawFramesRepository;
 import com.unitechApi.exception.ExceptionService.ResourceNotFound;
 import com.unitechApi.exception.ExceptionService.TimeExtendException;
 import com.unitechApi.exception.ExceptionService.UserNotFound;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -87,21 +84,19 @@ public class DrawFramesController {
     }
 
     @GetMapping("/search")
-    public ResponseEntity<?> getRecordByCreatedDate(@RequestParam Date start, @RequestParam Date end,
-                                                    @RequestParam(required = false, defaultValue = "0") int page,
-                                                    @RequestParam(required = false, defaultValue = "2") int size) {
+    public ResponseEntity<?> getRecordByCreatedDate(@RequestParam Date start, @RequestParam Date end) {
 
-        Pagination pagination = new Pagination(page, size);
-        Page<Drawframesperkg> pagecontent = drawframesService.FindByDate(start, end, pagination);
-        return new ResponseEntity<>(PageResponse.pagebleResponse(pagecontent, pagination), HttpStatus.OK);
+
+        List<Drawframesperkg> pagecontent = drawframesService.FindByDate(start, end);
+        return new ResponseEntity<>(PageResponse.SuccessResponse(pagecontent), HttpStatus.OK);
     }
 
 
     @GetMapping("/searchsingle")
-    public ResponseEntity<?> ParticularDate(@RequestParam Date start, @RequestParam int page, @RequestParam int pagesize) {
-        Pagination pagination = new Pagination(page, pagesize);
-        Page<Drawframesperkg> bloowRooms = drawframesService.FindBySingleDate(start, pagination);
-        return new ResponseEntity<>(PageResponse.pagebleResponse(bloowRooms, pagination), HttpStatus.OK);
+    public ResponseEntity<?> ParticularDate(@RequestParam Date start) {
+
+        List<Drawframesperkg> bloowRooms = drawframesService.FindBySingleDate(start);
+        return new ResponseEntity<>(PageResponse.SuccessResponse(bloowRooms), HttpStatus.OK);
     }
 
     @PutMapping("/{d_a_id}/update/{d_id}")

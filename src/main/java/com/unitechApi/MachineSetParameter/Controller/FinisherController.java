@@ -14,7 +14,6 @@ import com.unitechApi.exception.ExceptionService.ResourceNotFound;
 import com.unitechApi.exception.ExceptionService.TimeExtendException;
 import com.unitechApi.exception.ExceptionService.UserNotFound;
 import lombok.ToString;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -87,21 +86,20 @@ public class FinisherController {
     }
 
     @GetMapping("/search")
-    public ResponseEntity<Map<String, Object>> getRecordByCreatedDate(@RequestParam Date start, @RequestParam Date end,
-                                                                      @RequestParam(required = false, defaultValue = "0") int page,
-                                                                      @RequestParam(required = false, defaultValue = "2") int size) {
+    public ResponseEntity<Map<String, Object>> getRecordByCreatedDate(@RequestParam Date start, @RequestParam Date end
+                                                                      ) {
 
-        Pagination pagination = new Pagination(page, size);
-        Page<FinisherperKg> pagecontent = finisherperKgservice.FindData(start, end, pagination);
-        return new ResponseEntity<>(PageResponse.pagebleResponse(pagecontent, pagination), HttpStatus.OK);
+
+        List<FinisherperKg> pagecontent = finisherperKgservice.FindData(start, end);
+        return new ResponseEntity<>(PageResponse.SuccessResponse(pagecontent), HttpStatus.OK);
     }
 
 
     @GetMapping("/searchsingle")
-    public ResponseEntity<?> ParticularDate(@RequestParam Date start, @RequestParam int page, @RequestParam int pagesize) {
-        Pagination pagination = new Pagination(page, pagesize);
-        Page<FinisherperKg> bloowRooms = finisherperKgservice.FindBySingleDate(start, pagination);
-        return new ResponseEntity<>(PageResponse.pagebleResponse(bloowRooms, pagination), HttpStatus.OK);
+    public ResponseEntity<?> ParticularDate(@RequestParam Date start) {
+
+        List<FinisherperKg> bloowRooms = finisherperKgservice.FindBySingleDate(start);
+        return new ResponseEntity<>(PageResponse.SuccessResponse(bloowRooms), HttpStatus.OK);
     }
 
     @PutMapping("/{f_a_id}/update/{f_id}")

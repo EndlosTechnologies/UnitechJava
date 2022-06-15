@@ -12,9 +12,9 @@ import java.util.List;
 
 public interface CardingRepository extends JpaRepository<Carding, Long> {
     @Query("select c  from Carding c where DATE(c.createdAt) between :start and :end")
-    Page<Carding> findByCreatedAtBetween(Date start, Date end , Pageable pageable);
+    List<Carding> findByCreatedAtBetween(Date start, Date end );
     @Query("select c from Carding c where DATE(c.createdAt) =:createdAt")
-    Page<Carding> findByCreatedAt(@Param("createdAt")Date d1, Pageable pageable);
+    List<Carding> findByCreatedAt(@Param("createdAt")Date d1);
     @Query("select c  from Carding c where DATE(c.shiftDate) between :start and :end")
     List<Carding> findByShiftdateBetween(Date start, Date end );
     @Query("select c from Carding c where DATE(c.shiftDate) =?1")

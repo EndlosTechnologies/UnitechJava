@@ -2,7 +2,6 @@ package com.unitechApi.MachineSetParameter.service;
 
 import com.unitechApi.MachineSetParameter.model.RingFrame;
 import com.unitechApi.MachineSetParameter.repository.RingFrameRepossitory;
-import com.unitechApi.Payload.response.Pagination;
 import com.unitechApi.exception.ExceptionService.DateMisMatchException;
 import com.unitechApi.exception.ExceptionService.ResourceNotFound;
 import lombok.extern.slf4j.Slf4j;
@@ -62,7 +61,7 @@ public class RingframesService {
         return Optional.ofNullable(ringFrameRepossitory.findById(id).orElseThrow(() -> new ResourceNotFound("can't find data")));
     }
 
-    public Page<RingFrame> FindData(Date start, Date end, Pagination pagination) {
+    public List<RingFrame> FindData(Date start, Date end) {
         java.util.Date date = new java.util.Date();
 
         if (date.before(start)) {
@@ -70,11 +69,17 @@ public class RingframesService {
         } else if (date.before(end)) {
             throw new DateMisMatchException(" you can not enter -> " + date + "  -> " + end);
         }
-        return ringFrameRepossitory.findByCreatedAtBetween(start, end, pagination.getpageble());
+        return ringFrameRepossitory.findByCreatedAtBetween(start, end)
+                .stream()
+                .sorted(Comparator.comparing(o -> o.getRingframe().getId()))
+                .collect(Collectors.toList());
     }
 
     public List<RingFrame> FindBySingleDate(Date start) {
-        return ringFrameRepossitory.findByCreatedAt(start).stream().sorted(Comparator.comparing(o -> o.getRingframe().getId())).collect(Collectors.toList());
+        return ringFrameRepossitory.findByCreatedAt(start)
+                .stream()
+                .sorted(Comparator.comparing(o -> o.getRingframe().getId()))
+                .collect(Collectors.toList());
     }
 
     public List<RingFrame> ExcelDateToPerDateReport(Date start) {

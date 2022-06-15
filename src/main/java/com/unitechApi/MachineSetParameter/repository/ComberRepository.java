@@ -12,9 +12,9 @@ import java.util.List;
 
 public interface ComberRepository extends JpaRepository<Comber ,Long>  {
     @Query("select b from Comber b where DATE(b.createdAt) between :start and :end")
-    Page<Comber> findByCreatedAtBetween(Date start, Date end , Pageable pageable);
+    List<Comber> findByCreatedAtBetween(Date start, Date end );
     @Query("select b from Comber b where DATE(b.createdAt) =:createdAt")
-    Page<Comber> findByCreatedAt(@Param("createdAt")Date d1, Pageable pageable);
+    List<Comber> findByCreatedAt(@Param("createdAt")Date d1);
     @Query("select c  from Comber c where DATE(c.shiftDate) between :start and :end")
     List<Comber> findByShiftdateBetween(Date start, Date end );
     @Query("select c from Comber c where DATE(c.shiftDate) =?1")

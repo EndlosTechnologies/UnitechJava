@@ -12,7 +12,6 @@ import com.unitechApi.addmachine.model.AddFinisherMachine;
 import com.unitechApi.addmachine.repositroy.AddFinisherRepository;
 import com.unitechApi.exception.ExceptionService.ResourceNotFound;
 import com.unitechApi.exception.ExceptionService.TimeExtendException;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -57,18 +56,17 @@ public class FinisherHankController {
     }
 
     @GetMapping("/search")
-    public ResponseEntity<?> FindData(@RequestParam Date start, @RequestParam Date end,
-                                      @RequestParam int page, @RequestParam int pagesize) {
-        Pagination pagination = new Pagination(page, pagesize);
-        Page<FinisherperHank> finisherperHanks = finisherPerHankService.FindData(start, end, pagination);
-        return new ResponseEntity<>(PageResponse.pagebleResponse(finisherperHanks, pagination), HttpStatus.OK);
+    public ResponseEntity<?> FindData(@RequestParam Date start, @RequestParam Date end) {
+
+        List<FinisherperHank> finisherperHanks = finisherPerHankService.FindData(start, end);
+        return new ResponseEntity<>(PageResponse.SuccessResponse(finisherperHanks), HttpStatus.OK);
     }
 
     @GetMapping("/searchsingle")
-    public ResponseEntity<?> ParticularDate(@RequestParam Date start, @RequestParam int page, @RequestParam int pagesize) {
-        Pagination pagination = new Pagination(page, pagesize);
-        Page<FinisherperHank> bloowRooms = finisherPerHankService.FindBySingleDate(start, pagination);
-        return new ResponseEntity<>(PageResponse.pagebleResponse(bloowRooms, pagination), HttpStatus.OK);
+    public ResponseEntity<?> ParticularDate(@RequestParam Date start) {
+
+        List<FinisherperHank> bloowRooms = finisherPerHankService.FindBySingleDate(start);
+        return new ResponseEntity<>(PageResponse.SuccessResponse(bloowRooms), HttpStatus.OK);
     }
 
     @PutMapping("{fh_id}/update/{f_id}")

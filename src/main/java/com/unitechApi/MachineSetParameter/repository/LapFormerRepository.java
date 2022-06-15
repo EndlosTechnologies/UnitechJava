@@ -15,9 +15,9 @@ import java.util.List;
 @Repository
 public interface LapFormerRepository extends JpaRepository<LapFormer ,Long> , JpaSpecificationExecutor<LapFormer> {
     @Query("select b from LapFormer b where DATE(b.createdAt) between :start and :end")
-    Page<LapFormer> findByCreatedAtBetween(Date start, Date end , Pageable pageable);;
+    List<LapFormer> findByCreatedAtBetween(Date start, Date end );;
     @Query("select b from LapFormer b where DATE(b.createdAt) =:createdAt")
-    Page <LapFormer> findByCreatedAt(@Param("createdAt") Date d1, Pageable pageable);
+    List <LapFormer> findByCreatedAt(@Param("createdAt") Date d1);
     @Query("select c  from LapFormer c where DATE(c.shiftDate) between :start and :end")
     List<LapFormer> findByShiftdateBetween(java.sql.Date start, java.sql.Date end );
     @Query("select c from LapFormer c where DATE(c.shiftDate) =?1")

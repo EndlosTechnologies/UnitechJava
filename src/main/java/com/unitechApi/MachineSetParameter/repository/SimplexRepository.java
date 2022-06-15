@@ -12,9 +12,9 @@ import java.util.List;
 
 public interface SimplexRepository extends JpaRepository<Simplex, Long> {
     @Query("select s from Simplex s where DATE(s.createdAt) between :start and :end")
-    Page<Simplex> findByCreatedAtBetween(Date start, Date end , Pageable pageable);
+    List<Simplex> findByCreatedAtBetween(Date start, Date end);
     @Query("select s from Simplex s where DATE(s.createdAt) =:createdAt")
-    Page<Simplex> findByCreatedAt(@Param("createdAt")Date d1,Pageable pageable);
+    List<Simplex> findByCreatedAt(@Param("createdAt")Date d1);
     @Query("select c  from Simplex c where DATE(c.shiftDate) between :start and :end")
     List<Simplex> findByShiftdateBetween(Date start, Date end );
     @Query("select c from Simplex c where DATE(c.shiftDate) =?1")

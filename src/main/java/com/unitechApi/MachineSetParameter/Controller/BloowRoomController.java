@@ -6,7 +6,6 @@ import com.unitechApi.MachineSetParameter.model.BloowRoom;
 import com.unitechApi.MachineSetParameter.repository.BloowRoomRepository;
 import com.unitechApi.MachineSetParameter.service.BloowRoomService;
 import com.unitechApi.Payload.response.PageResponse;
-import com.unitechApi.Payload.response.Pagination;
 import com.unitechApi.addmachine.model.AddBloowroom;
 import com.unitechApi.addmachine.repositroy.AddBloowRoomRepository;
 import com.unitechApi.exception.ExceptionService.MachineNotFound;
@@ -15,7 +14,6 @@ import com.unitechApi.exception.ExceptionService.TimeExtendException;
 import com.unitechApi.user.controller.AuthController;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -74,20 +72,19 @@ public class BloowRoomController {
     }
 
     @GetMapping("/search")
-    public ResponseEntity<?> FindByDate(@RequestParam Date start, @RequestParam Date end,
-                                        @RequestParam int page, @RequestParam int pagesize) {
-        Pagination pagination = new Pagination(page, pagesize);
-        Page<BloowRoom> bloowRooms = bloowRoomService.FindByDate(start, end, pagination);
-        return new ResponseEntity<>(PageResponse.pagebleResponse(bloowRooms, pagination), HttpStatus.OK);
+    public ResponseEntity<?> FindByDate(@RequestParam Date start, @RequestParam Date end) {
+
+        List<BloowRoom> bloowRooms = bloowRoomService.FindByDate(start, end);
+        return new ResponseEntity<>(PageResponse.SuccessResponse(bloowRooms), HttpStatus.OK);
 
     }
 
     @GetMapping("/searchsingle")
     public ResponseEntity<?> ParticularDate(@RequestParam Date start, @RequestParam int page, @RequestParam int pagesize) {
-        Pagination pagination = new Pagination(page, pagesize);
-        Page<BloowRoom> bloowRooms = bloowRoomService.listOfData(start, pagination);
+
+        List<BloowRoom> bloowRooms = bloowRoomService.listOfData(start);
         logger.info("search single {}" ,bloowRooms);
-        return new ResponseEntity<>(PageResponse.pagebleResponse(bloowRooms, pagination), HttpStatus.OK);
+        return new ResponseEntity<>(PageResponse.SuccessResponse(bloowRooms), HttpStatus.OK);
     }
 
     @GetMapping("/download")

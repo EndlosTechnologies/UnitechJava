@@ -17,7 +17,6 @@ import java.util.Set;
 @ToString
 //@JsonIdentityInfo(generator=ObjectIdGenerators.PropertyGenerator.class, property="id")
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-
 public class VendorModel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "id")

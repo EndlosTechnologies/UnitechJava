@@ -67,11 +67,11 @@ public class IndentController {
         List<Indent> data= indentService.findByStatus(indentStatus);
         return new ResponseEntity<>(PageResponse.SuccessResponse(data),HttpStatus.OK);
     }
-//    @GetMapping(value = "/{vendorId}/show/{indentId}")
-//    public ResponseEntity<?> findByVendorIdAndIndentId(@PathVariable Long vendorId , @PathVariable Long indentId)
-//    {
-//        List<Indent> data=indentService.findByIndentIdAndVendorId(vendorId,indentId);
-//        return new ResponseEntity<>(PageResponse.SuccessResponse(data),HttpStatus.OK);
-//    }
+    @GetMapping(value = "/show")
+    public ResponseEntity<?> findByVendorIdAndIndentId(@PathVariable Date start , @RequestParam Date end)
+    {
+        List<Indent> data=indentService.findByListDateBetween(start,end);
+        return new ResponseEntity<>(PageResponse.SuccessResponse(data),HttpStatus.OK);
+    }
 
 }

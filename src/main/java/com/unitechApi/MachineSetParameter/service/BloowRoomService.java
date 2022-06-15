@@ -58,7 +58,7 @@ public class BloowRoomService {
         return Optional.ofNullable(bloowRoomRepository.findById(id).orElseThrow(() -> new ResourceNotFound("can't find data")));
     }
 
-    public Page<BloowRoom> FindByDate(Date start, Date end, Pagination pagination) {
+    public List<BloowRoom> FindByDate(Date start, Date end) {
         java.util.Date date = new java.util.Date();
 
         if (date.before(start)) {
@@ -66,11 +66,11 @@ public class BloowRoomService {
         } else if (date.before(end)) {
             throw new DateMisMatchException(" you can not enter -> " + date + "  -> " + end);
         }
-        return bloowRoomRepository.findByCreatedAtBetween(start, end, pagination.getpageble());
+        return bloowRoomRepository.findByCreatedAtBetween(start, end);
     }
 
-    public Page<BloowRoom> listOfData(Date starts, Pagination pagination) {
-        return bloowRoomRepository.findByCreatedAt(starts, pagination.getpageble());
+    public List<BloowRoom> listOfData(Date starts) {
+        return bloowRoomRepository.findByCreatedAt(starts);
     }
 
 

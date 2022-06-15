@@ -53,19 +53,17 @@ public class ComberController {
     }
 
     @GetMapping("/search")
-    public ResponseEntity<?> SerachData(@RequestParam Date start, @RequestParam Date end,
-                                        @RequestParam(required = false, defaultValue = "0") int page,
-                                        @RequestParam(required = false, defaultValue = "2") int pagesize) {
-        Pagination pagination = new Pagination(page, pagesize);
-        Page<Comber> comber = comberService.FindByDate(start, end, pagination);
-        return new ResponseEntity<>(PageResponse.pagebleResponse(comber, pagination), HttpStatus.OK);
+    public ResponseEntity<?> SerachData(@RequestParam Date start, @RequestParam Date end) {
+
+        List<Comber> comber = comberService.FindByDate(start, end);
+        return new ResponseEntity<>(PageResponse.SuccessResponse(comber), HttpStatus.OK);
     }
 
     @GetMapping("/searchsingle")
-    public ResponseEntity<?> ParticularDate(@RequestParam Date start, @RequestParam int page, @RequestParam int pagesize) {
-        Pagination pagination = new Pagination(page, pagesize);
-        Page<Comber> bloowRooms = comberService.FindBySingleDate(start, pagination);
-        return new ResponseEntity<>(PageResponse.pagebleResponse(bloowRooms, pagination), HttpStatus.OK);
+    public ResponseEntity<?> ParticularDate(@RequestParam Date start, @RequestParam int pagesize) {
+
+        List<Comber> bloowRooms = comberService.FindBySingleDate(start);
+        return new ResponseEntity<>(PageResponse.SuccessResponse(bloowRooms), HttpStatus.OK);
     }
 
     @PutMapping("{co_a_id}/update/{co_r_id}")

@@ -7,13 +7,10 @@ import com.unitechApi.MachineSetParameter.repository.LapFormerRepository;
 import com.unitechApi.MachineSetParameter.service.LapFormerService;
 import com.unitechApi.Payload.response.MessageResponse;
 import com.unitechApi.Payload.response.PageResponse;
-import com.unitechApi.Payload.response.Pagination;
 import com.unitechApi.exception.ExceptionService.ResourceNotFound;
 import com.unitechApi.exception.ExceptionService.TimeExtendException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -55,19 +52,19 @@ public class LapFormerController {
     }
 
     @GetMapping("/search")
-    public ResponseEntity<Map<String, Object>> FindByDate(@RequestParam Date start, @RequestParam Date end,
-                                                          @RequestParam int page, @RequestParam int pagesize) {
-        Pagination pagination1 = new Pagination(page, pagesize);
-        Page<LapFormer> lapFormers = lapFormerService.DateToDateSearch(start, end, pagination1);
-        return ResponseEntity.status(HttpStatus.OK).body(PageResponse.pagebleResponse(lapFormers, pagination1));
+    public ResponseEntity<Map<String, Object>> FindByDate(@RequestParam Date start, @RequestParam Date end)
+                                                           {
+
+        List<LapFormer> lapFormers = lapFormerService.DateToDateSearch(start, end );
+        return ResponseEntity.status(HttpStatus.OK).body(PageResponse.SuccessResponse(lapFormers));
 
     }
 
     @GetMapping("/searchsingle")
-    public ResponseEntity<?> ParticularDate(@RequestParam Date start, @RequestParam int page, @RequestParam int pagesize) {
-        Pagination pagination = new Pagination(page, pagesize);
-        Page<LapFormer> bloowRooms = lapFormerService.FindBySingleDate(start, pagination);
-        return new ResponseEntity<>(PageResponse.pagebleResponse(bloowRooms, pagination), HttpStatus.OK);
+    public ResponseEntity<?> ParticularDate(@RequestParam Date start) {
+
+        List<LapFormer> bloowRooms = lapFormerService.FindBySingleDate(start);
+        return new ResponseEntity<>(PageResponse.SuccessResponse(bloowRooms), HttpStatus.OK);
     }
 
     @PutMapping("{l_a_id}/update/{l_r_id}")

@@ -12,8 +12,10 @@ import org.springframework.stereotype.Service;
 
 import java.sql.Date;
 import java.text.DecimalFormat;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -52,7 +54,7 @@ public class CardingService {
         return Optional.ofNullable(cardingRepository.findById(id).orElseThrow(() -> new ResourceNotFound("can't find data")));
     }
 
-    public Page<Carding> FindByDate(Date start, Date end, Pagination pagination) {
+    public List<Carding> FindByDate(Date start, Date end) {
         java.util.Date date = new java.util.Date();
 
         if (date.before(start)) {
@@ -60,18 +62,18 @@ public class CardingService {
         } else if (date.before(end)) {
             throw new DateMisMatchException(" you can not enter -> " + date + "  -> " + end);
         }
-        return cardingRepository.findByCreatedAtBetween(start, end, pagination.getpageble());
+        return cardingRepository.findByCreatedAtBetween(start, end).stream().sorted(Comparator.comparing(o->o.getCardingMachine().getId())).collect(Collectors.toList());
     }
 
-    public Page<Carding> FindBySingleDate(Date start, Pagination pagination) {
-        return cardingRepository.findByCreatedAt(start, pagination.getpageble());
+    public List<Carding> FindBySingleDate(Date start) {
+        return cardingRepository.findByCreatedAt(start).stream().sorted(Comparator.comparing(o->o.getCardingMachine().getId())).collect(Collectors.toList());
     }
 
     public List<Carding> ExcelDateToDateReport(Date start, Date end) {
-        return cardingRepository.findByShiftdateBetween(start, end);
+        return cardingRepository.findByShiftdateBetween(start, end).stream().sorted(Comparator.comparing(o->o.getCardingMachine().getId())).collect(Collectors.toList());
     }
 
     public List<Carding> ExcelDateToPerDateReport(Date start) {
-        return cardingRepository.findByShiftdate(start);
+        return cardingRepository.findByShiftdate(start).stream().sorted(Comparator.comparing(o->o.getCardingMachine().getId())).collect(Collectors.toList());
     }
 }

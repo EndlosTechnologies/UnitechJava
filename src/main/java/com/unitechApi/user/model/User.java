@@ -28,6 +28,7 @@ public class User extends Audit<String> {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_profile_id")
     private Long id;
+
     private String surName;
     @NotBlank(message = "please fill Unique Name ")
     @Size(min = 3, max = 20, message = " required Username is not accept  < 3 or > 20")
@@ -223,6 +224,7 @@ public class User extends Audit<String> {
 
     public void setId(Long id) {
         this.id = id;
+        
     }
 
     public String getUsername() {

@@ -2,18 +2,17 @@ package com.unitechApi.MachineSetParameter.service;
 
 import com.unitechApi.MachineSetParameter.model.Simplex;
 import com.unitechApi.MachineSetParameter.repository.SimplexRepository;
-import com.unitechApi.Payload.response.Pagination;
 import com.unitechApi.exception.ExceptionService.DateMisMatchException;
 import com.unitechApi.exception.ExceptionService.ResourceNotFound;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
 import java.sql.Date;
 import java.text.DecimalFormat;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @Slf4j
@@ -63,7 +62,7 @@ public class SimplexService {
         return Optional.ofNullable(simplexRepository.findById(id).orElseThrow(() -> new ResourceNotFound("can't find data")));
     }
 
-    public Page<Simplex> FindData(Date start, Date end, Pagination pagination) {
+    public List<Simplex> FindData(Date start, Date end) {
         java.util.Date date = new java.util.Date();
 
         if (date.before(start)) {
@@ -71,18 +70,30 @@ public class SimplexService {
         } else if (date.before(end)) {
             throw new DateMisMatchException(" you can not enter -> " + date + "  -> " + end);
         }
-        return simplexRepository.findByCreatedAtBetween(start, end, pagination.getpageble());
+        return simplexRepository.findByCreatedAtBetween(start, end)
+                .stream()
+                .sorted(Comparator.comparing(o->o.getSimplex().getId()))
+                .collect(Collectors.toList());
     }
 
-    public Page<Simplex> FindBySingleDate(Date start, Pagination pagination) {
-        return simplexRepository.findByCreatedAt(start, pagination.getpageble());
+    public List<Simplex> FindBySingleDate(Date start) {
+        return simplexRepository.findByCreatedAt(start)
+                .stream()
+                .sorted(Comparator.comparing(o -> o.getSimplex().getId()))
+                .collect(Collectors.toList());
     }
 
     public List<Simplex> ExcelDateToPerDateReport(Date start) {
-        return simplexRepository.findByShiftdate(start);
+        return simplexRepository.findByShiftdate(start)
+                .stream()
+                .sorted(Comparator.comparing(o -> o.getSimplex().getId()))
+                .collect(Collectors.toList());
     }
 
     public List<Simplex> ExcelDateToDateReport(Date start, Date end) {
-        return simplexRepository.findByShiftdateBetween(start, end);
+        return simplexRepository.findByShiftdateBetween(start, end)
+                .stream()
+                .sorted(Comparator.comparing(o -> o.getSimplex().getId()))
+                .collect(Collectors.toList());
     }
 }

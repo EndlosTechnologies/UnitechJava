@@ -12,9 +12,9 @@ import java.util.List;
 
 public interface FinisherRepository extends JpaRepository<FinisherperKg, Long> {
     @Query("select f from FinisherperKg f where DATE(f.createdAt) between :start and :end")
-    Page<FinisherperKg> findByCreatedAtBetween(Date start, Date end , Pageable pageable);
+    List<FinisherperKg> findByCreatedAtBetween(Date start, Date end );
     @Query("select f from FinisherperKg f where DATE(f.createdAt) =:createdAt")
-    Page<FinisherperKg> findByCreatedAt(@Param("createdAt")Date d1,Pageable pageable);
+    List<FinisherperKg> findByCreatedAt(@Param("createdAt")Date d1);
     @Query("select c  from FinisherperKg c where DATE(c.shiftDate) between :start and :end")
     List<FinisherperKg> findByShiftdateBetween(Date start, Date end );
     @Query("select c from FinisherperKg c where DATE(c.shiftDate) =?1")

@@ -88,12 +88,10 @@ public class RingFrameController {
     }
 
     @GetMapping("/search")
-    public ResponseEntity<Map<String, Object>> getRecordByCreatedDate(@RequestParam Date start, @RequestParam Date end,
-                                                                      @RequestParam(required = false, defaultValue = "0") int page,
-                                                                      @RequestParam(required = false, defaultValue = "2") int size) {
-        Pagination pagination = new Pagination(page, size);
-        Page<RingFrame> pagecontent = ringframesService.FindData(start, end, pagination);
-        return new ResponseEntity<>(PageResponse.pagebleResponse(pagecontent, pagination), HttpStatus.OK);
+    public ResponseEntity<Map<String, Object>> getRecordByCreatedDate(@RequestParam Date start, @RequestParam Date end) {
+
+        List<RingFrame> pagecontent = ringframesService.FindData(start, end);
+        return new ResponseEntity<>(PageResponse.SuccessResponse(pagecontent), HttpStatus.OK);
     }
 
     @GetMapping("/download")

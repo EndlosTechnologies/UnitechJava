@@ -13,7 +13,6 @@ import com.unitechApi.addmachine.repositroy.AddDrawFramesRepository;
 import com.unitechApi.exception.ExceptionService.ResourceNotFound;
 import com.unitechApi.exception.ExceptionService.TimeExtendException;
 import lombok.ToString;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -59,18 +58,17 @@ public class DrawFramesperHankController {
     }
 
     @GetMapping("/search")
-    public ResponseEntity<?> FIndyDate(@RequestParam Date start, @RequestParam Date end,
-                                       @RequestParam int page, @RequestParam int pagesize) {
-        Pagination pagination = new Pagination(page, pagesize);
-        Page<?> drawframes = drawFramesHankService.FindByDate(start, end, pagination);
-        return new ResponseEntity<>(PageResponse.pagebleResponse(drawframes, pagination), HttpStatus.OK);
+    public ResponseEntity<?> FIndyDate(@RequestParam Date start, @RequestParam Date end) {
+
+        List<?> drawframes = drawFramesHankService.FindByDate(start, end);
+        return new ResponseEntity<>(PageResponse.SuccessResponse(drawframes), HttpStatus.OK);
     }
 
     @GetMapping("/searchsingle")
-    public ResponseEntity<?> ParticularDate(@RequestParam Date start, @RequestParam int page, @RequestParam int pagesize) {
-        Pagination pagination = new Pagination(page, pagesize);
-        Page<DrawFramesPerHank> bloowRooms = drawFramesHankService.FindBySingleDate(start, pagination);
-        return new ResponseEntity<>(PageResponse.pagebleResponse(bloowRooms, pagination), HttpStatus.OK);
+    public ResponseEntity<?> ParticularDate(@RequestParam Date start) {
+
+        List<DrawFramesPerHank> bloowRooms = drawFramesHankService.FindBySingleDate(start);
+        return new ResponseEntity<>(PageResponse.SuccessResponse(bloowRooms), HttpStatus.OK);
     }
 
     @GetMapping("/all")

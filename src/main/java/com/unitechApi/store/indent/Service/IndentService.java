@@ -108,11 +108,11 @@ public class IndentService {
                 .sorted(Comparator.comparing(Indent::getIndentId).reversed())
                 .collect(Collectors.toList());
     }
-//    public List<Indent> findByIndentIdAndVendorId(Long vendorId,Long indentId)
-//    {
-//        return indentRepository.findByVendorDetailsIdAndAndIndentId(vendorId,indentId)
-//                .stream()
-//                .sorted(Comparator.comparing(Indent::getIndentId))
-//                .collect(Collectors.toList());
-//    }
+    public List<Indent> findByListDateBetween(Date start,Date end)
+    {
+        return indentRepository.ffindByDateBEtween(start,end)
+                .stream()
+                .sorted(Comparator.comparing(Indent::getIndentId))
+                .collect(Collectors.toList());
+    }
 }

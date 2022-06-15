@@ -13,7 +13,6 @@ import com.unitechApi.addmachine.repositroy.AddSimplexRepository;
 import com.unitechApi.exception.ExceptionService.ResourceNotFound;
 import com.unitechApi.exception.ExceptionService.TimeExtendException;
 import com.unitechApi.exception.ExceptionService.UserNotFound;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -90,21 +89,19 @@ public class SimplexController {
     }
 
     @GetMapping("/search")
-    public ResponseEntity<Map<String, Object>> getRecordByCreatedDate(@RequestParam Date start, @RequestParam Date end,
-                                                                      @RequestParam(required = false, defaultValue = "0") int page,
-                                                                      @RequestParam(required = false, defaultValue = "2") int size) {
+    public ResponseEntity<Map<String, Object>> getRecordByCreatedDate(@RequestParam Date start, @RequestParam Date end) {
 
-        Pagination pagination = new Pagination(page, size);
-        Page<Simplex> pagecontent = simplexService.FindData(start, end, pagination);
-        return new ResponseEntity<>(PageResponse.pagebleResponse(pagecontent, pagination), HttpStatus.OK);
+
+        List<Simplex> pagecontent = simplexService.FindData(start, end);
+        return new ResponseEntity<>(PageResponse.SuccessResponse(pagecontent ), HttpStatus.OK);
     }
 
 
     @GetMapping("/searchsingle")
-    public ResponseEntity<?> ParticularDate(@RequestParam Date start, @RequestParam int page, @RequestParam int pagesize) {
-        Pagination pagination = new Pagination(page, pagesize);
-        Page<Simplex> bloowRooms = simplexService.FindBySingleDate(start, pagination);
-        return new ResponseEntity<>(PageResponse.pagebleResponse(bloowRooms, pagination), HttpStatus.OK);
+    public ResponseEntity<?> ParticularDate(@RequestParam Date start) {
+
+        List<Simplex> bloowRooms = simplexService.FindBySingleDate(start);
+        return new ResponseEntity<>(PageResponse.SuccessResponse(bloowRooms), HttpStatus.OK);
     }
 
     @GetMapping("/download")

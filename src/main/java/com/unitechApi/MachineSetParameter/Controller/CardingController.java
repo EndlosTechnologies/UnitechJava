@@ -13,7 +13,6 @@ import com.unitechApi.addmachine.repositroy.AddCardingRepository;
 import com.unitechApi.exception.ExceptionService.ResourceNotFound;
 import com.unitechApi.exception.ExceptionService.TimeExtendException;
 import com.unitechApi.exception.ExceptionService.UserNotFound;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -85,19 +84,17 @@ public class CardingController {
     }
 
     @GetMapping("/search")
-    public ResponseEntity<?> getRecordByCreatedDate(@RequestParam Date start, @RequestParam Date end,
-                                                    @RequestParam(required = false, defaultValue = "0") int page,
-                                                    @RequestParam(required = false, defaultValue = "2") int pagesize) {
-        Pagination pagination = new Pagination(page, pagesize);
-        Page<Carding> pagecontent = cardingService.FindByDate(start, end, pagination);
-        return new ResponseEntity<>(PageResponse.pagebleResponse(pagecontent, pagination), HttpStatus.OK);
+    public ResponseEntity<?> getRecordByCreatedDate(@RequestParam Date start, @RequestParam Date end) {
+
+        List<Carding> pagecontent = cardingService.FindByDate(start, end);
+        return new ResponseEntity<>(PageResponse.SuccessResponse(pagecontent), HttpStatus.OK);
     }
 
     @GetMapping("/searchsingle")
-    public ResponseEntity<?> ParticularDate(@RequestParam Date start, @RequestParam int page, @RequestParam int pagesize) {
-        Pagination pagination = new Pagination(page, pagesize);
-        Page<Carding> bloowRooms = cardingService.FindBySingleDate(start, pagination);
-        return new ResponseEntity<>(PageResponse.pagebleResponse(bloowRooms, pagination), HttpStatus.OK);
+    public ResponseEntity<?> ParticularDate(@RequestParam Date start, @RequestParam int pagesize) {
+
+        List<Carding> carding= cardingService.FindBySingleDate(start);
+        return new ResponseEntity<>(PageResponse.SuccessResponse(carding), HttpStatus.OK);
     }
 
     @GetMapping("/download")

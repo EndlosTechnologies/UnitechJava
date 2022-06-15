@@ -11,7 +11,9 @@ import org.springframework.stereotype.Service;
 
 import java.sql.Date;
 import java.text.DecimalFormat;
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -39,7 +41,7 @@ public class DrawFramesHankService {
         return drawFramesPerHankRepository.findById(id).orElseThrow(() -> new ResourceNotFound("can't find data"));
     }
 
-    public Page<DrawFramesPerHank> FindByDate(Date start, Date end, Pagination pagination) {
+    public List<DrawFramesPerHank> FindByDate(Date start, Date end) {
         java.util.Date date = new java.util.Date();
 
         if (date.before(start)) {
@@ -47,18 +49,30 @@ public class DrawFramesHankService {
         } else if (date.before(end)) {
             throw new DateMisMatchException(" you can not enter -> " + date + "  -> " + end);
         }
-        return drawFramesPerHankRepository.findByCreatedAtBetween(start, end, pagination.getpageble());
+        return drawFramesPerHankRepository.findByCreatedAtBetween(start, end)
+                .stream()
+                .sorted(Comparator.comparing(c->c.getDrawFramesPerHanks().getId()))
+                .collect(Collectors.toList());
     }
 
-    public Page<DrawFramesPerHank> FindBySingleDate(Date start, Pagination pagination) {
-        return drawFramesPerHankRepository.findByCreatedAt(start, pagination.getpageble());
+    public List<DrawFramesPerHank> FindBySingleDate(Date start) {
+        return drawFramesPerHankRepository.findByCreatedAt(start)
+                .stream()
+                .sorted(Comparator.comparing(c->c.getDrawFramesPerHanks().getId()))
+                .collect(Collectors.toList());
     }
 
     public List<DrawFramesPerHank> ExcelDateToPerDateReport(Date start) {
-        return drawFramesPerHankRepository.findByShiftdate(start);
+        return drawFramesPerHankRepository.findByShiftdate(start)
+                .stream()
+                .sorted(Comparator.comparing(c->c.getDrawFramesPerHanks().getId()))
+                .collect(Collectors.toList());
     }
 
     public List<DrawFramesPerHank> ExcelDateToDateReport(Date start, Date end) {
-        return drawFramesPerHankRepository.findByShiftdateBetween(start, end);
+        return drawFramesPerHankRepository.findByShiftdateBetween(start, end)
+                .stream()
+                .sorted(Comparator.comparing(c->c.getDrawFramesPerHanks().getId()))
+                .collect(Collectors.toList());
     }
 }

@@ -15,9 +15,9 @@ import java.util.List;
 @Repository
 public interface BloowRoomRepository extends JpaRepository<BloowRoom, Long>, JpaSpecificationExecutor<BloowRoom> {
    @Query("select b from BloowRoom b where DATE(b.createdAt) between :start and :end")
-    Page<BloowRoom> findByCreatedAtBetween(Date start, Date end , Pageable pageable);
+    List<BloowRoom> findByCreatedAtBetween(Date start, Date end);
     @Query("select b from BloowRoom b where DATE(b.createdAt) =:createdAt")
-    Page<BloowRoom> findByCreatedAt(@Param("createdAt")Date d1,Pageable pageable);
+    List<BloowRoom> findByCreatedAt(@Param("createdAt")Date d1);
     @Query("select c  from BloowRoom c where DATE(c.shiftDate) between :start and :end")
     List<BloowRoom> findByShiftdateBetween(java.sql.Date start, java.sql.Date end );
     @Query("select c from BloowRoom c where DATE(c.shiftDate) =?1")

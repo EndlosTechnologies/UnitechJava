@@ -15,8 +15,10 @@ import org.springframework.stereotype.Service;
 
 import java.sql.Date;
 import java.text.DecimalFormat;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @Slf4j
@@ -49,7 +51,7 @@ public class LapFormerService {
         return lapFormer.get();
     }
 
-    public Page<LapFormer> DateToDateSearch(Date start, Date end, Pagination pagination) {
+    public List<LapFormer> DateToDateSearch(Date start, Date end) {
         java.util.Date date = new java.util.Date();
 
         if (date.before(start)) {
@@ -57,11 +59,17 @@ public class LapFormerService {
         } else if (date.before(end)) {
             throw new DateMisMatchException(" you can not enter -> " + date + "  -> " + end);
         }
-        return lapFormerRepository.findByCreatedAtBetween(start, end, pagination.getpageble());
+        return lapFormerRepository.findByCreatedAtBetween(start, end)
+                .stream()
+                .sorted(Comparator.comparing(o->o.getAddLapFormer().getId()))
+                .collect(Collectors.toList());
     }
 
-    public Page<LapFormer> FindBySingleDate(Date start, Pagination pagination) {
-        return lapFormerRepository.findByCreatedAt(start, pagination.getpageble());
+    public List<LapFormer> FindBySingleDate(Date start) {
+        return lapFormerRepository.findByCreatedAt(start)
+                .stream()
+                .sorted(Comparator.comparing(o->o.getAddLapFormer().getId()))
+                .collect(Collectors.toList());
     }
 
     public LapFormer UpdateId(Long l_a_id, Long l_r_id) {
@@ -72,10 +80,16 @@ public class LapFormerService {
     }
 
     public List<LapFormer> ExcelDateToDateReport(Date start, Date end) {
-        return lapFormerRepository.findByShiftdateBetween(start, end);
+        return lapFormerRepository.findByShiftdateBetween(start, end)
+                .stream()
+                .sorted(Comparator.comparing(o->o.getAddLapFormer().getId()))
+                .collect(Collectors.toList());
     }
 
     public List<LapFormer> ExcelDateToPerDateReport(Date start) {
-        return lapFormerRepository.findByShiftdate(start);
+        return lapFormerRepository.findByShiftdate(start)
+                .stream()
+                .sorted(Comparator.comparing(o->o.getAddLapFormer().getId()))
+                .collect(Collectors.toList());
     }
 }

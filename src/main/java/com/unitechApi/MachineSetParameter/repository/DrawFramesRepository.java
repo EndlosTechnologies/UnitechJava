@@ -12,9 +12,9 @@ import java.util.List;
 
 public interface DrawFramesRepository extends JpaRepository<Drawframesperkg, Long> {
     @Query("select d from Drawframesperkg d where DATE(d.createdAt) between :start and :end")
-    Page<Drawframesperkg> findByCreatedAtBetween(Date start, Date end , Pageable pageable);
+    List<Drawframesperkg> findByCreatedAtBetween(Date start, Date end );
     @Query("select d from Drawframesperkg d where DATE(d.createdAt) =:createdAt")
-    Page<Drawframesperkg> findByCreatedAt(@Param("createdAt")Date d1,Pageable pageable);
+    List<Drawframesperkg> findByCreatedAt(@Param("createdAt")Date d1);
     @Query("select c  from Drawframesperkg c where DATE(c.shiftDate) between :start and :end")
     List<Drawframesperkg> findByShiftdateBetween(Date start, Date end );
     @Query("select c from Drawframesperkg c where DATE(c.shiftDate) =?1")

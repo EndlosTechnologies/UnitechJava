@@ -12,8 +12,10 @@ import org.springframework.stereotype.Service;
 
 import java.sql.Date;
 import java.text.DecimalFormat;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -53,7 +55,7 @@ public class FinisherPerHankService {
         return Optional.ofNullable(finisherperHankRepository.findById(id).orElseThrow(() -> new ResourceNotFound("can't find data")));
     }
 
-    public Page<FinisherperHank> FindData(Date start, Date end, Pagination pagination) {
+    public List<FinisherperHank> FindData(Date start, Date end) {
         java.util.Date date = new java.util.Date();
 
         if (date.before(start)) {
@@ -61,18 +63,30 @@ public class FinisherPerHankService {
         } else if (date.before(end)) {
             throw new DateMisMatchException(" you can not enter -> " + date + "  -> " + end);
         }
-        return finisherperHankRepository.findByCreatedAtBetween(start, end, pagination.getpageble());
+        return finisherperHankRepository.findByCreatedAtBetween(start, end)
+                .stream()
+                .sorted(Comparator.comparing(o->o.getFinisherhankMachine().getId()))
+                .collect(Collectors.toList());
     }
 
-    public Page<FinisherperHank> FindBySingleDate(Date start, Pagination pagination) {
-        return finisherperHankRepository.findByCreatedAt(start, pagination.getpageble());
+    public List<FinisherperHank> FindBySingleDate(Date start) {
+        return finisherperHankRepository.findByCreatedAt(start)
+                .stream()
+                .sorted(Comparator.comparing(o->o.getFinisherhankMachine().getId()))
+                .collect(Collectors.toList());
     }
 
     public List<FinisherperHank> ExcelDateToPerDateReport(Date start) {
-        return finisherperHankRepository.findByShiftdate(start);
+        return finisherperHankRepository.findByShiftdate(start)
+                .stream()
+                .sorted(Comparator.comparing(o->o.getFinisherhankMachine().getId()))
+                .collect(Collectors.toList());
     }
 
     public List<FinisherperHank> ExcelDateToDateReport(Date start, Date end) {
-        return finisherperHankRepository.findByShiftdateBetween(start, end);
+        return finisherperHankRepository.findByShiftdateBetween(start, end)
+                .stream()
+                .sorted(Comparator.comparing(o->o.getFinisherhankMachine().getId()))
+                .collect(Collectors.toList());
     }
 }
