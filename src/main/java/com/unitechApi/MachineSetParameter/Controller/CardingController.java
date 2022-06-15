@@ -91,7 +91,7 @@ public class CardingController {
     }
 
     @GetMapping("/searchsingle")
-    public ResponseEntity<?> ParticularDate(@RequestParam Date start, @RequestParam int pagesize) {
+    public ResponseEntity<?> ParticularDate(@RequestParam Date start) {
 
         List<Carding> carding= cardingService.FindBySingleDate(start);
         return new ResponseEntity<>(PageResponse.SuccessResponse(carding), HttpStatus.OK);

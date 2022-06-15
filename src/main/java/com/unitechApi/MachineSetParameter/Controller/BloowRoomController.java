@@ -80,7 +80,7 @@ public class BloowRoomController {
     }
 
     @GetMapping("/searchsingle")
-    public ResponseEntity<?> ParticularDate(@RequestParam Date start, @RequestParam int page, @RequestParam int pagesize) {
+    public ResponseEntity<?> ParticularDate(@RequestParam Date start) {
 
         List<BloowRoom> bloowRooms = bloowRoomService.listOfData(start);
         logger.info("search single {}" ,bloowRooms);
