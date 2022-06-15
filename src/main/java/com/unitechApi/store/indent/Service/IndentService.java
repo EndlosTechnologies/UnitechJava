@@ -2,7 +2,6 @@ package com.unitechApi.store.indent.Service;
 
 import com.unitechApi.exception.ExceptionService.ItemNotFound;
 import com.unitechApi.exception.ExceptionService.ResourceNotFound;
-import com.unitechApi.purchase.RawMaterial.vendor.Repository.VendorRepository;
 import com.unitechApi.purchase.RawMaterial.vendor.Service.VendorService;
 import com.unitechApi.purchase.RawMaterial.vendor.model.VendorModel;
 import com.unitechApi.store.indent.Model.Indent;
@@ -15,7 +14,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ReflectionUtils;
 
-import javax.persistence.criteria.CriteriaBuilder;
 import java.lang.reflect.Field;
 import java.util.Comparator;
 import java.util.Date;
@@ -39,11 +37,8 @@ public class IndentService {
     public Indent saveData(Indent indent ) {
         StoreItemModel itemModel=storeItemRepository.findById(indent.getStoreItem().getItemId())
                 .orElseThrow(()-> new ItemNotFound("item not Found"));
-//        VendorModel vendorModel=vendorService.FindById(indent.getVendorDetails().getId());
-//        indent.setVendorDetails(vendorModel);
         indent.setTotal((long) (indent.getEstimatedPrice() * indent.getQuantity()));
         indent.setIncludingTax(((indent.getTotal() * itemModel.getPaytax())/100)+indent.getTotal());
-  //      indent.set((long) (indent.getTotal() + indent.getIncludingTax()));
         return indentRepository.save(indent);
     }
 

@@ -2,12 +2,9 @@ package com.unitechApi.MachineSetParameter.service;
 
 import com.unitechApi.MachineSetParameter.model.Winding;
 import com.unitechApi.MachineSetParameter.repository.WindingRepository;
-import com.unitechApi.Payload.response.Pagination;
 import com.unitechApi.exception.ExceptionService.DateMisMatchException;
 import com.unitechApi.exception.ExceptionService.ResourceNotFound;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
 import java.sql.Date;

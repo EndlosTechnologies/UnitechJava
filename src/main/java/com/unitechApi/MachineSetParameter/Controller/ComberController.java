@@ -7,13 +7,10 @@ import com.unitechApi.MachineSetParameter.repository.ComberRepository;
 import com.unitechApi.MachineSetParameter.service.ComberService;
 import com.unitechApi.Payload.response.MessageResponse;
 import com.unitechApi.Payload.response.PageResponse;
-import com.unitechApi.Payload.response.Pagination;
 import com.unitechApi.exception.ExceptionService.ResourceNotFound;
 import com.unitechApi.exception.ExceptionService.TimeExtendException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -56,11 +53,12 @@ public class ComberController {
     public ResponseEntity<?> SerachData(@RequestParam Date start, @RequestParam Date end) {
 
         List<Comber> comber = comberService.FindByDate(start, end);
+        logger.info("data  {}=> ",comber);
         return new ResponseEntity<>(PageResponse.SuccessResponse(comber), HttpStatus.OK);
     }
 
     @GetMapping("/searchsingle")
-    public ResponseEntity<?> ParticularDate(@RequestParam Date start, @RequestParam int pagesize) {
+    public ResponseEntity<?> ParticularDate(@RequestParam Date start) {
 
         List<Comber> bloowRooms = comberService.FindBySingleDate(start);
         return new ResponseEntity<>(PageResponse.SuccessResponse(bloowRooms), HttpStatus.OK);
@@ -77,14 +75,14 @@ public class ComberController {
                               @RequestParam Date end, HttpServletResponse response) throws IOException {
 
         response.setContentType("application/octet-stream");
-        DateFormat dateFormat = new SimpleDateFormat("dd-mm-yyyy");
+        DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
         String currentDate = dateFormat.format(new java.util.Date());
 
         String headerKey = "Content-Disposition";
         String headerValue = "attachment; filename=comberData_" + currentDate + ".xlsx";
         response.setHeader(headerKey, headerValue);
         List<Comber> ListData = comberService.ExcelDateToDateReport(start, end);
-        ListData.forEach(comber -> System.out.println(comber));
+        ListData.forEach(System.out::println);
 
         ComberExcelService c = new ComberExcelService(ListData);
         c.export(response);
@@ -95,14 +93,14 @@ public class ComberController {
     public void perDayExportToExcel(@RequestParam Date start,
                                     HttpServletResponse response) throws IOException {
         response.setContentType("application/octet-stream");
-        DateFormat dateFormat = new SimpleDateFormat("dd-mm-yyyy");
+        DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
         String currentDate = dateFormat.format(new java.util.Date());
 
         String headerKey = "Content-Disposition";
         String headerValue = "attachment; filename=comberData_" + currentDate + ".xlsx";
         response.setHeader(headerKey, headerValue);
         List<Comber> ListData = comberService.ExcelDateToPerDateReport(start);
-        ListData.forEach(comber -> System.out.println(comber));
+        ListData.forEach(System.out::println);
 
         ComberExcelService c = new ComberExcelService(ListData);
         c.export(response);

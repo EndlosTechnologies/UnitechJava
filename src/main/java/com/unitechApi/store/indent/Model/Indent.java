@@ -1,13 +1,9 @@
 package com.unitechApi.store.indent.Model;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.unitechApi.purchase.RawMaterial.vendor.model.VendorModel;
 import com.unitechApi.store.issue.model.IssueItem;
 import com.unitechApi.store.storeMangment.Model.StoreItemModel;
-import com.unitechApi.user.model.PasswordEntity;
 import com.unitechApi.user.model.User;
 
 import javax.persistence.*;

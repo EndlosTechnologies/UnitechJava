@@ -1,17 +1,18 @@
 package com.unitechApi.purchase.RawMaterial.vendor.Service;
 
-import com.unitechApi.Payload.response.Pagination;
 import com.unitechApi.exception.ExceptionService.DateMisMatchException;
 import com.unitechApi.exception.ExceptionService.ResourceNotFound;
 import com.unitechApi.exception.ExceptionService.UserNotFound;
 import com.unitechApi.purchase.RawMaterial.Contract.Repository.ContractRepository;
 import com.unitechApi.purchase.RawMaterial.vendor.Repository.VendorRepository;
 import com.unitechApi.purchase.RawMaterial.vendor.model.VendorModel;
-import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
 import java.sql.Date;
+import java.util.Comparator;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class VendorService {
@@ -44,21 +45,33 @@ public class VendorService {
         return Optional.empty();
     }
 
-    public Page<VendorModel> FindDateByData(Date start, Date end, Pagination pagination) {
+    public List<VendorModel> FindDateByData(Date start, Date end) {
         java.util.Date date = new java.util.Date();
         if (date.before(start)) {
             throw new DateMisMatchException(" you can not enter -> " + date + "  -> " + start);
         } else if (date.before(end)) {
             throw new DateMisMatchException(" you can not enter -> " + date + "  -> " + end);
         }
-        return vendorRepository.findByCreatedAtBetween(start, end, pagination.getpageble());
+        return vendorRepository.findByCreatedAtBetween(start, end)
+                .stream()
+                .sorted(Comparator.comparing(VendorModel::getId))
+                .collect(Collectors.toList());
     }
 
-    public Page<VendorModel> FindByParticularDate(Date pdate, Pagination pagination) {
+    public List<VendorModel> FindByParticularDate(Date pdate) {
         java.util.Date date = new java.util.Date();
         if (date.before(pdate)) {
             throw new DateMisMatchException(" you can not enter -> " + date + "  -> " + pdate);
         }
-        return vendorRepository.findByCreatedAt(pdate, pagination.getpageble());
+        return vendorRepository.findByCreatedAt(pdate)
+                .stream()
+                .sorted(Comparator.comparing(VendorModel::getId))
+                .collect(Collectors.toList());
+    }
+    public Object DeleteItem(Long id)
+    {
+        VendorModel vendorModel=vendorRepository.findById(id).get();
+        vendorModel.getItemData().remove(id);
+        return null;
     }
 }

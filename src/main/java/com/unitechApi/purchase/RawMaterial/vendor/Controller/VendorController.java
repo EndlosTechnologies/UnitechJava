@@ -4,18 +4,22 @@ import com.unitechApi.Payload.response.PageResponse;
 import com.unitechApi.Payload.response.Pagination;
 import com.unitechApi.purchase.RawMaterial.vendor.Service.VendorService;
 import com.unitechApi.purchase.RawMaterial.vendor.model.VendorModel;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.sql.Date;
+import java.util.List;
 
 @RestController
 @CrossOrigin
 @RequestMapping("/unitech/api/v1/purchase/vendor")
 public class VendorController {
-    private final VendorService vendorService;
+    private static final Logger logger= LoggerFactory.getLogger(VendorController.class);
+     private final VendorService vendorService;
     public VendorController(VendorService vendorService) {
         this.vendorService = vendorService;
     }
@@ -47,17 +51,25 @@ public class VendorController {
 
     @GetMapping("/search")
     public ResponseEntity<?> FIndyDate(@RequestParam(required = false) Date start, @RequestParam(required = false)
-                                        Date end,@RequestParam int page ,@RequestParam int size)
+                                        Date end)
     {
-        Pagination pagination=new Pagination(page,size);
-        Page<VendorModel> vendorModels=vendorService.FindDateByData(start, end, pagination);
-        return new ResponseEntity<>(PageResponse.pagebleResponse(vendorModels,pagination), HttpStatus.OK);
+
+        List<VendorModel> vendorModels=vendorService.FindDateByData(start, end);
+        return new ResponseEntity<>(PageResponse.SuccessResponse(vendorModels), HttpStatus.OK);
     }
     @GetMapping("/searchsingle")
-    public ResponseEntity<?> FindByParticularDate(@RequestParam Date pdate,@RequestParam int page,@RequestParam int pagesize) {
-        Pagination pagination=new Pagination(page,pagesize);
-        Page<VendorModel> vendorModels=vendorService.FindByParticularDate(pdate,pagination);
-        return new ResponseEntity<>(PageResponse.pagebleResponse(vendorModels,pagination), HttpStatus.OK);
+    public ResponseEntity<?> FindByParticularDate(@RequestParam Date pdate) {
+
+        List<VendorModel> vendorModels=vendorService.FindByParticularDate(pdate);
+        return new ResponseEntity<>(PageResponse.SuccessResponse(vendorModels), HttpStatus.OK);
     }
+    @DeleteMapping(value = "item/{itemID}")
+    public ResponseEntity<?> DeleteItem(@PathVariable Long itemID)
+    {
+        Object dataDelte=vendorService.DeleteItem(itemID);
+        logger.info("deleted data {} =>",dataDelte);
+        return new ResponseEntity<>(PageResponse.SuccessResponse(dataDelte),HttpStatus.NO_CONTENT);
+    }
+
 
 }

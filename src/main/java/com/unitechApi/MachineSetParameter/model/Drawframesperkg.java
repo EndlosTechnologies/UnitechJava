@@ -84,7 +84,7 @@ public class Drawframesperkg {
     }
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(foreignKey = @ForeignKey(name = "d_m_id"), name = "d_m_id", referencedColumnName = "m_id")
-    @JsonIgnoreProperties({"drawframesperkgReading","drawFramesPerHanks"})
+    @JsonIgnoreProperties({"drawframesperkgReading","drawFramesPerHanks","usageItems"})
     private AddDrawFramesMachine drawFramesMachine;
     public AddDrawFramesMachine getDrawFramesMachine() {
         return drawFramesMachine;
