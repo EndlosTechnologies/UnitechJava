@@ -12,8 +12,10 @@ import org.springframework.stereotype.Service;
 
 import java.sql.Date;
 import java.text.DecimalFormat;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -66,19 +68,32 @@ public class BloowRoomService {
         } else if (date.before(end)) {
             throw new DateMisMatchException(" you can not enter -> " + date + "  -> " + end);
         }
-        return bloowRoomRepository.findByCreatedAtBetween(start, end);
+        return bloowRoomRepository.findByCreatedAtBetween(start, end)
+                .stream()
+                .sorted(Comparator.comparing(o->o.getAddBloowroom().getId()))
+                .collect(Collectors.toList());
     }
 
     public List<BloowRoom> listOfData(Date starts) {
-        return bloowRoomRepository.findByCreatedAt(starts);
+        return bloowRoomRepository.findByCreatedAt(starts)
+                .stream()
+                .sorted(Comparator.comparing(o->o.getAddBloowroom().getId()))
+                .collect(Collectors.toList());
     }
 
 
     public List<BloowRoom> ExcelDateToDateReport(Date start, Date end) {
-        return bloowRoomRepository.findByShiftdateBetween(start, end);
+        return bloowRoomRepository.findByShiftdateBetween(start, end)
+                .stream()
+                .sorted(Comparator.comparing(o->o.getAddBloowroom().getId()))
+                .collect(Collectors.toList());
     }
 
     public List<BloowRoom> ExcelDateToPerDateReport(Date start) {
-        return bloowRoomRepository.findByShiftdate(start);
+        return bloowRoomRepository.findByShiftdate(start)
+                .stream()
+                .sorted(Comparator.comparing(o->o.getAddBloowroom().getId()))
+                .collect(Collectors.toList());
+
     }
 }

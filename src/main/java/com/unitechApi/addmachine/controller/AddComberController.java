@@ -21,7 +21,7 @@ import java.util.Optional;
 
 @RestController
 @CrossOrigin
-@RequestMapping("/unitech/api/v1/addMachine/comber")
+@RequestMapping("/unitech/api/v1/addmachine/comber")
 @Slf4j
 public class AddComberController {
 

@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.lang.reflect.Field;
 import java.sql.Date;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -73,21 +74,18 @@ public class UtillityController {
     }
 
     @GetMapping("/search")
-    public ResponseEntity<Map<String, Object>> getRecordByCreatedDate(@RequestParam Date start, @RequestParam Date end,
-                                                                      @RequestParam(required = false, defaultValue = "0") int page,
-                                                                      @RequestParam(required = false, defaultValue = "2") int size) {
-        Sort sort = Sort.by(Sort.Direction.ASC, "id");
-        Pagination pagination = new Pagination(page, size);
-        Page<Utiliity> pagecontent = utilityService.FindData(start, end, pagination);
-        return new ResponseEntity<>(PageResponse.pagebleResponse(pagecontent, pagination), HttpStatus.OK);
+    public ResponseEntity<Map<String, Object>> getRecordByCreatedDate(@RequestParam Date start, @RequestParam Date end) {
+
+
+        List<Utiliity> pagecontent = utilityService.FindData(start, end);
+        return new ResponseEntity<>(PageResponse.SuccessResponse(pagecontent), HttpStatus.OK);
     }
 
 
     @GetMapping("/searchsingle")
-    public ResponseEntity<?> ParticularDate(@RequestParam Date start, @RequestParam int page, @RequestParam int pagesize) {
-        Pagination pagination = new Pagination(page, pagesize);
-        Page<Utiliity> bloowRooms = utilityService.FindBySingleDate(start, pagination);
-        return new ResponseEntity<>(PageResponse.pagebleResponse(bloowRooms, pagination), HttpStatus.OK);
+    public ResponseEntity<?> ParticularDate(@RequestParam Date start) {
+        List<Utiliity> bloowRooms = utilityService.FindBySingleDate(start);
+        return new ResponseEntity<>(PageResponse.SuccessResponse(bloowRooms), HttpStatus.OK);
     }
 
     @PutMapping("/u_a_id/update/u_id")

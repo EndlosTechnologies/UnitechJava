@@ -8,10 +8,11 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.sql.Date;
+import java.util.List;
 
 public interface PackingRepository extends JpaRepository<Packing, Long> {
     @Query("select p from Packing p where DATE(p.createdAt) between :start and :end")
-    Page<Packing> findByCreatedAtBetween(Date start, Date end , Pageable pageable);
+    List<Packing> findByCreatedAtBetween(Date start, Date end );
     @Query("select p from Packing p where DATE(p.createdAt) =:createdAt")
-    Page<Packing> findByCreatedAt(@Param("createdAt")Date d1,Pageable pageable);
+    List<Packing> findByCreatedAt(@Param("createdAt")Date d1);
 }

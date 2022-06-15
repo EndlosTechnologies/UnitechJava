@@ -8,10 +8,11 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.sql.Date;
+import java.util.List;
 
 public interface WasteRoomRepository extends JpaRepository<Wasteroom, Long> {
     @Query("select w from Wasteroom w where DATE(w.createdAt) between :start and :end")
-    Page<Wasteroom> findByCreatedAtBetween(Date start, Date end , Pageable pageable);
+    List<Wasteroom> findByCreatedAtBetween(Date start, Date end );
     @Query("select w from Wasteroom w where DATE(w.createdAt) =:createdAt")
-    Page<Wasteroom> findByCreatedAt(@Param("createdAt")Date d1,Pageable pageable);
+    List<Wasteroom> findByCreatedAt(@Param("createdAt")Date d1);
 }

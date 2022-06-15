@@ -8,10 +8,11 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.sql.Date;
+import java.util.List;
 
 public interface WindingRepository extends JpaRepository<Winding, Long> {
     @Query("select w from Winding w where DATE(w.createdAt) between :start and :end")
-    Page<Winding> findByCreatedAtBetween(Date start, Date end , Pageable pageable);
+    List<Winding> findByCreatedAtBetween(Date start, Date end );
     @Query("select w from Winding w where DATE(w.createdAt) =:createdAt")
-    Page<Winding> findByCreatedAt(@Param("createdAt")Date d1,Pageable pageable);
+    List<Winding> findByCreatedAt(@Param("createdAt")Date d1);
 }

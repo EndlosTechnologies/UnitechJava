@@ -11,6 +11,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
 import java.sql.Date;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -45,7 +46,7 @@ public class WindingService {
     public Optional<Winding> FindByData(Long id) {
         return Optional.ofNullable(windingRepository.findById(id).orElseThrow(() -> new ResourceNotFound("can't find data")));
     }
-    public Page<Winding> FindData(Date start, Date end, Pagination pagination) {
+    public List<Winding> FindData(Date start, Date end) {
         java.util.Date date = new java.util.Date();
 
         if (date.before(start)) {
@@ -54,10 +55,10 @@ public class WindingService {
             throw new DateMisMatchException(" you can not enter -> " + date + "  -> " + end);
         }
 
-        return windingRepository.findByCreatedAtBetween(start, end, pagination.getpageble());
+        return windingRepository.findByCreatedAtBetween(start, end);
     }
-    public Page<Winding> FindBySingleDate(Date start, Pagination pagination)
+    public List<Winding> FindBySingleDate(Date start)
     {
-        return  windingRepository.findByCreatedAt(start,pagination.getpageble());
+        return  windingRepository.findByCreatedAt(start);
     }
 }

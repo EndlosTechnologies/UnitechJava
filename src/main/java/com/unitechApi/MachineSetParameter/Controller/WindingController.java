@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.lang.reflect.Field;
 import java.sql.Date;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -73,21 +74,18 @@ public class WindingController {
     }
 
     @GetMapping("/search")
-    public ResponseEntity<Map<String, Object>> getRecordByCreatedDate(@RequestParam Date start, @RequestParam Date end,
-                                                                      @RequestParam(required = false, defaultValue = "0") int page,
-                                                                      @RequestParam(required = false, defaultValue = "2") int size) {
+    public ResponseEntity<Map<String, Object>> getRecordByCreatedDate(@RequestParam Date start, @RequestParam Date end) {
 
-        Pagination pagination = new Pagination(page, size);
-        Page<Winding> pagecontent = windinfService.FindData(start, end, pagination);
-        return new ResponseEntity<>(PageResponse.pagebleResponse(pagecontent, pagination), HttpStatus.OK);
+
+        List<Winding> pagecontent = windinfService.FindData(start, end);
+        return new ResponseEntity<>(PageResponse.SuccessResponse(pagecontent), HttpStatus.OK);
     }
 
 
     @GetMapping("/searchsingle")
-    public ResponseEntity<?> ParticularDate(@RequestParam Date start,@RequestParam  int page,@RequestParam int pagesize) {
-        Pagination pagination=new Pagination(page,pagesize);
-        Page<Winding> bloowRooms=windinfService.FindBySingleDate(start,pagination);
-        return new ResponseEntity<>(PageResponse.pagebleResponse(bloowRooms,pagination), HttpStatus.OK);
+    public ResponseEntity<?> ParticularDate(@RequestParam Date start) {
+        List<Winding> bloowRooms=windinfService.FindBySingleDate(start);
+        return new ResponseEntity<>(PageResponse.SuccessResponse(bloowRooms), HttpStatus.OK);
     }
 
     @PutMapping("/wi_a_id/update/wi_id")
