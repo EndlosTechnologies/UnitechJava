@@ -6,6 +6,8 @@ import com.unitechApi.exception.ExceptionService.UserNotFound;
 import com.unitechApi.purchase.RawMaterial.Contract.Repository.ContractRepository;
 import com.unitechApi.purchase.RawMaterial.vendor.Repository.VendorRepository;
 import com.unitechApi.purchase.RawMaterial.vendor.model.VendorModel;
+import com.unitechApi.store.storeMangment.Model.StoreItemModel;
+import com.unitechApi.store.storeMangment.repository.StoreItemRepository;
 import org.springframework.stereotype.Service;
 
 import java.sql.Date;
@@ -18,10 +20,13 @@ import java.util.stream.Collectors;
 public class VendorService {
 
     private final VendorRepository vendorRepository;
+    private final StoreItemRepository storeItemRepository;
     private final ContractRepository contractRepository;
 
-    public VendorService(VendorRepository vendorRepository, ContractRepository contractRepository) {
+    public VendorService(VendorRepository vendorRepository, StoreItemRepository storeItemRepository, ContractRepository contractRepository) {
         this.vendorRepository = vendorRepository;
+        this.storeItemRepository = storeItemRepository;
+
         this.contractRepository = contractRepository;
     }
     public VendorModel SaveData(VendorModel vendorModel) {
@@ -68,10 +73,11 @@ public class VendorService {
                 .sorted(Comparator.comparing(VendorModel::getId))
                 .collect(Collectors.toList());
     }
-    public Object DeleteItem(Long id)
+    public Object DeleteItem(Long vendorId ,Long itemId)
     {
-        VendorModel vendorModel=vendorRepository.findById(id).get();
-        vendorModel.getItemData().remove(id);
-        return null;
+        VendorModel vendorModel=vendorRepository.findById(vendorId).get();
+        StoreItemModel storeItemModel=storeItemRepository.findById(itemId).get();
+        vendorModel.deleteItem(storeItemModel);
+        return vendorRepository.save(vendorModel);
     }
 }

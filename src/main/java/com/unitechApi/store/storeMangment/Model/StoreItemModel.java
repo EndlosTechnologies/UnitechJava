@@ -79,6 +79,12 @@ public class StoreItemModel extends Audit<String> {
     @JsonIgnoreProperties({"itemData","indentList"})
     private Set<VendorModel> vendorDate=new HashSet<>();
 
+    public void removeItem(VendorModel vendorModel)
+    {
+        vendorDate.remove(vendorModel);
+        vendorModel.getItemData().remove(this);
+    }
+
     public Set<VendorModel> getVendorDate() {
         return vendorDate;
     }

@@ -1,5 +1,6 @@
 package com.unitechApi.purchase.RawMaterial.vendor.Controller;
 
+import com.unitechApi.Payload.response.MessageResponse;
 import com.unitechApi.Payload.response.PageResponse;
 import com.unitechApi.Payload.response.Pagination;
 import com.unitechApi.purchase.RawMaterial.vendor.Service.VendorService;
@@ -63,12 +64,12 @@ public class VendorController {
         List<VendorModel> vendorModels=vendorService.FindByParticularDate(pdate);
         return new ResponseEntity<>(PageResponse.SuccessResponse(vendorModels), HttpStatus.OK);
     }
-    @DeleteMapping(value = "item/{itemID}")
-    public ResponseEntity<?> DeleteItem(@PathVariable Long itemID)
+    @DeleteMapping(value = "item/{itemId}/remove/{vendorId}")
+    public ResponseEntity<?> DeleteItem(@PathVariable Long itemId,@PathVariable Long vendorId)
     {
-        Object dataDelte=vendorService.DeleteItem(itemID);
-        logger.info("deleted data {} =>",dataDelte);
-        return new ResponseEntity<>(PageResponse.SuccessResponse(dataDelte),HttpStatus.NO_CONTENT);
+        Object dataDelete = vendorService.DeleteItem(itemId,vendorId);
+        logger.info("deleted data {} =>",dataDelete);
+        return new ResponseEntity<>(new MessageResponse("Record Delete SuccessFully "),HttpStatus.NO_CONTENT);
     }
 
 

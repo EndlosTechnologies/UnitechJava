@@ -44,7 +44,7 @@ public class AddFinisherMachine {
     private Set<FinisherperKg> finisherperKgReading;
 
     @OneToMany(mappedBy = "finisherhankMachine", cascade = CascadeType.ALL)
-    @JsonIgnoreProperties("finisherhankMachine")
+    @JsonIgnoreProperties({"finisherhankMachine","usageItems"})
     private Set<FinisherperHank> finisherperhankMachineReading;
 
     @OneToMany(mappedBy = "finisherMachinedata",cascade = CascadeType.ALL)

@@ -143,4 +143,8 @@ public class VendorModel {
     public void setPaymentTermsConditions(String paymentTermsConditions) {
         this.paymentTermsConditions = paymentTermsConditions;
     }
+
+    public void deleteItem(StoreItemModel vendorModel) {
+        itemData.remove(vendorModel);
+    }
 }

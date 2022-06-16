@@ -40,7 +40,7 @@ public class AddDrawFramesMachine {
     }
 
     @OneToMany(mappedBy = "drawFramesMachine", cascade = CascadeType.ALL)
-    @JsonIgnoreProperties("drawFramesMachine")
+    @JsonIgnoreProperties({"drawFramesMachine","usageItems"})
     private Set<Drawframesperkg> drawframesperkgReading;
 
     @OneToMany(mappedBy = "drawFramesPerHanks", cascade = CascadeType.ALL)
