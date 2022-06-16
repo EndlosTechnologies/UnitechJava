@@ -42,7 +42,7 @@ public class AddComber {
     @JsonIgnoreProperties("addcomber")
     private Set<Comber> comberreading;
     @OneToMany(mappedBy = "comberusage",cascade = CascadeType.ALL)
-    @JsonIgnoreProperties("comberusage")
+    @JsonIgnoreProperties({"comberusage","usageItems"})
     private Set<UsageItem>  usageItems;
 
     public Set<UsageItem> getUsageItems() {

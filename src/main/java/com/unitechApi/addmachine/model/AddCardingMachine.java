@@ -39,7 +39,7 @@ public class AddCardingMachine {
     }
 
     @OneToMany(mappedBy = "cardingMachine", cascade = CascadeType.ALL)
-    @JsonIgnoreProperties("cardingMachine")
+    @JsonIgnoreProperties({"cardingMachine","usageItems"})
     private Set<Carding> cardingsreading;
 
     @OneToMany(mappedBy = "cardingusage",cascade = CascadeType.ALL)

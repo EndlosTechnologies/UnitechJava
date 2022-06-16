@@ -43,7 +43,7 @@ public class AddRingFramesMachine {
     @JsonIgnoreProperties("ringframe")
     private Set<RingFrame> ringframesReading;
     @OneToMany(mappedBy = "ringframeMachineusage",cascade = CascadeType.ALL)
-    @JsonIgnoreProperties("ringframeMachineusage")
+    @JsonIgnoreProperties({"ringframeMachineusage","usageItems"})
     private Set<UsageItem> usageItems;
 
     public Set<UsageItem> getUsageItems() {
