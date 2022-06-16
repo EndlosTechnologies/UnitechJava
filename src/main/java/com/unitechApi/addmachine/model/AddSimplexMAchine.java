@@ -51,7 +51,7 @@ public class AddSimplexMAchine {
     }
 
     @OneToMany(mappedBy = "simplex", cascade = CascadeType.ALL)
-    @JsonIgnoreProperties("simplex")
+    @JsonIgnoreProperties({"simplex","usageItems"})
     private Set<Simplex> simplexReading;
 
     public Set<Simplex> getSimplexReading() {
