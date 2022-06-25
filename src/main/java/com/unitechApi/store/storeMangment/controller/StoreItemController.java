@@ -117,11 +117,12 @@ public class StoreItemController {
         storeItem.setDrawingNo(storeItemModel.getDrawingNo());
         storeItem.setCatalogNo(storeItemModel.getCatalogNo());
         storeItem.setFrequency(storeItemModel.getFrequency());
-        log.info("frequency ,{}", storeItem.getFrequency());
         storeItem.setPaytax(storeItemModel.getPaytax());
         storeItem.setActivation(storeItemModel.getActivation());
+        storeItem.setRemainingItem(storeItemModel.getRemainingItem());
         storeItem.setExpiryDays(storeItemModel.getExpiryDays());
         storeItem.setQuantity(storeItemModel.getQuantity());
+        log.info("frequency ,{}", storeItem);
         if (storeItemModel.getProductCategory() != null) {
             ProductCategory productCategory = productCategoryRepository.findById(storeItemModel.getProductCategory().getPid()).orElseThrow(()->new ProductCategoryNotFound("product category Not found"));
             productCategory.getItem().add(storeItem);

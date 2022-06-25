@@ -26,6 +26,10 @@ public class VendorModel {
     private String vendorName;
     @Column(name = "vendor_address")
     private String vendorAddress;
+    @Column(name = "vendor_city")
+    private String city;
+    @Column(name = "vebndor_pincode" )
+    private int pincode;
     @Column(name = "vendor_code")
     private String vendorcode;
     @Column(name = "gstno")
@@ -134,6 +138,22 @@ public class VendorModel {
 
     public void setPanno(String panno) {
         this.panno = panno;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    public int getPincode() {
+        return pincode;
+    }
+
+    public void setPincode(int pincode) {
+        this.pincode = pincode;
     }
 
     public String getPaymentTermsConditions() {

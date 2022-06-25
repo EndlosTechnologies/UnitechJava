@@ -38,7 +38,10 @@ import org.springframework.web.bind.annotation.*;
 import java.lang.reflect.Field;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.time.Instant;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -82,8 +85,15 @@ public class AuthController {
     }
 
     @GetMapping("/time")
-    public LocalDateTime dateTime() {
-        return LocalDateTime.now();
+    public ZonedDateTime dateTime() {
+        ZonedDateTime dateTime = ZonedDateTime.now().withZoneSameInstant(ZoneId.of("Europe/Paris")); // Gets the current date and time, with your default time-zone
+        ZonedDateTime asiaDate = ZonedDateTime.now().withZoneSameInstant(ZoneId.of("Asia/Kolkata")); // Gets the current date and time, with your default time-zone
+
+        logger.info("zoned date Europe time With Zone {}",dateTime);
+        logger.info("zoned date Asia time With Zone {}",asiaDate);
+        return asiaDate;
+                //LocalDateTime.from(Instant.now().atZone(ZoneId.of("Asia/Kolkata")));
+        //LocalDateTime.now().atZone(ZoneId.of("Asia/Kolkata"))
     }
 
     @PostMapping("/notification/{name}")

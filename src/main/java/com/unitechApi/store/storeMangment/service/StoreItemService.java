@@ -13,9 +13,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.ReflectionUtils;
 
 import java.lang.reflect.Field;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @Service
 public class StoreItemService {
@@ -58,7 +60,10 @@ public class StoreItemService {
     }
 
     public List<StoreItemModel> findAll() {
-        return storeItemRepository.findAll();
+        return storeItemRepository.findAll()
+                .stream()
+                .sorted(Comparator.comparing(StoreItemModel::getItemId))
+                .collect(Collectors.toList());
     }
 
     public List<StoreItemModel> findByItemName(String name) {

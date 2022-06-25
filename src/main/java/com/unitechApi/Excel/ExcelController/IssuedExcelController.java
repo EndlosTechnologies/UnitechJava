@@ -1,10 +1,9 @@
-package com.unitechApi.store.Excel.ExcelController;
+package com.unitechApi.Excel.ExcelController;
 
+import com.unitechApi.Excel.service.*;
 import com.unitechApi.Payload.response.MessageResponse;
-import com.unitechApi.store.Excel.service.DepartmentWiseExcel;
-import com.unitechApi.store.Excel.service.IssueInItemExcel;
-import com.unitechApi.store.Excel.service.ItemExcel;
-import com.unitechApi.store.Excel.service.ReportExcelIssedMachine;
+import com.unitechApi.purchase.RawMaterial.vendor.Repository.VendorRepository;
+import com.unitechApi.purchase.RawMaterial.vendor.model.VendorModel;
 import com.unitechApi.store.indent.Model.UsageItem;
 import com.unitechApi.store.indent.Repository.UsageRepository;
 import com.unitechApi.store.indent.Service.UsageService;
@@ -37,12 +36,14 @@ public class IssuedExcelController {
     private final IssueRepository issueRepository;
     private final UsageService usageService;
     private final StoreItemRepository storeItemRepository;
-    public IssuedExcelController(UsageRepository usageRepository, IssueRepository issueRepository, UsageService usageService, StoreItemRepository storeItemRepository) {
+    private final VendorRepository vendorRepository;
+    public IssuedExcelController(UsageRepository usageRepository, IssueRepository issueRepository, UsageService usageService, StoreItemRepository storeItemRepository, VendorRepository vendorRepository) {
         this.usageRepository = usageRepository;
         this.issueRepository = issueRepository;
         this.usageService = usageService;
 
         this.storeItemRepository = storeItemRepository;
+        this.vendorRepository = vendorRepository;
     }
 
 
@@ -109,5 +110,20 @@ public class IssuedExcelController {
         itemExcel.export(response);
         return new ResponseEntity<>(new MessageResponse("Download SuccessFully"), HttpStatus.OK);
     }
-
+    @GetMapping(value = "/vendorExcel")
+    public ResponseEntity<?> vendorDetails(HttpServletResponse response) throws IOException, ParseException {
+        response.setContentType("application/octet-stream");
+        DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+        String currentDate = dateFormat.format(new java.util.Date());
+        String headerKey = "Content-Disposition";
+        String headerValue = "attachment; filename=vendor" + currentDate + ".xlsx";
+        response.setHeader(headerKey, headerValue);
+        List<VendorModel> vendorData=vendorRepository.findAll()
+                .stream()
+                .sorted(Comparator.comparing(VendorModel::getId))
+                .collect(Collectors.toList());
+        VendorExcelService data=new VendorExcelService(vendorData);
+        data.export(response);
+        return new ResponseEntity<>(new MessageResponse("Download SuccessFully"),HttpStatus.OK);
+    }
 }

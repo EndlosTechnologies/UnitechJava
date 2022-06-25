@@ -104,7 +104,8 @@ public class User extends Audit<String> {
     }
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(schema = "profiledetails",name = "user_roles"
-            , joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
+            , joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles = new HashSet<>();
     @OneToMany(mappedBy = "userProfileModel", cascade = CascadeType.ALL)
     @JsonManagedReference

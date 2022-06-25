@@ -1,8 +1,8 @@
-package com.unitechApi.store.Excel.service;
+package com.unitechApi.Excel.service;
 
-import com.unitechApi.store.indent.Model.UsageItem;
-import com.unitechApi.store.issue.model.IssueItem;
+import com.unitechApi.purchase.RawMaterial.vendor.model.VendorModel;
 import com.unitechApi.store.issue.model.IssueStatus;
+import com.unitechApi.store.storeMangment.Model.StoreItemModel;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFFont;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
@@ -11,24 +11,22 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.sql.Timestamp;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.List;
 
-public class DepartmentWiseExcel {
-    private XSSFWorkbook workbook;
+public class VendorExcelService {
+    private final XSSFWorkbook workbook;
     private XSSFSheet sheet;
-    private List<UsageItem> ListItem;
-    public DepartmentWiseExcel(List<UsageItem> listData) {
-        this.ListItem = listData;
-        workbook = new XSSFWorkbook();
+    private final List<VendorModel> ListItem;
+
+    public VendorExcelService (List<VendorModel> listItem)
+    {
+        this.ListItem=listItem;
+        workbook=new XSSFWorkbook();
     }
-    private void writeHeaderLine() throws ParseException {
-        sheet = workbook.createSheet("Department Item Data");
+    private void writeHeaderLine() {
+        sheet = workbook.createSheet("Vendor  Data");
         Row row = sheet.createRow(1);
         CellStyle style = workbook.createCellStyle();
         XSSFFont font = workbook.createFont();
@@ -36,15 +34,18 @@ public class DepartmentWiseExcel {
         font.setFontHeight(12);
         style.setAlignment(HorizontalAlignment.CENTER);
         style.setFont(font);
-        createCell(row, 1, "Issue Id", style);
-        createCell(row, 2, "Item Name", style);
-        createCell(row, 3, "Description", style);
-        createCell(row, 4, "Quantity", style);
-        createCell(row, 5, "Issue Date", style);
-        createCell(row, 6, "Status", style);
+        createCell(row, 1, "Index ", style);
+        createCell(row, 2, "Vendor Name", style);
+        createCell(row, 3, "Vendor Address", style);
+        createCell(row, 4, "City", style);
+        createCell(row, 5, "Pin Code", style);
+        createCell(row, 6, "Vendor Code", style);
+        createCell(row, 7, "Gst Number", style);
+        createCell(row, 8, "Pan  NumberItem Name", style);
+        createCell(row, 9, "Item Name", style);
 
     }
-    private void writeDataLine() throws ParseException {
+    private void writeDataLine() {
 
         int rowcount = 2;
 
@@ -58,18 +59,23 @@ public class DepartmentWiseExcel {
         font.setFontHeight(14);
         style.setAlignment(HorizontalAlignment.CENTER);
         style.setFont(font);
-        for (UsageItem usageItem : ListItem) {
+        int serialNumber = 1;
+        for (VendorModel vendorModel : ListItem) {
             Row row = sheet.createRow(rowcount++);
             int countRow = 1;
-            createCell(row, countRow++, usageItem.getIssuedItem().getIssueId(), style);
-            createCell(row, countRow++, usageItem.getIssuedItem().getStoreItemModel().getItemName(), style);
-            createCell(row, countRow++, usageItem.getIssuedItem().getDescription(), style);
-            createCell(row, countRow++, usageItem.getIssuedItem().getQuantity(), style);
-            createCell(row, countRow++, usageItem.getIssuedItem().getIssueDate().toString(), style);
-            createCell(row, countRow++, usageItem.getIssuedItem().getStatus(), style);
+            createCell(row,countRow++,serialNumber++,style);
+            createCell(row, countRow++, vendorModel.getVendorName(), style);
+            createCell(row, countRow++, vendorModel.getVendorAddress(), style);
+            createCell(row, countRow++, vendorModel.getCity(), style);
+            createCell(row, countRow++, vendorModel.getPincode(), style);
+            createCell(row, countRow++, vendorModel.getVendorcode(), style);
+            createCell(row, countRow++, vendorModel.getGstno(), style);
+            createCell(row, countRow++, vendorModel.getPanno(), style);
+            createCell(row, countRow++, vendorModel.getPaymentTermsConditions(), style);
+            //   createCell(row, countRow++, vendorModel.getContractModels()., style);
         }
     }
-    private void createCell(Row row, int i, Object value, CellStyle style) throws ParseException {
+    private void createCell(Row row, int i, Object value, CellStyle style) {
 //        CellStyle cellStyle = workbook.createCellStyle();
 //        CreationHelper createHelper = workbook.getCreationHelper();
 //        cellStyle.setDataFormat(createHelper.createDataFormat().getFormat("MMM/dd/yyyy hh:mm:ss"));
@@ -100,6 +106,7 @@ public class DepartmentWiseExcel {
         }
         cell.setCellStyle(style);
     }
+
 
     public void export(HttpServletResponse response) throws IOException, ParseException {
         writeHeaderLine();

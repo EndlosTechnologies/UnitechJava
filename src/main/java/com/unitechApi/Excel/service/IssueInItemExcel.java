@@ -1,8 +1,9 @@
-package com.unitechApi.store.Excel.service;
+package com.unitechApi.Excel.service;
 
+
+import com.unitechApi.store.indent.Model.UsageItem;
 import com.unitechApi.store.issue.model.IssueItem;
 import com.unitechApi.store.issue.model.IssueStatus;
-import com.unitechApi.store.storeMangment.Model.StoreItemModel;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFFont;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
@@ -14,42 +15,34 @@ import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 
-public class ItemExcel {
+public class IssueInItemExcel {
     private XSSFWorkbook workbook;
     private XSSFSheet sheet;
-    private List<StoreItemModel> ListItem;
-   public ItemExcel (List<StoreItemModel> ListItem)
-   {
-       this.ListItem = ListItem;
-       workbook = new XSSFWorkbook();
-
-   }
+    private List<IssueItem> ListItem;
+    public IssueInItemExcel(List<IssueItem> listData) {
+        this.ListItem = listData;
+        workbook = new XSSFWorkbook();
+    }
     private void writeHeaderLine() {
         sheet = workbook.createSheet("Issued Item Data");
-        Row row = sheet.createRow(0);
+        Row row = sheet.createRow(1);
         CellStyle style = workbook.createCellStyle();
         XSSFFont font = workbook.createFont();
-        //font.setBold(true);
-        //font.setFontHeight(12);
-//        style.setAlignment(HorizontalAlignment.CENTER);
-//        style.setFont(font);
-        createCell(row, 0, "Item Name", style);
-        createCell(row, 1, "item Description", style);
-        createCell(row, 2, "remaining item", style);
-        createCell(row, 3, "drawingNo", style);
-        createCell(row, 4, "catalogNo", style);
-        createCell(row, 5, "frequency", style);
-        createCell(row, 6, "tax", style);
-        createCell(row, 7, "quantity", style);
-        createCell(row, 8, "In Date", style);
-        createCell(row, 9, "expiry Days", style);
-        createCell(row, 10, "item Category", style);
-        createCell(row, 11, "item unit", style);
+        font.setBold(true);
+        font.setFontHeight(12);
+        style.setAlignment(HorizontalAlignment.CENTER);
+        style.setFont(font);
+        createCell(row, 1, "Issue Id", style);
+        createCell(row, 2, "Item Name", style);
+        createCell(row, 3, "Description", style);
+        createCell(row, 4, "Quantity", style);
+        createCell(row, 5, "Issue Date", style);
+        createCell(row, 6, "Status", style);
 
     }
     private void writeDataLine() {
 
-        int rowcount = 1;
+        int rowcount = 2;
 
 //        XSSFFont fontHeader = workbook.createFont();
 //        Row rowHeader = sheet.createRow(4);
@@ -58,24 +51,18 @@ public class ItemExcel {
 //        CellStyle styleHeader2 = workbook.createCellStyle();
         XSSFFont font = workbook.createFont();
         CellStyle style = workbook.createCellStyle();
-//        font.setFontHeight(14);
-//        style.setAlignment(HorizontalAlignment.CENTER);
-//        style.setFont(font);
-        for (StoreItemModel storeItem : ListItem) {
+        font.setFontHeight(14);
+        style.setAlignment(HorizontalAlignment.CENTER);
+        style.setFont(font);
+        for (IssueItem issueItem : ListItem) {
             Row row = sheet.createRow(rowcount++);
-            int countRow = 0;
-            createCell(row, countRow++, storeItem.getItemName(), style);
-            createCell(row, countRow++, storeItem.getItemDescription(), style);
-            createCell(row, countRow++, storeItem.getRemainingItem(), style);
-            createCell(row, countRow++, storeItem.getDrawingNo(), style);
-            createCell(row, countRow++, storeItem.getCatalogNo(), style);
-            createCell(row, countRow++, storeItem.getFrequency(), style);
-            createCell(row, countRow++, storeItem.getPaytax(), style);
-            createCell(row, countRow++, storeItem.getQuantity(), style);
-            createCell(row, countRow++, storeItem.getCreated(), style);
-            createCell(row, countRow++, storeItem.getExpiryDays(), style);
-            createCell(row, countRow++, storeItem.getProductCategory().getProductName(), style);
-            createCell(row, countRow++, storeItem.getUnit().getUnitName(), style);
+            int countRow = 1;
+            createCell(row, countRow++, issueItem.getIssueId(), style);
+            createCell(row, countRow++, issueItem.getStoreItemModel().getItemName(), style);
+            createCell(row, countRow++, issueItem.getDescription(), style);
+            createCell(row, countRow++, issueItem.getQuantity(), style);
+            createCell(row, countRow++, issueItem.getIssueDate().toString(), style);
+            createCell(row, countRow++, issueItem.getStatus(), style);
         }
     }
     private void createCell(Row row, int i, Object value, CellStyle style) {
@@ -103,6 +90,7 @@ public class ItemExcel {
         }
         cell.setCellStyle(style);
     }
+
     public void export(HttpServletResponse response) throws IOException {
         writeHeaderLine();
         writeDataLine();
