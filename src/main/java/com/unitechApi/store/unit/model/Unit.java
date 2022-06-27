@@ -4,9 +4,9 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.unitechApi.store.storeMangment.Model.StoreItemModel;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.Date;
 import java.util.List;
-import java.util.Set;
 
 @Entity
 @Table(name = "unit",schema = "store_management")
@@ -15,7 +15,8 @@ public class Unit {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long uid;
-    @Column(name = "u_name",unique = true)
+    @Column(name = "u_name",unique = true,nullable = false)
+    @NotNull(message = "enter Unit ")
     private String unitName;
     private Date created;
 

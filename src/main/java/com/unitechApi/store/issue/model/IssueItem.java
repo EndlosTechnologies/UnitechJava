@@ -8,6 +8,7 @@ import com.unitechApi.store.storeMangment.Model.StoreItemModel;
 import com.unitechApi.user.model.User;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.Set;
@@ -19,6 +20,8 @@ public class IssueItem extends Audit<String> {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long issueId;
+    @NotNull(message = "enter Quantity")
+    @Column(nullable = false)
     private int quantity;
     private String description;
 
@@ -31,21 +34,21 @@ public class IssueItem extends Audit<String> {
     private int requiredDays;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(foreignKey = @ForeignKey(name = "item_id"), name = "item_id", referencedColumnName = "itemId")
-    @JsonIgnoreProperties({"issueItem","itemRequest","employe","itemModelSet"})
+    @JsonIgnoreProperties({"issueItem", "itemRequest", "employe", "itemModelSet"})
     private StoreItemModel storeItemModel;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(foreignKey = @ForeignKey(name = "emp_id"), name = "emp_id", referencedColumnName = "user_profile_id")
-    @JsonIgnoreProperties({"issueItemsData","itemModelSet"
-            ,"userQualificationData","passwordEntity","hrModel","userExperienceData","indentData"
-               ,"familyDetails" })
+    @JsonIgnoreProperties({"issueItemsData", "itemModelSet"
+            , "userQualificationData", "passwordEntity", "hrModel", "userExperienceData", "indentData"
+            , "familyDetails"})
     private User emp;
 
-    @OneToMany(mappedBy = "issue",cascade = CascadeType.ALL)
-    @JsonIgnoreProperties(value = {"issue","itemModelSet","employee"},allowSetters = true)
+    @OneToMany(mappedBy = "issue", cascade = CascadeType.ALL)
+    @JsonIgnoreProperties(value = {"issue", "itemModelSet", "employee"}, allowSetters = true)
     private Set<Indent> indents;
-    @OneToMany(mappedBy = "issuedItem",cascade = CascadeType.ALL)
-    @JsonIgnoreProperties({"issuedItem","bloowusage","cardingusage","itemModelSet"})
+    @OneToMany(mappedBy = "issuedItem", cascade = CascadeType.ALL)
+    @JsonIgnoreProperties({"issuedItem", "bloowusage", "cardingusage", "itemModelSet"})
     private Set<UsageItem> usageItems;
 
     public Set<UsageItem> getUsageItems() {
@@ -64,9 +67,8 @@ public class IssueItem extends Audit<String> {
         this.indents = indents;
     }
 
-    public IssueItem()
-    {
-        this.status=IssueStatus.PENDING;
+    public IssueItem() {
+        this.status = IssueStatus.PENDING;
     }
 
     public User getEmp() {
@@ -112,9 +114,11 @@ public class IssueItem extends Audit<String> {
     public void setDescription(String description) {
         this.description = description;
     }
+
     public Date getIssueDate() {
         return issueDate;
     }
+
     @PrePersist
     public void setIssueDate() {
         this.issueDate = new Date();
@@ -127,7 +131,6 @@ public class IssueItem extends Audit<String> {
     public void setStatus(IssueStatus status) {
         this.status = status;
     }
-
 
 
     public int getCloseresid() {

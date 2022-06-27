@@ -1,11 +1,11 @@
-package com.unitechApi.purchase.RawMaterial.vendor.Service;
+package com.unitechApi.store.vendor.Service;
 
 import com.unitechApi.exception.ExceptionService.DateMisMatchException;
 import com.unitechApi.exception.ExceptionService.ResourceNotFound;
 import com.unitechApi.exception.ExceptionService.UserNotFound;
 import com.unitechApi.purchase.RawMaterial.Contract.Repository.ContractRepository;
-import com.unitechApi.purchase.RawMaterial.vendor.Repository.VendorRepository;
-import com.unitechApi.purchase.RawMaterial.vendor.model.VendorModel;
+import com.unitechApi.store.vendor.Repository.VendorRepository;
+import com.unitechApi.store.vendor.model.VendorModel;
 import com.unitechApi.store.storeMangment.Model.StoreItemModel;
 import com.unitechApi.store.storeMangment.repository.StoreItemRepository;
 import org.springframework.stereotype.Service;

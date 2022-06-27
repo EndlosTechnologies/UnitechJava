@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.util.Date;
 
@@ -25,6 +26,7 @@ public class HrModel {
     @Column(
             name = "interviewDate"
     )
+    @NotNull(message = "Enter the interview Date")
     private LocalDate InterviewDate;
     @Column(
             name = "user_post"
@@ -38,6 +40,7 @@ public class HrModel {
             name = "period_Of_Probation"
     )
     private int periodOfProbation;
+    @NotNull(message = "Enter the  Date Of Joining")
     @Column(
             name = "Date_of_job"
     )

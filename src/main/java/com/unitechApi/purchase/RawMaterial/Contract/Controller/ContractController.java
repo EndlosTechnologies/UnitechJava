@@ -64,10 +64,7 @@ public class ContractController {
         return new ResponseEntity<>(PageResponse.pagebleResponse(contractModel, pagination), HttpStatus.OK);
     }
 
-    @PutMapping("/{c_id}/updatevendor/{v_id}")
-    public ResponseEntity<?> vendorIdUpdate(@PathVariable Long v_id, @PathVariable Long c_id) {
-        return new ResponseEntity<>(contractService.UpdateIdvendor(c_id, v_id), HttpStatus.OK);
-    }
+
 
     @PutMapping("/{c_id}/updateitem/{i_id}")
     public ResponseEntity<?> ItemIdUpdate(@PathVariable Long i_id, @PathVariable Long c_id) {

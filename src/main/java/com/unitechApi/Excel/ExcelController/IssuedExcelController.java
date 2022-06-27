@@ -2,8 +2,8 @@ package com.unitechApi.Excel.ExcelController;
 
 import com.unitechApi.Excel.service.*;
 import com.unitechApi.Payload.response.MessageResponse;
-import com.unitechApi.purchase.RawMaterial.vendor.Repository.VendorRepository;
-import com.unitechApi.purchase.RawMaterial.vendor.model.VendorModel;
+import com.unitechApi.store.vendor.Repository.VendorRepository;
+import com.unitechApi.store.vendor.model.VendorModel;
 import com.unitechApi.store.indent.Model.UsageItem;
 import com.unitechApi.store.indent.Repository.UsageRepository;
 import com.unitechApi.store.indent.Service.UsageService;

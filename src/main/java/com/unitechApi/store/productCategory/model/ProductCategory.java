@@ -5,6 +5,7 @@ import com.unitechApi.store.storeMangment.Model.StoreItemModel;
 import org.apache.poi.ss.usermodel.CellType;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
@@ -17,7 +18,8 @@ public class ProductCategory {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long pid;
-    @Column(name = "p_name",unique = true)
+    @Column(name = "p_name",unique = true,nullable = false)
+    @NotNull(message = "enter Product Name")
     private String productName;
     private Date created;
 

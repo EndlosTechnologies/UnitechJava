@@ -1,19 +1,22 @@
-package com.unitechApi.purchase.RawMaterial.vendor.model;
+package com.unitechApi.store.vendor.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.unitechApi.purchase.RawMaterial.Contract.Model.ContractModel;
 import com.unitechApi.store.indent.Model.Indent;
 import com.unitechApi.store.storeMangment.Model.StoreItemModel;
 import lombok.ToString;
+import org.hibernate.validator.constraints.Length;
+import org.hibernate.validator.constraints.Range;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
+import javax.validation.constraints.*;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-@Table(name = "vendor_details",schema = "purchaser")
+@Table(name = "vendor_details", schema = "purchaser")
 @ToString
 //@JsonIdentityInfo(generator=ObjectIdGenerators.PropertyGenerator.class, property="id")
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
@@ -21,35 +24,45 @@ public class VendorModel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "id")
     @Column(name = "vendor_id")
-    private  Long id;
-    @Column(name = "vendor_name")
+    private Long id;
+    @Column(name = "vendor_name", nullable = false)
     private String vendorName;
-    @Column(name = "vendor_address")
+    @Column(name = "vendor_address", nullable = false)
     private String vendorAddress;
-    @Column(name = "vendor_city")
+    @Column(name = "vendor_city", nullable = false)
+    @NotNull(message = "You are not Allowed to enter city Null Vale")
     private String city;
-    @Column(name = "vebndor_pincode" )
-    private int pincode;
-    @Column(name = "vendor_code")
+    @Column(name = "vebndor_pincode",nullable = false,unique = true)
+    @NotNull(message = "You are not Allowed to enter Pin code Null Vale")
+    private Integer pincode;
+    @Column(name = "vendor_code",nullable = false,unique = true)
     private String vendorcode;
-    @Column(name = "gstno")
+    @Column(name = "gstno",nullable = false,unique = true)
+    @Pattern(regexp = "^[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z]{1}[1-9A-Z]{1}Z[0-9A-Z]{1}$", message = "Please Enter valid Gst Number")
     private String gstno;
-    @Column(name = "panno")
-    private String panno;
-    private String paymentTermsConditions;
+    /*
+     * Sample of Gst Number  gst Number 06BZAHM6385P6Z2
+     * */
 
+    @Column(name = "panno",nullable = false,unique = true)
+    @Pattern(regexp = "[A-Z]{5}[0-9]{4}[A-Z]{1}", message = "please Enter your Valid Pan Number Details")
+    private String panno;
+    /*
+     * Pan Number = BMPRV6763H
+     * */
+    @NotNull(message = "please Enter the Payment Conditions")
+    @Enumerated(EnumType.ORDINAL)
+    private PaymentCondition paymentTermsConditions;
+    private int paymentDays;
     @Temporal(TemporalType.TIMESTAMP)
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
     private Date createdAt;
 
-    @OneToMany(mappedBy = "vendorModel",cascade = CascadeType.ALL)
-    @JsonIgnoreProperties("vendorModel")
-    private Set<ContractModel> contractModels;
     @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(schema = "store_management",name = "item_Vendor_details",
+    @JoinTable(schema = "store_management", name = "item_Vendor_details",
             joinColumns = @JoinColumn(name = "vendor_id"), inverseJoinColumns = @JoinColumn(name = "item_id"))
-    @JsonIgnoreProperties({"contractModels","itemRequest","issueItem","vendorDate","unit","productCategory","employe","dataVendorAndIndent"})
-    private Set<StoreItemModel> itemData=new HashSet<>();
+    @JsonIgnoreProperties({"contractModels", "itemRequest", "issueItem", "vendorDate", "unit", "productCategory", "employe", "dataVendorAndIndent"})
+    private Set<StoreItemModel> itemData = new HashSet<>();
 
     public Set<Indent> getIndentList() {
         return indentList;
@@ -59,9 +72,10 @@ public class VendorModel {
         this.indentList = indentList;
     }
 
-    @OneToMany(mappedBy = "vendorData",cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "vendorData", cascade = CascadeType.ALL)
     @JsonIgnoreProperties("vendorData")
     private Set<Indent> indentList;
+
     public Set<StoreItemModel> getItemData() {
         return itemData;
     }
@@ -71,13 +85,7 @@ public class VendorModel {
     }
 
 
-    public Set<ContractModel> getContractModels() {
-        return contractModels;
-    }
 
-    public void setContractModels(Set<ContractModel> contractModels) {
-        this.contractModels = contractModels;
-    }
 
     @PrePersist
     private void CreatedAt() {
@@ -137,7 +145,7 @@ public class VendorModel {
     }
 
     public void setPanno(String panno) {
-        this.panno = panno;
+        this.panno = panno.toUpperCase();
     }
 
     public String getCity() {
@@ -148,21 +156,37 @@ public class VendorModel {
         this.city = city;
     }
 
+    public void setPincode(Integer pincode) {
+        this.pincode = pincode;
+    }
+
+    public PaymentCondition getPaymentTermsConditions() {
+        return paymentTermsConditions;
+    }
+
+    public void setPaymentTermsConditions(PaymentCondition paymentTermsConditions) {
+        this.paymentTermsConditions = paymentTermsConditions;
+    }
+
+    public int getPaymentDays() {
+        return paymentDays;
+    }
+
+    public void setPaymentDays(int paymentDays) {
+        this.paymentDays = paymentDays;
+    }
+
     public int getPincode() {
+        
         return pincode;
     }
 
     public void setPincode(int pincode) {
+        
         this.pincode = pincode;
     }
 
-    public String getPaymentTermsConditions() {
-        return paymentTermsConditions;
-    }
 
-    public void setPaymentTermsConditions(String paymentTermsConditions) {
-        this.paymentTermsConditions = paymentTermsConditions;
-    }
 
     public void deleteItem(StoreItemModel vendorModel) {
         itemData.remove(vendorModel);

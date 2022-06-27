@@ -11,8 +11,7 @@ import com.unitechApi.purchase.RawMaterial.Do.Model.DeliveryOrderModel;
 import com.unitechApi.purchase.RawMaterial.Do.Repository.DoRepository;
 import com.unitechApi.purchase.RawMaterial.item.model.Itemmodel;
 import com.unitechApi.purchase.RawMaterial.item.repository.ItemRepository;
-import com.unitechApi.purchase.RawMaterial.vendor.Repository.VendorRepository;
-import com.unitechApi.purchase.RawMaterial.vendor.model.VendorModel;
+import com.unitechApi.store.vendor.Repository.VendorRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
@@ -70,13 +69,7 @@ public class ContractService {
     {
         return contractRepository.findByCreatedAt(pdate,pagination.getpageble());
     }
-    public ContractModel UpdateIdvendor(Long c_id, Long v_id)
-    {
-        ContractModel contractModel= contractRepository.findById(c_id).get();
-        VendorModel vendorModel=vendorRepository.findById(v_id).get();
-        contractModel.updateid(vendorModel);
-        return contractRepository.save(contractModel);
-    }
+
     public ContractModel UpdateIdItem(Long c_id, Long v_id)
     {
         ContractModel contractModel= contractRepository.findById(c_id).get();

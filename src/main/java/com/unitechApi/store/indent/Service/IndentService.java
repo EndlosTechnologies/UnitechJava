@@ -2,8 +2,8 @@ package com.unitechApi.store.indent.Service;
 
 import com.unitechApi.exception.ExceptionService.ItemNotFound;
 import com.unitechApi.exception.ExceptionService.ResourceNotFound;
-import com.unitechApi.purchase.RawMaterial.vendor.Service.VendorService;
-import com.unitechApi.purchase.RawMaterial.vendor.model.VendorModel;
+import com.unitechApi.store.vendor.Service.VendorService;
+import com.unitechApi.store.vendor.model.VendorModel;
 import com.unitechApi.store.indent.Model.Indent;
 import com.unitechApi.store.indent.Model.IndentStatus;
 import com.unitechApi.store.indent.Repository.IndentRepository;

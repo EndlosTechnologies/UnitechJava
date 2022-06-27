@@ -6,7 +6,6 @@ import com.unitechApi.purchase.RawMaterial.Do.Model.DeliveryOrderModel;
 import com.unitechApi.purchase.RawMaterial.Po.Model.PoModel;
 import com.unitechApi.purchase.RawMaterial.item.model.Itemmodel;
 import com.unitechApi.purchase.RawMaterial.sampling.samplingModel.SampleEntity;
-import com.unitechApi.purchase.RawMaterial.vendor.model.VendorModel;
 import org.hibernate.annotations.GenericGenerator;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -99,18 +98,9 @@ public class ContractModel {
     private Itemmodel itemdata;
 
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(foreignKey = @ForeignKey(name = "v_id"),name = "v_id",referencedColumnName = "vendor_id")
-    @JsonIgnoreProperties("contractModels")
-    private VendorModel vendorModel;
 
-    public VendorModel getVendorModel() {
-        return vendorModel;
-    }
 
-    public void setVendorModel(VendorModel vendorModel) {
-        this.vendorModel = vendorModel;
-    }
+
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(foreignKey = @ForeignKey(name = "delivery_id"), name = "delivery_id", referencedColumnName = "d_id")
@@ -321,9 +311,7 @@ public class ContractModel {
         this.panno = panno;
     }
 
-    public void updateid(VendorModel vendorModel) {
-        this.vendorModel=vendorModel;
-    }
+
 
 
     public void updateiddata(Itemmodel itemmodel) {

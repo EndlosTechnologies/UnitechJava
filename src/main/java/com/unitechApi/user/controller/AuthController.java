@@ -1,16 +1,14 @@
 package com.unitechApi.user.controller;
 
-import com.unitechApi.EventListener.OnRegisterEvent;
-import com.unitechApi.EventListener.RegistrationListener;
+import com.unitechApi.Payload.request.LoginRequest;
+import com.unitechApi.Payload.request.SignupRequest;
+import com.unitechApi.Payload.response.JwtResponse;
+import com.unitechApi.Payload.response.MessageResponse;
 import com.unitechApi.exception.ExceptionService.PasswordIncorrect;
 import com.unitechApi.exception.ExceptionService.ResourceNotFound;
 import com.unitechApi.exception.ExceptionService.RoleNotFound;
 import com.unitechApi.exception.ExceptionService.UserNotFound;
 import com.unitechApi.jwt.JwtUtils;
-import com.unitechApi.Payload.request.LoginRequest;
-import com.unitechApi.Payload.request.SignupRequest;
-import com.unitechApi.Payload.response.JwtResponse;
-import com.unitechApi.Payload.response.MessageResponse;
 import com.unitechApi.user.Repository.*;
 import com.unitechApi.user.model.*;
 import com.unitechApi.user.service.Notification;
@@ -18,7 +16,6 @@ import com.unitechApi.user.service.UserNotificationService;
 import com.unitechApi.websecurity.UserDetailsImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -28,18 +25,12 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.util.ReflectionUtils;
 import org.springframework.web.bind.annotation.*;
 
-
 import java.lang.reflect.Field;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.time.Instant;
-import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.*;
@@ -52,35 +43,28 @@ import java.util.stream.Collectors;
 @RequestMapping("/unitech/api/v1/user")
 public class AuthController {
     private static final Logger logger = LoggerFactory.getLogger(AuthController.class);
-    private final Path root = Paths.get("uploads");
 
     private final AuthenticationManager authenticationManager;
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
-    private final PasswordEncoder encoder;
     private final JwtUtils jwtUtils;
     private final PassWordRepository pa;
     private final ExperienceRepository experienceRepository;
     private final QualificationRepository qualificationRepository;
     private final HrRepository hrRepository;
     private final FamilyDetailsRepository familyDetailsRepository;
-    private final RegistrationListener registrationListener;
-    private final ApplicationEventPublisher applicationEventPublisher;
     private final UserNotificationService userNotificationService;
 
-    public AuthController(AuthenticationManager authenticationManager, UserRepository userRepository, RoleRepository roleRepository, PasswordEncoder encoder, JwtUtils jwtUtils, PassWordRepository pa, ExperienceRepository experienceRepository, QualificationRepository qualificationRepository, HrRepository hrRepository, FamilyDetailsRepository familyDetailsRepository, RegistrationListener registrationListener, ApplicationEventPublisher applicationEventPublisher, UserNotificationService userNotificationService) {
+    public AuthController(AuthenticationManager authenticationManager, UserRepository userRepository, RoleRepository roleRepository, JwtUtils jwtUtils, PassWordRepository pa, ExperienceRepository experienceRepository, QualificationRepository qualificationRepository, HrRepository hrRepository, FamilyDetailsRepository familyDetailsRepository, UserNotificationService userNotificationService) {
         this.authenticationManager = authenticationManager;
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
-        this.encoder = encoder;
         this.jwtUtils = jwtUtils;
         this.pa = pa;
         this.experienceRepository = experienceRepository;
         this.qualificationRepository = qualificationRepository;
         this.hrRepository = hrRepository;
         this.familyDetailsRepository = familyDetailsRepository;
-        this.registrationListener = registrationListener;
-        this.applicationEventPublisher = applicationEventPublisher;
         this.userNotificationService = userNotificationService;
     }
 
@@ -102,8 +86,6 @@ public class AuthController {
         return ResponseEntity.ok().body("successfully done" + name);
     }
 
-    User user = new User();
-
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
 //   @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_HR') or hasRole('ROLE_SUBADMIN') or hasRole('ROLE_MAINTENANCE') or hasRole('ROLE_STORE') or hasRole('ROLE_GENERALMANAGER')")
     public Optional<User> FindById(@PathVariable Long id) {
@@ -121,7 +103,7 @@ public class AuthController {
             SecurityContextHolder.getContext().setAuthentication(authentication);
             String jwt = jwtUtils.generateJwtToken(authentication);
             UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
-            List<String> roles = userDetails.getAuthorities().stream().map(item -> item.getAuthority())
+            List<String> roles = userDetails.getAuthorities().stream().map(GrantedAuthority::getAuthority)
                     .collect(Collectors.toList());
             return ResponseEntity.ok(new JwtResponse(jwt,
                     userDetails.getId(),
@@ -138,7 +120,7 @@ public class AuthController {
 
     @PostMapping("/signup")
     @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_HR') or hasRole('ROLE_SUBADMIN')")
-    public ResponseEntity<?> registerUser(@RequestBody SignupRequest signUpRequest) throws Exception {
+    public ResponseEntity<?> registerUser(@RequestBody SignupRequest signUpRequest) {
 
 
         if (userRepository.existsByEmail(signUpRequest.getEmail())) {
@@ -193,10 +175,10 @@ public class AuthController {
                         roles.add(account);
                         System.out.println("mod values");
                         break;
-                    case "SUPERVISER":
-                        Role superviser = roleRepository.findByName(ERole.ROLE_SUPERVISOR)
+                    case "SUPERVISOR":
+                        Role supervisor = roleRepository.findByName(ERole.ROLE_SUPERVISOR)
                                 .orElseThrow(() -> new RoleNotFound("Error: Role is not found."));
-                        roles.add(superviser);
+                        roles.add(supervisor);
                         System.out.println("mod values");
                         break;
                     case "QC":
@@ -248,13 +230,13 @@ public class AuthController {
     public ResponseEntity<Map<String, Object>> FindAll(
             @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "5") int size) {
         try {
-            List<User> user = new ArrayList<User>();
+            List<User> user;
             org.springframework.data.domain.Pageable paging = PageRequest.of(page, size, Sort.by("id"));
 
             Page<User> pageTuts = userRepository.findAll(paging);
             user = pageTuts.getContent();
 
-            Map<String, Object> response = new HashMap<String, Object>();
+            Map<String, Object> response = new HashMap<>();
             response.put("Total_User", user);
             response.put("current Page", pageTuts.getNumber());
             int d = pageTuts.getNumber();
@@ -282,11 +264,12 @@ public class AuthController {
         if (ma.isPresent()) {
             fields.forEach((key, value) -> {
                         Field field = ReflectionUtils.findField(User.class, (String) key);
-                        field.setAccessible(true);
+                assert field != null;
+                field.setAccessible(true);
                         ReflectionUtils.setField(field, ma.get(), value);
                     }
             );
-            User machinesave = userRepository.save(ma.get());
+            userRepository.save(ma.get());
 
         } else {
             throw new UserNotFound("User Not Found this id" + id);
@@ -297,7 +280,7 @@ public class AuthController {
 
     @PostMapping("/user/findbyuser")
     @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_HR') or hasRole('ROLE_SUBADMIN')")
-    public ResponseEntity<User> findByuser(@RequestParam String username) {
+    public ResponseEntity<User> findByUser(@RequestParam String username) {
         return ResponseEntity.ok(userRepository.findByUser(username));
     }
 
@@ -328,8 +311,8 @@ public class AuthController {
     @PutMapping("/{Hrid}/hrfilldataTouser/{uid}")
     @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_HR') or hasRole('ROLE_SUBADMIN')")
     private HrModel FillDataToUser(@PathVariable Long Hrid, @PathVariable Long uid) {
-        User userProfileModel = userRepository.findById(uid).get();
-        HrModel hrModel = hrRepository.findById(Hrid).get();
+        User userProfileModel = userRepository.findById(uid).orElseThrow(()->new ResourceNotFound("Resource Not Found"));
+        HrModel hrModel = hrRepository.findById(Hrid).orElseThrow(()->new ResourceNotFound("Resource Not Found"));
         hrModel.setUserProfileModel(userProfileModel);
         return hrRepository.save(hrModel);
     }
@@ -340,8 +323,8 @@ public class AuthController {
     @PutMapping("/{pass_id}/IdUpdatePass/{user_id}")
     @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_HR') or hasRole('ROLE_SUBADMIN')")
     public PasswordEntity IdUpdate(@PathVariable Long pass_id, @PathVariable Long user_id) {
-        PasswordEntity passwordEntity = pa.findById(pass_id).get();
-        User user = userRepository.findById(user_id).get();
+        PasswordEntity passwordEntity = pa.findById(pass_id).orElseThrow(()->new ResourceNotFound("Resource Not Found"));
+        User user = userRepository.findById(user_id).orElseThrow(()->new ResourceNotFound("Resource Not Found"));
         passwordEntity.idUpdate(user);
         return pa.save(passwordEntity);
     }
@@ -349,8 +332,8 @@ public class AuthController {
     @PutMapping("/{eid}/expTouser/{uid}")
     @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_HR') or hasRole('ROLE_SUBADMIN')")
     public ExperienceModel AddDetails(@PathVariable Long eid, @PathVariable Long uid) {
-        User userProfileModel = userRepository.findById(uid).get();
-        ExperienceModel experienceModel = experienceRepository.findById(eid).get();
+        User userProfileModel = userRepository.findById(uid).orElseThrow(()->new ResourceNotFound("Resource Not Found"));
+        ExperienceModel experienceModel = experienceRepository.findById(eid).orElseThrow(()->new ResourceNotFound("Resource Not Found"));
         experienceModel.AddExperience(userProfileModel);
         return experienceRepository.save(experienceModel);
     }
@@ -358,8 +341,8 @@ public class AuthController {
     @PutMapping("/{quaid}/quaTouser/{uid}")
     @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_HR') or hasRole('ROLE_SUBADMIN')")
     public QualificationModel AddQualificationToUserProfile(@PathVariable Long quaid, @PathVariable Long uid) {
-        User userProfileModel = userRepository.findById(uid).get();
-        QualificationModel qualificationModel = qualificationRepository.findById(quaid).get();
+        User userProfileModel = userRepository.findById(uid).orElseThrow(()->new ResourceNotFound("Resource Not Found"));
+        QualificationModel qualificationModel = qualificationRepository.findById(quaid).orElseThrow(()->new ResourceNotFound("Resource Not Found"));
         qualificationModel.AddQualification(userProfileModel);
         return qualificationRepository.save(qualificationModel);
     }
@@ -367,8 +350,8 @@ public class AuthController {
     @PutMapping("/{fid}/familyDetailsToUser/{uid}")
     @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_HR') or hasRole('ROLE_SUBADMIN')")
     public FamilyDetailsModel updatefamilyTouser(@PathVariable Long fid, @PathVariable Long uid) {
-        User userProfileModel = userRepository.findById(uid).get();
-        FamilyDetailsModel familyDetailsModel = familyDetailsRepository.findById(fid).get();
+        User userProfileModel = userRepository.findById(uid).orElseThrow(()->new ResourceNotFound("Resource Not Found"));
+        FamilyDetailsModel familyDetailsModel = familyDetailsRepository.findById(fid).orElseThrow(()->new ResourceNotFound("Resource Not Found"));
         familyDetailsModel.AddFamilyDetails(userProfileModel);
         return familyDetailsRepository.save(familyDetailsModel);
     }

@@ -1,9 +1,11 @@
 package com.unitechApi.Payload.request;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Pattern;
 
 public class LoginRequest {
     @NotBlank
+    @Pattern(regexp = "^[0-9]{10}$", message = "enter valid Number ")
     private String phoneno;
 
     @NotBlank

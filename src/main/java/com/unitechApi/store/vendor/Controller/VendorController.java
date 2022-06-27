@@ -1,17 +1,16 @@
-package com.unitechApi.purchase.RawMaterial.vendor.Controller;
+package com.unitechApi.store.vendor.Controller;
 
 import com.unitechApi.Payload.response.MessageResponse;
 import com.unitechApi.Payload.response.PageResponse;
-import com.unitechApi.Payload.response.Pagination;
-import com.unitechApi.purchase.RawMaterial.vendor.Service.VendorService;
-import com.unitechApi.purchase.RawMaterial.vendor.model.VendorModel;
+import com.unitechApi.store.vendor.Service.VendorService;
+import com.unitechApi.store.vendor.model.VendorModel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.sql.Date;
 import java.util.List;
 
@@ -27,7 +26,7 @@ public class VendorController {
 
     @PostMapping
     //@PreAuthorize("hasRole('ROLE_ADMIN')")
-    public ResponseEntity<?> SaveData(@RequestBody VendorModel vendorModel)
+    public ResponseEntity<?> SaveData(@Valid  @RequestBody VendorModel vendorModel)
 
     {
         VendorModel vendorModeldata =vendorService.SaveData(vendorModel);

@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.Date;
 
 @Entity
@@ -18,21 +19,27 @@ public class QualificationModel {
             name = "user_examination", nullable = true
     )
     private String examination;
+    @NotNull(message = "you are Not Allowed To Null Examination ")
     @Column(
-            name = "user_universityBoard", nullable = true
+            name = "user_universityBoard"
     )
+    @NotNull(message = "you are Not Allowed To Null UniversityBoard ")
     private String universityBoard;
     @Column(
-            name = "user_durationOfCourse", nullable = true
+            name = "user_durationOfCourse"
     )
+    @NotNull(message = "you are Not Allowed To Null Time Duration")
     private int durationOfCourse;
     @Column(
-            name = "user_yearOfPassing", nullable = true
+            name = "user_yearOfPassing"
     )
+    @NotNull(message = " please Enter the Year Of Passing")
     private int yearOfPassing;
+
     @Column(
             name = "user_grade", nullable = true
     )
+    @NotNull(message = "Please Enter grade" )
     private String grade;
     @Column(
             name = "current_date_time"

@@ -1,12 +1,13 @@
 package com.unitechApi.store.indent.Model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.unitechApi.purchase.RawMaterial.vendor.model.VendorModel;
+import com.unitechApi.store.vendor.model.VendorModel;
 import com.unitechApi.store.issue.model.IssueItem;
 import com.unitechApi.store.storeMangment.Model.StoreItemModel;
 import com.unitechApi.user.model.User;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
@@ -18,9 +19,14 @@ public class Indent {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long indentId;
+    @NotNull(message = "Enter the estimated Price")
+    @Column(nullable = false)
+
     private float estimatedPrice;
     private float total;
     private Long responseId;
+    @NotNull(message = "Enter the quantity ")
+    @Column(nullable = false)
     private Long quantity;
     @Enumerated(EnumType.STRING)
     private IndentStatus indentStatus;

@@ -1,6 +1,6 @@
-package com.unitechApi.purchase.RawMaterial.vendor.Repository;
+package com.unitechApi.store.vendor.Repository;
 
-import com.unitechApi.purchase.RawMaterial.vendor.model.VendorModel;
+import com.unitechApi.store.vendor.model.VendorModel;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;

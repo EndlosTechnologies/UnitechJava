@@ -2,9 +2,7 @@ package com.unitechApi.store.storeMangment.service;
 
 import com.unitechApi.exception.ExceptionService.AddItemException;
 import com.unitechApi.exception.ExceptionService.ItemNotFound;
-import com.unitechApi.exception.ExceptionService.ResourceNotFound;
-import com.unitechApi.purchase.RawMaterial.vendor.Repository.VendorRepository;
-import com.unitechApi.purchase.RawMaterial.vendor.model.VendorModel;
+import com.unitechApi.store.vendor.Repository.VendorRepository;
 import com.unitechApi.store.storeMangment.Model.StoreItemModel;
 import com.unitechApi.store.storeMangment.repository.StoreItemRepository;
 import org.slf4j.Logger;

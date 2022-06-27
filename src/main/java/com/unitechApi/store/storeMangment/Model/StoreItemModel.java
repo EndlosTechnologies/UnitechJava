@@ -2,17 +2,16 @@ package com.unitechApi.store.storeMangment.Model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.unitechApi.AuditingAndResponse.Audit;
-import com.unitechApi.purchase.RawMaterial.vendor.model.VendorModel;
+import com.unitechApi.store.vendor.model.VendorModel;
 import com.unitechApi.store.issue.model.IssueItem;
 import com.unitechApi.store.indent.Model.Indent;
 import com.unitechApi.store.productCategory.model.ProductCategory;
 import com.unitechApi.store.unit.model.Unit;
 import com.unitechApi.user.model.User;
 import lombok.Getter;
-import lombok.ToString;
-import lombok.ToString.Exclude;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Objects;
@@ -27,16 +26,23 @@ public class StoreItemModel extends Audit<String> {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long itemId;
-    @Column(unique = true)
+    @Column(unique = true,nullable = false)
+    @NotNull(message = "enter Item Name")
     private String itemName;
     private String itemDescription;
-    @Column(unique = true)
+    @Column(unique = true,nullable = false)
+    @NotNull(message = "enter Drawing Number ")
     private String drawingNo;
-    @Column(unique = true)
+    @Column(unique = true ,nullable = false)
+    @NotNull(message = "enter catalog  Number ")
     private String catalogNo;
+    @NotNull(message = "enter frequency")
+    @Column(nullable = false)
     private long frequency;
     
     private int RemainingItem;
+    @NotNull(message = "enter Tax ")
+    @Column(nullable = false)
     private int paytax;
     private Date created;
 
