@@ -1,6 +1,5 @@
 package com.unitechApi;
 
-import com.unitechApi.user.Repository.PassWordRepository;
 import com.unitechApi.user.Repository.RoleRepository;
 import com.unitechApi.user.Repository.UserRepository;
 import com.unitechApi.user.model.ERole;
@@ -21,13 +20,11 @@ public class UnitechApplication implements ApplicationRunner {
     private final RoleRepository roleRepository;
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
-    private final PassWordRepository passWordRepository;
 
-    public UnitechApplication(RoleRepository roleRepository, UserRepository userRepository, PasswordEncoder passwordEncoder, PassWordRepository passWordRepository) {
+    public UnitechApplication(RoleRepository roleRepository, UserRepository userRepository, PasswordEncoder passwordEncoder) {
         this.roleRepository = roleRepository;
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
-        this.passWordRepository = passWordRepository;
     }
 
     public static void main(String[] args) {

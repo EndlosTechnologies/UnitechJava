@@ -12,7 +12,6 @@ public class PoModel {
     @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "id")
     @Column(name = "po_id")
     private Long id;
-
     @Column(name = "ponumber",unique = true)
     private String poNumber;
     @ManyToOne(fetch = FetchType.EAGER)

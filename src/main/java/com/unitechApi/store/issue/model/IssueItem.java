@@ -24,7 +24,6 @@ public class IssueItem extends Audit<String> {
     @Column(nullable = false)
     private int quantity;
     private String description;
-
     private Date issueDate;
     @Enumerated(EnumType.STRING)
     private IssueStatus status;

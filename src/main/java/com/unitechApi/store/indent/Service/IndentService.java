@@ -35,12 +35,31 @@ public class IndentService {
     }
 
     public Indent saveData(Indent indent ) {
-        StoreItemModel itemModel=storeItemRepository.findById(indent.getStoreItem().getItemId())
-                .orElseThrow(()-> new ItemNotFound("item not Found"));
+//        StoreItemModel itemModel=storeItemRepository.findById(indent.getStoreItem().getItemId())
+//                .orElseThrow(()-> new ItemNotFound("item not Found"));
         indent.setTotal((long) (indent.getEstimatedPrice() * indent.getQuantity()));
-        indent.setIncludingTax(((indent.getTotal() * itemModel.getPaytax())/100)+indent.getTotal());
+       // indent.setIncludingTax(((indent.getTotal() * itemModel.getPaytax())/100)+indent.getTotal());
+
+        indent.getStoreItemList()
+                .addAll(
+                        indent
+                                .getStoreItemList()
+                                .stream()
+                                .map(x -> {
+                                            StoreItemModel itemModel = storeItemRepository.findById(x.getItemId())
+                                                    .orElseThrow(() -> new ItemNotFound("item not Found"));
+
+                                            indent.setIncludingTax(((indent.getTotal() * itemModel.getPaytax()) / 100) + indent.getTotal());
+                                            log.info("get Including Tax {} And Item {}", indent.getIncludingTax(), itemModel);
+                                            return x;
+                                        }
+
+                                ).collect(Collectors.toList()));
+
         return indentRepository.save(indent);
     }
+
+
 
     public Indent findByid(Long id) {
         return indentRepository.findById(id)

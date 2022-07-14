@@ -21,7 +21,6 @@ public class Indent {
     private Long indentId;
     @NotNull(message = "Enter the estimated Price")
     @Column(nullable = false)
-
     private float estimatedPrice;
     private float total;
     private Long responseId;
@@ -55,7 +54,10 @@ public class Indent {
     @JoinColumn(foreignKey = @ForeignKey(name = "issue_id"),name = "issue_id",referencedColumnName = "issueId")
     @JsonIgnoreProperties({"indents","itemRequest","storeItemModel","usageItems","emp"})
     private IssueItem issue;
-
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(schema = "store_management",name = "item_Add_In_indent",
+            joinColumns = @JoinColumn(name = "indent_id"), inverseJoinColumns = @JoinColumn(name = "item_id") )
+    private Set<StoreItemModel> storeItemList=new HashSet<>();
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(schema = "store_management",name = "indent_vendor_detailsID",
             joinColumns = @JoinColumn(name = "indent_id"), inverseJoinColumns = @JoinColumn(name = "vendor_id"))
@@ -67,6 +69,14 @@ public class Indent {
     @JoinColumn(foreignKey = @ForeignKey(name = "ven_id"),name = "ven_id", referencedColumnName = "vendor_id")
     @JsonIgnoreProperties({"indentList","contractModels"})
     private VendorModel vendorData;
+
+    public Set<StoreItemModel> getStoreItemList() {
+        return storeItemList;
+    }
+
+    public void setStoreItemList(Set<StoreItemModel> storeItemList) {
+        this.storeItemList = storeItemList;
+    }
 
     public VendorModel getVendorData() {
         return vendorData;

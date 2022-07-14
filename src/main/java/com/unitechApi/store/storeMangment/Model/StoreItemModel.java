@@ -33,7 +33,7 @@ public class StoreItemModel extends Audit<String> {
     @Column(unique = true,nullable = false)
     @NotNull(message = "enter Drawing Number ")
     private String drawingNo;
-    @Column(unique = true ,nullable = false)
+    @Column(nullable = false)
     @NotNull(message = "enter catalog  Number ")
     private String catalogNo;
     @NotNull(message = "enter frequency")

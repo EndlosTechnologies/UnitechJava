@@ -4,6 +4,7 @@ import com.unitechApi.Payload.request.LoginRequest;
 import com.unitechApi.Payload.request.SignupRequest;
 import com.unitechApi.Payload.response.JwtResponse;
 import com.unitechApi.Payload.response.MessageResponse;
+import com.unitechApi.Payload.response.PageResponse;
 import com.unitechApi.exception.ExceptionService.PasswordIncorrect;
 import com.unitechApi.exception.ExceptionService.ResourceNotFound;
 import com.unitechApi.exception.ExceptionService.RoleNotFound;
@@ -27,6 +28,8 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.session.SessionRegistry;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.util.ReflectionUtils;
 import org.springframework.web.bind.annotation.*;
 
@@ -43,7 +46,7 @@ import java.util.stream.Collectors;
 @RequestMapping("/unitech/api/v1/user")
 public class AuthController {
     private static final Logger logger = LoggerFactory.getLogger(AuthController.class);
-
+    private final SessionRegistry sessionRegistry;
     private final AuthenticationManager authenticationManager;
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
@@ -55,7 +58,8 @@ public class AuthController {
     private final FamilyDetailsRepository familyDetailsRepository;
     private final UserNotificationService userNotificationService;
 
-    public AuthController(AuthenticationManager authenticationManager, UserRepository userRepository, RoleRepository roleRepository, JwtUtils jwtUtils, PassWordRepository pa, ExperienceRepository experienceRepository, QualificationRepository qualificationRepository, HrRepository hrRepository, FamilyDetailsRepository familyDetailsRepository, UserNotificationService userNotificationService) {
+    public AuthController(SessionRegistry sessionRegistry, AuthenticationManager authenticationManager, UserRepository userRepository, RoleRepository roleRepository, JwtUtils jwtUtils, PassWordRepository pa, ExperienceRepository experienceRepository, QualificationRepository qualificationRepository, HrRepository hrRepository, FamilyDetailsRepository familyDetailsRepository, UserNotificationService userNotificationService) {
+        this.sessionRegistry = sessionRegistry;
         this.authenticationManager = authenticationManager;
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
@@ -354,6 +358,20 @@ public class AuthController {
         FamilyDetailsModel familyDetailsModel = familyDetailsRepository.findById(fid).orElseThrow(()->new ResourceNotFound("Resource Not Found"));
         familyDetailsModel.AddFamilyDetails(userProfileModel);
         return familyDetailsRepository.save(familyDetailsModel);
+    }
+    @GetMapping(value = "/value")
+    public ResponseEntity<?> findAllLoginData()
+    {
+        List<Object> data=sessionRegistry.getAllPrincipals();
+        List<String> usersNamesList = new ArrayList<>();
+
+        for (Object principal: data) {
+            if (principal instanceof User) {
+                usersNamesList.add(((User) principal).getUsername());
+            }
+        }
+
+        return new ResponseEntity<>(PageResponse.SuccessResponse(usersNamesList),HttpStatus.ACCEPTED);
     }
 
 }

@@ -1,23 +1,19 @@
 package com.unitechApi.store.vendor.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.unitechApi.purchase.RawMaterial.Contract.Model.ContractModel;
 import com.unitechApi.store.indent.Model.Indent;
 import com.unitechApi.store.storeMangment.Model.StoreItemModel;
-import lombok.ToString;
-import org.hibernate.validator.constraints.Length;
-import org.hibernate.validator.constraints.Range;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
-import javax.validation.constraints.*;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
 @Entity
 @Table(name = "vendor_details", schema = "purchaser")
-@ToString
 //@JsonIdentityInfo(generator=ObjectIdGenerators.PropertyGenerator.class, property="id")
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class VendorModel {
@@ -53,7 +49,7 @@ public class VendorModel {
     @NotNull(message = "please Enter the Payment Conditions")
     @Enumerated(EnumType.ORDINAL)
     private PaymentCondition paymentTermsConditions;
-    private int paymentDays;
+    private Integer paymentDays;
     @Temporal(TemporalType.TIMESTAMP)
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
     private Date createdAt;
@@ -132,6 +128,8 @@ public class VendorModel {
         this.vendorcode = vendorcode;
     }
 
+
+
     public String getGstno() {
         return gstno;
     }
@@ -168,13 +166,7 @@ public class VendorModel {
         this.paymentTermsConditions = paymentTermsConditions;
     }
 
-    public int getPaymentDays() {
-        return paymentDays;
-    }
 
-    public void setPaymentDays(int paymentDays) {
-        this.paymentDays = paymentDays;
-    }
 
     public int getPincode() {
         
@@ -190,5 +182,24 @@ public class VendorModel {
 
     public void deleteItem(StoreItemModel vendorModel) {
         itemData.remove(vendorModel);
+    }
+
+    @Override
+    public String toString() {
+        return "VendorModel{" +
+                "id=" + id +
+                ", vendorName='" + vendorName + '\'' +
+                ", vendorAddress='" + vendorAddress + '\'' +
+                ", city='" + city + '\'' +
+                ", pincode=" + pincode +
+                ", vendorcode='" + vendorcode + '\'' +
+                ", gstno='" + gstno + '\'' +
+                ", panno='" + panno + '\'' +
+                ", paymentTermsConditions=" + paymentTermsConditions +
+                ", paymentDays=" + paymentDays +
+                ", createdAt=" + createdAt +
+                ", itemData=" + itemData +
+                ", indentList=" + indentList +
+                '}';
     }
 }
