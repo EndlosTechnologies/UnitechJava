@@ -28,19 +28,19 @@ public class VendorModel {
     @Column(name = "vendor_city", nullable = false)
     @NotNull(message = "You are not Allowed to enter city Null Vale")
     private String city;
-    @Column(name = "vebndor_pincode",nullable = false,unique = true)
+    @Column(name = "vebndor_pincode",nullable = false)
     @NotNull(message = "You are not Allowed to enter Pin code Null Vale")
     private Integer pincode;
-    @Column(name = "vendor_code",nullable = false,unique = true)
+    @Column(name = "vendor_code",nullable = false)
     private String vendorcode;
-    @Column(name = "gstno",nullable = false,unique = true)
+    @Column(name = "gstno",nullable = false)
     @Pattern(regexp = "^[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z]{1}[1-9A-Z]{1}Z[0-9A-Z]{1}$", message = "Please Enter valid Gst Number")
     private String gstno;
     /*
      * Sample of Gst Number  gst Number 06BZAHM6385P6Z2
      * */
 
-    @Column(name = "panno",nullable = false,unique = true)
+    @Column(name = "panno",nullable = false)
     @Pattern(regexp = "[A-Z]{5}[0-9]{4}[A-Z]{1}", message = "please Enter your Valid Pan Number Details")
     private String panno;
     /*
@@ -50,6 +50,15 @@ public class VendorModel {
     @Enumerated(EnumType.ORDINAL)
     private PaymentCondition paymentTermsConditions;
     private Integer paymentDays;
+
+    public Integer getPaymentDays() {
+        return paymentDays;
+    }
+
+    public void setPaymentDays(Integer paymentDays) {
+        this.paymentDays = paymentDays;
+    }
+
     @Temporal(TemporalType.TIMESTAMP)
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
     private Date createdAt;
