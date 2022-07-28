@@ -50,6 +50,15 @@ public class VendorModel {
     @Enumerated(EnumType.ORDINAL)
     private PaymentCondition paymentTermsConditions;
     private Integer paymentDays;
+
+    public Integer getPaymentDays() {
+        return paymentDays;
+    }
+
+    public void setPaymentDays(Integer paymentDays) {
+        this.paymentDays = paymentDays;
+    }
+
     @Temporal(TemporalType.TIMESTAMP)
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
     private Date createdAt;
