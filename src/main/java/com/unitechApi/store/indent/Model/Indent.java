@@ -1,6 +1,7 @@
 package com.unitechApi.store.indent.Model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.unitechApi.AuditingAndResponse.Audit;
 import com.unitechApi.store.vendor.model.VendorModel;
 import com.unitechApi.store.issue.model.IssueItem;
 import com.unitechApi.store.storeMangment.Model.StoreItemModel;
@@ -15,7 +16,7 @@ import java.util.Set;
 @Entity
 @Table(name = "indent",schema = "store_management")
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-public class Indent {
+public class Indent extends Audit<String> {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long indentId;
@@ -42,22 +43,34 @@ public class Indent {
     }
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(foreignKey = @ForeignKey(name = "item_id"),name = "item_id",referencedColumnName = "itemId")
-    @JsonIgnoreProperties({"itemRequest","issueItem","employe"})
+    @JsonIgnoreProperties({"itemRequest","issueItem","employe","vendorDate"})
     private StoreItemModel storeItem;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(foreignKey = @ForeignKey(name = "emp_id"),name = "emp_id",referencedColumnName = "user_profile_id")
     @JsonIgnoreProperties({"indentData","itemRequest","itemModelSet","issueItemsData"})
     private User employee;
+    @OneToMany(mappedBy = "indentqua",cascade = CascadeType.ALL)
+    @JsonIgnoreProperties({"storeItemModel","indents","usageItems","emp","itemRequest","issueItemsData","indentqua"})
+    private Set<IndentQuantity> Quantities;
+
+    public Set<IndentQuantity> getQuantities() {
+        return Quantities;
+    }
+
+    public void setQuantities(Set<IndentQuantity> quantities) {
+        Quantities = quantities;
+    }
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(foreignKey = @ForeignKey(name = "issue_id"),name = "issue_id",referencedColumnName = "issueId")
     @JsonIgnoreProperties({"indents","itemRequest","storeItemModel","usageItems","emp"})
     private IssueItem issue;
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(schema = "store_management",name = "item_Add_In_indent",
-            joinColumns = @JoinColumn(name = "indent_id"), inverseJoinColumns = @JoinColumn(name = "item_id") )
-    private Set<StoreItemModel> storeItemList=new HashSet<>();
+//    @ManyToMany(fetch = FetchType.LAZY)
+//    @JoinTable(schema = "store_management",name = "item_Add_In_indent",
+//            joinColumns = @JoinColumn(name = "indent_id"), inverseJoinColumns = @JoinColumn(name = "item_id") )
+//    @JsonIgnoreProperties(value = {"indentQuantities","vendorDate"})
+//    private Set<StoreItemModel> storeItemList=new HashSet<>();
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(schema = "store_management",name = "indent_vendor_detailsID",
             joinColumns = @JoinColumn(name = "indent_id"), inverseJoinColumns = @JoinColumn(name = "vendor_id"))
@@ -70,13 +83,13 @@ public class Indent {
     @JsonIgnoreProperties({"indentList","contractModels"})
     private VendorModel vendorData;
 
-    public Set<StoreItemModel> getStoreItemList() {
-        return storeItemList;
-    }
-
-    public void setStoreItemList(Set<StoreItemModel> storeItemList) {
-        this.storeItemList = storeItemList;
-    }
+//    public Set<StoreItemModel> getStoreItemList() {
+//        return storeItemList;
+//    }
+//
+//    public void setStoreItemList(Set<StoreItemModel> storeItemList) {
+//        this.storeItemList = storeItemList;
+//    }
 
     public VendorModel getVendorData() {
         return vendorData;

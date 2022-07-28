@@ -6,7 +6,6 @@ import com.unitechApi.securityService.Entity.Cstatus;
 import com.unitechApi.securityService.Entity.SecurityModel;
 import com.unitechApi.securityService.Repository.SecurityRepository;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -28,12 +27,11 @@ public class SecurityService {
     }
 
     public Optional<SecuritySave> FindById(Long id) {
-        Optional<SecuritySave> FindById = Optional.ofNullable(securityRepository.findById(id).map(this::FinById).orElseThrow(() -> new RuntimeException()));
-        return FindById;
+        return Optional.ofNullable(securityRepository.findById(id).map(this::FinById).orElseThrow(RuntimeException::new));
     }
 
     public List<SecuritySave> FindAll() {
-        log.info(" {}");
+
         return securityRepository
                 .findAll()
                 .stream()

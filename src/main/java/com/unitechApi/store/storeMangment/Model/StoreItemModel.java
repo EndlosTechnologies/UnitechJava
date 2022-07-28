@@ -2,6 +2,7 @@ package com.unitechApi.store.storeMangment.Model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.unitechApi.AuditingAndResponse.Audit;
+import com.unitechApi.store.indent.Model.IndentQuantity;
 import com.unitechApi.store.vendor.model.VendorModel;
 import com.unitechApi.store.issue.model.IssueItem;
 import com.unitechApi.store.indent.Model.Indent;
@@ -62,6 +63,18 @@ public class StoreItemModel extends Audit<String> {
     @OneToMany(mappedBy = "storeItemModel",cascade = CascadeType.ALL)
     @JsonIgnoreProperties({"storeItemModel","indents","usageItems","emp","itemRequest","issueItemsData"})
     private Set<IssueItem> issueItem;
+    @OneToMany(mappedBy = "storeItemGetQuantity",cascade = CascadeType.ALL)
+    @JsonIgnoreProperties({"storeItemModel","indents","usageItems","emp","itemRequest","issueItemsData"
+            ,"storeItemGetQuantity"})
+    private Set<IndentQuantity> indentQuantities;
+
+    public Set<IndentQuantity> getIndentQuantities() {
+        return indentQuantities;
+    }
+
+    public void setIndentQuantities(Set<IndentQuantity> indentQuantities) {
+        this.indentQuantities = indentQuantities;
+    }
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(foreignKey = @ForeignKey(name = "p_id"), name = "p_id", referencedColumnName = "pid")
@@ -79,17 +92,11 @@ public class StoreItemModel extends Audit<String> {
     ,"passwordEntity","userQualificationData","roles","indentData"})
     private User employe;
     @OneToMany(mappedBy = "storeItem", cascade = CascadeType.ALL)
-    @JsonIgnoreProperties({"storeItem","employee"})
+    @JsonIgnoreProperties({"storeItem","employee","storeItemList"})
     private Set<Indent> itemRequest;
     @ManyToMany(mappedBy = "itemData")
     @JsonIgnoreProperties({"itemData","indentList"})
     private Set<VendorModel> vendorDate=new HashSet<>();
-
-    public void removeItem(VendorModel vendorModel)
-    {
-        vendorDate.remove(vendorModel);
-        vendorModel.getItemData().remove(this);
-    }
 
     public Set<VendorModel> getVendorDate() {
         return vendorDate;
