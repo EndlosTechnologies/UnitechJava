@@ -46,7 +46,7 @@ public class StoreItemModel extends Audit<String> {
     @Column(nullable = false)
     private int paytax;
     private Date created;
-
+    private double itemRate;
     public Date getCreated() {
         return created;
     }
@@ -235,6 +235,14 @@ public class StoreItemModel extends Audit<String> {
 
     public void setRemainingItem(int remainingItem) {
         RemainingItem = remainingItem;
+    }
+
+    public double getItemRate() {
+        return itemRate;
+    }
+
+    public void setItemRate(double itemRate) {
+        this.itemRate = itemRate;
     }
 
     public int getPaytax() {

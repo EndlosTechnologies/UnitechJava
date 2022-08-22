@@ -282,7 +282,7 @@ public class UnitechApplication implements ApplicationRunner {
             user7.getRoles().add(role2);
             user7.getPasswordEntity().idUpdate(user7);
             userRepository.save(user7);
-
+            System.out.println("hello World");
             user8.getRoles().add(role4);
             user8.getPasswordEntity().idUpdate(user8);
             userRepository.save(user8);

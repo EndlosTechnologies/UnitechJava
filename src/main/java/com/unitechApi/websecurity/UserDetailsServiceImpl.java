@@ -3,7 +3,6 @@ package com.unitechApi.websecurity;
 import com.unitechApi.exception.ExceptionService.UserNotFound;
 import com.unitechApi.user.Repository.UserRepository;
 import com.unitechApi.user.model.User;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -13,16 +12,18 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService {
-    @Autowired
-    UserRepository userRepository;
+
+    private final UserRepository userRepository;
+    public UserDetailsServiceImpl(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
 
     @Override
     @Transactional
-    public UserDetails loadUserByUsername(String phoneno) throws UsernameNotFoundException {
-        User user = userRepository.findByPhoneno(phoneno)
-                .orElseThrow(() -> new UserNotFound("User Not Found with username: " + phoneno));
-        System.out.println(phoneno);
-
+    public UserDetails loadUserByUsername(String phoneNo) throws UsernameNotFoundException {
+        User user = userRepository
+                .findByPhoneno(phoneNo)
+                .orElseThrow(() -> new UserNotFound("User Not Found with username: " + phoneNo));
         return UserDetailsImpl.build(user);
     }
 

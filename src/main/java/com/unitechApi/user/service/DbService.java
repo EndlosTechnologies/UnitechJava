@@ -12,6 +12,7 @@ import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -24,16 +25,17 @@ import java.util.List;
 @Service
 public class DbService {
 
-//    @Value("${spring.datasource.url}")
-//    private String url;
-    public static final String URL = "jdbc:postgresql://localhost:5432/unitech";
+    @Value("${spring.datasource.url}")
+    private  String url;
+    //public static final String URL = "jdbc:postgresql://localhost:5432/unitech";
+    //private static final String USERNAME = "postgres";
+    //private static final String PASSWORD = "postgres";
 
-//    @Value("${spring.datasource.username}")
-//    private String username;
-    private static final String USERNAME = "postgres";
-    private static final String PASSWORD = "postgres";
-//    @Value("${spring.datasource.password}")
-//    private String password;
+    @Value("${spring.datasource.username}")
+    private  String username;
+
+    @Value("${spring.datasource.password}")
+    private  String password;
     public static final Logger log = LoggerFactory.getLogger(DbService.class);
     private final ProductCategoryRepository productCategoryRepository;
     private final UnitRepository unitRepository;
@@ -44,8 +46,8 @@ public class DbService {
     }
 
 
-    private static Connection createdConnecton() throws SQLException {
-        return DriverManager.getConnection(URL, USERNAME, PASSWORD);
+    private  Connection createdConnecton() throws SQLException {
+        return DriverManager.getConnection(url,username, password);
     }
 
     public void machineReadingDelete() throws SQLException {
@@ -65,9 +67,9 @@ public class DbService {
             Workbook workbook = new XSSFWorkbook(ls);
             Sheet firstSheet = workbook.getSheetAt(0);
             Iterator<Row> rowIterator = firstSheet.iterator();
-            connection = DriverManager.getConnection(URL, USERNAME, PASSWORD);
+            connection = DriverManager.getConnection(url, username,password);
             connection.setAutoCommit(false);
-            String sql = "INSERT INTO store_management.item (itemname, itemdescription,remainingitem, drawingno,catalogno,frequency,paytax,quantity,created,expirydays,p_id,u_id) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)";
+            String sql = "INSERT INTO store_management.item (itemname, itemdescription,remainingitem, drawingno,catalogno,frequency,paytax,quantity,itemrate,created,expirydays,p_id,u_id) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)";
             PreparedStatement statement = connection.prepareStatement(sql);
 
             int count = 0;
@@ -88,77 +90,79 @@ public class DbService {
                         case 0:
                             String itemname = nextCell.getStringCellValue();
                             statement.setString(1, itemname);
-                            System.out.println("item name =" +itemname);
+                            log.info("item name ={}", itemname);
                             break;
                         case 1:
-                            String itemdescription = nextCell.getStringCellValue();
-                            statement.setString(2, itemdescription);
-                            System.out.println("item Descr =" +itemdescription);
+                            String itemDescription = nextCell.getStringCellValue();
+                            statement.setString(2, itemDescription);
+                            log.info("item Descr ={}" + itemDescription);
                             break;
                         case 2:
-                            int remainingitem = (int) nextCell.getNumericCellValue();
-                            statement.setInt(3, remainingitem);
-                            System.out.println("item reamin =" +remainingitem);
+                            int remainingItem = (int) nextCell.getNumericCellValue();
+                            statement.setInt(3, remainingItem);
+                            log.info("item remainingItem ={}", remainingItem);
                             break;
                         case 3:
                             String drawingno = nextCell.getStringCellValue();
-                            System.out.println("dr no =" +drawingno);
+                            log.info("dr no ={}", drawingno);
                             statement.setString(4, String.valueOf(drawingno));
                             //drawing,catalog,frequency,pay-tax,quantity,indate,expirydays,p_id,u_id
                             break;
                         case 4:
-                            String catalogno = nextCell.getStringCellValue();
-                            System.out.println("c no =" +catalogno);
-                            statement.setString(5,String.valueOf(catalogno) );
+                            String catalogNumber = String.valueOf(nextCell.getStringCellValue());
+                            log.info("catalog Number ={}", catalogNumber);
+                            statement.setString(5, String.valueOf(catalogNumber));
                             break;
                         case 5:
                             double frequency = nextCell.getNumericCellValue();
-                            System.out.println("frequency no =" +frequency);
+                            log.info("frequency Number ={}", frequency);
                             statement.setLong(6, (long) frequency);
                             break;
                         case 6:
                             int paytax = (int) nextCell.getNumericCellValue();
-                            System.out.println("tax " +paytax);
+                            log.info("tax is ={}" + paytax);
                             statement.setInt(7, paytax);
                             break;
                         case 7:
-                            long quantity = (long) nextCell.getNumericCellValue();
-                            System.out.println("quantity =" +quantity);
-                            statement.setLong(8, quantity);
+                            float quantity = (float) nextCell.getNumericCellValue();
+                            log.info("quantity is ={}", quantity);
+                            statement.setFloat(8,  quantity);
                             break;
                         case 8:
-                            java.util.Date created = nextCell.getDateCellValue();
-                            System.out.println("date  =" +created);
-                            statement.setTimestamp(9, new Timestamp(created.getTime()));
+                            String itemRate =nextCell.getStringCellValue();
+                            log.info("item Rate {}",itemRate);
+                            statement.setString(9,itemRate);
                             break;
                         case 9:
-                            int expirydays = (int) nextCell.getNumericCellValue();
-                            System.out.println("days expiry =" +expirydays);
-                            statement.setInt(10, expirydays);
+                            java.util.Date created = nextCell.getDateCellValue();
+                            log.info("date is ={}", created);
+                            statement.setTimestamp(10, new Timestamp(created.getTime()));
                             break;
                         case 10:
+                            int expirydays = (int) nextCell.getNumericCellValue();
+                            log.info("days expiry is={}", expirydays);
+                            statement.setInt(11, expirydays);
+                            break;
+                        case 11:
                             String p_id = nextCell.getStringCellValue();
                             //log.info("excel product name {}", nextCell.getStringCellValue());
                             List<ProductCategory> productCategory = productCategoryRepository.findAll();
                             for (ProductCategory p : productCategory) {
                                 log.info("product id {}", p.getPid());
                                 if (p.getProductName().equals(p_id)) {
-                                    statement.setLong(11, p.getPid());
+                                    statement.setLong(12, p.getPid());
                                 }
                             }
-                            System.out.println(p_id);
-
-                        case 11:
-                            String  u_id = nextCell.getStringCellValue();
+                            log.info("product id is the {}", p_id);
+                        case 12:
+                            String u_id = nextCell.getStringCellValue();
                             List<Unit> unit = unitRepository.findAll();
                             for (Unit u : unit) {
                                 if (u.getUnitName().equals(u_id)) {
-                                    statement.setLong(12, u.getUid());
+                                    statement.setLong(13, u.getUid());
                                 }
                             }
-                            System.out.println(u_id);
-
-
+                            log.info("unit id is the {}", u_id);
                     }
 
                 }

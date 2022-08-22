@@ -1,19 +1,24 @@
 package com.unitechApi.store.po.Model;
 
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
+
 import javax.persistence.*;
 
 @Entity
 @Table(name = "personal_order",schema = "store_management")
+@SQLDelete(sql = "update store_management.personal_order SET deleteview = true where poid=?")
+@Where(clause = "deleteview=fasle")
 public class PoStore {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long poId;
     private String poName;
     private Integer amount;
-    private boolean deleteView;
+    private boolean deleteView=Boolean.FALSE;
     private String utrNumber;
     public PoStore() {
-        this.deleteView = false;
+
     }
 
 
