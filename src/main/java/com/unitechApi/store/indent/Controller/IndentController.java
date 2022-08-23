@@ -1,8 +1,12 @@
 package com.unitechApi.store.indent.Controller;
 
+import com.unitechApi.Payload.response.MessageResponse;
 import com.unitechApi.Payload.response.PageResponse;
 import com.unitechApi.store.indent.Model.Indent;
+import com.unitechApi.store.indent.Model.IndentQuantity;
 import com.unitechApi.store.indent.Model.IndentStatus;
+import com.unitechApi.store.indent.Repository.IndentRepository;
+import com.unitechApi.store.indent.Repository.QuantityRepository;
 import com.unitechApi.store.indent.Service.IndentService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,15 +21,29 @@ import java.util.Map;
 @RequestMapping(value = "/unitech/api/v1/store/req")
 public class IndentController {
     private final IndentService indentService;
+    private final IndentRepository indentRepository;
+    private final QuantityRepository quantityRepository;
 
-    public IndentController(IndentService indentService) {
+
+    public IndentController(IndentService indentService, IndentRepository indentRepository, QuantityRepository quantityRepository) {
         this.indentService = indentService;
+        this.indentRepository = indentRepository;
+        this.quantityRepository = quantityRepository;
     }
     @PostMapping()
     public ResponseEntity<?> saveData(@RequestBody Indent indent )
     {
         Indent requestData= indentService.saveData(indent);
         return new ResponseEntity<>(PageResponse.SuccessResponse(requestData), HttpStatus.CREATED);
+    }
+    @GetMapping(value = "/update/{indentId}/{quantityId}")
+    public ResponseEntity<?> idUpdate(@PathVariable Long indentId,@PathVariable Long quantityId)
+    {
+        Indent indent=indentService.findByid(indentId);
+        IndentQuantity indentQuantity=quantityRepository.findById(quantityId).get();
+        indentQuantity.saveQuantityUpdate(indent);
+        quantityRepository.save(indentQuantity);
+        return new ResponseEntity<>(new MessageResponse("update Data"),HttpStatus.OK);
     }
 
     @GetMapping

@@ -14,7 +14,7 @@ import java.util.stream.Collectors;
 @Service
 public class PoStoreService {
     private final PoStoreRepository poStoreRepository;
-    public static final Logger log= LoggerFactory.getLogger(PoStoreService.class);
+    public static final Logger log = LoggerFactory.getLogger(PoStoreService.class);
 
 
     public PoStoreService(PoStoreRepository poStoreRepository) {
@@ -37,15 +37,19 @@ public class PoStoreService {
                 .collect(Collectors.toList());
     }
 
-    public void changeDeleteStatus(boolean deleteView,Long poId) {
-        poStoreRepository.changeStattus( deleteView,poId);
+    public void changeDeleteStatus(boolean deleteView, Long poId) {
+        poStoreRepository.changeStattus(deleteView, poId);
     }
-    public List<PoStore> findByDeleteViewStatus()
-    {
+
+    public List<PoStore> findByDeleteViewStatus() {
         return poStoreRepository.findByDeleteView()
                 .stream()
-                .filter(x-> x.isDeleteView()==true)
+                .filter(x -> x.isDeleteView() == true)
                 .sorted(Comparator.comparing(PoStore::getPoId))
                 .collect(Collectors.toList());
+    }
+
+    public PoStore findByDescOrder( Long itemId,Long poId) {
+        return poStoreRepository.findBypo_item_data_( itemId,poId);
     }
 }

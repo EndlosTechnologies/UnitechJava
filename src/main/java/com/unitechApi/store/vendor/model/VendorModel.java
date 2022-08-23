@@ -14,7 +14,6 @@ import java.util.Set;
 
 @Entity
 @Table(name = "vendor_details", schema = "purchaser")
-//@JsonIdentityInfo(generator=ObjectIdGenerators.PropertyGenerator.class, property="id")
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class VendorModel {
     @Id

@@ -31,11 +31,18 @@ public class Controller {
         return new ResponseEntity<>(PageResponse.SuccessResponse(poData), HttpStatus.OK);
     }
 
-    @PutMapping("/{pId}/update/{cId}")
+    @PutMapping(value = "/{pId}/update/{cId}")
     public ResponseEntity<?> UpdateId(@PathVariable Long pId, @PathVariable Long cId) {
         PoModel poModel = poService.UpdateId(pId, cId);
         return new ResponseEntity<>(PageResponse.SuccessResponse(poModel), HttpStatus.OK);
     }
+
+    @GetMapping(value = "{pId}")
+    public ResponseEntity<?> getById(@PathVariable Long pId) {
+        PoModel poStore = poService.FindById(pId);
+        return new ResponseEntity<>(PageResponse.SuccessResponse(poStore), HttpStatus.OK);
+    }
+
 
     @DeleteMapping("/{PoId}")
     public ResponseEntity<?> DeleteById(@PathVariable Long PoId) {

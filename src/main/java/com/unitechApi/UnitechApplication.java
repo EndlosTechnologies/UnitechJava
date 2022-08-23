@@ -21,6 +21,7 @@ public class UnitechApplication implements ApplicationRunner {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
 
+
     public UnitechApplication(RoleRepository roleRepository, UserRepository userRepository, PasswordEncoder passwordEncoder) {
         this.roleRepository = roleRepository;
         this.userRepository = userRepository;
@@ -29,6 +30,7 @@ public class UnitechApplication implements ApplicationRunner {
 
     public static void main(String[] args) {
         SpringApplication.run(UnitechApplication.class, args);
+
     }
 
     @Override
@@ -229,7 +231,6 @@ public class UnitechApplication implements ApplicationRunner {
         Role role11 = new Role(ERole.ROLE_MAINTENANCE);
         Role role12 = new Role(ERole.ROLE_STORE);
 
-
         List<User> DataCheck = userRepository.findAll();
         if (DataCheck.isEmpty()) {
 
@@ -286,6 +287,7 @@ public class UnitechApplication implements ApplicationRunner {
             user8.getRoles().add(role4);
             user8.getPasswordEntity().idUpdate(user8);
             userRepository.save(user8);
+
         }
     }
 

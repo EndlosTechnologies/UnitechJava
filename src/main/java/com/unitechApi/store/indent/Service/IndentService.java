@@ -7,6 +7,7 @@ import com.unitechApi.store.indent.Model.IndentQuantity;
 import com.unitechApi.store.indent.Model.IndentStatus;
 import com.unitechApi.store.indent.Repository.IndentRepository;
 import com.unitechApi.store.indent.Repository.QuantityRepository;
+import com.unitechApi.store.storeMangment.Model.StoreItemModel;
 import com.unitechApi.store.storeMangment.repository.StoreItemRepository;
 import com.unitechApi.store.vendor.Service.VendorService;
 import com.unitechApi.store.vendor.model.VendorModel;
@@ -37,23 +38,34 @@ public class IndentService {
         this.quantityRepository = quantityRepository;
     }
 
+
     public Indent saveData(Indent indent) {
-//        StoreItemModel itemModel=storeItemRepository.findById(indent.getStoreItem().getItemId())
-//                .orElseThrow(()-> new ItemNotFound("item not Found"));
-        //  indent.setTotal((long) (indent.getEstimatedPrice() * indent.getQuantity()));
-    //     indent.setIncludingTax(((indent.getTotal() * itemModel.getPaytax())/100)+indent.getTotal());
 
         float dta = 0;
+        float tax = 0;
+        float total = 0;
+        float withoutTax = 0;
+
         for (IndentQuantity i : indent.getQuantities()) {
+            StoreItemModel item =storeItemRepository.findById(i.getStoreItemGetQuantity().getItemId()).get();
             indent.getQuantities().add(i);
             dta += i.getEstimatedPrice() * i.getQuantity();
+            tax = (i.getQuantity() * i.getEstimatedPrice() * item.getPaytax()) / 100;
+            log.info("item tax {}",i.getStoreItemGetQuantity().getPaytax());
+            log.info("tax {}",tax);
+            withoutTax = i.getEstimatedPrice() * i.getQuantity();
+            total=withoutTax+tax;
+            i.setWithoutTax(withoutTax);
+            i.setInculdingTax(tax);
+            i.setTotal(total);
+
             quantityRepository.save(i);
             log.info("indent estimated Price {}", indent.getEstimatedPrice());
             log.info("quantity {}", i.getQuantity());
         }
         indent.setTotal(dta);
 
-            /// indent.setTotal(indent.getEstimatedPrice() * data.getQuantity());
+        /// indent.setTotal(indent.getEstimatedPrice() * data.getQuantity());
 
 //        indent.getStoreItemList()
 //                .addAll(
@@ -111,12 +123,8 @@ public class IndentService {
             log.info(" vendor details {} ", vendorModel);
 
         }
-//        if (itemRequest.getIndentStatus().equals(IndentStatus.VP)) {
         itemRequest.setIndentStatus(dta.getIndentStatus());
-
         log.info("item Request {}", itemRequest);
-
-//        }
         return indentRepository.save(itemRequest);
     }
 

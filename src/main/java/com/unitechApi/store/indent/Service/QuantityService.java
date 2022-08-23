@@ -47,9 +47,12 @@ public class QuantityService {
                          StoreItemModel storeItemModel = storeItemRepository.findById(data.getStoreItemGetQuantity().getItemId()).get();
                     //((indent.getTotal() * itemModel.getPaytax())/100)+indent.getTotal()
                         float calculateTotal = data.getEstimatedPrice() * data.getQuantity();
-                        data.setTotal(calculateTotal);
+                        data.setWithoutTax(calculateTotal);
                         float calculateInculdingTax = ((data.getTotal() * storeItemModel.getPaytax()) / 100) + data.getTotal();
                         data.setInculdingTax(calculateInculdingTax);
+                        float taxCalculate= (data.getQuantity()*data.getEstimatedPrice()*storeItemModel.getPaytax())/100;
+                        data.setInculdingTax(taxCalculate);
+                        data.setTotal(calculateTotal+taxCalculate);
                         log.info("tax -> {}, Quantity ->{}", storeItemModel.getPaytax(), data.getQuantity());
                         log.info("without Tax-> {} , Including Tax->{}", calculateTotal, calculateInculdingTax);
                         return quantityRepository.save(data);

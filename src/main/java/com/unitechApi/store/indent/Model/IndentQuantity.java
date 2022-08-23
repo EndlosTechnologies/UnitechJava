@@ -24,7 +24,7 @@ public class IndentQuantity {
     private StoreItemModel storeItemGetQuantity;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(foreignKey = @ForeignKey(name = "indent_Id"),name = "indent_Id",referencedColumnName = "indentId")
-    @JsonIgnoreProperties({"storeItem"})
+    @JsonIgnoreProperties({"storeItem","quantities"})
     private Indent indentqua;
 
     public StoreItemModel getStoreItemGetQuantity() {
@@ -115,6 +115,11 @@ public class IndentQuantity {
     @Override
     public int hashCode() {
         return Objects.hash(quantityId, inculdingTax, withoutTax, total, quantity );
+    }
+
+
+    public void saveQuantityUpdate(Indent indent) {
+        this.indentqua=indent;
     }
 }
 

@@ -2,12 +2,15 @@ package com.unitechApi.store.indent.Model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.unitechApi.AuditingAndResponse.Audit;
+import com.unitechApi.purchase.RawMaterial.Po.Model.PoModel;
+import com.unitechApi.store.po.Model.PoStore;
 import com.unitechApi.store.vendor.model.VendorModel;
 import com.unitechApi.store.issue.model.IssueItem;
 import com.unitechApi.store.storeMangment.Model.StoreItemModel;
 import com.unitechApi.user.model.User;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.util.Date;
 import java.util.HashSet;
@@ -25,9 +28,7 @@ public class Indent extends Audit<String> {
     private float estimatedPrice;
     private float total;
     private Long responseId;
-    @NotNull(message = "Enter the quantity ")
-    @Column(nullable = false)
-    private Long quantity;
+
     @Enumerated(EnumType.STRING)
     private IndentStatus indentStatus;
     private Long doid;
@@ -54,6 +55,9 @@ public class Indent extends Audit<String> {
     @JsonIgnoreProperties({"storeItemModel","indents","usageItems","emp","itemRequest","issueItemsData","indentqua"})
     private Set<IndentQuantity> Quantities;
 
+    @OneToMany(mappedBy = "indentDAta",cascade = CascadeType.ALL)
+    @JsonIgnoreProperties(value = {"indentDAta","itemPoSet"})
+    private Set<PoStore> personalOrder;
     public Set<IndentQuantity> getQuantities() {
         return Quantities;
     }
@@ -186,13 +190,7 @@ public class Indent extends Audit<String> {
 
 
 
-    public Long getQuantity() {
-        return quantity;
-    }
 
-    public void setQuantity(Long quantity) {
-        this.quantity = quantity;
-    }
 
     public IndentStatus getIndentStatus() {
         return indentStatus;
@@ -209,5 +207,13 @@ public class Indent extends Audit<String> {
 
     public void setStoreItem(StoreItemModel storeItem) {
         this.storeItem = storeItem;
+    }
+
+    public Set<PoStore> getPersonalOrder() {
+        return personalOrder;
+    }
+
+    public void setPersonalOrder(Set<PoStore> personalOrder) {
+        this.personalOrder = personalOrder;
     }
 }
