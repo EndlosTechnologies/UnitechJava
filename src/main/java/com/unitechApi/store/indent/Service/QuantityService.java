@@ -62,5 +62,9 @@ public class QuantityService {
     public List<IndentQuantity> dataGetByIndentId(Long indentId) {
         return quantityRepository.findAllByIndentid(indentId);
     }
+    public Object DAta(Long itemId)
+    {
+        return quantityRepository.findByData(itemId ,itemId);
+    }
 }
 

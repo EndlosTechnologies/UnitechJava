@@ -43,4 +43,10 @@ public class QuantityController {
         Object data=quantityService.dataGetByIndentId(indentId);
         return  new ResponseEntity<>(PageResponse.SuccessResponse(data),HttpStatus.OK);
     }
+    @GetMapping(value = "/getBy/{indentId}")
+    public ResponseEntity<?> findByIndentId(@PathVariable Long indentId)
+    {
+        Object data=quantityService.DAta(indentId);
+        return  new ResponseEntity<>(PageResponse.SuccessResponse(data),HttpStatus.OK);
+    }
 }
