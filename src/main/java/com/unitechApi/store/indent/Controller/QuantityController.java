@@ -11,6 +11,7 @@ import javax.persistence.criteria.CriteriaBuilder;
 import java.util.List;
 
 @RestController
+@CrossOrigin
 @RequestMapping(value = "/unitech/api/v1/quantity")
 public class QuantityController {
     private final QuantityService quantityService;
