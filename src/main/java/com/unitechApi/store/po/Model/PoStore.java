@@ -2,6 +2,7 @@ package com.unitechApi.store.po.Model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.unitechApi.AuditingAndResponse.Audit;
 import com.unitechApi.store.indent.Model.Indent;
 import com.unitechApi.store.storeMangment.Model.StoreItemModel;
 import org.hibernate.annotations.SQLDelete;
@@ -17,13 +18,14 @@ import java.util.UUID;
 @Table(name = "personal_order",schema = "store_management")
 @SQLDelete(sql = "update store_management.personal_order SET deleteview = true where poid=?")
 @Where(clause = "deleteview=false")
-public class PoStore {
+public class PoStore extends Audit<String> {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long poId;
-    private String poNumber= String.valueOf(UUID.class);
+    private String poNumber= UUID.randomUUID().toString();
     private String poName;
     private Float amount;
+    private float itemQuantity;
     @JsonIgnore
     private boolean deleteView=Boolean.FALSE;
     private String utrNumber;
@@ -104,6 +106,14 @@ public class PoStore {
 
     public void setIndentDAta(Indent indentDAta) {
         this.indentDAta = indentDAta;
+    }
+
+    public float getItemQuantity() {
+        return itemQuantity;
+    }
+
+    public void setItemQuantity(float itemQuantity) {
+        this.itemQuantity = itemQuantity;
     }
 
     @Override

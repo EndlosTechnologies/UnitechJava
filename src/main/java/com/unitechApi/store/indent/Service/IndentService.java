@@ -48,13 +48,13 @@ public class IndentService {
 
         for (IndentQuantity i : indent.getIndentQuantityList()) {
             StoreItemModel item = storeItemRepository.findById(i.getStoreItemIndentQuantityData().getItemId()).get();
-            dta += i.getEstimatedPrice() * i.getQuantity();
             tax = (i.getQuantity() * i.getEstimatedPrice() * item.getPaytax()) / 100;
             withoutTax = i.getEstimatedPrice() * i.getQuantity();
             total = withoutTax + tax;
             i.setWithoutTax(withoutTax);
             i.setInculdingTax(tax);
             i.setTotal(total);
+            dta+=withoutTax+tax;
             quantityRepository.save(i);
             log.info("indent estimated Price {}  And tax ", indent.getEstimatedPrice(), i.getStoreItemIndentQuantityData().getPaytax());
             log.info("quantity {}", i.getQuantity());

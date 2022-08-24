@@ -35,7 +35,7 @@ public class StoreItemService {
     public void checkRemainingItem(Long id)
     {
         StoreItemModel storeItemModel = storeItemRepository.findById(id).orElseThrow(() -> new ItemNotFound("item Not Found"));
-        if (storeItemModel.getQuantity()<storeItemModel.getRemainingItem())
+               if (storeItemModel.getQuantity()<storeItemModel.getRemainingItem())
         {
             throw new AddItemException("Sorry You Can't take item in Store ! Please add Item in store ");
         }

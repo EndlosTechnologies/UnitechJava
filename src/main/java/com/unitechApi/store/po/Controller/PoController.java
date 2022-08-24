@@ -16,7 +16,7 @@ import java.util.List;
 @RequestMapping(value = "/unitech/api/v1/store/po")
 public class PoController {
     private final PoStoreService poStoreService;
-    private static final Logger log= LoggerFactory.getLogger(PoController.class);
+    private static final Logger log = LoggerFactory.getLogger(PoController.class);
 
     public PoController(PoStoreService poStoreService) {
         this.poStoreService = poStoreService;
@@ -24,36 +24,49 @@ public class PoController {
 
 
     @PostMapping
-    public ResponseEntity<?> saveData(@RequestBody PoStore poStore)
-    {
-        PoStore data=poStoreService.saveData(poStore);
+    public ResponseEntity<?> saveData(@RequestBody PoStore poStore) {
+        PoStore data = poStoreService.saveData(poStore);
         return new ResponseEntity<>(PageResponse.SuccessResponse(data), HttpStatus.OK);
     }
+
     @PutMapping("/{poId}")
-    public ResponseEntity<?> deleteData(@RequestParam boolean  deleteView,@PathVariable Long poId)
-    {
-        poStoreService.changeDeleteStatus(deleteView,poId);
-        return new ResponseEntity<>(new MessageResponse("deleted " +poId),HttpStatus.OK);
-    }
-    @GetMapping(value = "/status")
-    public ResponseEntity<?> findByStatus()
-    {
-        List<PoStore> data=poStoreService.findByDeleteViewStatus();
-        return new ResponseEntity<>(PageResponse.SuccessResponse(data),HttpStatus.OK);
-    }
-    @GetMapping(value = "/getAll")
-    public ResponseEntity<?> getAll(){
-        List<?> getAll=poStoreService.findAll();
-        return new ResponseEntity<>(PageResponse.SuccessResponse(getAll),HttpStatus.OK);
-    }
-    @GetMapping(value = "/getByValue")
-    public ResponseEntity<?> GetByName(@RequestParam Long itemId ,@RequestParam Long poId)
-    {
-        List<PoStore> poStore=poStoreService.findByDescOrder( itemId,poId);
-        log.info("po Data {} =>",poStore);
-        return new ResponseEntity<>(PageResponse.SuccessResponse(poStore),HttpStatus.OK);
+    public ResponseEntity<?> deleteData(@RequestParam boolean deleteView, @PathVariable Long poId) {
+        poStoreService.changeDeleteStatus(deleteView, poId);
+        return new ResponseEntity<>(new MessageResponse("deleted " + poId), HttpStatus.OK);
     }
 
+    @GetMapping(value = "/status")
+    public ResponseEntity<?> findByStatus() {
+        List<PoStore> data = poStoreService.findByDeleteViewStatus();
+        return new ResponseEntity<>(PageResponse.SuccessResponse(data), HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/getAll")
+    public ResponseEntity<?> getAll() {
+        List<?> getAll = poStoreService.findAll();
+        return new ResponseEntity<>(PageResponse.SuccessResponse(getAll), HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/getByValue")
+    public ResponseEntity<?> GetByName(@RequestParam Long itemId, @RequestParam Long poId) {
+        List<PoStore> poStore = poStoreService.findByDescOrder(itemId, poId);
+        log.info("po Data {} =>", poStore);
+        return new ResponseEntity<>(PageResponse.SuccessResponse(poStore), HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/poNumber/{poNumber}")
+    public ResponseEntity<?> findByPoNumber(@PathVariable String poNumber) {
+        List<?> poNumberData = poStoreService.findByPoNumber(poNumber);
+        log.info("poNumber {} => ", poNumberData);
+        return new ResponseEntity<>(PageResponse.SuccessResponse(poNumberData), HttpStatus.OK);
+    }
+    @GetMapping(value = "/utrNumber/{utrNumber}")
+    public ResponseEntity<?> findByUtrNumber(@PathVariable String utrNumber)
+    {
+        List<?> utrNumberData=poStoreService.findByUtrNumber(utrNumber);
+        log.info("utr Number Data -> {}",utrNumberData);
+        return new ResponseEntity<>(PageResponse.SuccessResponse(utrNumberData),HttpStatus.OK);
+    }
 
 
 }

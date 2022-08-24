@@ -17,4 +17,9 @@ public interface PoStoreRepository extends JpaRepository<PoStore ,Long> {
     List<PoStore> findBypo_item_data_(Long item_id,Long indentId );
     @Query(value = "select p from PoStore  p")
     List<PoStore> findByDeleteView();
+    @Query(value = "select p from PoStore  p where p.poNumber=:poNumber")
+    List<?>  findByPosNumber(String poNumber);
+    @Query(value = "select p from PoStore  p where p.utrNumber=:utrNumber")
+    List<?> findByUtrNumber(String utrNumber);
+
 }
