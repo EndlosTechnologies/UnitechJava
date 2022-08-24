@@ -35,7 +35,7 @@ public class PoStore {
     @JoinTable(schema = "store_management",name = "po_item_data"
             , joinColumns = @JoinColumn(name = "po_id"),
             inverseJoinColumns = @JoinColumn(name = "item_id"))
-    @JsonIgnoreProperties(value = {"personalOrder"})
+    @JsonIgnoreProperties(value = {"personalOrder","itemRequest","employe","issueItem"})
     private Set<StoreItemModel> itemPoSet=new HashSet<>();
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(foreignKey = @ForeignKey(name = "ind_id"), name = "ind_id", referencedColumnName = "indentId")

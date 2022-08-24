@@ -7,6 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -49,7 +50,7 @@ public class PoStoreService {
                 .collect(Collectors.toList());
     }
 
-    public PoStore findByDescOrder( Long itemId,Long poId) {
-        return poStoreRepository.findBypo_item_data_( itemId,poId);
+    public List<PoStore> findByDescOrder( Long itemId,Long poId) {
+        return poStoreRepository.findBypo_item_data_(itemId , poId);
     }
 }

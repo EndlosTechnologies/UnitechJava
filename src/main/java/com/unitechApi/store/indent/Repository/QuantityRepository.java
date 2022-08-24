@@ -8,6 +8,6 @@ import org.springframework.data.jpa.repository.Query;
 import java.util.List;
 
 public interface QuantityRepository extends JpaRepository<IndentQuantity ,Long> {
-    @Query("select i FROM IndentQuantity i where i.indentqua.indentId=:indentId")
+    @Query("select i FROM IndentQuantity i where i.indentItemQuantity.indentId=:indentId")
     List<IndentQuantity> findAllByIndentid(Long indentId);
 }

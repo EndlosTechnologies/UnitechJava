@@ -47,9 +47,9 @@ public class PoController {
         return new ResponseEntity<>(PageResponse.SuccessResponse(getAll),HttpStatus.OK);
     }
     @GetMapping(value = "/getByValue")
-    public ResponseEntity<?> GetByName(@RequestParam Long itemId,@RequestParam Long poId)
+    public ResponseEntity<?> GetByName(@RequestParam Long itemId ,@RequestParam Long poId)
     {
-        PoStore poStore=poStoreService.findByDescOrder( itemId,poId);
+        List<PoStore> poStore=poStoreService.findByDescOrder( itemId,poId);
         log.info("po Data {} =>",poStore);
         return new ResponseEntity<>(PageResponse.SuccessResponse(poStore),HttpStatus.OK);
     }

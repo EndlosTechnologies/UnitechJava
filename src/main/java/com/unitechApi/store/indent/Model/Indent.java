@@ -14,6 +14,7 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -51,19 +52,21 @@ public class Indent extends Audit<String> {
     @JoinColumn(foreignKey = @ForeignKey(name = "emp_id"),name = "emp_id",referencedColumnName = "user_profile_id")
     @JsonIgnoreProperties({"indentData","itemRequest","itemModelSet","issueItemsData"})
     private User employee;
-    @OneToMany(mappedBy = "indentqua",cascade = CascadeType.ALL)
-    @JsonIgnoreProperties({"storeItemModel","indents","usageItems","emp","itemRequest","issueItemsData","indentqua"})
-    private Set<IndentQuantity> Quantities;
+
 
     @OneToMany(mappedBy = "indentDAta",cascade = CascadeType.ALL)
     @JsonIgnoreProperties(value = {"indentDAta","itemPoSet"})
     private Set<PoStore> personalOrder;
-    public Set<IndentQuantity> getQuantities() {
-        return Quantities;
+    @OneToMany(mappedBy = "indentItemQuantity",cascade = CascadeType.ALL)
+    @JsonIgnoreProperties(value = {"indentItemQuantity"})
+    private List<IndentQuantity> indentQuantityList;
+
+    public List<IndentQuantity> getIndentQuantityList() {
+        return indentQuantityList;
     }
 
-    public void setQuantities(Set<IndentQuantity> quantities) {
-        Quantities = quantities;
+    public void setIndentQuantityList(List<IndentQuantity> indentQuantityList) {
+        this.indentQuantityList = indentQuantityList;
     }
 
     @ManyToOne(fetch = FetchType.LAZY)

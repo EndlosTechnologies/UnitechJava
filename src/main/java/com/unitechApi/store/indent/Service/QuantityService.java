@@ -27,36 +27,29 @@ public class QuantityService {
     }
 
     public IndentQuantity saveData(IndentQuantity indentQuantity) {
-        StoreItemModel storeItemModel = storeItemRepository.findById(indentQuantity.getStoreItemGetQuantity().getItemId()).get();
-        //((indent.getTotal() * itemModel.getPaytax())/100)+indent.getTotal()
-        float calculateTotal = indentQuantity.getEstimatedPrice() * indentQuantity.getQuantity();
-        indentQuantity.setTotal(calculateTotal);
-        float calculateInculdingTax = ((indentQuantity.getTotal() * storeItemModel.getPaytax()) / 100) + indentQuantity .getTotal();
-        indentQuantity.setInculdingTax(calculateInculdingTax);
-        log.info("tax -> {}, Quantity ->{}", storeItemModel.getPaytax(), indentQuantity.getQuantity());
-        log.info("without Tax-> {} , Including Tax->{}", calculateTotal, calculateInculdingTax);
         return quantityRepository.save(indentQuantity);
     }
 
     public List<?> saveAllData(List<IndentQuantity> indentQuantities) {
 
-        return quantityRepository
-                .saveAll(indentQuantities)
-                    .stream()
-                        .map((data) -> {
-                         StoreItemModel storeItemModel = storeItemRepository.findById(data.getStoreItemGetQuantity().getItemId()).get();
-                    //((indent.getTotal() * itemModel.getPaytax())/100)+indent.getTotal()
-                        float calculateTotal = data.getEstimatedPrice() * data.getQuantity();
-                        data.setWithoutTax(calculateTotal);
-                        float calculateInculdingTax = ((data.getTotal() * storeItemModel.getPaytax()) / 100) + data.getTotal();
-                        data.setInculdingTax(calculateInculdingTax);
-                        float taxCalculate= (data.getQuantity()*data.getEstimatedPrice()*storeItemModel.getPaytax())/100;
-                        data.setInculdingTax(taxCalculate);
-                        data.setTotal(calculateTotal+taxCalculate);
-                        log.info("tax -> {}, Quantity ->{}", storeItemModel.getPaytax(), data.getQuantity());
-                        log.info("without Tax-> {} , Including Tax->{}", calculateTotal, calculateInculdingTax);
-                        return quantityRepository.save(data);
-                    }).collect(Collectors.toList());
+        return null;
+                //quantityRepository
+//                .saveAll(indentQuantities)
+//                    .stream()
+//                        .map((data) -> {
+//                         StoreItemModel storeItemModel = storeItemRepository.findById(data.getStoreItemGetQuantity().getItemId()).get();
+//                    //((indent.getTotal() * itemModel.getPaytax())/100)+indent.getTotal()
+//                        float calculateTotal = data.getEstimatedPrice() * data.getQuantity();
+//                        data.setWithoutTax(calculateTotal);
+//                        float calculateInculdingTax = ((data.getTotal() * storeItemModel.getPaytax()) / 100) + data.getTotal();
+//                        data.setInculdingTax(calculateInculdingTax);
+//                        float taxCalculate= (data.getQuantity()*data.getEstimatedPrice()*storeItemModel.getPaytax())/100;
+//                        data.setInculdingTax(taxCalculate);
+//                        data.setTotal(calculateTotal+taxCalculate);
+//                        log.info("tax -> {}, Quantity ->{}", storeItemModel.getPaytax(), data.getQuantity());
+//                        log.info("without Tax-> {} , Including Tax->{}", calculateTotal, calculateInculdingTax);
+//                        return quantityRepository.save(data);
+//                    }).collect(Collectors.toList());
 
     }
 

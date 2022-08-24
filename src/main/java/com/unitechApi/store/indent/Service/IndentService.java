@@ -46,21 +46,17 @@ public class IndentService {
         float total = 0;
         float withoutTax = 0;
 
-        for (IndentQuantity i : indent.getQuantities()) {
-            StoreItemModel item =storeItemRepository.findById(i.getStoreItemGetQuantity().getItemId()).get();
-            indent.getQuantities().add(i);
+        for (IndentQuantity i : indent.getIndentQuantityList()) {
+            StoreItemModel item = storeItemRepository.findById(i.getStoreItemIndentQuantityData().getItemId()).get();
             dta += i.getEstimatedPrice() * i.getQuantity();
             tax = (i.getQuantity() * i.getEstimatedPrice() * item.getPaytax()) / 100;
-            log.info("item tax {}",i.getStoreItemGetQuantity().getPaytax());
-            log.info("tax {}",tax);
             withoutTax = i.getEstimatedPrice() * i.getQuantity();
-            total=withoutTax+tax;
+            total = withoutTax + tax;
             i.setWithoutTax(withoutTax);
             i.setInculdingTax(tax);
             i.setTotal(total);
-
             quantityRepository.save(i);
-            log.info("indent estimated Price {}", indent.getEstimatedPrice());
+            log.info("indent estimated Price {}  And tax ", indent.getEstimatedPrice(), i.getStoreItemIndentQuantityData().getPaytax());
             log.info("quantity {}", i.getQuantity());
         }
         indent.setTotal(dta);
@@ -91,8 +87,7 @@ public class IndentService {
 
 
     public Indent findByid(Long id) {
-        return indentRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFound("Sorry ! Indent Was Not Found"));
+        return indentRepository.findById(id).orElseThrow(() -> new ResourceNotFound("Sorry ! Indent Was Not Found"));
     }
 
     public Indent updateData(Long id, Map<Object, Object> request) {
@@ -110,9 +105,7 @@ public class IndentService {
 
 
     public Object changeStatus(long itemId, Indent dta) {
-        Indent itemRequest = indentRepository
-                .findById(itemId)
-                .orElseThrow(() -> new ItemNotFound("Sorry ! Item Was Not Found"));
+        Indent itemRequest = indentRepository.findById(itemId).orElseThrow(() -> new ItemNotFound("Sorry ! Item Was Not Found"));
 
         if (itemRequest.getIndentStatus().equals(IndentStatus.ADMIN)) {
             log.info("vendor id {}", dta.getVendorData().getId());
@@ -129,9 +122,7 @@ public class IndentService {
     }
 
     public List<Indent> findAll() {
-        return indentRepository.findAll()
-                .stream()
-                .sorted(Comparator.comparing(Indent::getIndentId).reversed()).collect(Collectors.toList());
+        return indentRepository.findAll().stream().sorted(Comparator.comparing(Indent::getIndentId).reversed()).collect(Collectors.toList());
     }
 
 
@@ -140,16 +131,10 @@ public class IndentService {
     }
 
     public List<Indent> findByStatus(IndentStatus indentStatus) {
-        return indentRepository.findByIndentStatus(indentStatus)
-                .stream()
-                .sorted(Comparator.comparing(Indent::getIndentId).reversed())
-                .collect(Collectors.toList());
+        return indentRepository.findByIndentStatus(indentStatus).stream().sorted(Comparator.comparing(Indent::getIndentId).reversed()).collect(Collectors.toList());
     }
 
     public List<Indent> findByListDateBetween(Date start, Date end) {
-        return indentRepository.ffindByDateBEtween(start, end)
-                .stream()
-                .sorted(Comparator.comparing(Indent::getIndentId))
-                .collect(Collectors.toList());
+        return indentRepository.ffindByDateBEtween(start, end).stream().sorted(Comparator.comparing(Indent::getIndentId)).collect(Collectors.toList());
     }
 }

@@ -13,10 +13,7 @@ import lombok.Getter;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 
 
 @Entity
@@ -63,17 +60,16 @@ public class StoreItemModel extends Audit<String> {
     @OneToMany(mappedBy = "storeItemModel",cascade = CascadeType.ALL)
     @JsonIgnoreProperties({"storeItemModel","indents","usageItems","emp","itemRequest","issueItemsData"})
     private Set<IssueItem> issueItem;
-    @OneToMany(mappedBy = "storeItemGetQuantity",cascade = CascadeType.ALL)
-    @JsonIgnoreProperties({"storeItemModel","indents","usageItems","emp","itemRequest","issueItemsData"
-            ,"storeItemGetQuantity"})
-    private Set<IndentQuantity> indentQuantities;
+    @OneToMany(mappedBy = "storeItemIndentQuantityData" ,cascade = CascadeType.ALL)
+    @JsonIgnoreProperties(value = "storeItemIndentQuantityData")
+    private List<IndentQuantity> storeIndentQuantity;
 
-    public Set<IndentQuantity> getIndentQuantities() {
-        return indentQuantities;
+    public List<IndentQuantity> getStoreIndentQuantity() {
+        return storeIndentQuantity;
     }
 
-    public void setIndentQuantities(Set<IndentQuantity> indentQuantities) {
-        this.indentQuantities = indentQuantities;
+    public void setStoreIndentQuantity(List<IndentQuantity> storeIndentQuantity) {
+        this.storeIndentQuantity = storeIndentQuantity;
     }
 
     @ManyToOne(fetch = FetchType.LAZY)
