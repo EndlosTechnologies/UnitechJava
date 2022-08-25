@@ -44,6 +44,7 @@ public class IndentService {
     public Indent saveData(Indent indent) {
 
         float dta = 0;
+        float dtatotal = 0;
         float tax = 0;
         float total = 0;
         float withoutTax = 0;
@@ -57,11 +58,13 @@ public class IndentService {
             i.setInculdingTax(tax);
             i.setTotal(total);
             dta+=withoutTax+tax;
+            dtatotal+=withoutTax;
             quantityRepository.save(i);
             log.info("indent estimated Price {}  And tax ", indent.getEstimatedPrice(), i.getStoreItemIndentQuantityData().getPaytax());
             log.info("quantity {}", i.getQuantity());
         }
-        indent.setTotal(dta);
+        indent.setTotal(dtatotal);
+        indent.setIncludingTax(dta);
 
         /// indent.setTotal(indent.getEstimatedPrice() * data.getQuantity());
 
