@@ -8,6 +8,7 @@ import com.unitechApi.store.vendor.model.VendorModel;
 import com.unitechApi.store.issue.model.IssueItem;
 import com.unitechApi.store.storeMangment.Model.StoreItemModel;
 import com.unitechApi.user.model.User;
+import org.springframework.data.annotation.Immutable;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
@@ -20,6 +21,7 @@ import java.util.Set;
 @Entity
 @Table(name = "indent",schema = "store_management")
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+@Immutable
 public class Indent extends Audit<String> {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

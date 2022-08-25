@@ -1,6 +1,7 @@
 package com.unitechApi.store.productCategory.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.unitechApi.AuditingAndResponse.Audit;
 import com.unitechApi.store.storeMangment.Model.StoreItemModel;
 import org.apache.poi.ss.usermodel.CellType;
 
@@ -14,7 +15,7 @@ import java.util.Set;
 @Entity
 @Table(name = "product_category",schema = "store_management")
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-public class ProductCategory {
+public class ProductCategory extends Audit<String> {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long pid;

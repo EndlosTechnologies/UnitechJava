@@ -1,5 +1,6 @@
 package com.unitechApi.store.indent.Service;
 
+import com.unitechApi.Payload.response.Pagination;
 import com.unitechApi.exception.ExceptionService.ItemNotFound;
 import com.unitechApi.exception.ExceptionService.ResourceNotFound;
 import com.unitechApi.store.indent.Model.Indent;
@@ -13,6 +14,7 @@ import com.unitechApi.store.vendor.Service.VendorService;
 import com.unitechApi.store.vendor.model.VendorModel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ReflectionUtils;
 
@@ -136,5 +138,9 @@ public class IndentService {
 
     public List<Indent> findByListDateBetween(Date start, Date end) {
         return indentRepository.ffindByDateBEtween(start, end).stream().sorted(Comparator.comparing(Indent::getIndentId)).collect(Collectors.toList());
+    }
+    public Page<Indent> getAllByPagination(Pagination pagination)
+    {
+        return indentRepository.findAll(pagination.getpageble());
     }
 }

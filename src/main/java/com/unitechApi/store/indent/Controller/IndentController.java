@@ -2,12 +2,14 @@ package com.unitechApi.store.indent.Controller;
 
 import com.unitechApi.Payload.response.MessageResponse;
 import com.unitechApi.Payload.response.PageResponse;
+import com.unitechApi.Payload.response.Pagination;
 import com.unitechApi.store.indent.Model.Indent;
 import com.unitechApi.store.indent.Model.IndentQuantity;
 import com.unitechApi.store.indent.Model.IndentStatus;
 import com.unitechApi.store.indent.Repository.IndentRepository;
 import com.unitechApi.store.indent.Repository.QuantityRepository;
 import com.unitechApi.store.indent.Service.IndentService;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -90,6 +92,14 @@ public class IndentController {
     {
         List<Indent> data=indentService.findByListDateBetween(start,end);
         return new ResponseEntity<>(PageResponse.SuccessResponse(data),HttpStatus.OK);
+    }
+    @GetMapping(value = "/page/")
+    public ResponseEntity<?> getAllByPagination(@RequestParam(required = false) Integer page, @RequestParam(required = false) Integer pagesize
+    )
+    {
+        Pagination pagination=new Pagination(page,pagesize);
+        Page<Indent> getPage=indentService.getAllByPagination(pagination);
+        return new ResponseEntity<>(PageResponse.pagebleResponse(getPage,pagination),HttpStatus.OK);
     }
 
 }
