@@ -21,6 +21,12 @@ public class Pagination {
         this.page = page;
         this.pageSize = pageSize;
     }
+    public Pagination(int page, int pageSize,Sort sort) {
+        super();
+        this.page = page;
+        this.pageSize = pageSize;
+        this.sort=sort;
+    }
 
 
     public int getPage() {

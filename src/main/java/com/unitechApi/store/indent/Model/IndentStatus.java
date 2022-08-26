@@ -1,5 +1,12 @@
 package com.unitechApi.store.indent.Model;
 
 public enum IndentStatus {
-    REJECT, CANCEL, GM, ADMIN, ACCOUNT, DONE,STORE
+    REJECT,
+    CANCEL,
+    GM,
+    ADMIN,
+    ADMIN_LAST,
+    ACCOUNT,
+    DONE,
+    STORE,
 }

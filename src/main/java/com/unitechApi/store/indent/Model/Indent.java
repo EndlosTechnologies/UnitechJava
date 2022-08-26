@@ -8,6 +8,8 @@ import com.unitechApi.store.vendor.model.VendorModel;
 import com.unitechApi.store.issue.model.IssueItem;
 import com.unitechApi.store.storeMangment.Model.StoreItemModel;
 import com.unitechApi.user.model.User;
+import org.apache.commons.lang3.RandomStringUtils;
+import org.apache.commons.lang3.RandomUtils;
 import org.springframework.data.annotation.Immutable;
 
 import javax.persistence.*;
@@ -31,13 +33,22 @@ public class Indent extends Audit<String> {
     private float estimatedPrice;
     private float total;
     private Long responseId;
+    private String indentNumber= RandomStringUtils.randomNumeric(8).toString();
+
+    public String getIndentNumber() {
+        return indentNumber;
+    }
+
+    public void setIndentNumber(String indentNumber) {
+        this.indentNumber = indentNumber;
+    }
 
     @Enumerated(EnumType.STRING)
     private IndentStatus indentStatus;
     private Long doid;
     private float includingTax;
     private Date created;
-
+    private String comment;
     public Date getCreated() {
         return created;
     }
@@ -99,6 +110,15 @@ public class Indent extends Audit<String> {
 //    public void setStoreItemList(Set<StoreItemModel> storeItemList) {
 //        this.storeItemList = storeItemList;
 //    }
+
+
+    public String getComment() {
+        return comment;
+    }
+
+    public void setComment(String comment) {
+        this.comment = comment;
+    }
 
     public VendorModel getVendorData() {
         return vendorData;
