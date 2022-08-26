@@ -9,6 +9,6 @@ import java.util.List;
 public interface IndentEventRepository extends JpaRepository<IndentCreateHistory,Long> {
     @Query("SELECT i from IndentCreateHistory  i where i.indentId=:indentId ORDER BY i.indent_history_id DESC ")
      List<IndentCreateHistory> findByIndentId(Long indentId);
-    @Query("SELECT  i from  IndentCreateHistory  i where  i.indentNumber=:indentNumber order by i.indent_history_id ASC")
+    @Query("SELECT  i from  IndentCreateHistory  i where  i.indentNumber=:indentNumber order by i.indent_history_id DESC")
     List<?> findByIndentNumber(String indentNumber);
 }

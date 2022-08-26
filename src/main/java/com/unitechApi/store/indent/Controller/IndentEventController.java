@@ -25,4 +25,11 @@ public class IndentEventController {
         List<?> data=indentEventHistory.getAllIndentId(indentId);
         return new ResponseEntity<>(PageResponse.SuccessResponse(data), HttpStatus.OK);
     }
+    @GetMapping(value = "/getAll/{indentNumber}")
+    public ResponseEntity<?> getAllByIndentNumber(@PathVariable String indentNumber)
+    {
+        List<?> data=indentEventHistory.getByIndentNumber(indentNumber);
+        return new ResponseEntity<>(PageResponse.SuccessResponse(data),HttpStatus.OK);
+    }
+
 }
