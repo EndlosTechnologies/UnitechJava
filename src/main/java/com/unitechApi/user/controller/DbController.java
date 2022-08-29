@@ -42,7 +42,7 @@ public class DbController {
                 "--no-password",
                 "--format=custom",
                 "--blobs",
-                "--verbose", "--file=/home/endlos/Unitech/unitech.sql", "unitech");
+                "--verbose", "--file=/home/endlos/Unitech/unitech.sql", "unitechdev");
         try {
             final Map<String, String> env = pb.environment();
             env.put("PGPASSWORD", "postgres");
@@ -73,7 +73,7 @@ public class DbController {
 
         pb = new ProcessBuilder("/usr/bin/pg_dump",
                 "--host=localhost",
-                "--dbname=unitech",
+                "--dbname=unitechdev",
                 "--inserts", "--data-only",
                 "--port=5432", "--username=postgres",
                 "--table=machinereading.cardings*",

@@ -19,7 +19,6 @@ public class IndentEventHistory {
     {
         return indentEventRepository.findByIndentId(indentId)
                 .stream()
-                .limit(1)
                 .sorted(Comparator.comparing(IndentCreateHistory::getIndentId).reversed())
                 .collect(Collectors.toList());
     }
