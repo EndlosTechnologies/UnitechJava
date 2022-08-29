@@ -7,7 +7,9 @@ import com.unitechApi.store.indent.Service.PriceService;
 import com.unitechApi.store.vendor.Repository.VendorRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class PriceServiceImpl implements PriceService {
@@ -34,8 +36,11 @@ public class PriceServiceImpl implements PriceService {
      * @return
      */
     @Override
-    public List<?> findByIndentId(Long indentId) {
-        return priceModelRepository.findByIndentId(indentId);
+    public List<VendorWisePriceModel> findByIndentId(Long indentId) {
+        return priceModelRepository.findByIndentId(indentId)
+                .stream()
+                .sorted(Comparator.comparing(o -> o.getItemModelPrice().getItemId() ))
+                .collect(Collectors.toList());
     }
 
     /**

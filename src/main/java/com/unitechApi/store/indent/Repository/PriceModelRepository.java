@@ -8,5 +8,5 @@ import java.util.List;
 
 public interface PriceModelRepository extends JpaRepository<VendorWisePriceModel,Long> {
     @Query("select p from VendorWisePriceModel p where p.indentPrice.indentId=:indentId")
-    List<?> findByIndentId(Long indentId);
+    List<VendorWisePriceModel> findByIndentId(Long indentId);
 }

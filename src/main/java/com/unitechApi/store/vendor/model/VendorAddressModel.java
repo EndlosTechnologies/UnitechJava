@@ -1,6 +1,7 @@
 package com.unitechApi.store.vendor.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.unitechApi.store.vendor.vendorEnum.VendorAddressType;
 import lombok.Getter;
 import lombok.Setter;
 

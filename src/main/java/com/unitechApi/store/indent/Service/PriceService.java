@@ -6,6 +6,6 @@ import java.util.List;
 
 public interface PriceService {
     VendorWisePriceModel findById(Long id);
-    List<?> findByIndentId(Long indentId);
+    List<VendorWisePriceModel> findByIndentId(Long indentId);
     VendorWisePriceModel saveData(VendorWisePriceModel vendorWisePriceModel);
 }

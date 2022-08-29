@@ -64,7 +64,7 @@ public class VendorExcelService {
             int countRow = 1;
             createCell(row,countRow++,serialNumber++,style);
             createCell(row, countRow++, vendorModel.getVendorName(), style);
-            createCell(row, countRow++, vendorModel.getVendorcode(), style);
+            createCell(row, countRow++, vendorModel.getSupplierscode(), style);
             createCell(row, countRow++, vendorModel.getGstno(), style);
             createCell(row, countRow++, vendorModel.getPanno(), style);
             createCell(row, countRow++, vendorModel.getPaymentTermsConditions(), style);

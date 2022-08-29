@@ -4,11 +4,18 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.unitechApi.store.indent.Model.Indent;
 import com.unitechApi.store.indent.Model.VendorWisePriceModel;
 import com.unitechApi.store.storeMangment.Model.StoreItemModel;
+import com.unitechApi.store.vendor.vendorEnum.GstStatus;
+import com.unitechApi.store.vendor.vendorEnum.MsmeType;
+import com.unitechApi.store.vendor.vendorEnum.PaymentCondition;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
@@ -16,6 +23,8 @@ import java.util.Set;
 @Entity
 @Table(name = "vendor_details", schema = "store_management")
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+@Getter
+@Setter
 public class VendorModel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "id")
@@ -24,15 +33,14 @@ public class VendorModel {
     @Column(name = "vendor_name", nullable = false)
     private String vendorName;
 
-    @Column(name = "vendor_code",nullable = false)
-    private String vendorcode;
+
     @Column(name = "gstno",nullable = false)
     @Pattern(regexp = "^[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z]{1}[1-9A-Z]{1}Z[0-9A-Z]{1}$", message = "Please Enter valid Gst Number")
     private String gstno;
+
     /*
      * Sample of Gst Number  gst Number 06BZAHM6385P6Z2
      * */
-
     @Column(name = "panno",nullable = false)
     @Pattern(regexp = "[A-Z]{5}[0-9]{4}[A-Z]{1}", message = "please Enter your Valid Pan Number Details")
     private String panno;
@@ -43,15 +51,36 @@ public class VendorModel {
     @Enumerated(EnumType.ORDINAL)
     private PaymentCondition paymentTermsConditions;
     private Integer paymentDays;
-
-    public Integer getPaymentDays() {
-        return paymentDays;
-    }
-
-    public void setPaymentDays(Integer paymentDays) {
-        this.paymentDays = paymentDays;
-    }
-
+    @Enumerated(EnumType.STRING)
+    private GstStatus gstStatus;
+    @Enumerated(EnumType.STRING)
+    private MsmeType msmeType;
+    private String factory;
+    private LocalDate msgmeRegisterDate;
+    private LocalDate gstForm;
+    private LocalDate gstTo;
+    private float centralgst;
+    private float stategst;
+    private float integratedgst;
+    private String sezNumber;
+    private String refrencesBy;
+    private String bankName;
+    private String branchName;
+    private String bankCityName;
+    private Long bankAccountNumber;
+    private String ifscCode;
+    private String micrCode;
+    private String cancelChequeNumber;
+    @Column(name = "suppliers_code",nullable = false)
+    private String supplierscode;
+    private String accountGroupHead;
+    private String natureOfBussiness;
+    private String officePhoneNumber;
+    private String ResidentPhoneNumber;
+    private String vendorEmail;
+    private String webSite;
+    private String faxNumber;
+    private LocalDate dateOfIncorporation;
     @Temporal(TemporalType.TIMESTAMP)
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
     private Date createdAt;
@@ -61,125 +90,21 @@ public class VendorModel {
             joinColumns = @JoinColumn(name = "vendor_id"), inverseJoinColumns = @JoinColumn(name = "item_id"))
     @JsonIgnoreProperties({"contractModels", "itemRequest", "issueItem", "vendorDate", "unit", "productCategory", "employe", "dataVendorAndIndent"})
     private Set<StoreItemModel> itemData = new HashSet<>();
-
-    public Set<Indent> getIndentList() {
-        return indentList;
-    }
-
-    public void setIndentList(Set<Indent> indentList) {
-        this.indentList = indentList;
-    }
-
     @OneToMany(mappedBy = "vendorData", cascade = CascadeType.ALL)
     @JsonIgnoreProperties("vendorData")
     private Set<Indent> indentList;
     @OneToMany(mappedBy = "vendorModelData",cascade = CascadeType.ALL)
     @JsonIgnoreProperties(value = {"vendorModelData"})
     private Set<VendorWisePriceModel> vendorWisePriceDAta;
-
     @OneToMany(mappedBy = "vendorData",cascade = CascadeType.ALL)
     @JsonIgnoreProperties(value = {"vendorData"})
     private Set<VendorAddressModel> vendorAddressModels;
-
-    public Set<VendorAddressModel> getVendorAddressModels() {
-        return vendorAddressModels;
-    }
-
-    public void setVendorAddressModels(Set<VendorAddressModel> vendorAddressModels) {
-        this.vendorAddressModels = vendorAddressModels;
-    }
-
-    public Set<VendorWisePriceModel> getVendorWisePriceDAta() {
-        return vendorWisePriceDAta;
-    }
-
-    public void setVendorWisePriceDAta(Set<VendorWisePriceModel> vendorWisePriceDAta) {
-        this.vendorWisePriceDAta = vendorWisePriceDAta;
-    }
-
-    public Set<StoreItemModel> getItemData() {
-        return itemData;
-    }
-
-    public void setItemData(Set<StoreItemModel> itemData) {
-        this.itemData = itemData;
-    }
-
-
 
 
     @PrePersist
     private void CreatedAt() {
         createdAt = new Date();
     }
-
-    public Date getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(Date createdAt) {
-        this.createdAt = createdAt;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getVendorName() {
-        return vendorName;
-    }
-
-    public void setVendorName(String vendorName) {
-        this.vendorName = vendorName;
-    }
-
-
-
-    public String getVendorcode() {
-        return vendorcode;
-    }
-
-    public void setVendorcode(String vendorcode) {
-        this.vendorcode = vendorcode;
-    }
-
-
-
-    public String getGstno() {
-        return gstno;
-    }
-
-    public void setGstno(String gstno) {
-        this.gstno = gstno;
-    }
-
-    public String getPanno() {
-        return panno;
-    }
-
-    public void setPanno(String panno) {
-        this.panno = panno.toUpperCase();
-    }
-
-
-
-    public PaymentCondition getPaymentTermsConditions() {
-        return paymentTermsConditions;
-    }
-
-    public void setPaymentTermsConditions(PaymentCondition paymentTermsConditions) {
-        this.paymentTermsConditions = paymentTermsConditions;
-    }
-
-
-
-
-
-
 
     public void deleteItem(StoreItemModel vendorModel) {
         itemData.remove(vendorModel);
@@ -190,14 +115,41 @@ public class VendorModel {
         return "VendorModel{" +
                 "id=" + id +
                 ", vendorName='" + vendorName + '\'' +
-                ", vendorcode='" + vendorcode + '\'' +
                 ", gstno='" + gstno + '\'' +
                 ", panno='" + panno + '\'' +
                 ", paymentTermsConditions=" + paymentTermsConditions +
                 ", paymentDays=" + paymentDays +
+                ", gstStatus=" + gstStatus +
+                ", msmeType=" + msmeType +
+                ", factory='" + factory + '\'' +
+                ", msgmeRegisterDate=" + msgmeRegisterDate +
+                ", gstForm=" + gstForm +
+                ", gstTo=" + gstTo +
+                ", cgst=" + integratedgst +
+                ", sgst=" + stategst +
+                ", igst=" + centralgst +
+                ", sezNumber='" + sezNumber + '\'' +
+                ", refrencesBy='" + refrencesBy + '\'' +
+                ", bankName='" + bankName + '\'' +
+                ", branchName='" + branchName + '\'' +
+                ", bankCityName='" + bankCityName + '\'' +
+                ", bankAccountNumber=" + bankAccountNumber +
+                ", ifscCode='" + ifscCode + '\'' +
+                ", micrCode='" + micrCode + '\'' +
+                ", cancelChequeNumber='" + cancelChequeNumber + '\'' +
+                ", supplierCode='" + supplierscode + '\'' +
+                ", accountGroupHead='" + accountGroupHead + '\'' +
+                ", natureOfBussiness='" + natureOfBussiness + '\'' +
+                ", officePhoneNumber='" + officePhoneNumber + '\'' +
+                ", ResidentPhoneNumber='" + ResidentPhoneNumber + '\'' +
+                ", vendorEmail='" + vendorEmail + '\'' +
+                ", webSite='" + webSite + '\'' +
+                ", faxNumber='" + faxNumber + '\'' +
                 ", createdAt=" + createdAt +
                 ", itemData=" + itemData +
                 ", indentList=" + indentList +
+                ", vendorWisePriceDAta=" + vendorWisePriceDAta +
+                ", vendorAddressModels=" + vendorAddressModels + "dateOfIncorporation  =" +dateOfIncorporation +
                 '}';
     }
 }
