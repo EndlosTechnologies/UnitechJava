@@ -109,7 +109,20 @@ public class IndentService {
 
         Indent itemRequest = indentRepository.findById(itemId).orElseThrow(() -> new ItemNotFound("Sorry ! Item Was Not Found"));
         User user = userRepository.getById(dta.getEmployee().getId());
-//        if (itemRequest.getIndentStatus().equals(IndentStatus.ADMIN)) {
+        if (itemRequest.getIndentStatus() == IndentStatus.GM && dta.getIndentStatus() == IndentStatus.ADMIN) {
+            itemRequest.setIndentStatus(IndentStatus.ADMIN);
+        } else if (itemRequest.getIndentStatus() == IndentStatus.ADMIN && dta.getIndentStatus() == IndentStatus.STORE) {
+            itemRequest.setIndentStatus(IndentStatus.STORE);
+        } else if (itemRequest.getIndentStatus() == IndentStatus.STORE && dta.getIndentStatus() == IndentStatus.ADMIN_LAST) {
+            for (VendorWisePriceModel v : dta.getVendorWisePriceSet()) {
+                v.setIndentPrice(itemRequest);
+                priceModelRepository.save(v);
+            }
+            itemRequest.setIndentStatus(IndentStatus.ADMIN_LAST);
+        }
+        //else if (itemRequest.getIndentStatus()==IndentStatus.ADMIN_LAST && dta.getIndentStatus()== )
+
+        //        if (itemRequest.getIndentStatus().equals(IndentStatus.ADMIN)) {
 //            log.info("vendor id {}", dta.getVendorData().getId());
 //            VendorModel vendorModel = vendorService.FindById(dta.getVendorData().getId());
 //            vendorModel.getIndentList().add(itemRequest);
@@ -117,14 +130,13 @@ public class IndentService {
 //            itemRequest.setVendorData(vendorModel);
 //            log.info(" vendor details {} ", vendorModel);
 //        }
-        if (dta.getIndentStatus()==IndentStatus.ADMIN) {
-            for (VendorWisePriceModel v : dta.getVendorWisePriceSet()) {
-
-                v.setIndentPrice(itemRequest);
-                priceModelRepository.save(v);
-            }
-        }
-        itemRequest.setIndentStatus(dta.getIndentStatus());
+//        if (dta.getIndentStatus() == IndentStatus.STORE) {
+//            for (VendorWisePriceModel v : dta.getVendorWisePriceSet()) {
+//                v.setIndentPrice(itemRequest);
+//                priceModelRepository.save(v);
+//            }
+//        }
+        //itemRequest.setIndentStatus(dta.getIndentStatus());
         log.info("item Request {}", itemRequest);
         indentRepository.save(itemRequest);
         indentEventRepository.save(new IndentCreateHistory(itemRequest.getIndentNumber(), itemRequest.getIndentId(), itemRequest.getIndentStatus(), user.getId(), user.getUsername(), dta.getComment()));
@@ -174,7 +186,6 @@ public class IndentService {
     }
 
 
-
     public Object changeRequestStatus(long itemId, Indent dta) {
 
 
@@ -182,7 +193,7 @@ public class IndentService {
         User user = userRepository.getById(dta.getEmployee().getId());
         if (itemRequest.Approoved())
 
-        indentRepository.save(itemRequest);
+            indentRepository.save(itemRequest);
         indentEventRepository.save(new IndentCreateHistory(itemRequest.getIndentNumber(), itemRequest.getIndentId(), itemRequest.getIndentStatus(), user.getId(), user.getUsername(), dta.getComment()));
         return itemRequest;
     }
