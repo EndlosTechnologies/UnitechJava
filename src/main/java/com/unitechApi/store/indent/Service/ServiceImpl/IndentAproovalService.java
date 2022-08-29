@@ -17,6 +17,8 @@ public class IndentAproovalService implements IndentServiceInterface{
      */
     @Override
     public boolean AdminApprove(Indent indentStatus) {
+        Indent data=new Indent();
+        data.setIndentStatus(indentStatus.getIndentStatus());
         //indentStatus.
         return false;
     }
