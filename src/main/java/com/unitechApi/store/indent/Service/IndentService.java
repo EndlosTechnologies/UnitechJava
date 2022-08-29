@@ -5,17 +5,16 @@ import com.unitechApi.common.query.SearchRequest;
 import com.unitechApi.common.query.SearchSpecification;
 import com.unitechApi.exception.ExceptionService.ItemNotFound;
 import com.unitechApi.exception.ExceptionService.ResourceNotFound;
-import com.unitechApi.store.indent.Model.Indent;
-import com.unitechApi.store.indent.Model.IndentCreateHistory;
-import com.unitechApi.store.indent.Model.IndentQuantity;
-import com.unitechApi.store.indent.Model.IndentStatus;
+import com.unitechApi.store.indent.Model.*;
 import com.unitechApi.store.indent.Repository.IndentEventRepository;
 import com.unitechApi.store.indent.Repository.IndentRepository;
+import com.unitechApi.store.indent.Repository.PriceModelRepository;
 import com.unitechApi.store.indent.Repository.QuantityRepository;
 import com.unitechApi.store.storeMangment.Model.StoreItemModel;
 import com.unitechApi.store.storeMangment.repository.StoreItemRepository;
 import com.unitechApi.store.vendor.Service.VendorService;
-import com.unitechApi.store.vendor.model.VendorModel;
+import com.unitechApi.user.Repository.UserRepository;
+import com.unitechApi.user.model.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
@@ -37,14 +36,19 @@ public class IndentService {
     private final IndentEventRepository indentEventRepository;
     private final VendorService vendorService;
     private final QuantityRepository quantityRepository;
+    private final UserRepository userRepository;
+    private final PriceModelRepository priceModelRepository;
     private static final Logger log = LoggerFactory.getLogger(IndentService.class);
 
-    public IndentService(IndentRepository indentRepository, StoreItemRepository storeItemRepository, IndentEventRepository indentEventRepository, VendorService vendorService, QuantityRepository quantityRepository) {
+    public IndentService(IndentRepository indentRepository, StoreItemRepository storeItemRepository, IndentEventRepository indentEventRepository, VendorService vendorService, QuantityRepository quantityRepository, UserRepository userRepository, PriceModelRepository priceModelRepository) {
         this.indentRepository = indentRepository;
         this.storeItemRepository = storeItemRepository;
         this.indentEventRepository = indentEventRepository;
         this.vendorService = vendorService;
         this.quantityRepository = quantityRepository;
+        this.userRepository = userRepository;
+
+        this.priceModelRepository = priceModelRepository;
     }
 
 
@@ -55,7 +59,6 @@ public class IndentService {
         float tax = 0;
         float total = 0;
         float withoutTax = 0;
-
         for (IndentQuantity i : indent.getIndentQuantityList()) {
             StoreItemModel item = storeItemRepository.findById(i.getStoreItemIndentQuantityData().getItemId()).get();
             tax = (i.getQuantity() * i.getEstimatedPrice() * item.getPaytax()) / 100;
@@ -66,14 +69,18 @@ public class IndentService {
             i.setTotal(total);
             dta += withoutTax + tax;
             dtatotal += withoutTax;
+            //indent.getIndentQuantityList().add(i);
             quantityRepository.save(i);
             log.info("indent estimated Price {}  And tax ", indent.getEstimatedPrice(), i.getStoreItemIndentQuantityData().getPaytax());
             log.info("quantity {}", i.getQuantity());
         }
+        for (IndentQuantity i : indent.getIndentQuantityList()) {
+            i.setIndentItemQuantity(indent);
+        }
         indent.setTotal(dtatotal);
         indent.setIncludingTax(dta);
         indentRepository.save(indent);
-        indentEventRepository.save(new IndentCreateHistory(indent.getIndentNumber(),indent.getIndentId(), IndentStatus.GM, indent.getEmployee().getId(), indent.getEmployee().getUsername(), indent.getComment()));
+        indentEventRepository.save(new IndentCreateHistory(indent.getIndentNumber(), indent.getIndentId(), IndentStatus.GM, indent.getEmployee().getId(), indent.getEmployee().getUsername(), indent.getComment()));
 
         return indent;
     }
@@ -98,26 +105,37 @@ public class IndentService {
 
 
     public Object changeStatus(long itemId, Indent dta) {
+
+
         Indent itemRequest = indentRepository.findById(itemId).orElseThrow(() -> new ItemNotFound("Sorry ! Item Was Not Found"));
+        User user = userRepository.getById(dta.getEmployee().getId());
+//        if (itemRequest.getIndentStatus().equals(IndentStatus.ADMIN)) {
+//            log.info("vendor id {}", dta.getVendorData().getId());
+//            VendorModel vendorModel = vendorService.FindById(dta.getVendorData().getId());
+//            vendorModel.getIndentList().add(itemRequest);
+//            log.info(" vendor first details {} ", vendorModel);
+//            itemRequest.setVendorData(vendorModel);
+//            log.info(" vendor details {} ", vendorModel);
+//        }
+        if (dta.getIndentStatus()==IndentStatus.ADMIN) {
+            for (VendorWisePriceModel v : dta.getVendorWisePriceSet()) {
 
-        if (itemRequest.getIndentStatus().equals(IndentStatus.ADMIN)) {
-            log.info("vendor id {}", dta.getVendorData().getId());
-            VendorModel vendorModel = vendorService.FindById(dta.getVendorData().getId());
-            vendorModel.getIndentList().add(itemRequest);
-            log.info(" vendor first details {} ", vendorModel);
-            itemRequest.setVendorData(vendorModel);
-            log.info(" vendor details {} ", vendorModel);
-
+                v.setIndentPrice(itemRequest);
+                priceModelRepository.save(v);
+            }
         }
         itemRequest.setIndentStatus(dta.getIndentStatus());
         log.info("item Request {}", itemRequest);
         indentRepository.save(itemRequest);
-        indentEventRepository.save(new IndentCreateHistory(itemRequest.getIndentNumber(),itemRequest.getIndentId(), itemRequest.getIndentStatus(), itemRequest.getEmployee().getId(), itemRequest.getEmployee().getUsername(), dta.getComment()));
+        indentEventRepository.save(new IndentCreateHistory(itemRequest.getIndentNumber(), itemRequest.getIndentId(), itemRequest.getIndentStatus(), user.getId(), user.getUsername(), dta.getComment()));
         return itemRequest;
     }
 
     public List<Indent> findAll() {
-        return indentRepository.findAll().stream().sorted(Comparator.comparing(Indent::getIndentId).reversed()).collect(Collectors.toList());
+        return indentRepository.findAll()
+                .stream()
+                .sorted(Comparator.comparing(Indent::getIndentId).reversed())
+                .collect(Collectors.toList());
     }
 
 
@@ -130,9 +148,8 @@ public class IndentService {
     }
 
 
-
     public Page<List<Indent>> findByListDateBetweenWithIndentNumber(Date start, Date end, Pagination pagination, String indentNumber) {
-        if (indentNumber==null) {
+        if (indentNumber == null) {
             return indentRepository.ffindByDateBEtween(start, end, pagination.getpageble());
         }
         return indentRepository.ffindByDateBEtweenWithindentNumber(start, end, pagination.getpageble(), indentNumber);
@@ -155,6 +172,21 @@ public class IndentService {
         Pageable pageable = SearchSpecification.getPageable(request.getPage(), request.getSize());
         return indentRepository.findAll(specification, pageable);
     }
+
+
+
+    public Object changeRequestStatus(long itemId, Indent dta) {
+
+
+        Indent itemRequest = indentRepository.findById(itemId).orElseThrow(() -> new ItemNotFound("Sorry ! Item Was Not Found"));
+        User user = userRepository.getById(dta.getEmployee().getId());
+        if (itemRequest.Approoved())
+
+        indentRepository.save(itemRequest);
+        indentEventRepository.save(new IndentCreateHistory(itemRequest.getIndentNumber(), itemRequest.getIndentId(), itemRequest.getIndentStatus(), user.getId(), user.getUsername(), dta.getComment()));
+        return itemRequest;
+    }
+
 
     //        indent.getStoreItemList()
 //                .addAll(

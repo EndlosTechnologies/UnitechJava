@@ -2,18 +2,17 @@ package com.unitechApi.store.indent.Model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.unitechApi.AuditingAndResponse.Audit;
-import com.unitechApi.purchase.RawMaterial.Po.Model.PoModel;
 import com.unitechApi.store.po.Model.PoStore;
 import com.unitechApi.store.vendor.model.VendorModel;
 import com.unitechApi.store.issue.model.IssueItem;
 import com.unitechApi.store.storeMangment.Model.StoreItemModel;
 import com.unitechApi.user.model.User;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 import org.apache.commons.lang3.RandomStringUtils;
-import org.apache.commons.lang3.RandomUtils;
-import org.springframework.data.annotation.Immutable;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.util.Date;
 import java.util.HashSet;
@@ -23,7 +22,9 @@ import java.util.Set;
 @Entity
 @Table(name = "indent",schema = "store_management")
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-@Immutable
+@Getter
+@Setter
+@ToString
 public class Indent extends Audit<String> {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -49,6 +50,8 @@ public class Indent extends Audit<String> {
     private float includingTax;
     private Date created;
     private String comment;
+    @Transient
+    private state state;
     public Date getCreated() {
         return created;
     }
@@ -63,9 +66,12 @@ public class Indent extends Audit<String> {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(foreignKey = @ForeignKey(name = "emp_id"),name = "emp_id",referencedColumnName = "user_profile_id")
-    @JsonIgnoreProperties({"indentData","itemRequest","itemModelSet","issueItemsData"})
+    @JsonIgnoreProperties({"indentData","itemRequest","itemModelSet","issueItemsData","userQualificationData","passwordEntity"
+                               ,"hrModel","familyDetails","userExperienceData" })
     private User employee;
-
+    @OneToMany(mappedBy = "indentPrice",cascade = CascadeType.ALL)
+    @JsonIgnoreProperties(value = {})
+    private Set<VendorWisePriceModel> vendorWisePriceSet;
 
     @OneToMany(mappedBy = "indentDAta",cascade = CascadeType.ALL)
     @JsonIgnoreProperties(value = {"indentDAta","itemPoSet"})
@@ -73,172 +79,41 @@ public class Indent extends Audit<String> {
     @OneToMany(mappedBy = "indentItemQuantity",cascade = CascadeType.ALL)
     @JsonIgnoreProperties(value = {"indentItemQuantity"})
     private List<IndentQuantity> indentQuantityList;
-
-    public List<IndentQuantity> getIndentQuantityList() {
-        return indentQuantityList;
-    }
-
-    public void setIndentQuantityList(List<IndentQuantity> indentQuantityList) {
-        this.indentQuantityList = indentQuantityList;
-    }
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(foreignKey = @ForeignKey(name = "issue_id"),name = "issue_id",referencedColumnName = "issueId")
     @JsonIgnoreProperties({"indents","itemRequest","storeItemModel","usageItems","emp"})
-    private IssueItem issue;
-//    @ManyToMany(fetch = FetchType.LAZY)
-//    @JoinTable(schema = "store_management",name = "item_Add_In_indent",
-//            joinColumns = @JoinColumn(name = "indent_id"), inverseJoinColumns = @JoinColumn(name = "item_id") )
-//    @JsonIgnoreProperties(value = {"indentQuantities","vendorDate"})
-//    private Set<StoreItemModel> storeItemList=new HashSet<>();
-    @ManyToMany(fetch = FetchType.LAZY)
+    private IssueItem issue;@ManyToMany(fetch = FetchType.LAZY)
+
     @JoinTable(schema = "store_management",name = "indent_vendor_detailsID",
             joinColumns = @JoinColumn(name = "indent_id"), inverseJoinColumns = @JoinColumn(name = "vendor_id"))
     @JsonIgnoreProperties({"contractModels","itemData","indentList"})
     private Set<VendorModel> dataVendorAndIndent=new HashSet<>();
-
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(foreignKey = @ForeignKey(name = "ven_id"),name = "ven_id", referencedColumnName = "vendor_id")
     @JsonIgnoreProperties({"indentList","contractModels"})
     private VendorModel vendorData;
 
-//    public Set<StoreItemModel> getStoreItemList() {
-//        return storeItemList;
-//    }
-//
-//    public void setStoreItemList(Set<StoreItemModel> storeItemList) {
-//        this.storeItemList = storeItemList;
-//    }
-
-
-    public String getComment() {
-        return comment;
-    }
-
-    public void setComment(String comment) {
-        this.comment = comment;
-    }
-
-    public VendorModel getVendorData() {
-        return vendorData;
-    }
-
-    public void setVendorData(VendorModel vendorData) {
-        this.vendorData = vendorData;
-    }
-
-    public void setEstimatedPrice(float estimatedPrice) {
-        this.estimatedPrice = estimatedPrice;
-    }
-
-    public void setTotal(float total) {
-        this.total = total;
-    }
-
-    public Set<VendorModel> getDataVendorAndIndent() {
-        return dataVendorAndIndent;
-    }
-
-    public void setDataVendorAndIndent(Set<VendorModel> dataVendorAndIndent) {
-        this.dataVendorAndIndent = dataVendorAndIndent;
-    }
-
-    public Float getEstimatedPrice() {
-        return estimatedPrice;
-    }
-
-    public void setEstimatedPrice(Long estimatedPrice) {
-        this.estimatedPrice = estimatedPrice;
-    }
-
-    public Float getIncludingTax() {
-        return includingTax;
-    }
-
-    public void setIncludingTax(float includingTax) {
-        this.includingTax = includingTax;
-    }
-
-    public Float getTotal() {
-        return total;
-    }
-
-    public void setTotal(Long total) {
-        this.total = total;
-    }
-
-    public Long getResponseId() {
-        return responseId;
-    }
-
-    public void setResponseId(Long responseId) {
-        this.responseId = responseId;
-    }
-
-    public Long getDoid() {
-        return doid;
-    }
-
-    public void setDoid(Long doid) {
-        this.doid = doid;
-    }
-
-    public User getEmployee() {
-        return employee;
-    }
-
-    public void setEmployee(User employee) {
-        this.employee = employee;
-    }
-
-    public IssueItem getIssue() {
-        return issue;
-    }
-
-    public void setIssue(IssueItem issue) {
-        this.issue = issue;
-    }
-
     public Indent ()
     {
         this.indentStatus=IndentStatus.GM;
     }
-
-    public Long getIndentId() {
-        return indentId;
+    public boolean Approoved()
+    {
+        this.state= state.accept;
+        return false;
     }
-
-    public void setIndentId(Long indentId) {
-        this.indentId = indentId;
+    public void Cancel()
+    {
+            this.state= state.cancel;
     }
-
-
-
-
-
-    public IndentStatus getIndentStatus() {
-        return indentStatus;
+    public void Rejected()
+    {
+        this.state=state.reject;
     }
-
-    public void setIndentStatus(IndentStatus indentStatus) {
-        this.indentStatus = indentStatus;
+    enum  state{
+        accept,cancel,reject
     }
 
 
-    public StoreItemModel getStoreItem() {
-        return storeItem;
-    }
 
-    public void setStoreItem(StoreItemModel storeItem) {
-        this.storeItem = storeItem;
-    }
-
-    public Set<PoStore> getPersonalOrder() {
-        return personalOrder;
-    }
-
-    public void setPersonalOrder(Set<PoStore> personalOrder) {
-        this.personalOrder = personalOrder;
-    }
 }

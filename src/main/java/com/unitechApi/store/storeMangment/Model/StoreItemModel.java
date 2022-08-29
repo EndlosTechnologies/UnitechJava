@@ -3,6 +3,7 @@ package com.unitechApi.store.storeMangment.Model;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.unitechApi.AuditingAndResponse.Audit;
 import com.unitechApi.store.indent.Model.IndentQuantity;
+import com.unitechApi.store.indent.Model.VendorWisePriceModel;
 import com.unitechApi.store.vendor.model.VendorModel;
 import com.unitechApi.store.issue.model.IssueItem;
 import com.unitechApi.store.indent.Model.Indent;
@@ -63,6 +64,17 @@ public class StoreItemModel extends Audit<String> {
     @OneToMany(mappedBy = "storeItemIndentQuantityData" ,cascade = CascadeType.ALL)
     @JsonIgnoreProperties(value = "storeItemIndentQuantityData")
     private List<IndentQuantity> storeIndentQuantity;
+    @OneToMany(mappedBy = "itemModelPrice",cascade = CascadeType.ALL)
+    @JsonIgnoreProperties(value = {"itemModelPrice","vendorWisePriceDAta"})
+    private Set<VendorWisePriceModel> vendorWisePriceDataWithItem;
+
+    public Set<VendorWisePriceModel> getVendorWisePriceDataWithItem() {
+        return vendorWisePriceDataWithItem;
+    }
+
+    public void setVendorWisePriceDataWithItem(Set<VendorWisePriceModel> vendorWisePriceDataWithItem) {
+        this.vendorWisePriceDataWithItem = vendorWisePriceDataWithItem;
+    }
 
     public List<IndentQuantity> getStoreIndentQuantity() {
         return storeIndentQuantity;

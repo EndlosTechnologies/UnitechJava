@@ -2,6 +2,7 @@ package com.unitechApi.store.vendor.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.unitechApi.store.indent.Model.Indent;
+import com.unitechApi.store.indent.Model.VendorWisePriceModel;
 import com.unitechApi.store.storeMangment.Model.StoreItemModel;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -13,7 +14,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-@Table(name = "vendor_details", schema = "purchaser")
+@Table(name = "vendor_details", schema = "store_management")
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class VendorModel {
     @Id
@@ -22,14 +23,7 @@ public class VendorModel {
     private Long id;
     @Column(name = "vendor_name", nullable = false)
     private String vendorName;
-    @Column(name = "vendor_address", nullable = false)
-    private String vendorAddress;
-    @Column(name = "vendor_city", nullable = false)
-    @NotNull(message = "You are not Allowed to enter city Null Vale")
-    private String city;
-    @Column(name = "vebndor_pincode",nullable = false)
-    @NotNull(message = "You are not Allowed to enter Pin code Null Vale")
-    private Integer pincode;
+
     @Column(name = "vendor_code",nullable = false)
     private String vendorcode;
     @Column(name = "gstno",nullable = false)
@@ -79,6 +73,29 @@ public class VendorModel {
     @OneToMany(mappedBy = "vendorData", cascade = CascadeType.ALL)
     @JsonIgnoreProperties("vendorData")
     private Set<Indent> indentList;
+    @OneToMany(mappedBy = "vendorModelData",cascade = CascadeType.ALL)
+    @JsonIgnoreProperties(value = {"vendorModelData"})
+    private Set<VendorWisePriceModel> vendorWisePriceDAta;
+
+    @OneToMany(mappedBy = "vendorData",cascade = CascadeType.ALL)
+    @JsonIgnoreProperties(value = {"vendorData"})
+    private Set<VendorAddressModel> vendorAddressModels;
+
+    public Set<VendorAddressModel> getVendorAddressModels() {
+        return vendorAddressModels;
+    }
+
+    public void setVendorAddressModels(Set<VendorAddressModel> vendorAddressModels) {
+        this.vendorAddressModels = vendorAddressModels;
+    }
+
+    public Set<VendorWisePriceModel> getVendorWisePriceDAta() {
+        return vendorWisePriceDAta;
+    }
+
+    public void setVendorWisePriceDAta(Set<VendorWisePriceModel> vendorWisePriceDAta) {
+        this.vendorWisePriceDAta = vendorWisePriceDAta;
+    }
 
     public Set<StoreItemModel> getItemData() {
         return itemData;
@@ -120,13 +137,7 @@ public class VendorModel {
         this.vendorName = vendorName;
     }
 
-    public String getVendorAddress() {
-        return vendorAddress;
-    }
 
-    public void setVendorAddress(String vendorAddress) {
-        this.vendorAddress = vendorAddress;
-    }
 
     public String getVendorcode() {
         return vendorcode;
@@ -154,17 +165,7 @@ public class VendorModel {
         this.panno = panno.toUpperCase();
     }
 
-    public String getCity() {
-        return city;
-    }
 
-    public void setCity(String city) {
-        this.city = city;
-    }
-
-    public void setPincode(Integer pincode) {
-        this.pincode = pincode;
-    }
 
     public PaymentCondition getPaymentTermsConditions() {
         return paymentTermsConditions;
@@ -176,15 +177,7 @@ public class VendorModel {
 
 
 
-    public int getPincode() {
-        
-        return pincode;
-    }
 
-    public void setPincode(int pincode) {
-        
-        this.pincode = pincode;
-    }
 
 
 
@@ -197,9 +190,6 @@ public class VendorModel {
         return "VendorModel{" +
                 "id=" + id +
                 ", vendorName='" + vendorName + '\'' +
-                ", vendorAddress='" + vendorAddress + '\'' +
-                ", city='" + city + '\'' +
-                ", pincode=" + pincode +
                 ", vendorcode='" + vendorcode + '\'' +
                 ", gstno='" + gstno + '\'' +
                 ", panno='" + panno + '\'' +
