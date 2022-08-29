@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
+@CrossOrigin
 @RequestMapping(value = "/unitech/api/v1/store/price")
 public class PriceController {
     private final PriceServiceImpl priceServiceImpl;
