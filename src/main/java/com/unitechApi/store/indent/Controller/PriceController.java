@@ -1,10 +1,14 @@
 package com.unitechApi.store.indent.Controller;
 
+import com.unitechApi.Payload.response.PageResponse;
 import com.unitechApi.store.indent.Model.VendorWisePriceModel;
 import com.unitechApi.store.indent.Service.ServiceImpl.PriceServiceImpl;
+import org.apache.poi.util.LocaleID;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping(value = "/unitech/api/v1/store/price")
@@ -20,9 +24,10 @@ public class PriceController {
         return new ResponseEntity<>(priceServiceImpl.findById(pId), HttpStatus.OK);
     }
 
-    @GetMapping(value = "/{indentId}")
+    @GetMapping(value = "/indent/{indentId}")
     public ResponseEntity<?> getByIndentId(@PathVariable Long indentId) {
-        return new ResponseEntity<>(priceServiceImpl.findById(indentId), HttpStatus.OK);
+        List<?> data=priceServiceImpl.findByIndentId(indentId);
+        return new ResponseEntity<>(PageResponse.SuccessResponse(data), HttpStatus.OK);
     }
 
     @PostMapping(value = "")

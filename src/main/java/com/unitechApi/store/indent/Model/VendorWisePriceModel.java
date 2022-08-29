@@ -26,16 +26,16 @@ public class VendorWisePriceModel {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(foreignKey = @ForeignKey(name = "item_id"),name = "item_id",referencedColumnName = "itemId")
     @JsonIgnoreProperties(value = {"vendorDate","employe",
-            "itemRequest","storeIndentQuantity","vendorWisePriceDataWithItem"})
+            "itemRequest","storeIndentQuantity","vendorWisePriceDataWithItem","issueItem"})
     private StoreItemModel itemModelPrice;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(foreignKey = @ForeignKey(name = "vendor_id"),name = "vendor_id")
-    @JsonIgnoreProperties(value = {"itemData","vendorWisePriceDAta"})
+    @JsonIgnoreProperties(value = {"itemData","vendorWisePriceDAta","vendorAddressModels","indentList"})
     private VendorModel vendorModelData;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(foreignKey = @ForeignKey(name = "indnet_id"),name = "indent_id")
     @JsonIgnoreProperties(value = {"vendorWisePriceSet","indentList","employee","vendorData",
-            "issue","indentQuantityList"})
+            "issue","indentQuantityList","dataVendorAndIndent","storeItem"})
     private Indent indentPrice;
     private double priceItem;
 
