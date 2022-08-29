@@ -22,6 +22,7 @@ public class PoStoreService {
     }
 
     public PoStore saveData(PoStore poStore) {
+        poStore.setAmount(poStore.getAmount());
         return poStoreRepository.save(poStore);
     }
 

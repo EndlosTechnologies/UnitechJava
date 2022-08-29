@@ -123,6 +123,8 @@ public class IndentService {
             itemRequest.setIndentStatus(IndentStatus.CANCEL);
         } else if (dta.getIndentStatus() == IndentStatus.REJECT) {
             itemRequest.setIndentStatus(IndentStatus.REJECT);
+        } else if (dta.getIndentStatus() == IndentStatus.DONE) {
+            itemRequest.setIndentStatus(IndentStatus.DONE);
         }
         //else if (itemRequest.getIndentStatus()==IndentStatus.ADMIN_LAST && dta.getIndentStatus()== )
 

@@ -1,16 +1,13 @@
 package com.unitechApi.store.indent.Service.ServiceImpl;
 
-import com.unitechApi.store.indent.Model.Indent;
 import com.unitechApi.store.indent.Model.VendorWisePriceModel;
 import com.unitechApi.store.indent.Repository.IndentRepository;
 import com.unitechApi.store.indent.Repository.PriceModelRepository;
 import com.unitechApi.store.indent.Service.PriceService;
-import com.unitechApi.store.storeMangment.Model.StoreItemModel;
 import com.unitechApi.store.vendor.Repository.VendorRepository;
-import com.unitechApi.store.vendor.model.VendorModel;
 import org.springframework.stereotype.Service;
 
-import java.util.stream.Collectors;
+import java.util.List;
 
 @Service
 public class PriceServiceImpl implements PriceService {
@@ -31,6 +28,21 @@ public class PriceServiceImpl implements PriceService {
     public VendorWisePriceModel findById(Long id) {
         return priceModelRepository.findById(id).orElse(null) ;
     }
+
+    /**
+     * @param indentId 
+     * @return
+     */
+    @Override
+    public List<?> findByIndentId(Long indentId) {
+        return priceModelRepository.findByIndentId(indentId);
+    }
+
+    /**
+     * @param indentId 
+     * @return
+     */
+    
 
     /**
      * @param vendorWisePriceModel
