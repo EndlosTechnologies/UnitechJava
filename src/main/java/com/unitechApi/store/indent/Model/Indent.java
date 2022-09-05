@@ -76,7 +76,7 @@ public class Indent extends Audit<String> {
     @JsonIgnoreProperties(value = {"indentDAtaPo"})
     private Set<PoPrice> poPriceswithIndent;
     @OneToMany(mappedBy = "indentItemQuantity",cascade = CascadeType.ALL)
-    @JsonIgnoreProperties(value = {"indentItemQuantity","storeItemIndentQuantityData"})
+    @JsonIgnoreProperties(value = {"indentItemQuantity",""})
     private List<IndentQuantity> indentQuantityList;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(foreignKey = @ForeignKey(name = "issue_id"),name = "issue_id",referencedColumnName = "issueId")
