@@ -4,6 +4,7 @@ import com.unitechApi.Payload.response.MessageResponse;
 import com.unitechApi.Payload.response.PageResponse;
 import com.unitechApi.store.po.Model.PoStore;
 import com.unitechApi.store.po.Service.PoStoreService;
+import com.unitechApi.store.po.view.PoByIndentView;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -47,12 +48,12 @@ public class PoController {
         return new ResponseEntity<>(PageResponse.SuccessResponse(getAll), HttpStatus.OK);
     }
 
-    @GetMapping(value = "/getByValue")
-    public ResponseEntity<?> GetByName(@RequestParam Long itemId, @RequestParam Long poId) {
-        List<PoStore> poStore = poStoreService.findByDescOrder(itemId, poId);
-        log.info("po Data {} =>", poStore);
-        return new ResponseEntity<>(PageResponse.SuccessResponse(poStore), HttpStatus.OK);
-    }
+//    @GetMapping(value = "/getByValue")
+//    public ResponseEntity<?> GetByName(@RequestParam Long itemId, @RequestParam Long poId) {
+//        List<PoStore> poStore = poStoreService.findByDescOrder(itemId, poId);
+//        log.info("po Data {} =>", poStore);
+//        return new ResponseEntity<>(PageResponse.SuccessResponse(poStore), HttpStatus.OK);
+//    }
 
     @GetMapping(value = "/poNumber/{poNumber}")
     public ResponseEntity<?> findByPoNumber(@PathVariable String poNumber) {
@@ -66,6 +67,23 @@ public class PoController {
         List<?> utrNumberData=poStoreService.findByUtrNumber(utrNumber);
         log.info("utr Number Data -> {}",utrNumberData);
         return new ResponseEntity<>(PageResponse.SuccessResponse(utrNumberData),HttpStatus.OK);
+    }
+    @GetMapping(value = "/indentGetById/{indentId}")
+    public ResponseEntity<?> findByIndentId(@PathVariable Long indentId)
+    {
+        List<PoByIndentView> utrNumberData=poStoreService.findByIndentId(indentId);
+        log.info("indent  Number Data -> {}",utrNumberData.toString());
+        return new ResponseEntity<>(PageResponse.SuccessResponse(utrNumberData),HttpStatus.OK);
+    }
+//    @GetMapping("/lock")
+//    public ResponseEntity<?> getPriceService() {
+//        List<?> data=poStoreService.findByLock();
+//        return new ResponseEntity<>(PageResponse.SuccessResponse(data),HttpStatus.OK);
+//    }
+    @PostMapping(value = "/d")
+    public ResponseEntity<?> DoublesaveData(@RequestBody PoStore poStore) {
+       PoStore data = poStoreService.doublePosaveData(poStore);
+        return new ResponseEntity<>(PageResponse.SuccessResponse(data), HttpStatus.OK);
     }
 
 

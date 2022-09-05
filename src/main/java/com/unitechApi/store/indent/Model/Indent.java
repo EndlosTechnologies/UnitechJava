@@ -2,6 +2,7 @@ package com.unitechApi.store.indent.Model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.unitechApi.AuditingAndResponse.Audit;
+import com.unitechApi.store.po.Model.PoPrice;
 import com.unitechApi.store.po.Model.PoStore;
 import com.unitechApi.store.vendor.model.VendorModel;
 import com.unitechApi.store.issue.model.IssueItem;
@@ -24,7 +25,6 @@ import java.util.Set;
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 @Getter
 @Setter
-@ToString
 public class Indent extends Audit<String> {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -34,7 +34,7 @@ public class Indent extends Audit<String> {
     private float estimatedPrice;
     private float total;
     private Long responseId;
-    private String indentNumber= RandomStringUtils.randomNumeric(8).toString();
+    private String indentNumber= RandomStringUtils.randomNumeric(8);
 
     public String getIndentNumber() {
         return indentNumber;
@@ -59,10 +59,6 @@ public class Indent extends Audit<String> {
     public void setCreated() {
         this.created = new Date();
     }
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(foreignKey = @ForeignKey(name = "item_id"),name = "item_id",referencedColumnName = "itemId")
-    @JsonIgnoreProperties({"itemRequest","issueItem","employe","vendorDate"})
-    private StoreItemModel storeItem;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(foreignKey = @ForeignKey(name = "emp_id"),name = "emp_id",referencedColumnName = "user_profile_id")
@@ -70,14 +66,17 @@ public class Indent extends Audit<String> {
                                ,"hrModel","familyDetails","userExperienceData" })
     private User employee;
     @OneToMany(mappedBy = "indentPrice",cascade = CascadeType.ALL)
-    @JsonIgnoreProperties(value = {})
+    @JsonIgnoreProperties(value = {"indentPrice","personalPrice"})
     private Set<VendorWisePriceModel> vendorWisePriceSet;
 
     @OneToMany(mappedBy = "indentDAta",cascade = CascadeType.ALL)
     @JsonIgnoreProperties(value = {"indentDAta","itemPoSet"})
     private Set<PoStore> personalOrder;
+    @OneToMany(mappedBy = "indentDAtaPo",cascade = CascadeType.ALL)
+    @JsonIgnoreProperties(value = {"indentDAtaPo"})
+    private Set<PoPrice> poPriceswithIndent;
     @OneToMany(mappedBy = "indentItemQuantity",cascade = CascadeType.ALL)
-    @JsonIgnoreProperties(value = {"indentItemQuantity"})
+    @JsonIgnoreProperties(value = {"indentItemQuantity","storeItemIndentQuantityData"})
     private List<IndentQuantity> indentQuantityList;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(foreignKey = @ForeignKey(name = "issue_id"),name = "issue_id",referencedColumnName = "issueId")
@@ -97,23 +96,15 @@ public class Indent extends Audit<String> {
     {
         this.indentStatus=IndentStatus.GM;
     }
-    public boolean Approoved()
-    {
-        this.state= state.accept;
-        return false;
-    }
-    public void Cancel()
-    {
-            this.state= state.cancel;
-    }
-    public void Rejected()
-    {
-        this.state=state.reject;
-    }
     enum  state{
         accept,cancel,reject
     }
 
-
-
+    @Override
+    public String toString() {
+        return "Indent{" +
+                "indentId=" + indentId +
+                ", indentNumber='" + indentNumber + '\'' +
+                '}';
+    }
 }

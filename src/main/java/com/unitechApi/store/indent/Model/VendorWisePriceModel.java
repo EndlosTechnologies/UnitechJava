@@ -1,14 +1,16 @@
 package com.unitechApi.store.indent.Model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.unitechApi.store.po.Model.PoPrice;
+import com.unitechApi.store.po.Model.PoStore;
 import com.unitechApi.store.storeMangment.Model.StoreItemModel;
 import com.unitechApi.store.vendor.model.VendorModel;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
-import lombok.Setter;
+import lombok.*;
+import lombok.ToString.Exclude;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -17,6 +19,7 @@ import java.util.Objects;
 @Setter
 @AllArgsConstructor
 @RequiredArgsConstructor
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class VendorWisePriceModel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,17 +29,22 @@ public class VendorWisePriceModel {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(foreignKey = @ForeignKey(name = "item_id"),name = "item_id",referencedColumnName = "itemId")
     @JsonIgnoreProperties(value = {"vendorDate","employe",
-            "itemRequest","storeIndentQuantity","vendorWisePriceDataWithItem","issueItem"})
+            "itemRequest","storeIndentQuantity","vendorWisePriceDataWithItem","issueItem","personalOrderPrice"})
     private StoreItemModel itemModelPrice;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(foreignKey = @ForeignKey(name = "vendor_id"),name = "vendor_id")
-    @JsonIgnoreProperties(value = {"itemData","vendorWisePriceDAta","vendorAddressModels","indentList"})
+    @JsonIgnoreProperties(value = {"itemData","vendorWisePriceDAta","vendorAddressModels","indentList",
+            "poPriceSetData"})
     private VendorModel vendorModelData;
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(foreignKey = @ForeignKey(name = "indnet_id"),name = "indent_id")
+    @JoinColumn(foreignKey = @ForeignKey(name = "indnet_id"),name = "indent_id",referencedColumnName ="indentId")
     @JsonIgnoreProperties(value = {"vendorWisePriceSet","indentList","employee","vendorData",
-            "issue","indentQuantityList","dataVendorAndIndent","storeItem"})
+            "issue","indentQuantityList","dataVendorAndIndent","storeItem","personalOrder","poPriceswithIndent"})
     private Indent indentPrice;
+    private float includingTax;
+    private float withoutTax;
+    private float itemQuantity;
+
     private double priceItem;
 
     public Long getPrice_id() {
@@ -47,15 +55,7 @@ public class VendorWisePriceModel {
         this.price_id = price_id;
     }
 
-    @Override
-    public String toString() {
-        return "VendorWisePriceModel{" +
-                "price_id=" + price_id +
-                ", itemModelPrice=" + itemModelPrice +
-                ", vendorModelData=" + vendorModelData +
-                ", priceItem=" + priceItem +
-                '}';
-    }
+
 
     @Override
     public boolean equals(Object o) {
@@ -68,5 +68,13 @@ public class VendorWisePriceModel {
     @Override
     public int hashCode() {
         return Objects.hash(price_id, itemModelPrice, vendorModelData, priceItem);
+    }
+
+    @Override
+    public String toString() {
+        return "VendorWisePriceModel{" +
+                "price_id=" + price_id +
+                ", priceItem=" + priceItem +
+                '}';
     }
 }

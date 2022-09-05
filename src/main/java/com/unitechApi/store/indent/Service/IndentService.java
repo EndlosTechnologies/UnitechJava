@@ -197,7 +197,7 @@ public class IndentService {
 
         Indent itemRequest = indentRepository.findById(itemId).orElseThrow(() -> new ItemNotFound("Sorry ! Item Was Not Found"));
         User user = userRepository.getById(dta.getEmployee().getId());
-        if (itemRequest.Approoved())
+      //  if (itemRequest.Approoved())
 
             indentRepository.save(itemRequest);
         indentEventRepository.save(new IndentCreateHistory(itemRequest.getIndentNumber(), itemRequest.getIndentId(), itemRequest.getIndentStatus(), user.getId(), user.getUsername(), dta.getComment()));

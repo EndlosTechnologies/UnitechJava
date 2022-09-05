@@ -19,6 +19,8 @@ public interface IndentRepository extends JpaRepository<Indent,Long> , JpaSpecif
     Page<List<Indent>> ffindByDateBEtween(@Param("start") Date start,@Param("end")  Date end,Pageable pageable );
     @Query("select  i from  Indent  i where  i.indentNumber=: indenetNumber")
     List<?> findByIndentNumber(String indenetNumber);
+    @Query("select i from  Indent  i where i.indentId=:indentId")
+    List<Indent> getAllByIndentId(Long indentId);
 
     @Query("select i from Indent  i where    DATE(i.created) between :start and :end AND i.indentNumber LIKE %:indentNumber%")
     Page<List<Indent>> ffindByDateBEtweenWithindentNumber(@Param("start") Date start,@Param("end")  Date end,Pageable pageable,String indentNumber );
@@ -27,7 +29,7 @@ public interface IndentRepository extends JpaRepository<Indent,Long> , JpaSpecif
 
     @Query("select  i from Indent i where lower(i.createdDate) like  lower(concat('%',:keyword,'%') ) or lower(i.indentStatus) like  lower(concat('%',:keyword,'%') ) ")
     Page<Indent> searchInAllIndent(String keyword,Pageable pageable);
-
+    List<?> findAllByIndentId(Long indentId);
   //  List<Indent> findByVendorDetailsIdAndAndIndentId(Long vendorId, Long indentId);
 
 }

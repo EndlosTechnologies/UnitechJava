@@ -4,45 +4,60 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.unitechApi.AuditingAndResponse.Audit;
 import com.unitechApi.store.indent.Model.Indent;
-import com.unitechApi.store.storeMangment.Model.StoreItemModel;
+import com.unitechApi.store.indent.Model.VendorWisePriceModel;
+import lombok.Getter;
+import lombok.Setter;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
-import java.util.UUID;
+
 
 @Entity
-@Table(name = "personal_order",schema = "store_management")
+@Table(name = "personal_order", schema = "store_management")
 @SQLDelete(sql = "update store_management.personal_order SET deleteview = true where poid=?")
 @Where(clause = "deleteview=false")
+
+@Getter
+@Setter
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class PoStore extends Audit<String> {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long poId;
-    private String poNumber= UUID.randomUUID().toString();
+    private String poNumber = RandomStringUtils.randomNumeric(8);
     private String poName;
     private Float amount;
     private float itemQuantity;
     @JsonIgnore
-    private boolean deleteView=Boolean.FALSE;
+    private boolean deleteView = Boolean.FALSE;
     private String utrNumber;
+    private String itemNAme;
+    private Long vendorId;
+
     public PoStore() {
 
     }
-   // @ManyToMany
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(schema = "store_management",name = "po_item_data"
-            , joinColumns = @JoinColumn(name = "po_id"),
-            inverseJoinColumns = @JoinColumn(name = "item_id"))
-    @JsonIgnoreProperties(value = {"personalOrder","itemRequest","employe","issueItem"})
-    private Set<StoreItemModel> itemPoSet=new HashSet<>();
+    // @ManyToMany
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(foreignKey = @ForeignKey(name = "ind_id"), name = "ind_id", referencedColumnName = "indentId")
-    @JsonIgnoreProperties(value = {"personalOrder"})
+    @JsonIgnoreProperties(value = {"personalOrder", "indentQuantityList", "issue", "dataVendorAndIndent"
+            , "vendorData", "vendorWisePriceSet", "poPriceswithIndent"})
     private Indent indentDAta;
+    @OneToMany(mappedBy = "poStoreData", cascade = CascadeType.ALL)
+    @JsonIgnoreProperties(value = {"poStoreData", "vendorWisePriceModel"})
+    private Set<PoPrice> personalOrderPrice;
+
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(schema = "store_management", name = "po_with_price_data"
+            , joinColumns = @JoinColumn(name = "price_id")
+            , inverseJoinColumns = @JoinColumn(name = "po_id"))
+    private Set<VendorWisePriceModel> listOfpO = new HashSet<>();
+
 
     public Long getPoId() {
         return poId;
@@ -84,14 +99,6 @@ public class PoStore extends Audit<String> {
         this.poNumber = poNumber;
     }
 
-    public Set<StoreItemModel> getItemPoSet() {
-        return itemPoSet;
-    }
-
-    public void setItemPoSet(Set<StoreItemModel> itemPoSet) {
-        this.itemPoSet = itemPoSet;
-    }
-
     public String getUtrNumber() {
         return utrNumber;
     }
@@ -122,8 +129,8 @@ public class PoStore extends Audit<String> {
                 "poId=" + poId +
                 ", poName='" + poName + '\'' +
                 ", deleteView=" + deleteView +
-                ", utr Number ="+utrNumber+
-                ", Account   ="+amount+
+                ", utr Number =" + utrNumber +
+                ", Account   =" + amount +
                 '}';
     }
 }

@@ -3,10 +3,12 @@ package com.unitechApi.store.vendor.model;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.unitechApi.store.indent.Model.Indent;
 import com.unitechApi.store.indent.Model.VendorWisePriceModel;
+import com.unitechApi.store.po.Model.PoPrice;
 import com.unitechApi.store.storeMangment.Model.StoreItemModel;
 import com.unitechApi.store.vendor.vendorEnum.GstStatus;
 import com.unitechApi.store.vendor.vendorEnum.MsmeType;
 import com.unitechApi.store.vendor.vendorEnum.PaymentCondition;
+import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -100,6 +102,10 @@ public class VendorModel {
     @JsonIgnoreProperties(value = {"vendorData"})
     private Set<VendorAddressModel> vendorAddressModels;
 
+    @OneToMany(mappedBy = "vendorModels",cascade = CascadeType.ALL)
+    @JsonIgnoreProperties(value = {"vendorModels"})
+    private Set<PoPrice> poPriceSetData;
+
 
     @PrePersist
     private void CreatedAt() {
@@ -115,41 +121,6 @@ public class VendorModel {
         return "VendorModel{" +
                 "id=" + id +
                 ", vendorName='" + vendorName + '\'' +
-                ", gstno='" + gstno + '\'' +
-                ", panno='" + panno + '\'' +
-                ", paymentTermsConditions=" + paymentTermsConditions +
-                ", paymentDays=" + paymentDays +
-                ", gstStatus=" + gstStatus +
-                ", msmeType=" + msmeType +
-                ", factory='" + factory + '\'' +
-                ", msgmeRegisterDate=" + msgmeRegisterDate +
-                ", gstForm=" + gstForm +
-                ", gstTo=" + gstTo +
-                ", cgst=" + integratedgst +
-                ", sgst=" + stategst +
-                ", igst=" + centralgst +
-                ", sezNumber='" + sezNumber + '\'' +
-                ", refrencesBy='" + refrencesBy + '\'' +
-                ", bankName='" + bankName + '\'' +
-                ", branchName='" + branchName + '\'' +
-                ", bankCityName='" + bankCityName + '\'' +
-                ", bankAccountNumber=" + bankAccountNumber +
-                ", ifscCode='" + ifscCode + '\'' +
-                ", micrCode='" + micrCode + '\'' +
-                ", cancelChequeNumber='" + cancelChequeNumber + '\'' +
-                ", supplierCode='" + supplierscode + '\'' +
-                ", accountGroupHead='" + accountGroupHead + '\'' +
-                ", natureOfBussiness='" + natureOfBussiness + '\'' +
-                ", officePhoneNumber='" + officePhoneNumber + '\'' +
-                ", ResidentPhoneNumber='" + ResidentPhoneNumber + '\'' +
-                ", vendorEmail='" + vendorEmail + '\'' +
-                ", webSite='" + webSite + '\'' +
-                ", faxNumber='" + faxNumber + '\'' +
-                ", createdAt=" + createdAt +
-                ", itemData=" + itemData +
-                ", indentList=" + indentList +
-                ", vendorWisePriceDAta=" + vendorWisePriceDAta +
-                ", vendorAddressModels=" + vendorAddressModels + "dateOfIncorporation  =" +dateOfIncorporation +
                 '}';
     }
 }
