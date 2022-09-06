@@ -101,7 +101,7 @@ public class User extends Audit<String> {
     @OneToMany(mappedBy = "employe", cascade = CascadeType.ALL)
     @JsonIgnoreProperties("employe")
     private Set<StoreItemModel> itemModelSet;
-    @OneToMany(mappedBy = "",cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "userListData",cascade = CascadeType.ALL)
     @JsonIgnoreProperties(value = {"userListData"})
     private Set<PoStore> poStoreSetData;
 
