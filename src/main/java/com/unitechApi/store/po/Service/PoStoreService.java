@@ -19,6 +19,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
+import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.Collectors;
 
 @Service
@@ -58,7 +59,7 @@ public class PoStoreService {
             poPrice.setPoPrice((float) i.getPriceItem());
             poPrice.setItemPriceInPersonalOrder(i.getItemModelPrice());
             poPrice.setIndentDAtaPo(i.getIndentPrice());
-          //  poPrice.setVendorWisePriceModel(i);
+            //  poPrice.setVendorWisePriceModel(i);
             poPrice.setIncludingTax(i.getIncludingTax());
             poPrice.setWithoutTax(i.getWithoutTax());
             totalAmount += i.getIncludingTax();
@@ -110,30 +111,36 @@ public class PoStoreService {
 
     public PoStore doublePosaveData(PoStore poStore) {
         List<PoStore> dataPo = new ArrayList<>();
-        float totalAmount = 0;
+        AtomicReference<Float> totalAmount = new AtomicReference<>((float) 0);
         Indent indent = indentRepository.getById(poStore.getIndentDAta().getIndentId());
         log.info("indent  {}", indent);
         List<VendorWisePriceModel> vend = priceModelRepository.findByIndentId(indent.getIndentId());
 //        VendorWisePriceModel vendorWisePriceModel=priceModelRepository.getById(poStore.getListOfpO())
-        Set<VendorWisePriceModel> dtaa=new HashSet<>(vend);
-        poStore.getListOfpO().add((VendorWisePriceModel) indent.getVendorWisePriceSet());
-//        List<StoreItemModel> data = storeItemRepository.findAll();
-//        List<VendorModel> vendorModels = vendorRepository.findAll();
-        for (VendorWisePriceModel i : vend) {
-            PoPrice poPrice = new PoPrice();
+        Set<VendorWisePriceModel> dtaa = new HashSet<>(vend);
+        Set<VendorWisePriceModel> helllo = poStore
+                .getListOfpO()
+                .stream()
+                .map(data -> {
+                    PoPrice poPrice = new PoPrice();
+                    VendorWisePriceModel v = priceModelRepository.getById(data.getPrice_id());
+                    VendorModel vendorModel = vendorRepository.getById(v.getVendorModelData().getId());
+                    poPrice.setPoPrice((float) v.getPriceItem());
+                    poPrice.setItemPriceInPersonalOrder(v.getItemModelPrice());
+                    poPrice.setIndentDAtaPo(v.getIndentPrice());
+                    //poPrice.setVendorWisePriceModel(i);
+                    poPrice.setItemQuantity(v.getItemQuantity());
+                    poPrice.setIncludingTax(v.getIncludingTax());
+                    //    poPrice.setVendorModels(v.getVendorModelData());
+                    poPrice.setWithoutTax(v.getWithoutTax());
+                    totalAmount.updateAndGet(v1 -> v1 + v.getIncludingTax());
+                    poStore.setAmount(totalAmount.get());
+                    poPriceRepository.save(poPrice);
+                    log.info("price the id{} and vendor id {}", v, vendorModel.getId());
+                    return data;
+                }).collect(Collectors.toSet());
+        log.info("price Id {}", helllo);
 
-            poPrice.setPoPrice((float) i.getPriceItem());
-            poPrice.setItemPriceInPersonalOrder(i.getItemModelPrice());
-            poPrice.setIndentDAtaPo(i.getIndentPrice());
-          //poPrice.setVendorWisePriceModel(i);
-            poPrice.setIncludingTax(i.getIncludingTax());
-            poPrice.setVendorModels(i.getVendorModelData());
-            poPrice.setWithoutTax(i.getWithoutTax());
-            totalAmount += i.getIncludingTax();
-            poStore.setAmount(totalAmount);
 
-            poPriceRepository.save(poPrice);
-        }
         return poStoreRepository.save(poStore);
 
     }

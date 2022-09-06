@@ -12,4 +12,5 @@ public interface PriceService {
     VendorWisePriceModel saveData(VendorWisePriceModel vendorWisePriceModel);
     List<?> countDistinctByVendorModelDataId(Long id);
    List<?> getDistinctByItemId(Long indentId);
+    List<VendorWisePriceModel> getAllByVendorIdAndItemId(Long vendorId,Long itemId,Long indentId);
 }

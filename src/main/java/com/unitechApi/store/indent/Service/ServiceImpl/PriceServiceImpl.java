@@ -112,4 +112,15 @@ public class PriceServiceImpl implements PriceService {
     public List<?> getDistinctByItemId(Long indentId) {
         return priceModelRepository.getDistinctByItemId(indentId);
     }
+
+    /**
+     * @param vendorId 
+     * @param itemId
+     * @param indentId
+     * @return
+     */
+    @Override
+    public List<VendorWisePriceModel> getAllByVendorIdAndItemId(Long vendorId, Long itemId, Long indentId) {
+        return priceModelRepository.getAllByVendorIdAndItemId(vendorId,itemId,indentId);
+    }
 }

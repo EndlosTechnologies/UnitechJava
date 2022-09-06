@@ -9,6 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.method.P;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -51,5 +52,11 @@ public class PriceController {
     public ResponseEntity<?> saveData(@RequestBody VendorWisePriceModel vendorWisePriceModel) {
         VendorWisePriceModel data=priceServiceImpl.saveData(vendorWisePriceModel);
         return new ResponseEntity<>(PageResponse.SuccessResponse(data), HttpStatus.CREATED);
+    }
+    @GetMapping(value = "/item/{ven_id}/{item_id}/{indent_id}")
+    public ResponseEntity<?> getByVenIdAndIndentIdWithItemId(@PathVariable Long ven_id, @PathVariable Long item_id,@PathVariable Long indent_id) {
+        List<?> data=priceServiceImpl.getAllByVendorIdAndItemId(ven_id,item_id,indent_id);
+        log.info("data {}",data);
+        return new ResponseEntity<>(PageResponse.SuccessResponse(data), HttpStatus.OK);
     }
 }

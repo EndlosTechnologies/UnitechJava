@@ -11,8 +11,10 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
-import javax.validation.constraints.*;
-
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.time.LocalDate;
 import java.time.Period;
 import java.util.Date;
@@ -50,29 +52,17 @@ public class User extends Audit<String> {
     @Column(unique = true)
     private String phoneno;
 
-    @Column(
-            name = "user_tele_number", nullable = true
-    )
+    @Column(name = "user_tele_number", nullable = true)
     private String telephoneNumber;
-    @Column(
-            name = "Date_Of_birth", nullable = true
-    )
+    @Column(name = "Date_Of_birth", nullable = true)
     private LocalDate dob;
-    @Column(
-            name = "marital_status", nullable = true
-    )
+    @Column(name = "marital_status", nullable = true)
     private String maritalStatus;
-    @Column(
-            name = "native_palace", nullable = true
-    )
+    @Column(name = "native_palace", nullable = true)
     private String nativePalace;
-    @Column(
-            name = "nationality", nullable = true
-    )
+    @Column(name = "nationality", nullable = true)
     private String nationality;
-    @Column(
-            name = "user_pinCode", nullable = true
-    )
+    @Column(name = "user_pinCode", nullable = true)
     private int pinCode;
 //    @Column(name = "confirmed",nullable = true)
 //    private boolean confirmed;
@@ -85,13 +75,9 @@ public class User extends Audit<String> {
 //        this.confirmed = confirmed;
 //    }
 
-    @Column(
-            name = "BloodGroup", nullable = true
-    )
+    @Column(name = "BloodGroup", nullable = true)
     private String bloodGroup;
-    @Column(
-            name = "indentification", nullable = true
-    )
+    @Column(name = "indentification", nullable = true)
     private String indentification;
     @Temporal(TemporalType.TIMESTAMP)
     @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
@@ -102,22 +88,20 @@ public class User extends Audit<String> {
     private void Createdate() {
         datetime = new Date();
     }
+
     @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(schema = "profiledetails",name = "user_roles"
-            , joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "role_id"))
+    @JoinTable(schema = "profiledetails", name = "user_roles", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles = new HashSet<>();
     @OneToMany(mappedBy = "userProfileModel", cascade = CascadeType.ALL)
     @JsonManagedReference
     private Set<QualificationModel> userQualificationData;
 
-    @OneToMany(mappedBy = "employe",cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "employe", cascade = CascadeType.ALL)
     @JsonIgnoreProperties("employe")
     private Set<StoreItemModel> itemModelSet;
 
 
-
-    @OneToOne(mappedBy = "user",cascade = CascadeType.ALL)
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
     @JsonManagedReference
     @JsonIgnore
     private PasswordEntity passwordEntity;
@@ -133,15 +117,15 @@ public class User extends Audit<String> {
     @JsonManagedReference
     private Set<ExperienceModel> userExperienceData;
 
-    @OneToMany(mappedBy = "emp",cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "emp", cascade = CascadeType.ALL)
     @JsonIgnoreProperties("emp")
     private Set<IssueItem> issueItemsData;
 
-    @OneToMany(mappedBy = "employe",cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "employe", cascade = CascadeType.ALL)
     @JsonIgnoreProperties("employe")
     private Set<ResEntity> response;
 
-    @OneToMany(mappedBy = "employee",cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "employee", cascade = CascadeType.ALL)
     @JsonIgnoreProperties("employee")
     private Set<Indent> indentData;
 
@@ -160,6 +144,7 @@ public class User extends Audit<String> {
     public void setResponse(Set<ResEntity> response) {
         this.response = response;
     }
+
     public PasswordEntity getPasswordEntity() {
         return passwordEntity;
     }
@@ -176,6 +161,7 @@ public class User extends Audit<String> {
     public void setIssueItemsData(Set<IssueItem> issueItemsData) {
         this.issueItemsData = issueItemsData;
     }
+
     public Set<StoreItemModel> getItemModelSet() {
         return itemModelSet;
     }
@@ -194,8 +180,8 @@ public class User extends Audit<String> {
 
     public User() {
     }
-    public User(String username, String email, String address, String phoneno,
-                String telephoneNumber, LocalDate dob, String maritalStatus, String nativePalace, String nationality, int pinCode, String bloodGroup,String indentification) {
+
+    public User(String username, String email, String address, String phoneno, String telephoneNumber, LocalDate dob, String maritalStatus, String nativePalace, String nationality, int pinCode, String bloodGroup, String indentification) {
         this.username = username;
         this.email = email;
 
@@ -209,8 +195,9 @@ public class User extends Audit<String> {
         this.pinCode = pinCode;
         this.bloodGroup = bloodGroup;
         this.indentification = indentification;
-        this.confirmatioStatus=ConfirmatioStatus.PENDING;
+        this.confirmatioStatus = ConfirmatioStatus.PENDING;
     }
+
     public ConfirmatioStatus getConfirmatioStatus() {
         return confirmatioStatus;
     }
@@ -225,7 +212,7 @@ public class User extends Audit<String> {
 
     public void setId(Long id) {
         this.id = id;
-        
+
     }
 
     public String getUsername() {
@@ -291,21 +278,17 @@ public class User extends Audit<String> {
     }
 
     public void setDob(LocalDate dob) {
-        LocalDate birthdate=dob;
-        LocalDate currentdate=LocalDate.now();
-        calculateAge( birthdate, currentdate);
+        LocalDate birthdate = dob;
+        LocalDate currentdate = LocalDate.now();
+        calculateAge(birthdate, currentdate);
         this.dob = dob;
     }
 
     private static int calculateAge(LocalDate birthdate, LocalDate currentdate) {
-    if ((birthdate!= null)&&(currentdate!= null))
-    {
-        return Period.between(birthdate,currentdate).getYears();
+        if ((birthdate != null) && (currentdate != null)) {
+            return Period.between(birthdate, currentdate).getYears();
+        } else throw new RuntimeException("You Are Not ELigible This Job");
     }
-    else
-        throw  new  RuntimeException("You Are Not ELigible This Job");
-    }
-
 
 
     public String getMaritalStatus() {
@@ -387,7 +370,6 @@ public class User extends Audit<String> {
     public void setUserExperienceData(Set<ExperienceModel> userExperienceData) {
         this.userExperienceData = userExperienceData;
     }
-
 
 
 }

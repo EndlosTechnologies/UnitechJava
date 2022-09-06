@@ -1,13 +1,10 @@
 package com.unitechApi.store.indent.Repository;
 
 import com.unitechApi.store.indent.Model.VendorWisePriceModel;
-import com.unitechApi.store.indent.view.ViewByDistinct;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
 public interface PriceModelRepository extends JpaRepository<VendorWisePriceModel,Long> {
     @Query("select p from VendorWisePriceModel p where p.indentPrice.indentId=:indentId")

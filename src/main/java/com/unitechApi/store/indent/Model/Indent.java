@@ -81,7 +81,8 @@ public class Indent extends Audit<String> {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(foreignKey = @ForeignKey(name = "issue_id"),name = "issue_id",referencedColumnName = "issueId")
     @JsonIgnoreProperties({"indents","itemRequest","storeItemModel","usageItems","emp"})
-    private IssueItem issue;@ManyToMany(fetch = FetchType.LAZY)
+    private IssueItem issue;
+    @ManyToMany(fetch = FetchType.LAZY)
 
     @JoinTable(schema = "store_management",name = "indent_vendor_detailsID",
             joinColumns = @JoinColumn(name = "indent_id"), inverseJoinColumns = @JoinColumn(name = "vendor_id"))
