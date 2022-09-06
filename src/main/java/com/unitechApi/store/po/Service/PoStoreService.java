@@ -2,7 +2,10 @@ package com.unitechApi.store.po.Service;
 
 import com.unitechApi.exception.ExceptionService.ResourceNotFound;
 import com.unitechApi.store.indent.Model.Indent;
+import com.unitechApi.store.indent.Model.IndentCreateHistory;
+import com.unitechApi.store.indent.Model.IndentStatus;
 import com.unitechApi.store.indent.Model.VendorWisePriceModel;
+import com.unitechApi.store.indent.Repository.IndentEventRepository;
 import com.unitechApi.store.indent.Repository.IndentRepository;
 import com.unitechApi.store.indent.Repository.PriceModelRepository;
 import com.unitechApi.store.po.Model.PoPrice;
@@ -14,6 +17,8 @@ import com.unitechApi.store.storeMangment.Model.StoreItemModel;
 import com.unitechApi.store.storeMangment.repository.StoreItemRepository;
 import com.unitechApi.store.vendor.Repository.VendorRepository;
 import com.unitechApi.store.vendor.model.VendorModel;
+import com.unitechApi.user.Repository.UserRepository;
+import com.unitechApi.user.model.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -30,16 +35,20 @@ public class PoStoreService {
     private final IndentRepository indentRepository;
     private final StoreItemRepository storeItemRepository;
     private final VendorRepository vendorRepository;
+    private final IndentEventRepository indentEventRepository;
+    private final UserRepository userRepository;
     public static final Logger log = LoggerFactory.getLogger(PoStoreService.class);
 
 
-    public PoStoreService(PoStoreRepository poStoreRepository, PriceModelRepository priceModelRepository, PoPriceRepository poPriceRepository, IndentRepository indentRepository, StoreItemRepository storeItemRepository, VendorRepository vendorRepository) {
+    public PoStoreService(PoStoreRepository poStoreRepository, PriceModelRepository priceModelRepository, PoPriceRepository poPriceRepository, IndentRepository indentRepository, StoreItemRepository storeItemRepository, VendorRepository vendorRepository, IndentEventRepository indentEventRepository, UserRepository userRepository) {
         this.poStoreRepository = poStoreRepository;
         this.priceModelRepository = priceModelRepository;
         this.poPriceRepository = poPriceRepository;
         this.indentRepository = indentRepository;
         this.storeItemRepository = storeItemRepository;
         this.vendorRepository = vendorRepository;
+        this.indentEventRepository = indentEventRepository;
+        this.userRepository = userRepository;
     }
 
     public PoStore saveData(PoStore poStore) {
@@ -113,6 +122,11 @@ public class PoStoreService {
         List<PoStore> dataPo = new ArrayList<>();
         AtomicReference<Float> totalAmount = new AtomicReference<>((float) 0);
         Indent indent = indentRepository.getById(poStore.getIndentDAta().getIndentId());
+        User user = userRepository.getById(poStore.getUserListData().getId());
+        if (indent.getIndentStatus() == IndentStatus.ADMIN_LAST) {
+            indent.setIndentStatus(IndentStatus.DONE);
+            indentEventRepository.save(new IndentCreateHistory(indent.getIndentNumber(), indent.getIndentId(), indent.getIndentStatus(), user.getId(), user.getUsername(), indent.getComment()));
+        }
         log.info("indent  {}", indent);
         List<VendorWisePriceModel> vend = priceModelRepository.findByIndentId(indent.getIndentId());
 //        VendorWisePriceModel vendorWisePriceModel=priceModelRepository.getById(poStore.getListOfpO())

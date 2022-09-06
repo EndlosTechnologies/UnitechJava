@@ -1,12 +1,11 @@
 package com.unitechApi.Payload.request;
 
+import com.unitechApi.exception.validator.BirthDate;
 import com.unitechApi.user.model.PasswordEntity;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Size;
+import javax.validation.constraints.*;
 import java.time.LocalDate;
 import java.util.Date;
 import java.util.Set;
@@ -31,6 +30,9 @@ public class SignupRequest {
 
     private String telephoneNumber;
 
+    @BirthDate
+    @Past
+    @NotNull(message = "Add the value  ")
     private LocalDate dob;
 
     private String maritalStatus;
@@ -38,6 +40,7 @@ public class SignupRequest {
     private String nativePalace;
 
     private String nationality;
+    PasswordEntity passwordEntity=new PasswordEntity();
 
     private int pinCode;
 
@@ -47,7 +50,9 @@ public class SignupRequest {
     public String getIndentification() {
         return indentification;
     }
-    PasswordEntity pa=new PasswordEntity();
+
+
+
     public void setIndentification(String indentification) {
         this.indentification = indentification;
     }
@@ -178,6 +183,8 @@ public class SignupRequest {
     }
 
 
-
+    public CharSequence getPassword() {
+       return passwordEntity.getPassword();
+    }
 
 }

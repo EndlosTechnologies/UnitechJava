@@ -29,7 +29,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.session.SessionRegistry;
-import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.util.ReflectionUtils;
 import org.springframework.web.bind.annotation.*;
 
@@ -47,6 +47,7 @@ import java.util.stream.Collectors;
 public class AuthController {
     private static final Logger logger = LoggerFactory.getLogger(AuthController.class);
     private final SessionRegistry sessionRegistry;
+    private final PasswordEncoder passwordEncoder;
     private final AuthenticationManager authenticationManager;
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
@@ -58,8 +59,9 @@ public class AuthController {
     private final FamilyDetailsRepository familyDetailsRepository;
     private final UserNotificationService userNotificationService;
 
-    public AuthController(SessionRegistry sessionRegistry, AuthenticationManager authenticationManager, UserRepository userRepository, RoleRepository roleRepository, JwtUtils jwtUtils, PassWordRepository pa, ExperienceRepository experienceRepository, QualificationRepository qualificationRepository, HrRepository hrRepository, FamilyDetailsRepository familyDetailsRepository, UserNotificationService userNotificationService) {
+    public AuthController(SessionRegistry sessionRegistry, PasswordEncoder passwordEncoder, AuthenticationManager authenticationManager, UserRepository userRepository, RoleRepository roleRepository, JwtUtils jwtUtils, PassWordRepository pa, ExperienceRepository experienceRepository, QualificationRepository qualificationRepository, HrRepository hrRepository, FamilyDetailsRepository familyDetailsRepository, UserNotificationService userNotificationService) {
         this.sessionRegistry = sessionRegistry;
+        this.passwordEncoder = passwordEncoder;
         this.authenticationManager = authenticationManager;
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
@@ -132,9 +134,19 @@ public class AuthController {
         }
 
 
-        User user = new User(signUpRequest.getUsername(), signUpRequest.getEmail(), signUpRequest.getAddress()
-                , signUpRequest.getPhoneno(), signUpRequest.getTelephoneNumber(), signUpRequest.getDob(), signUpRequest.getMaritalStatus(), signUpRequest.getNativePalace()
-                , signUpRequest.getNationality(), signUpRequest.getPinCode(), signUpRequest.getBloodGroup(), signUpRequest.getIndentification());
+        User user = new User(signUpRequest.getUsername()
+                , signUpRequest.getEmail()
+                , signUpRequest.getAddress()
+                , signUpRequest.getPhoneno()
+                , signUpRequest.getTelephoneNumber()
+                , signUpRequest.getDob()
+                , signUpRequest.getMaritalStatus()
+                , signUpRequest.getNativePalace()
+                , signUpRequest.getNationality()
+                , signUpRequest.getPinCode()
+                , signUpRequest.getBloodGroup()
+                , signUpRequest.getIndentification()
+                );
 
         Set<String> strRoles = signUpRequest.getRoles();
         Set<Role> roles = new HashSet<>();

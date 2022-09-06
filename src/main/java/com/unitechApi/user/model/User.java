@@ -3,18 +3,17 @@ package com.unitechApi.user.model;
 
 import com.fasterxml.jackson.annotation.*;
 import com.unitechApi.AuditingAndResponse.Audit;
+import com.unitechApi.exception.validator.BirthDate;
 import com.unitechApi.store.Response.Model.ResEntity;
 import com.unitechApi.store.indent.Model.Indent;
 import com.unitechApi.store.issue.model.IssueItem;
+import com.unitechApi.store.po.Model.PoStore;
 import com.unitechApi.store.storeMangment.Model.StoreItemModel;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
+import javax.validation.constraints.*;
 import java.time.LocalDate;
 import java.time.Period;
 import java.util.Date;
@@ -54,7 +53,10 @@ public class User extends Audit<String> {
 
     @Column(name = "user_tele_number", nullable = true)
     private String telephoneNumber;
-    @Column(name = "Date_Of_birth", nullable = true)
+    @Column(name = "Date_Of_birth")
+    @BirthDate
+    @Past
+    @NotNull(message = "Add the value  ")
     private LocalDate dob;
     @Column(name = "marital_status", nullable = true)
     private String maritalStatus;
@@ -99,7 +101,9 @@ public class User extends Audit<String> {
     @OneToMany(mappedBy = "employe", cascade = CascadeType.ALL)
     @JsonIgnoreProperties("employe")
     private Set<StoreItemModel> itemModelSet;
-
+    @OneToMany(mappedBy = "",cascade = CascadeType.ALL)
+    @JsonIgnoreProperties(value = {"userListData"})
+    private Set<PoStore> poStoreSetData;
 
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
     @JsonManagedReference
@@ -181,10 +185,11 @@ public class User extends Audit<String> {
     public User() {
     }
 
+
+
     public User(String username, String email, String address, String phoneno, String telephoneNumber, LocalDate dob, String maritalStatus, String nativePalace, String nationality, int pinCode, String bloodGroup, String indentification) {
         this.username = username;
         this.email = email;
-
         this.address = address;
         this.phoneno = phoneno;
         this.telephoneNumber = telephoneNumber;
@@ -195,6 +200,7 @@ public class User extends Audit<String> {
         this.pinCode = pinCode;
         this.bloodGroup = bloodGroup;
         this.indentification = indentification;
+
         this.confirmatioStatus = ConfirmatioStatus.PENDING;
     }
 

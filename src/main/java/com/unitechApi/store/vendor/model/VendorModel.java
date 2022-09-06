@@ -88,8 +88,10 @@ public class VendorModel {
     private Date createdAt;
 
     @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(schema = "store_management", name = "item_Vendor_details",
-            joinColumns = @JoinColumn(name = "vendor_id"), inverseJoinColumns = @JoinColumn(name = "item_id"))
+    @JoinTable(schema = "store_management", name = "item_Vendor_details"
+            ,joinColumns = @JoinColumn(name = "vendor_id")
+            ,inverseJoinColumns = @JoinColumn(name = "item_id")
+            )
     @JsonIgnoreProperties({"contractModels", "itemRequest", "issueItem", "vendorDate", "unit", "productCategory", "employe", "dataVendorAndIndent"})
     private Set<StoreItemModel> itemData = new HashSet<>();
     @OneToMany(mappedBy = "vendorData", cascade = CascadeType.ALL)

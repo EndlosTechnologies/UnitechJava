@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.unitechApi.AuditingAndResponse.Audit;
 import com.unitechApi.store.indent.Model.Indent;
 import com.unitechApi.store.indent.Model.VendorWisePriceModel;
+import com.unitechApi.user.model.User;
 import lombok.Getter;
 import lombok.Setter;
 import org.apache.commons.lang3.RandomStringUtils;
@@ -51,6 +52,11 @@ public class PoStore extends Audit<String> {
     @OneToMany(mappedBy = "poStoreData", cascade = CascadeType.ALL)
     @JsonIgnoreProperties(value = {"poStoreData", "vendorWisePriceModel"})
     private Set<PoPrice> personalOrderPrice;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(foreignKey = @ForeignKey(name = "user_id"),name = "user_id",referencedColumnName ="user_profile_id" )
+    @JsonIgnoreProperties(value = {"poStoreSetData"})
+    private User userListData;
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(schema = "store_management", name = "po_with_price_data"
