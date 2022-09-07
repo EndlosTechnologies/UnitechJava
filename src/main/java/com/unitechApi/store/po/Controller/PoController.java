@@ -2,11 +2,14 @@ package com.unitechApi.store.po.Controller;
 
 import com.unitechApi.Payload.response.MessageResponse;
 import com.unitechApi.Payload.response.PageResponse;
+import com.unitechApi.Payload.response.Pagination;
 import com.unitechApi.store.po.Model.PoStore;
 import com.unitechApi.store.po.Service.PoStoreService;
 import com.unitechApi.store.po.view.PoByIndentView;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -44,9 +47,11 @@ public class PoController {
     }
 
     @GetMapping(value = "/getAll")
-    public ResponseEntity<?> getAll() {
-        List<?> getAll = poStoreService.findAll();
-        return new ResponseEntity<>(PageResponse.SuccessResponse(getAll), HttpStatus.OK);
+    public ResponseEntity<?> getAll(@RequestParam int page,
+                                    @RequestParam int pagesize) {
+        Pagination pagination = new Pagination(page, pagesize, Sort.by("poId"));
+        Page<?> getAll = poStoreService.findAll(pagination);
+        return new ResponseEntity<>(PageResponse.pagebleResponse(getAll, pagination), HttpStatus.OK);
     }
 
 //    @GetMapping(value = "/getByValue")
@@ -62,28 +67,29 @@ public class PoController {
         log.info("poNumber {} => ", poNumberData);
         return new ResponseEntity<>(PageResponse.SuccessResponse(poNumberData), HttpStatus.OK);
     }
+
     @GetMapping(value = "/utrNumber/{utrNumber}")
-    public ResponseEntity<?> findByUtrNumber(@PathVariable String utrNumber)
-    {
-        List<?> utrNumberData=poStoreService.findByUtrNumber(utrNumber);
-        log.info("utr Number Data -> {}",utrNumberData);
-        return new ResponseEntity<>(PageResponse.SuccessResponse(utrNumberData),HttpStatus.OK);
+    public ResponseEntity<?> findByUtrNumber(@PathVariable String utrNumber) {
+        List<?> utrNumberData = poStoreService.findByUtrNumber(utrNumber);
+        log.info("utr Number Data -> {}", utrNumberData);
+        return new ResponseEntity<>(PageResponse.SuccessResponse(utrNumberData), HttpStatus.OK);
     }
+
     @GetMapping(value = "/indentGetById/{indentId}")
-    public ResponseEntity<?> findByIndentId(@PathVariable Long indentId)
-    {
-        List<PoByIndentView> utrNumberData=poStoreService.findByIndentId(indentId);
-        log.info("indent  Number Data -> {}",utrNumberData.toString());
-        return new ResponseEntity<>(PageResponse.SuccessResponse(utrNumberData),HttpStatus.OK);
+    public ResponseEntity<?> findByIndentId(@PathVariable Long indentId) {
+        List<PoByIndentView> utrNumberData = poStoreService.findByIndentId(indentId);
+        log.info("indent  Number Data -> {}", utrNumberData.toString());
+        return new ResponseEntity<>(PageResponse.SuccessResponse(utrNumberData), HttpStatus.OK);
     }
-//    @GetMapping("/lock")
+
+    //    @GetMapping("/lock")
 //    public ResponseEntity<?> getPriceService() {
 //        List<?> data=poStoreService.findByLock();
 //        return new ResponseEntity<>(PageResponse.SuccessResponse(data),HttpStatus.OK);
 //    }
     @PostMapping(value = "/d")
     public ResponseEntity<?> DoublesaveData(@RequestBody PoStore poStore) {
-       PoStore data = poStoreService.doublePosaveData(poStore);
+        PoStore data = poStoreService.doublePosaveData(poStore);
         return new ResponseEntity<>(PageResponse.SuccessResponse(data), HttpStatus.OK);
     }
 

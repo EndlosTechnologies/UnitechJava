@@ -1,5 +1,6 @@
 package com.unitechApi.store.po.Service;
 
+import com.unitechApi.Payload.response.Pagination;
 import com.unitechApi.exception.ExceptionService.ResourceNotFound;
 import com.unitechApi.store.indent.Model.Indent;
 import com.unitechApi.store.indent.Model.IndentCreateHistory;
@@ -13,7 +14,6 @@ import com.unitechApi.store.po.Model.PoStore;
 import com.unitechApi.store.po.Repository.PoPriceRepository;
 import com.unitechApi.store.po.Repository.PoStoreRepository;
 import com.unitechApi.store.po.view.PoByIndentView;
-import com.unitechApi.store.storeMangment.Model.StoreItemModel;
 import com.unitechApi.store.storeMangment.repository.StoreItemRepository;
 import com.unitechApi.store.vendor.Repository.VendorRepository;
 import com.unitechApi.store.vendor.model.VendorModel;
@@ -21,11 +21,15 @@ import com.unitechApi.user.Repository.UserRepository;
 import com.unitechApi.user.model.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
-import java.util.*;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Set;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Service
 public class PoStoreService {
@@ -56,8 +60,6 @@ public class PoStoreService {
         Indent indent = indentRepository.getById(poStore.getIndentDAta().getIndentId());
         log.info("indent  {}", indent);
         List<VendorWisePriceModel> vend = priceModelRepository.findByIndentId(indent.getIndentId());
-        List<StoreItemModel> data = storeItemRepository.findAll();
-        List<VendorModel> vendorModels = vendorRepository.findAll();
 
         log.info("vendor price model  {}", vend);
         //   List<String> data = new ArrayList<>();
@@ -89,8 +91,10 @@ public class PoStoreService {
         return poStoreRepository.findById(poId).orElseThrow(() -> new ResourceNotFound("Resource Not Found " + poId));
     }
 
-    public List<PoStore> findAll() {
-        return poStoreRepository.findAll().stream().sorted(Comparator.comparing(PoStore::getPoId)).collect(Collectors.toList());
+    public Page<PoStore> findAll(Pagination pagination) {
+        return poStoreRepository.findAll(pagination.getpageble());
+
+
     }
 
     public void changeDeleteStatus(boolean deleteView, Long poId) {
@@ -98,7 +102,7 @@ public class PoStoreService {
     }
 
     public List<PoStore> findByDeleteViewStatus() {
-        return poStoreRepository.findByDeleteView().stream().filter(x -> x.isDeleteView() == true).sorted(Comparator.comparing(PoStore::getPoId)).collect(Collectors.toList());
+        return poStoreRepository.findByDeleteView().stream().filter(PoStore::isDeleteView).sorted(Comparator.comparing(PoStore::getPoId)).collect(Collectors.toList());
     }
 
 //    public List<PoStore> findByDescOrder(Long itemId, Long poId) {
@@ -119,7 +123,6 @@ public class PoStoreService {
 
 
     public PoStore doublePosaveData(PoStore poStore) {
-        List<PoStore> dataPo = new ArrayList<>();
         AtomicReference<Float> totalAmount = new AtomicReference<>((float) 0);
         Indent indent = indentRepository.getById(poStore.getIndentDAta().getIndentId());
         User user = userRepository.getById(poStore.getUserListData().getId());
@@ -130,11 +133,11 @@ public class PoStoreService {
         log.info("indent  {}", indent);
         List<VendorWisePriceModel> vend = priceModelRepository.findByIndentId(indent.getIndentId());
 //        VendorWisePriceModel vendorWisePriceModel=priceModelRepository.getById(poStore.getListOfpO())
-        Set<VendorWisePriceModel> dtaa = new HashSet<>(vend);
         Set<VendorWisePriceModel> helllo = poStore
                 .getListOfpO()
                 .stream()
-                .map(data -> {
+                .peek(data -> {
+                    log.info("inner in loop  {}", data);
                     PoPrice poPrice = new PoPrice();
                     VendorWisePriceModel v = priceModelRepository.getById(data.getPrice_id());
                     VendorModel vendorModel = vendorRepository.getById(v.getVendorModelData().getId());
@@ -150,7 +153,6 @@ public class PoStoreService {
                     poStore.setAmount(totalAmount.get());
                     poPriceRepository.save(poPrice);
                     log.info("price the id{} and vendor id {}", v, vendorModel.getId());
-                    return data;
                 }).collect(Collectors.toSet());
         log.info("price Id {}", helllo);
 
