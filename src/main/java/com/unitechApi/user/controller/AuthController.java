@@ -255,8 +255,6 @@ public class AuthController {
             Map<String, Object> response = new HashMap<>();
             response.put("Total_User", user);
             response.put("current Page", pageTuts.getNumber());
-            int d = pageTuts.getNumber();
-            System.out.println(d);
             response.put("total Items", pageTuts.getTotalElements());
             response.put("total Pages", pageTuts.getTotalPages());
             return new ResponseEntity<>(response, HttpStatus.OK);

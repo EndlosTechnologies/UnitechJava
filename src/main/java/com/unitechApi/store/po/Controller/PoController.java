@@ -82,11 +82,11 @@ public class PoController {
         return new ResponseEntity<>(PageResponse.SuccessResponse(utrNumberData), HttpStatus.OK);
     }
 
-    //    @GetMapping("/lock")
-//    public ResponseEntity<?> getPriceService() {
-//        List<?> data=poStoreService.findByLock();
-//        return new ResponseEntity<>(PageResponse.SuccessResponse(data),HttpStatus.OK);
-//    }
+        @GetMapping("/getById/{poId}")
+    public ResponseEntity<?> getPriceService(@PathVariable Long poId) {
+        PoStore data=poStoreService.findById(poId);
+        return new ResponseEntity<>(PageResponse.SuccessResponse(data),HttpStatus.OK);
+    }
     @PostMapping(value = "/d")
     public ResponseEntity<?> DoublesaveData(@RequestBody PoStore poStore) {
         PoStore data = poStoreService.doublePosaveData(poStore);
