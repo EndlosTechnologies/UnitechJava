@@ -32,7 +32,7 @@ public class PoPrice {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(foreignKey = @ForeignKey(name = "ind_id"), name = "ind_id", referencedColumnName = "indentId")
     @JsonIgnoreProperties(value = {"personalOrder","vendorWisePriceSet","poPriceswithIndent"
-                            ,"issue","vendorData","dataVendorAndIndent"})
+                            ,"issue","vendorData","dataVendorAndIndent","indentQuantityList"})
     private Indent indentDAtaPo;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(foreignKey = @ForeignKey(name = "item_id"), name = "item_id", referencedColumnName = "itemId")

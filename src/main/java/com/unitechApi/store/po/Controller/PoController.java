@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
+@CrossOrigin
 @RequestMapping(value = "/unitech/api/v1/store/po")
 public class PoController {
     private final PoStoreService poStoreService;
