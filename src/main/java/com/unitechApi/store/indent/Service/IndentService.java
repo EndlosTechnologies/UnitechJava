@@ -27,6 +27,7 @@ import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.Collectors;
 
 @Service
@@ -104,6 +105,24 @@ public class IndentService {
     }
 
 
+    public Object UpdateVendorPriceData(Long priceId, Long indentId) {
+        final float[] tax = {0};
+        VendorWisePriceModel vendorWisePriceModel = priceModelRepository.getById(priceId);
+        Indent indent = indentRepository.getById(indentId);
+        indent.getIndentQuantityList().stream().map(change -> {
+            IndentQuantity in = quantityRepository.getById(change.getQuantityId());
+            //  log.info(" update data {}", in);
+            vendorWisePriceModel.setItemQuantity(in.getQuantity());
+
+            vendorWisePriceModel.setWithoutTax((float) (vendorWisePriceModel.getPriceItem() + vendorWisePriceModel.getItemQuantity()));
+            tax[0] = (float) ((vendorWisePriceModel.getItemQuantity() * vendorWisePriceModel.getPriceItem() * vendorWisePriceModel.getItemModelPrice().getPaytax()) / 100);
+            vendorWisePriceModel.setIncludingTax(tax[0]);
+            return change;
+        }).collect(Collectors.toList());
+
+        return priceModelRepository.save(vendorWisePriceModel);
+    }
+
     public Object changeStatus(long itemId, Indent dta) {
 
 
@@ -114,35 +133,19 @@ public class IndentService {
         } else if (itemRequest.getIndentStatus() == IndentStatus.ADMIN && dta.getIndentStatus() == IndentStatus.STORE) {
             itemRequest.setIndentStatus(IndentStatus.STORE);
         } else if (itemRequest.getIndentStatus() == IndentStatus.STORE && dta.getIndentStatus() == IndentStatus.ADMIN_LAST) {
-            itemRequest.setIndentStatus(IndentStatus.ADMIN_LAST);
-            List<IndentQuantity> lis = itemRequest.getIndentQuantityList()
+            List<Float> dataQuantity = itemRequest.getIndentQuantityList()
                     .stream()
-                    .map(data -> {
-                        VendorWisePriceModel vd = new VendorWisePriceModel();
-                        IndentQuantity quantity = quantityRepository.getById(data.getQuantityId());
-                        for (VendorWisePriceModel v : dta.getVendorWisePriceSet()) {
-                            v.setIndentPrice(itemRequest);
-                            priceModelRepository.save(v);
-                        }
-                        vd.setItemQuantity(quantity.getQuantity());
-                        priceModelRepository.save(vd);
-                        log.info("item Quantity {}", vd.getItemQuantity());
-                        return data;
-                    })
-                    .collect(Collectors.toList());
-            log.info("list of {}", lis);
-//            for (VendorWisePriceModel v : dta.getVendorWisePriceSet()) {
-//
-//                v.setIndentPrice(itemRequest);
-//                log.info("price Date  {}", v);
-//                priceModelRepository.save(v);
-//                lis.stream()
-//                        .map(hello -> {
-//                            v.setItemQuantity(hello.getQuantity());
-//                            return hello;
-//                        }).collect(Collectors.toList());
-//            }
+                    .map(d -> {
+                        return d.getQuantity();
+                    }).collect(Collectors.toList());
+            log.info("size of data quantity{}", dataQuantity);
+            for (VendorWisePriceModel v : dta.getVendorWisePriceSet()) {
+                v.setIndentPrice(itemRequest);
+                priceModelRepository.save(v);
 
+            }
+
+            itemRequest.setIndentStatus(IndentStatus.ADMIN_LAST);
         } else if (dta.getIndentStatus() == IndentStatus.CANCEL) {
             itemRequest.setIndentStatus(IndentStatus.CANCEL);
         } else if (dta.getIndentStatus() == IndentStatus.REJECT) {

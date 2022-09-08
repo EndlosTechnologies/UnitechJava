@@ -93,14 +93,14 @@ public class IndentController {
             @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") Date end,
             @RequestParam(required = false) Integer page,
             @RequestParam(required = false) Integer pagesize,
-            @RequestParam (required = false)String indentNumber
+            @RequestParam(required = false) String indentNumber
 
-    )
-    {
-        Pagination pagination=new Pagination(page,pagesize, Sort.by(Sort.Direction.ASC,"indentId"));
-        Page<?> data= indentService.findByListDateBetweenWithIndentNumber(start,end,pagination,indentNumber);
-        return new ResponseEntity<>(PageResponse.pagebleResponse(data,pagination), HttpStatus.OK);
+    ) {
+        Pagination pagination = new Pagination(page, pagesize, Sort.by(Sort.Direction.ASC, "indentId"));
+        Page<?> data = indentService.findByListDateBetweenWithIndentNumber(start, end, pagination, indentNumber);
+        return new ResponseEntity<>(PageResponse.pagebleResponse(data, pagination), HttpStatus.OK);
     }
+
     @GetMapping(value = "/show/indentNumber")
     public ResponseEntity<?> findByIndentNumber(@RequestParam String indentNumber
 
@@ -123,6 +123,12 @@ public class IndentController {
         Pagination pagination = new Pagination(page, pagesize);
         Page<Indent> getPage = indentService.getByAll(keyword, pagination);
         return new ResponseEntity<>(PageResponse.pagebleResponse(getPage, pagination), HttpStatus.OK);
+    }
+
+    @PatchMapping(value = "/update/vendorPrice/{priceId}/{indentId}")
+    public ResponseEntity<?> updateTaxOrWithoutTax(@PathVariable Long priceId, @PathVariable Long indentId) {
+        Object updateData = indentService.UpdateVendorPriceData(priceId, indentId);
+        return new ResponseEntity<>(PageResponse.SuccessResponse(updateData), HttpStatus.PARTIAL_CONTENT);
     }
 
     @PostMapping(value = "/getAllByIndent")
