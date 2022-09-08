@@ -7,6 +7,7 @@ import com.unitechApi.common.query.SearchRequest;
 import com.unitechApi.store.indent.Model.Indent;
 import com.unitechApi.store.indent.Model.IndentQuantity;
 import com.unitechApi.store.indent.Model.IndentStatus;
+import com.unitechApi.store.indent.Model.VendorWisePriceModel;
 import com.unitechApi.store.indent.Repository.IndentRepository;
 import com.unitechApi.store.indent.Repository.QuantityRepository;
 import com.unitechApi.store.indent.Service.IndentService;
@@ -125,9 +126,9 @@ public class IndentController {
         return new ResponseEntity<>(PageResponse.pagebleResponse(getPage, pagination), HttpStatus.OK);
     }
 
-    @PatchMapping(value = "/update/vendorPrice/{priceId}/{indentId}")
-    public ResponseEntity<?> updateTaxOrWithoutTax(@PathVariable Long priceId, @PathVariable Long indentId) {
-        Object updateData = indentService.UpdateVendorPriceData(priceId, indentId);
+    @PatchMapping(value = "/update/PvendorPrice/{indentId}")
+    public ResponseEntity<?> updateTaxOrWithoutTax(@PathVariable Long indentId, @RequestBody VendorWisePriceModel vendorWisePriceModel) {
+        Object updateData = indentService.updateVendorPrice(indentId,vendorWisePriceModel);
         return new ResponseEntity<>(PageResponse.SuccessResponse(updateData), HttpStatus.PARTIAL_CONTENT);
     }
 

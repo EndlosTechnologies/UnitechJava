@@ -33,6 +33,7 @@ public class SearchSpecification<T> implements Specification<T> {
         for (SortRequest sort : this.request.getSorts()) {
             orders.add(sort.getDirection().build(root, cb, sort));
         }
+        this.request.getSorts();
 
         query.orderBy(orders);
         return predicate;

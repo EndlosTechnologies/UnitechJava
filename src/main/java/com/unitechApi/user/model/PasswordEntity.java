@@ -27,7 +27,6 @@ public class PasswordEntity  {
     }
 
     public String getPassword() {
-        System.out.println(password);
         return password;
     }
 
@@ -50,21 +49,5 @@ public class PasswordEntity  {
     public void savePassword(User u) {
         this.user=u;
     }
-
-    /**
-     * Returns a {@code CharSequence} that is a subsequence of this sequence.
-     * The subsequence starts with the {@code char} value at the specified index and
-     * ends with the {@code char} value at index {@code end - 1}.  The length
-     * (in {@code char}s) of the
-     * returned sequence is {@code end - start}, so if {@code start == end}
-     * then an empty sequence is returned.
-     *
-     * @param start the start index, inclusive
-     * @param end   the end index, exclusive
-     * @return the specified subsequence
-     * @throws IndexOutOfBoundsException if {@code start} or {@code end} are negative,
-     *                                   if {@code end} is greater than {@code length()},
-     *                                   or if {@code start} is greater than {@code end}
-     */
 
 }
