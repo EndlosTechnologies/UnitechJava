@@ -31,6 +31,11 @@ public class SearchRequest implements Serializable {
 
     private Integer size;
 
+    public SearchRequest(Integer page, Integer size) {
+        this.page = page;
+        this.size = size;
+    }
+
     public List<FilterRequest> getFilters() {
         if (Objects.isNull(this.filters)) return new ArrayList<>();
         return this.filters;

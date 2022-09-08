@@ -114,17 +114,35 @@ public class IndentService {
         } else if (itemRequest.getIndentStatus() == IndentStatus.ADMIN && dta.getIndentStatus() == IndentStatus.STORE) {
             itemRequest.setIndentStatus(IndentStatus.STORE);
         } else if (itemRequest.getIndentStatus() == IndentStatus.STORE && dta.getIndentStatus() == IndentStatus.ADMIN_LAST) {
-            for (VendorWisePriceModel v : dta.getVendorWisePriceSet()) {
-                v.setIndentPrice(itemRequest);
-                itemRequest.getIndentQuantityList()
-                        .stream()
-                        .map(data -> {
-                            v.setItemQuantity(data.getQuantity());
-                            return data;
-                        }).collect(Collectors.toList());
-                priceModelRepository.save(v);
-            }
             itemRequest.setIndentStatus(IndentStatus.ADMIN_LAST);
+            List<IndentQuantity> lis = itemRequest.getIndentQuantityList()
+                    .stream()
+                    .map(data -> {
+                        VendorWisePriceModel vd = new VendorWisePriceModel();
+                        IndentQuantity quantity = quantityRepository.getById(data.getQuantityId());
+                        for (VendorWisePriceModel v : dta.getVendorWisePriceSet()) {
+                            v.setIndentPrice(itemRequest);
+                            priceModelRepository.save(v);
+                        }
+                        vd.setItemQuantity(quantity.getQuantity());
+                        priceModelRepository.save(vd);
+                        log.info("item Quantity {}", vd.getItemQuantity());
+                        return data;
+                    })
+                    .collect(Collectors.toList());
+            log.info("list of {}", lis);
+//            for (VendorWisePriceModel v : dta.getVendorWisePriceSet()) {
+//
+//                v.setIndentPrice(itemRequest);
+//                log.info("price Date  {}", v);
+//                priceModelRepository.save(v);
+//                lis.stream()
+//                        .map(hello -> {
+//                            v.setItemQuantity(hello.getQuantity());
+//                            return hello;
+//                        }).collect(Collectors.toList());
+//            }
+
         } else if (dta.getIndentStatus() == IndentStatus.CANCEL) {
             itemRequest.setIndentStatus(IndentStatus.CANCEL);
         } else if (dta.getIndentStatus() == IndentStatus.REJECT) {
@@ -132,34 +150,13 @@ public class IndentService {
         } else if (dta.getIndentStatus() == IndentStatus.DONE) {
             itemRequest.setIndentStatus(IndentStatus.DONE);
         }
-        //else if (itemRequest.getIndentStatus()==IndentStatus.ADMIN_LAST && dta.getIndentStatus()== )
-
-        //        if (itemRequest.getIndentStatus().equals(IndentStatus.ADMIN)) {
-//            log.info("vendor id {}", dta.getVendorData().getId());
-//            VendorModel vendorModel = vendorService.FindById(dta.getVendorData().getId());
-//            vendorModel.getIndentList().add(itemRequest);
-//            log.info(" vendor first details {} ", vendorModel);
-//            itemRequest.setVendorData(vendorModel);
-//            log.info(" vendor details {} ", vendorModel);
-//        }
-//        if (dta.getIndentStatus() == IndentStatus.STORE) {
-//            for (VendorWisePriceModel v : dta.getVendorWisePriceSet()) {
-//                v.setIndentPrice(itemRequest);
-//                priceModelRepository.save(v);
-//            }
-//        }
-        //itemRequest.setIndentStatus(dta.getIndentStatus());
-        log.info("item Request {}", itemRequest);
         indentRepository.save(itemRequest);
         indentEventRepository.save(new IndentCreateHistory(itemRequest.getIndentNumber(), itemRequest.getIndentId(), itemRequest.getIndentStatus(), user.getId(), user.getUsername(), dta.getComment()));
         return itemRequest;
     }
 
     public List<Indent> findAll() {
-        return indentRepository.findAll()
-                .stream()
-                .sorted(Comparator.comparing(Indent::getIndentId).reversed())
-                .collect(Collectors.toList());
+        return indentRepository.findAll().stream().sorted(Comparator.comparing(Indent::getIndentId).reversed()).collect(Collectors.toList());
     }
 
 

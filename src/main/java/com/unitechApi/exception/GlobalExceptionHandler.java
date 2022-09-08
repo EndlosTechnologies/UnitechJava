@@ -2,6 +2,7 @@ package com.unitechApi.exception;
 
 import com.unitechApi.exception.ExceptionService.*;
 import com.unitechApi.exception.Model.ExceptionMOdel;
+import com.unitechApi.exception.Model.VadationErrorMessage;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.http.HttpHeaders;
@@ -22,6 +23,7 @@ import java.util.stream.Collectors;
 @RestControllerAdvice
 @RequiredArgsConstructor
 public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
+
     @ExceptionHandler(DateMisMatchException.class)
     public ResponseEntity<?> handleDateMismatch(DateMisMatchException ex) {
         ExceptionMOdel exceptionMOdel = new ExceptionMOdel();
@@ -34,7 +36,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
     @Override
-    protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
+    protected  ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
         Map<String, List<String>> body = new HashMap<>();
 
         List<String> errors = ex.getBindingResult()
@@ -48,13 +50,15 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
 
     @ExceptionHandler(Fileincorrect.class)
-    public ResponseEntity<?> handleFileAreIncorrect(Fileincorrect ex) {
+    public ResponseEntity<?> handleFileAreIncorrect(Fileincorrect ex,MethodArgumentNotValidException exception) {
+
         ExceptionMOdel exceptionMOdel = new ExceptionMOdel();
         exceptionMOdel.setDetails(ex.getClass().getCanonicalName());
         exceptionMOdel.setDeveloperMessage(ex.fillInStackTrace().getMessage());
         exceptionMOdel.setStatus(HttpStatus.CONFLICT.value());
         exceptionMOdel.setTitle("File Format nor Supported ! please try again ");
         exceptionMOdel.setTimestamp((String.valueOf(LocalDateTime.now())));
+     //   exceptionMOdel.setValidationErrors(hre.HEandleMEthois(exception));
         return new ResponseEntity<>(exceptionMOdel, HttpStatus.CONFLICT);
     }
     @ExceptionHandler(ImageException.class)
@@ -182,4 +186,19 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         exceptionMOdel.setTimestamp((String.valueOf(LocalDateTime.now())));
         return new ResponseEntity<>(exceptionMOdel, HttpStatus.NOT_FOUND);
     }
+
+//    private class HandleErros {
+//        public Map<String, List<VadationErrorMessage>> HEandleMEthois(MethodArgumentNotValidException ex)
+//        {
+//             Map<String, List<String>> body = new HashMap<>();
+//            List<String> errors = ex.getBindingResult()
+//                    .getFieldErrors()
+//                    .stream()
+//                    .map(DefaultMessageSourceResolvable::getDefaultMessage)
+//                    .collect(Collectors.toList());
+//             body.put("errors", errors);
+//
+//            return body.entrySet();
+//        }
+//    }
 }

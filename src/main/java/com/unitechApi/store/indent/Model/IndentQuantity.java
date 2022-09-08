@@ -94,7 +94,7 @@ public class IndentQuantity {
 
     @Override
     public String toString() {
-        return "IndentQuantity{" + storeItemIndentQuantityData.getItemId() +
+        return "IndentQuantity{ ->  item  id " + storeItemIndentQuantityData.getItemId() + "  "+
                 "quantityId=" + quantityId +
                 ", inculdingTax=" + inculdingTax +
                 ", withoutTax=" + withoutTax +

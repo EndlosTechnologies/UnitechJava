@@ -75,6 +75,7 @@ public class VendorWisePriceModel {
         return "VendorWisePriceModel{" +
                 "price_id=" + price_id +
                 ", priceItem=" + priceItem +
+                "quantity "+ itemQuantity +
                 '}';
     }
 }

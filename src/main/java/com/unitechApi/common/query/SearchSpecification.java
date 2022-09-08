@@ -39,7 +39,7 @@ public class SearchSpecification<T> implements Specification<T> {
     }
 
     public static Pageable getPageable(Integer page, Integer size) {
-        return PageRequest.of(0,100);
+        return PageRequest.of(page,size);
     }
 
 }
