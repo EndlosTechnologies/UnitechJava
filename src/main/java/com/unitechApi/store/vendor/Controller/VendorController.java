@@ -2,14 +2,18 @@ package com.unitechApi.store.vendor.Controller;
 
 import com.unitechApi.Payload.response.MessageResponse;
 import com.unitechApi.Payload.response.PageResponse;
+import com.unitechApi.Payload.response.Pagination;
+import com.unitechApi.common.query.SearchRequest;
 import com.unitechApi.store.vendor.Service.VendorService;
 import com.unitechApi.store.vendor.model.VendorModel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.persistence.criteria.CriteriaBuilder;
 import javax.validation.Valid;
 import java.sql.Date;
 import java.util.List;
@@ -70,6 +74,24 @@ public class VendorController {
         logger.info("deleted data {} =>",dataDelete);
         return new ResponseEntity<>(new MessageResponse("Record Delete SuccessFully "),HttpStatus.NO_CONTENT);
     }
+    @GetMapping("/getByDto")
+    public ResponseEntity<?> getByDto(@RequestParam Integer page,
+                                        @RequestParam Integer pagesize) {
+        Pagination pagination=new Pagination(page,pagesize);
+        Page<?> vendorModels=vendorService.findAllGetByDto(pagination);
+        return new ResponseEntity<>(PageResponse.pagebleResponse(vendorModels,pagination), HttpStatus.OK);
+    }
+    @GetMapping("/getByDtoById/{vId}")
+    public ResponseEntity<?> getByDto(@PathVariable Long vId) {
 
+        List<?> vendorModels=vendorService.getById(vId);
+        return new ResponseEntity<>(PageResponse.SuccessResponse(vendorModels), HttpStatus.OK);
+    }
+    @PostMapping(value = "/getBySorting")
+    public ResponseEntity<?> getBySorting(@RequestBody SearchRequest request)
+    {
+        Page<?> vendorData=vendorService.getByAllVendor(request);
+        return new ResponseEntity<>(PageResponse.SuccessResponse(vendorData),HttpStatus.OK);
+    }
 
 }

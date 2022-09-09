@@ -10,10 +10,11 @@ import com.unitechApi.user.model.User;
 import lombok.Getter;
 import lombok.Setter;
 import org.apache.commons.lang3.RandomStringUtils;
+import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -44,19 +45,15 @@ public class Indent extends Audit<String> {
     private IndentStatus indentStatus;
     private Long doid;
     private float includingTax;
-    private Date created;
+    @CreatedDate
+    private LocalDateTime created;
     private String comment;
     @Transient
     private state state;
 
-    public Date getCreated() {
-        return created;
-    }
 
-    @PrePersist
-    public void setCreated() {
-        this.created = new Date();
-    }
+
+
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(foreignKey = @ForeignKey(name = "emp_id"), name = "emp_id", referencedColumnName = "user_profile_id")

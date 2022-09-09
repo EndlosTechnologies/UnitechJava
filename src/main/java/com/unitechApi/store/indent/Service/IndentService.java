@@ -133,18 +133,6 @@ public class IndentService {
                         return priceModelRepository.save(data);
                     }).collect(Collectors.toList());
             itemRequest.setIndentStatus(IndentStatus.ADMIN_LAST);
-//            for (IndentQuantity i : itemRequest.getIndentQuantityList()) {
-//                VendorWisePriceModel v = new VendorWisePriceModel();
-//                v.setItemQuantity(i.getQuantity());
-//                // v.setIndentPrice(itemRequest);
-//                v.setWithoutTax((float) (i.getQuantity() + v.getPriceItem()));
-            //  float tax = (float) ((v.getItemQuantity() * v.getPriceItem() * i.getStoreItemIndentQuantityData().getPaytax()) / 100);
-//                v.setIncludingTax(tax);
-//                itemRequest.addPriceSet(v);
-//                //  log.info("add {}",itemRequest.getVendorWisePriceSet().add(v));
-//                priceModelRepository.save(v);
-//            }
-
         } else if (dta.getIndentStatus() == IndentStatus.CANCEL) {
             itemRequest.setIndentStatus(IndentStatus.CANCEL);
         } else if (dta.getIndentStatus() == IndentStatus.REJECT) {
@@ -173,7 +161,10 @@ public class IndentService {
     }
 
     public List<Indent> findAll() {
-        return indentRepository.findAll().stream().sorted(Comparator.comparing(Indent::getIndentId).reversed()).collect(Collectors.toList());
+        return indentRepository.findAll()
+                .stream()
+                .sorted(Comparator.comparing(Indent::getIndentId).reversed())
+                .collect(Collectors.toList());
     }
 
 
@@ -182,7 +173,10 @@ public class IndentService {
     }
 
     public List<Indent> findByStatus(IndentStatus indentStatus) {
-        return indentRepository.findByIndentStatus(indentStatus).stream().sorted(Comparator.comparing(Indent::getIndentId).reversed()).collect(Collectors.toList());
+        return indentRepository.findByIndentStatus(indentStatus)
+                .stream()
+                .sorted(Comparator.comparing(Indent::getIndentId).reversed())
+                .collect(Collectors.toList());
     }
 
 
@@ -208,39 +202,9 @@ public class IndentService {
     public Page<Indent> searchIndent(SearchRequest request) {
         SearchSpecification<Indent> specification = new SearchSpecification<>(request);
         Pageable pageable = SearchSpecification.getPageable(request.getPage(), request.getSize());
+
         return indentRepository.findAll(specification, pageable);
     }
 
 
-    public Object changeRequestStatus(long itemId, Indent dta) {
-
-
-        Indent itemRequest = indentRepository.findById(itemId).orElseThrow(() -> new ItemNotFound("Sorry ! Item Was Not Found"));
-        User user = userRepository.getById(dta.getEmployee().getId());
-        //  if (itemRequest.Approoved())
-
-        indentRepository.save(itemRequest);
-        indentEventRepository.save(new IndentCreateHistory(itemRequest.getIndentNumber(), itemRequest.getIndentId(), itemRequest.getIndentStatus(), user.getId(), user.getUsername(), dta.getComment()));
-        return itemRequest;
-    }
-
-
-    //        indent.getStoreItemList()
-//                .addAll(
-//                        indent
-//                                .getStoreItemList()
-//                                .stream()
-//                                .map(x -> {
-//                                            StoreItemModel itemModel = storeItemRepository.findById(x.getItemId())
-//                                                    .orElseThrow(() -> new ItemNotFound("item not Found"));
-//
-//                                            indent.setIncludingTax(((indent.getTotal() * itemModel.getPaytax()) / 100) + indent.getTotal());
-//                                            log.info("get Including Tax {} And Item {}", indent.getIncludingTax(), itemModel);
-//                                            return x;
-//                                        }
-//
-//                                )
-//
-//                                .collect(Collectors.toList())
-//                        );
 }

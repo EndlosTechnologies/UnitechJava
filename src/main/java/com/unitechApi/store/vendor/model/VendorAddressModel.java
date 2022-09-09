@@ -11,6 +11,7 @@ import javax.persistence.*;
 @Table(name = "vendor_address",schema = "store_management")
 @Getter
 @Setter
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class VendorAddressModel {
     @Id
     @Column(name = "id", nullable = false)
@@ -24,7 +25,7 @@ public class VendorAddressModel {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(foreignKey = @ForeignKey(name = "vendor_id"),name = "vendor_id",referencedColumnName = "vendor_id")
-    @JsonIgnoreProperties(value = {"vendorAddressModels","itemData","indentList","vendorWisePriceDAta"})
+    @JsonIgnoreProperties(value = {"vendorAddressModels","itemData","indentList","vendorWisePriceDAta","vendorData"})
     private VendorModel vendorData;
 
     public Long getId() {
@@ -33,5 +34,16 @@ public class VendorAddressModel {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    @Override
+    public String toString() {
+        return "VendorAddressModel{" +
+                "id=" + id +
+                ", state='" + state + '\'' +
+                ", city='" + city + '\'' +
+                ", pincode='" + pincode + '\'' +
+                ", vendorAddressType=" + vendorAddressType +
+                '}';
     }
 }

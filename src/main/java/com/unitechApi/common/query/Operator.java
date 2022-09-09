@@ -6,8 +6,12 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.Expression;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
+import java.util.Date;
 import java.util.List;
+
 @Slf4j
 public enum Operator {
     EQUAL {
@@ -49,10 +53,23 @@ public enum Operator {
             Object value = request.getFieldType().parse(request.getValue().toString());
             Object valueTo = request.getFieldType().parse(request.getValueTo().toString());
             if (request.getFieldType() == FieldType.DATE) {
+                // for date
+//                Date startDate = (Date) value;
+//                Date endDate = (Date) valueTo;
+//                Expression<Date> key = root.get(request.getKey()).as(Date.class);
+                // for LocalDateTIme
                 LocalDateTime startDate = (LocalDateTime) value;
                 LocalDateTime endDate = (LocalDateTime) valueTo;
-                Expression<LocalDateTime> key = root.get(request.getKey());
-                return cb.and(cb.and(cb.greaterThanOrEqualTo(key, startDate), cb.lessThanOrEqualTo(key, endDate)), predicate);
+                Expression<LocalDateTime> key = root.get(request.getKey()).as(LocalDateTime.class);
+                return cb.and(cb.and(cb.greaterThanOrEqualTo(key, startDate), cb.lessThanOrEqualTo(key, endDate.plusHours(23).plusMinutes(59))), predicate);
+                // local date
+//                LocalDate startDate = (LocalDate) value;
+//                LocalDate endDate = (LocalDate) valueTo;
+//                Expression<LocalDate> key = root.get(request.getKey()).as(LocalDate.class);
+//                cb.and(cb.and(cb.greaterThanOrEqualTo(key, startDate), cb.lessThanOrEqualTo(key, endDate.plus(23, ChronoUnit.HOURS).plus(59,ChronoUnit.MINUTES))), predicate);
+
+
+
             }
 
             if (request.getFieldType() != FieldType.CHAR && request.getFieldType() != FieldType.BOOLEAN) {

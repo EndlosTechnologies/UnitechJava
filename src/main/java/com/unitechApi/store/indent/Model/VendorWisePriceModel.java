@@ -24,7 +24,7 @@ public class VendorWisePriceModel {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "price_id", nullable = false)
     private Long price_id;
-    private float totalAmount;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(foreignKey = @ForeignKey(name = "item_id"), name = "item_id", referencedColumnName = "itemId")
     @JsonIgnoreProperties(value = {"vendorDate", "employe",
@@ -40,16 +40,11 @@ public class VendorWisePriceModel {
     @JsonIgnoreProperties(value = {"vendorWisePriceSet", "indentList", "employee", "vendorData",
             "issue", "indentQuantityList", "dataVendorAndIndent", "storeItem", "personalOrder", "poPriceswithIndent"})
     private Indent indentPrice;
-
+    private float totalAmount;
     private float includingTax;
     private float withoutTax;
     private float itemQuantity;
-
     private double priceItem;
-
-    public VendorWisePriceModel(float itemQuantity) {
-        this.itemQuantity = itemQuantity;
-    }
 
     public Long getPrice_id() {
         return price_id;

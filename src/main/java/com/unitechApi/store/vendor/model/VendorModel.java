@@ -92,20 +92,20 @@ public class VendorModel {
             ,joinColumns = @JoinColumn(name = "vendor_id")
             ,inverseJoinColumns = @JoinColumn(name = "item_id")
             )
-    @JsonIgnoreProperties({"contractModels", "itemRequest", "issueItem", "vendorDate", "unit", "productCategory", "employe", "dataVendorAndIndent"})
+    @JsonIgnoreProperties({"contractModels", "itemRequest", "issueItem","vendorWisePriceDAta", "vendorDate", "unit", "productCategory", "employe", "dataVendorAndIndent"})
     private Set<StoreItemModel> itemData = new HashSet<>();
     @OneToMany(mappedBy = "vendorData", cascade = CascadeType.ALL)
-    @JsonIgnoreProperties("vendorData")
+    @JsonIgnoreProperties(value = {"vendorData", "vendorWisePriceDAta"})
     private Set<Indent> indentList;
     @OneToMany(mappedBy = "vendorModelData",cascade = CascadeType.ALL)
-    @JsonIgnoreProperties(value = {"vendorModelData"})
+    @JsonIgnoreProperties(value = {"vendorModelData","vendorWisePriceDAta"})
     private Set<VendorWisePriceModel> vendorWisePriceDAta;
     @OneToMany(mappedBy = "vendorData",cascade = CascadeType.ALL)
-    @JsonIgnoreProperties(value = {"vendorData"})
+    @JsonIgnoreProperties(value = {"vendorData","vendorData","vendorWisePriceDAta"})
     private Set<VendorAddressModel> vendorAddressModels;
 
     @OneToMany(mappedBy = "vendorModels",cascade = CascadeType.ALL)
-    @JsonIgnoreProperties(value = {"vendorModels"})
+    @JsonIgnoreProperties(value = {"vendorModels","vendorWisePriceDAta"})
     private Set<PoPrice> poPriceSetData;
 
 
