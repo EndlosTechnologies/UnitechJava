@@ -114,18 +114,36 @@ public class IndentService {
         } else if (itemRequest.getIndentStatus() == IndentStatus.ADMIN && dta.getIndentStatus() == IndentStatus.STORE) {
             itemRequest.setIndentStatus(IndentStatus.STORE);
         } else if (itemRequest.getIndentStatus() == IndentStatus.STORE && dta.getIndentStatus() == IndentStatus.ADMIN_LAST) {
+            dta.getVendorWisePriceSet()
+                    .stream()
+                    .map(data -> {
+                        StoreItemModel itemModel = storeItemRepository.getById(data.getItemModelPrice().getItemId());
+                        List<IndentQuantity> indentQuantityList = quantityRepository.findByIndentIdAndItemId(itemId, itemModel.getItemId());
+                        log.info("list Quantity by itemid and Indnet iD {}", indentQuantityList);
+                        indentQuantityList
+                                .stream()
+                                .forEach(setDAta -> {
+                                    data.setItemQuantity(setDAta.getQuantity());
+                                    data.setIndentPrice(itemRequest);
+                                    data.setWithoutTax((float) (setDAta.getQuantity() * data.getPriceItem()));
+                                    float tax = (data.getWithoutTax() * itemModel.getPaytax()) / 100;
+                                    data.setIncludingTax(tax);
+                                    data.setTotalAmount(tax + data.getWithoutTax());
+                                });
+                        return priceModelRepository.save(data);
+                    }).collect(Collectors.toList());
             itemRequest.setIndentStatus(IndentStatus.ADMIN_LAST);
-            for (IndentQuantity i : itemRequest.getIndentQuantityList()) {
-                VendorWisePriceModel v = new VendorWisePriceModel();
-                v.setItemQuantity(i.getQuantity());
-                // v.setIndentPrice(itemRequest);
-                v.setWithoutTax((float) (i.getQuantity() + v.getPriceItem()));
-                float tax = (float) ((v.getItemQuantity() * v.getPriceItem() * i.getStoreItemIndentQuantityData().getPaytax()) / 100);
-                v.setIncludingTax(tax);
-                itemRequest.addPriceSet(v);
-                //  log.info("add {}",itemRequest.getVendorWisePriceSet().add(v));
-                priceModelRepository.save(v);
-            }
+//            for (IndentQuantity i : itemRequest.getIndentQuantityList()) {
+//                VendorWisePriceModel v = new VendorWisePriceModel();
+//                v.setItemQuantity(i.getQuantity());
+//                // v.setIndentPrice(itemRequest);
+//                v.setWithoutTax((float) (i.getQuantity() + v.getPriceItem()));
+            //  float tax = (float) ((v.getItemQuantity() * v.getPriceItem() * i.getStoreItemIndentQuantityData().getPaytax()) / 100);
+//                v.setIncludingTax(tax);
+//                itemRequest.addPriceSet(v);
+//                //  log.info("add {}",itemRequest.getVendorWisePriceSet().add(v));
+//                priceModelRepository.save(v);
+//            }
 
         } else if (dta.getIndentStatus() == IndentStatus.CANCEL) {
             itemRequest.setIndentStatus(IndentStatus.CANCEL);
@@ -141,14 +159,14 @@ public class IndentService {
 
     public Object updateVendorPrice(Long priceId, VendorWisePriceModel vendorWisePriceModel) {
         VendorWisePriceModel priceUpdate = priceModelRepository.getById(priceId);
-        StoreItemModel storeItemModel= storeItemRepository.getById(vendorWisePriceModel.getItemModelPrice().getItemId());
+        StoreItemModel storeItemModel = storeItemRepository.getById(vendorWisePriceModel.getItemModelPrice().getItemId());
         if (priceUpdate != null) {
             priceUpdate.setVendorModelData(vendorWisePriceModel.getVendorModelData());
             priceUpdate.setItemModelPrice(vendorWisePriceModel.getItemModelPrice());
             priceUpdate.setPriceItem(vendorWisePriceModel.getPriceItem());
             priceUpdate.setWithoutTax((float) (priceUpdate.getItemQuantity() * priceUpdate.getPriceItem()));
             float tax = (float) ((priceUpdate.getItemQuantity() * priceUpdate.getPriceItem() * storeItemModel.getPaytax()) / 100);
-            log.info("item price {} tax {}",priceUpdate.getPriceItem(),priceUpdate.getItemModelPrice().getPaytax() );
+            log.info("item price {} tax {}", priceUpdate.getPriceItem(), priceUpdate.getItemModelPrice().getPaytax());
             priceUpdate.setIncludingTax(tax);
         }
         return priceModelRepository.save(priceUpdate);
@@ -205,8 +223,6 @@ public class IndentService {
         indentEventRepository.save(new IndentCreateHistory(itemRequest.getIndentNumber(), itemRequest.getIndentId(), itemRequest.getIndentStatus(), user.getId(), user.getUsername(), dta.getComment()));
         return itemRequest;
     }
-
-
 
 
     //        indent.getStoreItemList()

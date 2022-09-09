@@ -33,11 +33,9 @@ public class Indent extends Audit<String> {
     private float total;
     private Long responseId;
     private String indentNumber = RandomStringUtils.randomNumeric(8);
-
     public String getIndentNumber() {
         return indentNumber;
     }
-
     public void setIndentNumber(String indentNumber) {
         this.indentNumber = indentNumber;
     }
@@ -99,7 +97,6 @@ public class Indent extends Audit<String> {
 
     public void addPriceSet(VendorWisePriceModel v) {
         this.vendorWisePriceSet.add(v);
-        System.out.println("printed");
         v.setIndentPrice(this);
     }
 

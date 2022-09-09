@@ -16,4 +16,6 @@ public interface QuantityRepository extends JpaRepository<IndentQuantity, Long> 
 
     @Query("select i FROM IndentQuantity i where i.indentItemQuantity.indentId=:indentId and i.quantityId=:quantityId")
     List<IndentQuantity> findByIndentID(Long indentId, Long quantityId);
+    @Query("select i FROM IndentQuantity i where i.indentItemQuantity.indentId=:indentId and i.storeItemIndentQuantityData.itemId=:quantityId")
+    List<IndentQuantity> findByIndentIdAndItemId(Long indentId, Long quantityId);
 }

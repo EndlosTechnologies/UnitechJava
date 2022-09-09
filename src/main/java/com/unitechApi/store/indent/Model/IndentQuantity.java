@@ -37,17 +37,6 @@ public class IndentQuantity {
     @JoinColumn(foreignKey = @ForeignKey(name = "indent_id"), name = "indent_id", referencedColumnName = "indentId")
     @JsonIgnoreProperties(value = {"indentQuantityList"})
     private Indent indentItemQuantity;
-    @OneToMany(mappedBy = "indentQuantitysData",cascade = CascadeType.ALL)
-    @JsonIgnoreProperties(value = {"indentQuantitysData"})
-    private List<VendorWisePriceModel> priceModelsList=new ArrayList<>();
-
-    public List<VendorWisePriceModel> getPriceModelsList() {
-        return priceModelsList;
-    }
-
-    public void setPriceModelsList(List<VendorWisePriceModel> priceModelsList) {
-        this.priceModelsList = priceModelsList;
-    }
 
     public Indent getIndentItemQuantity() {
         return indentItemQuantity;
