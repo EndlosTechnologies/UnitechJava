@@ -104,20 +104,6 @@ public class IndentService {
     }
 
 
-    public List<VendorWisePriceModel> saveAllData(Long indnetid, VendorWisePriceModel vendorWisePriceModel) {
-        Indent indent = indentRepository.getById(indnetid);
-        indent.getIndentQuantityList()
-                .stream()
-                .map(data -> {
-                    vendorWisePriceModel.setItemQuantity(data.getQuantity());
-                    priceModelRepository.save(vendorWisePriceModel);
-                    return data;
-                }).collect(Collectors.toList());
-
-        return null;
-    }
-
-
     public Object changeStatus(long itemId, Indent dta) {
 
 
