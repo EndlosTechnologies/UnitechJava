@@ -10,16 +10,15 @@ import javax.validation.constraints.NotNull;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
-import java.util.Set;
 
 @Entity
-@Table(name = "product_category",schema = "store_management")
+@Table(name = "product_category", schema = "store_management")
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class ProductCategory extends Audit<String> {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long pid;
-    @Column(name = "p_name",unique = true,nullable = false)
+    @Column(name = "p_name", unique = true, nullable = false)
     @NotNull(message = "enter Product Name")
     private String productName;
     private Date created;
@@ -33,19 +32,20 @@ public class ProductCategory extends Audit<String> {
     }
 
     public ProductCategory(long id) {
-        id=getPid();
+        id = getPid();
     }
 
     public Date getCreated() {
         return created;
     }
+
     @PrePersist
     public void setCreated() {
         this.created = new Date();
     }
 
-    @OneToMany(mappedBy = "productCategory",cascade = CascadeType.ALL)
-    @JsonIgnoreProperties({"productCategory","unit"})
+    @OneToMany(mappedBy = "productCategory", cascade = CascadeType.ALL)
+    @JsonIgnoreProperties({"productCategory", "unit"})
     private List<StoreItemModel> item;
 
     public Long getPid() {
@@ -91,7 +91,7 @@ public class ProductCategory extends Audit<String> {
                 "pid=" + pid +
                 ", productName='" + productName + '\'' +
                 ", created=" + created +
-               // ", item=" + item +
+                // ", item=" + item +
                 '}';
     }
 }

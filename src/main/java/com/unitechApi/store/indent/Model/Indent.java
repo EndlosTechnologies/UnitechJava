@@ -40,7 +40,6 @@ public class Indent extends Audit<String> {
     public void setIndentNumber(String indentNumber) {
         this.indentNumber = indentNumber;
     }
-
     @Enumerated(EnumType.STRING)
     private IndentStatus indentStatus;
     private Long doid;
@@ -77,16 +76,16 @@ public class Indent extends Audit<String> {
     @JoinColumn(foreignKey = @ForeignKey(name = "issue_id"), name = "issue_id", referencedColumnName = "issueId")
     @JsonIgnoreProperties({"indents", "itemRequest", "storeItemModel", "usageItems", "emp"})
     private IssueItem issue;
-    @ManyToMany(fetch = FetchType.LAZY)
 
-    @JoinTable(schema = "store_management", name = "indent_vendor_detailsID",
-            joinColumns = @JoinColumn(name = "indent_id"), inverseJoinColumns = @JoinColumn(name = "vendor_id"))
-    @JsonIgnoreProperties({"contractModels", "itemData", "indentList"})
-    private Set<VendorModel> dataVendorAndIndent = new HashSet<>();
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(foreignKey = @ForeignKey(name = "ven_id"), name = "ven_id", referencedColumnName = "vendor_id")
-    @JsonIgnoreProperties({"indentList", "contractModels"})
-    private VendorModel vendorData;
+//    @ManyToMany(fetch = FetchType.LAZY)
+//    @JoinTable(schema = "store_management", name = "indent_vendor_detailsID",
+//            joinColumns = @JoinColumn(name = "indent_id"), inverseJoinColumns = @JoinColumn(name = "vendor_id"))
+//    @JsonIgnoreProperties({"contractModels", "itemData", "indentList"})
+//    private Set<VendorModel> dataVendorAndIndent = new HashSet<>();
+//    @ManyToOne(fetch = FetchType.LAZY)
+//    @JoinColumn(foreignKey = @ForeignKey(name = "ven_id"), name = "ven_id", referencedColumnName = "vendor_id")
+//    @JsonIgnoreProperties({"indentList", "contractModels"})
+//    private VendorModel vendorData;
 
     public Indent() {
         this.indentStatus = IndentStatus.GM;

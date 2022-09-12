@@ -1,6 +1,8 @@
 package com.unitechApi.store.po.Service;
 
 import com.unitechApi.Payload.response.Pagination;
+import com.unitechApi.common.query.SearchRequest;
+import com.unitechApi.common.query.SearchSpecification;
 import com.unitechApi.exception.ExceptionService.ResourceNotFound;
 import com.unitechApi.store.indent.Model.Indent;
 import com.unitechApi.store.indent.Model.IndentCreateHistory;
@@ -22,6 +24,7 @@ import com.unitechApi.user.model.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.Comparator;
@@ -160,5 +163,9 @@ public class PoStoreService {
         return poStoreRepository.save(poStore);
 
     }
-
+    public Page<PoStore> getSearchingInPo(SearchRequest searchRequest){
+        SearchSpecification<PoStore> specification=new SearchSpecification<>(searchRequest);
+        Pageable pageable=SearchSpecification.getPageable(searchRequest.getPage(),searchRequest.getSize());
+        return poStoreRepository.findAll(specification,pageable);
+    }
 }

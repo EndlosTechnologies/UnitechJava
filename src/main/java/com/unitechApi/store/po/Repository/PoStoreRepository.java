@@ -3,6 +3,7 @@ package com.unitechApi.store.po.Repository;
 import com.unitechApi.store.po.Model.PoStore;
 import com.unitechApi.store.po.view.PoByIndentView;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.transaction.annotation.Transactional;
@@ -10,7 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.Map;
 
-public interface PoStoreRepository extends JpaRepository<PoStore ,Long> {
+public interface PoStoreRepository extends JpaRepository<PoStore ,Long> , JpaSpecificationExecutor<PoStore> {
     @Modifying
     @Transactional
     @Query(value = "update PoStore p set  p.deleteView=:deleteView where p.poId=:poId")

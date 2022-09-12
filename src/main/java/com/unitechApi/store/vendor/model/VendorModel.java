@@ -94,9 +94,9 @@ public class VendorModel {
             )
     @JsonIgnoreProperties({"contractModels", "itemRequest", "issueItem","vendorWisePriceDAta", "vendorDate", "unit", "productCategory", "employe", "dataVendorAndIndent"})
     private Set<StoreItemModel> itemData = new HashSet<>();
-    @OneToMany(mappedBy = "vendorData", cascade = CascadeType.ALL)
-    @JsonIgnoreProperties(value = {"vendorData", "vendorWisePriceDAta"})
-    private Set<Indent> indentList;
+//    @OneToMany(mappedBy = "vendorData", cascade = CascadeType.ALL)
+//    @JsonIgnoreProperties(value = {"vendorData", "vendorWisePriceDAta"})
+//    private Set<Indent> indentList;
     @OneToMany(mappedBy = "vendorModelData",cascade = CascadeType.ALL)
     @JsonIgnoreProperties(value = {"vendorModelData","vendorWisePriceDAta"})
     private Set<VendorWisePriceModel> vendorWisePriceDAta;

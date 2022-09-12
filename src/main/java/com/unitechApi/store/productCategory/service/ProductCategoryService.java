@@ -1,8 +1,12 @@
 package com.unitechApi.store.productCategory.service;
 
+import com.unitechApi.common.query.SearchRequest;
+import com.unitechApi.common.query.SearchSpecification;
 import com.unitechApi.exception.ExceptionService.ProductCategoryNotFound;
 import com.unitechApi.store.productCategory.model.ProductCategory;
 import com.unitechApi.store.productCategory.repository.ProductCategoryRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.Comparator;
@@ -44,13 +48,19 @@ public class ProductCategoryService {
                 .sorted(Comparator.comparing(ProductCategory::getPid))
                 .collect(Collectors.toList());
     }
-    public List<ProductCategory> FindCreateDate(Date  data)
-    {
+
+    public List<ProductCategory> FindCreateDate(Date data) {
         return productCategoryRepository.findByCreated(data);
     }
-    public List<ProductCategory> findByProductName(String product)
-    {
+
+    public List<ProductCategory> findByProductName(String product) {
         return productCategoryRepository.findByProductName(product);
+    }
+
+    public Page<ProductCategory> searchingInProductCategory(SearchRequest searchRequest) {
+        SearchSpecification<ProductCategory> data = new SearchSpecification<>(searchRequest);
+        Pageable pageable = SearchSpecification.getPageable(searchRequest.getPage(), searchRequest.getSize());
+        return productCategoryRepository.findAll(data, pageable);
     }
 
 

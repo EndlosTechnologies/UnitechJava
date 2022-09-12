@@ -73,7 +73,8 @@ public enum FieldType {
     ENUM {
         @Override
         public Object parse(String value) {
-            return ENUM.valueOf(value);
+
+            return String.valueOf(value);
         }
     },
     FLOAT {

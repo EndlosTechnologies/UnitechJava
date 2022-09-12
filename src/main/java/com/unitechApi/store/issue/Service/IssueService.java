@@ -1,5 +1,7 @@
 package com.unitechApi.store.issue.Service;
 
+import com.unitechApi.common.query.SearchRequest;
+import com.unitechApi.common.query.SearchSpecification;
 import com.unitechApi.exception.ExceptionService.OutOfStock;
 import com.unitechApi.exception.ExceptionService.ResourceNotFound;
 import com.unitechApi.store.issue.Repository.IssueRepository;
@@ -9,6 +11,8 @@ import com.unitechApi.store.storeMangment.Model.StoreItemModel;
 import com.unitechApi.store.storeMangment.service.StoreItemService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable;
 
@@ -100,6 +104,12 @@ public class IssueService {
 
     public Optional<IssueItem> FindByCloseId(Long id) {
         return Optional.ofNullable(issueRepository.findByCloseresid(id).orElseThrow(() -> new ResourceNotFound("Not found Aby Type Of Data")));
+    }
+
+    public Page<IssueItem> getSearchingInIssueItem(SearchRequest searchRequest) {
+        SearchSpecification<IssueItem> data = new SearchSpecification<>(searchRequest);
+        Pageable pageable = SearchSpecification.getPageable(searchRequest.getPage(), searchRequest.getSize());
+        return issueRepository.findAll(data, pageable);
     }
 }
 
