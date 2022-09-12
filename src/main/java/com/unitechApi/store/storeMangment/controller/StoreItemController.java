@@ -147,7 +147,7 @@ public class StoreItemController {
     }
 
 
-    @GetMapping(value = "/searching")
+    @PostMapping(value = "/searching")
     public ResponseEntity<?> SearchingInItem(@RequestBody SearchRequest searchRequest) {
         return new ResponseEntity<>(storeItemService.searchingInItem(searchRequest), HttpStatus.OK);
     }

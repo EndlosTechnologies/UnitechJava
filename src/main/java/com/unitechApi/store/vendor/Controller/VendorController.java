@@ -81,12 +81,12 @@ public class VendorController {
         Page<?> vendorModels=vendorService.findAllGetByDto(pagination);
         return new ResponseEntity<>(PageResponse.pagebleResponse(vendorModels,pagination), HttpStatus.OK);
     }
-    @GetMapping("/getByDtoById/{vId}")
-    public ResponseEntity<?> getByDto(@PathVariable Long vId) {
-
-        List<?> vendorModels=vendorService.getById(vId);
-        return new ResponseEntity<>(PageResponse.SuccessResponse(vendorModels), HttpStatus.OK);
-    }
+//    @GetMapping("/getByDtoById/{vId}")
+//    public ResponseEntity<?> getByDto(@PathVariable Long vId) {
+//
+//        List<?> vendorModels=vendorService.getById(vId);
+//        return new ResponseEntity<>(PageResponse.SuccessResponse(vendorModels), HttpStatus.OK);
+//    }
     @PostMapping(value = "/getBySorting")
     public ResponseEntity<?> getBySorting(@RequestBody SearchRequest request)
     {
