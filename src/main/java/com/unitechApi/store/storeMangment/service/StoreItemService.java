@@ -1,5 +1,7 @@
 package com.unitechApi.store.storeMangment.service;
 
+import com.unitechApi.common.query.SearchRequest;
+import com.unitechApi.common.query.SearchSpecification;
 import com.unitechApi.exception.ExceptionService.AddItemException;
 import com.unitechApi.exception.ExceptionService.ItemNotFound;
 import com.unitechApi.store.vendor.Repository.VendorRepository;
@@ -7,6 +9,8 @@ import com.unitechApi.store.storeMangment.Model.StoreItemModel;
 import com.unitechApi.store.storeMangment.repository.StoreItemRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ReflectionUtils;
 
@@ -88,6 +92,13 @@ public class StoreItemService {
         log.info("new item {}", newQuantity);
         s.setQuantity(newQuantity);
         storeItemRepository.save(s);
+    }
+
+    public Page<StoreItemModel> searchingInItem(SearchRequest searchRequest)
+    {
+        SearchSpecification<StoreItemModel> data=new SearchSpecification<>(searchRequest);
+        Pageable pageable=SearchSpecification.getPageable(searchRequest.getPage(),searchRequest.getSize());
+        return storeItemRepository.findAll(data,pageable);
     }
 
 //    public void deleteVendor(long item_id, long vendor_id)

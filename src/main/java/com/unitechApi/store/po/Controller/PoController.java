@@ -3,6 +3,7 @@ package com.unitechApi.store.po.Controller;
 import com.unitechApi.Payload.response.MessageResponse;
 import com.unitechApi.Payload.response.PageResponse;
 import com.unitechApi.Payload.response.Pagination;
+import com.unitechApi.common.query.SearchRequest;
 import com.unitechApi.store.po.Model.PoStore;
 import com.unitechApi.store.po.Service.PoStoreService;
 import com.unitechApi.store.po.view.PoByIndentView;
@@ -82,15 +83,21 @@ public class PoController {
         return new ResponseEntity<>(PageResponse.SuccessResponse(utrNumberData), HttpStatus.OK);
     }
 
-        @GetMapping("/getById/{poId}")
+    @GetMapping("/getById/{poId}")
     public ResponseEntity<?> getPriceService(@PathVariable Long poId) {
-        PoStore data=poStoreService.findById(poId);
-        return new ResponseEntity<>(PageResponse.SuccessResponse(data),HttpStatus.OK);
+        PoStore data = poStoreService.findById(poId);
+        return new ResponseEntity<>(PageResponse.SuccessResponse(data), HttpStatus.OK);
     }
+
     @PostMapping(value = "/d")
     public ResponseEntity<?> DoublesaveData(@RequestBody PoStore poStore) {
         PoStore data = poStoreService.doublePosaveData(poStore);
         return new ResponseEntity<>(PageResponse.SuccessResponse(data), HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/searchingInPo")
+    public ResponseEntity<?> getSearchingInPo(@RequestBody SearchRequest searchRequest) {
+        return new ResponseEntity<>(poStoreService.getSearchingInPo(searchRequest), HttpStatus.OK);
     }
 
 

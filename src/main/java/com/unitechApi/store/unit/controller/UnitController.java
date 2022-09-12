@@ -2,6 +2,7 @@ package com.unitechApi.store.unit.controller;
 
 import com.unitechApi.Payload.response.MessageResponse;
 import com.unitechApi.Payload.response.PageResponse;
+import com.unitechApi.common.query.SearchRequest;
 import com.unitechApi.store.unit.model.Unit;
 import com.unitechApi.store.unit.repository.UnitRepository;
 import com.unitechApi.store.unit.service.UnitService;
@@ -63,4 +64,10 @@ public class UnitController {
         Object data = unitService.findByDate(date);
         return new ResponseEntity<>(PageResponse.SuccessResponse(data), HttpStatus.OK);
     }
+
+    @GetMapping(value = "/searchingInUnit")
+    public ResponseEntity<?> getSearchingInUnit(@RequestBody SearchRequest searchRequest) {
+        return new ResponseEntity<>(unitService.searchingInUnit(searchRequest), HttpStatus.OK);
+    }
+
 }

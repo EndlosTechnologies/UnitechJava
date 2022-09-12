@@ -202,7 +202,6 @@ public class IndentService {
     public Page<Indent> searchIndent(SearchRequest request) {
         SearchSpecification<Indent> specification = new SearchSpecification<>(request);
         Pageable pageable = SearchSpecification.getPageable(request.getPage(), request.getSize());
-
         return indentRepository.findAll(specification, pageable);
     }
 

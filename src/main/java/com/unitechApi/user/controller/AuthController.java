@@ -5,6 +5,8 @@ import com.unitechApi.Payload.request.SignupRequest;
 import com.unitechApi.Payload.response.JwtResponse;
 import com.unitechApi.Payload.response.MessageResponse;
 import com.unitechApi.Payload.response.PageResponse;
+import com.unitechApi.common.query.SearchRequest;
+import com.unitechApi.common.query.SearchSpecification;
 import com.unitechApi.exception.ExceptionService.PasswordIncorrect;
 import com.unitechApi.exception.ExceptionService.ResourceNotFound;
 import com.unitechApi.exception.ExceptionService.RoleNotFound;
@@ -19,6 +21,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -382,6 +385,14 @@ public class AuthController {
         }
 
         return new ResponseEntity<>(PageResponse.SuccessResponse(usersNamesList),HttpStatus.ACCEPTED);
+    }
+    @GetMapping(value = "/getSearchingUser")
+    public ResponseEntity<?> getSearchingUser(@RequestBody SearchRequest searchRequest)
+    {
+        SearchSpecification<User> data=new SearchSpecification<>(searchRequest);
+        Pageable pageable=SearchSpecification.getPageable(searchRequest.getPage(),searchRequest.getSize());
+        Page<User> check=userRepository.findAll(data,pageable);
+        return new ResponseEntity<>(userRepository.findAll((Pageable)check),HttpStatus.OK);
     }
 
 }

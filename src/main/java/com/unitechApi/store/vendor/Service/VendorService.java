@@ -91,15 +91,15 @@ public class VendorService {
     }
 
     public List<VendorDto> getById(Long id) {
-     return    vendorRepository.findById(id)
+        return vendorRepository.findById(id)
                 .stream()
                 .map(this::getByDto)
                 .collect(Collectors.toList());
     }
-    public Page<VendorModel> getByAllVendor(SearchRequest request)
-    {
-        SearchSpecification<VendorModel> data=new SearchSpecification<>(request);
-        Pageable pageable=SearchSpecification.getPageable(request.getPage(), request.getSize());
+
+    public Page<VendorModel> getByAllVendor(SearchRequest request) {
+        SearchSpecification<VendorModel> data = new SearchSpecification<>(request);
+        Pageable pageable = SearchSpecification.getPageable(request.getPage(), request.getSize());
         return vendorRepository.findAll(pageable);
     }
 

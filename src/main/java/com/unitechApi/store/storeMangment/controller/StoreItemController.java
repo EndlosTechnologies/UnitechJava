@@ -2,6 +2,7 @@ package com.unitechApi.store.storeMangment.controller;
 
 import com.unitechApi.Payload.response.MessageResponse;
 import com.unitechApi.Payload.response.PageResponse;
+import com.unitechApi.common.query.SearchRequest;
 import com.unitechApi.exception.ExceptionService.ItemNotFound;
 import com.unitechApi.exception.ExceptionService.ProductCategoryNotFound;
 import com.unitechApi.exception.ExceptionService.UnitNotFound;
@@ -102,13 +103,14 @@ public class StoreItemController {
         storeItemService.checkRemainingItem(itemId);
         return new ResponseEntity<>(new MessageResponse("checked done "), HttpStatus.OK);
     }
+
     @RequestMapping(
             value = "up/{id}",
             method = {
                     RequestMethod.PATCH
             })
     public ResponseEntity<?> updateStore(@PathVariable Long id, @RequestBody StoreItemModel storeItemModel) {
-        StoreItemModel storeItem = storeItemRepository.findById(id).orElseThrow(()-> new ItemNotFound("item Not Found"));
+        StoreItemModel storeItem = storeItemRepository.findById(id).orElseThrow(() -> new ItemNotFound("item Not Found"));
         if (storeItem == null) {
             throw new ItemNotFound("Item Not Found ");
         }
@@ -124,14 +126,14 @@ public class StoreItemController {
         storeItem.setQuantity(storeItemModel.getQuantity());
         log.info("frequency ,{}", storeItem);
         if (storeItemModel.getProductCategory() != null) {
-            ProductCategory productCategory = productCategoryRepository.findById(storeItemModel.getProductCategory().getPid()).orElseThrow(()->new ProductCategoryNotFound("product category Not found"));
+            ProductCategory productCategory = productCategoryRepository.findById(storeItemModel.getProductCategory().getPid()).orElseThrow(() -> new ProductCategoryNotFound("product category Not found"));
             productCategory.getItem().add(storeItem);
             //  log.info("product added in {} ", productCategory);
             storeItem.setProductCategory(productCategory);
             productCategoryRepository.save(productCategory);
         }
         if (storeItemModel.getUnit() != null) {
-            Unit unit = unitRepository.findById(storeItemModel.getUnit().getUid()).orElseThrow(()->new UnitNotFound("product unit Not found"));
+            Unit unit = unitRepository.findById(storeItemModel.getUnit().getUid()).orElseThrow(() -> new UnitNotFound("product unit Not found"));
             unit.getItemunit().add(storeItem);
             storeItem.setUnit(unit);
             unitRepository.save(unit);
@@ -145,11 +147,10 @@ public class StoreItemController {
     }
 
 
-//    @DeleteMapping(value = "{item_id}/rmVendor/{vendor_id}")
-//    public ResponseEntity<?> deleteVendor(@PathVariable Long item_id, @PathVariable Long vendor_id) {
-//        storeItemService.deleteVendor(item_id, vendor_id);
-//        return new ResponseEntity<>(new MessageResponse("Deleted Successfully"), HttpStatus.NO_CONTENT);
-//    }
+    @GetMapping(value = "/searching")
+    public ResponseEntity<?> SearchingInItem(@RequestBody SearchRequest searchRequest) {
+        return new ResponseEntity<>(storeItemService.searchingInItem(searchRequest), HttpStatus.OK);
+    }
 
     @GetMapping(value = "/ex/d")
     public void downloadFile(HttpServletResponse response) throws IOException {
