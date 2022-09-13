@@ -88,7 +88,7 @@ public class IssueController {
         //"quantity": 1200
     }
 
-    @GetMapping(value = "/getSearchingInIssueItem")
+    @PostMapping(value = "/getSearchingInIssueItem")
     public ResponseEntity<?> getSearchingInIssueItem(@RequestBody SearchRequest searchRequest) {
         return new ResponseEntity<>(issueService.getSearchingInIssueItem(searchRequest), HttpStatus.OK);
     }
