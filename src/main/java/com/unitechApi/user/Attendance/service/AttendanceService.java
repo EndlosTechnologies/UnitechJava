@@ -1,7 +1,10 @@
 package com.unitechApi.user.Attendance.service;
 
+import com.unitechApi.user.Attendance.Entity.AttendanceReportEntity;
+
 import java.nio.file.WatchService;
 
-public class AttendanceService {
+public interface AttendanceService {
+    AttendanceReportEntity save(AttendanceReportEntity attendanceReportEntity);
 
 }

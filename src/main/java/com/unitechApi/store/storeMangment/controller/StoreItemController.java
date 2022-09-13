@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.lang.reflect.Modifier;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -123,7 +124,7 @@ public class StoreItemController {
         storeItem.setActivation(storeItemModel.getActivation());
         storeItem.setRemainingItem(storeItemModel.getRemainingItem());
         storeItem.setExpiryDays(storeItemModel.getExpiryDays());
-        storeItem.setQuantity(storeItemModel.getQuantity());
+      //  storeItem.setQuantity(storeItemModel.getQuantity());
         log.info("frequency ,{}", storeItem);
         if (storeItemModel.getProductCategory() != null) {
             ProductCategory productCategory = productCategoryRepository.findById(storeItemModel.getProductCategory().getPid()).orElseThrow(() -> new ProductCategoryNotFound("product category Not found"));
@@ -149,6 +150,7 @@ public class StoreItemController {
 
     @PostMapping(value = "/searching")
     public ResponseEntity<?> SearchingInItem(@RequestBody SearchRequest searchRequest) {
+
         return new ResponseEntity<>(storeItemService.searchingInItem(searchRequest), HttpStatus.OK);
     }
 

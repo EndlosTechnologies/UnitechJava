@@ -29,7 +29,7 @@ import java.util.Set;
 @Setter
 public class VendorModel {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "vendor_id")
     private Long id;
     @Column(name = "vendor_name", nullable = false)
