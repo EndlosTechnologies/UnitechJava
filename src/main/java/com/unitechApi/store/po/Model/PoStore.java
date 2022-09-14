@@ -60,8 +60,8 @@ public class PoStore extends Audit<String> {
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(schema = "store_management", name = "po_with_price_data"
-            , joinColumns = @JoinColumn(name = "price_id")
-            , inverseJoinColumns = @JoinColumn(name = "po_id"))
+            , joinColumns = @JoinColumn(name = "po_id")
+            , inverseJoinColumns = @JoinColumn(name = "price_id"))
     private Set<VendorWisePriceModel> listOfpO = new HashSet<>();
 
 

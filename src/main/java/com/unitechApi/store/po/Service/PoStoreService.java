@@ -152,7 +152,7 @@ public class PoStoreService {
                     poPrice.setIncludingTax(v.getIncludingTax());
                     //    poPrice.setVendorModels(v.getVendorModelData());
                     poPrice.setWithoutTax(v.getWithoutTax());
-                    totalAmount.updateAndGet(v1 -> v1 + v.getIncludingTax());
+                    totalAmount.updateAndGet(v1 -> v1 + v.getTotalAmount());
                     poStore.setAmount(totalAmount.get());
                     poPriceRepository.save(poPrice);
                     log.info("price the id{} and vendor id {}", v, vendorModel.getId());
