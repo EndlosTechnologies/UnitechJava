@@ -65,7 +65,7 @@ public class PoStore extends Audit<String> {
             , inverseJoinColumns = @JoinColumn(name = "price_id"))
     private Set<VendorWisePriceModel> listOfpO = new HashSet<>();
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(foreignKey = @ForeignKey(name = "user_id"),name = "user_id",referencedColumnName ="user_profile_id" )
+    @JoinColumn(foreignKey = @ForeignKey(name = "ve_id"),name = "ve_id",referencedColumnName ="vendor_id" )
     @JsonIgnoreProperties(value = {"poStoreSetData","poStoreList"})
     private VendorModel vendorModelsList;
 
