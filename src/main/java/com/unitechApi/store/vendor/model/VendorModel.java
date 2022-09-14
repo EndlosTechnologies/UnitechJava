@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.unitechApi.store.indent.Model.Indent;
 import com.unitechApi.store.indent.Model.VendorWisePriceModel;
 import com.unitechApi.store.po.Model.PoPrice;
+import com.unitechApi.store.po.Model.PoStore;
 import com.unitechApi.store.storeMangment.Model.StoreItemModel;
 import com.unitechApi.store.vendor.vendorEnum.GstStatus;
 import com.unitechApi.store.vendor.vendorEnum.MsmeType;
@@ -107,6 +108,10 @@ public class VendorModel {
     @OneToMany(mappedBy = "vendorModels",cascade = CascadeType.ALL)
     @JsonIgnoreProperties(value = {"vendorModels","vendorWisePriceDAta"})
     private Set<PoPrice> poPriceSetData;
+
+    @OneToMany(mappedBy = "vendorModelsList",cascade = CascadeType.ALL)
+    @JsonIgnoreProperties(value = {""})
+    private Set<PoStore> poStoreList;
 
 
     @PrePersist

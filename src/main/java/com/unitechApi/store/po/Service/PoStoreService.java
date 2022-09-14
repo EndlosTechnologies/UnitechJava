@@ -32,7 +32,6 @@ import java.util.List;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 @Service
 public class PoStoreService {
@@ -152,6 +151,7 @@ public class PoStoreService {
                     poPrice.setIncludingTax(v.getIncludingTax());
                     //    poPrice.setVendorModels(v.getVendorModelData());
                     poPrice.setWithoutTax(v.getWithoutTax());
+                    poStore.setVendorModelsList(data.getVendorModelData());
                     totalAmount.updateAndGet(v1 -> v1 + v.getTotalAmount());
                     poStore.setAmount(totalAmount.get());
                     poPriceRepository.save(poPrice);
@@ -163,9 +163,10 @@ public class PoStoreService {
         return poStoreRepository.save(poStore);
 
     }
-    public Page<PoStore> getSearchingInPo(SearchRequest searchRequest){
-        SearchSpecification<PoStore> specification=new SearchSpecification<>(searchRequest);
-        Pageable pageable=SearchSpecification.getPageable(searchRequest.getPage(),searchRequest.getSize());
-        return poStoreRepository.findAll(specification,pageable);
+
+    public Page<PoStore> getSearchingInPo(SearchRequest searchRequest) {
+        SearchSpecification<PoStore> specification = new SearchSpecification<>(searchRequest);
+        Pageable pageable = SearchSpecification.getPageable(searchRequest.getPage(), searchRequest.getSize());
+        return poStoreRepository.findAll(specification, pageable);
     }
 }

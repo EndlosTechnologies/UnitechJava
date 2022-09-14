@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.unitechApi.AuditingAndResponse.Audit;
 import com.unitechApi.store.indent.Model.Indent;
 import com.unitechApi.store.indent.Model.VendorWisePriceModel;
+import com.unitechApi.store.vendor.model.VendorModel;
 import com.unitechApi.user.model.User;
 import lombok.Getter;
 import lombok.Setter;
@@ -63,6 +64,10 @@ public class PoStore extends Audit<String> {
             , joinColumns = @JoinColumn(name = "po_id")
             , inverseJoinColumns = @JoinColumn(name = "price_id"))
     private Set<VendorWisePriceModel> listOfpO = new HashSet<>();
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(foreignKey = @ForeignKey(name = "user_id"),name = "user_id",referencedColumnName ="user_profile_id" )
+    @JsonIgnoreProperties(value = {"poStoreSetData","poStoreList"})
+    private VendorModel vendorModelsList;
 
 
     public Long getPoId() {
