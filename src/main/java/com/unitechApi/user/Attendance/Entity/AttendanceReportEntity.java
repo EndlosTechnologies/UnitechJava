@@ -19,11 +19,11 @@ public class AttendanceReportEntity {
     private String employeeName;
     private String employeeCode;
     private String shift;
-    private String AInTime;
-    private String AOutTime;
-    private String DBreak;
-    private String WorkDuration;
-    private String OverTime;
+    private String aInTime;
+    private String aOutTime;
+    private String dBreak;
+    private String workDuration;
+    private String overTime;
     private String timeDuration;
     private String status;
     private String remarks;

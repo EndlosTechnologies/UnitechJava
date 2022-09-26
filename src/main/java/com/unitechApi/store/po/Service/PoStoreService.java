@@ -151,7 +151,6 @@ public class PoStoreService {
                     poPrice.setIncludingTax(v.getIncludingTax());
                     //    poPrice.setVendorModels(v.getVendorModelData());
                     poPrice.setWithoutTax(v.getWithoutTax());
-                    poStore.setVendorModelsList(data.getVendorModelData());
                     totalAmount.updateAndGet(v1 -> v1 + v.getTotalAmount());
                     poStore.setAmount(totalAmount.get());
                     poPriceRepository.save(poPrice);

@@ -66,16 +66,7 @@ public class User extends Audit<String> {
     private String nationality;
     @Column(name = "user_pinCode", nullable = true)
     private int pinCode;
-//    @Column(name = "confirmed",nullable = true)
-//    private boolean confirmed;
-//
-//    public boolean isConfirmed() {
-//        return confirmed;
-//    }
-//
-//    public void setConfirmed(boolean confirmed) {
-//        this.confirmed = confirmed;
-//    }
+
 
     @Column(name = "BloodGroup", nullable = true)
     private String bloodGroup;

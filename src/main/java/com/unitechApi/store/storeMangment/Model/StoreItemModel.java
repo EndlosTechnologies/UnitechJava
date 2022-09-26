@@ -4,16 +4,14 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.unitechApi.AuditingAndResponse.Audit;
 import com.unitechApi.store.indent.Model.IndentQuantity;
 import com.unitechApi.store.indent.Model.VendorWisePriceModel;
-import com.unitechApi.store.po.Model.PoPrice;
-import com.unitechApi.store.vendor.model.VendorModel;
 import com.unitechApi.store.issue.model.IssueItem;
-import com.unitechApi.store.indent.Model.Indent;
+import com.unitechApi.store.po.Model.PoPrice;
 import com.unitechApi.store.productCategory.model.ProductCategory;
 import com.unitechApi.store.unit.model.Unit;
+import com.unitechApi.store.vendor.model.VendorModel;
 import com.unitechApi.user.model.User;
 import lombok.Getter;
 import lombok.Setter;
-import lombok.ToString;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -33,7 +31,7 @@ public class StoreItemModel extends Audit<String> {
     @NotNull(message = "enter Item Name")
     private String itemName;
     private String itemDescription;
-    @Column(unique = true,nullable = false)
+    @Column(nullable = false)
     @NotNull(message = "enter Drawing Number ")
     private String drawingNo;
     @Column(nullable = false)
@@ -258,9 +256,7 @@ public class StoreItemModel extends Audit<String> {
         this.paytax = paytax;
     }
 
-//    public void deleteVendor(VendorModel vendorModel) {
-//        dataVendor.remove(vendorModel);
-//    }
+
 
     @Override
     public boolean equals(Object o) {

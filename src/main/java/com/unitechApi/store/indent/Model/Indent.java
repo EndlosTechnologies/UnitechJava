@@ -5,7 +5,6 @@ import com.unitechApi.AuditingAndResponse.Audit;
 import com.unitechApi.store.issue.model.IssueItem;
 import com.unitechApi.store.po.Model.PoPrice;
 import com.unitechApi.store.po.Model.PoStore;
-import com.unitechApi.store.vendor.model.VendorModel;
 import com.unitechApi.user.model.User;
 import lombok.Getter;
 import lombok.Setter;
@@ -15,7 +14,6 @@ import org.springframework.data.annotation.CreatedDate;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -37,9 +35,7 @@ public class Indent extends Audit<String> {
     public String getIndentNumber() {
         return indentNumber;
     }
-    public void setIndentNumber(String indentNumber) {
-        this.indentNumber = indentNumber;
-    }
+
     @Enumerated(EnumType.STRING)
     private IndentStatus indentStatus;
     private Long doid;
@@ -47,12 +43,6 @@ public class Indent extends Audit<String> {
     @CreatedDate
     private LocalDateTime created;
     private String comment;
-    @Transient
-    private state state;
-
-
-
-
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(foreignKey = @ForeignKey(name = "emp_id"), name = "emp_id", referencedColumnName = "user_profile_id")
@@ -77,15 +67,6 @@ public class Indent extends Audit<String> {
     @JsonIgnoreProperties({"indents", "itemRequest", "storeItemModel", "usageItems", "emp"})
     private IssueItem issue;
 
-//    @ManyToMany(fetch = FetchType.LAZY)
-//    @JoinTable(schema = "store_management", name = "indent_vendor_detailsID",
-//            joinColumns = @JoinColumn(name = "indent_id"), inverseJoinColumns = @JoinColumn(name = "vendor_id"))
-//    @JsonIgnoreProperties({"contractModels", "itemData", "indentList"})
-//    private Set<VendorModel> dataVendorAndIndent = new HashSet<>();
-//    @ManyToOne(fetch = FetchType.LAZY)
-//    @JoinColumn(foreignKey = @ForeignKey(name = "ven_id"), name = "ven_id", referencedColumnName = "vendor_id")
-//    @JsonIgnoreProperties({"indentList", "contractModels"})
-//    private VendorModel vendorData;
 
     public Indent() {
         this.indentStatus = IndentStatus.GM;
@@ -96,9 +77,7 @@ public class Indent extends Audit<String> {
         v.setIndentPrice(this);
     }
 
-    enum state {
-        accept, cancel, reject
-    }
+
 
     @Override
     public String toString() {

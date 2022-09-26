@@ -109,11 +109,6 @@ public class VendorModel {
     @JsonIgnoreProperties(value = {"vendorModels","vendorWisePriceDAta"})
     private Set<PoPrice> poPriceSetData;
 
-    @OneToMany(mappedBy = "vendorModelsList",cascade = CascadeType.ALL)
-    @JsonIgnoreProperties(value = {""})
-    private Set<PoStore> poStoreList;
-
-
     @PrePersist
     private void CreatedAt() {
         createdAt = new Date();

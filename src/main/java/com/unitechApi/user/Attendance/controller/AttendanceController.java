@@ -29,7 +29,7 @@ public class AttendanceController {
 
 
         //HSSFWorkbook workbook=new HSSFWorkbook(new POIFSFileSystem(files.getInputStream()));
-                Workbook workbook= WorkbookFactory.create(new POIFSFileSystem(files.getInputStream()));
+        Workbook workbook= WorkbookFactory.create(new POIFSFileSystem(files.getInputStream()));
         Sheet worksheet= workbook.getSheetAt(0);
 //        XSSFWorkbook workbook = new XSSFWorkbook(pkg);
 //        XSSFSheet worksheet = workbook.getSheetAt(0);
@@ -42,10 +42,9 @@ public class AttendanceController {
                 if (row.cellIterator().hasNext()) {
                        //Integer id = (int) row.getCell(0).getNumericCellValue();
                 }
-
                 product.setAttendanceId((long) row.getCell(1).getNumericCellValue());
                 product.setEmployeeCode(String.valueOf(row.getCell(2).getNumericCellValue()));
-                product.setEmployeeName(String.valueOf(row.getCell(3).getNumericCellValue()));
+                product.setEmployeeName(String.valueOf((row.getCell(3).getNumericCellValue())));
                 product.setShift(String.valueOf(row.getCell(4).getStringCellValue()));
                 product.setAInTime(String.valueOf(row.getCell(5).getNumericCellValue()));
                 product.setAOutTime(String.valueOf(row.getCell(6).getStringCellValue()));
@@ -58,7 +57,6 @@ public class AttendanceController {
                 productList.add(product);
             }
         }
-
         return new ResponseEntity<>(productList, status);
     }
 }
