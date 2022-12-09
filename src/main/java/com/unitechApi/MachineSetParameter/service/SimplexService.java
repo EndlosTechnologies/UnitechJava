@@ -26,6 +26,9 @@ public class SimplexService {
 
     DecimalFormat df = new DecimalFormat("#.###");
 
+    /*
+     * save Data with necessary calculation
+     * */
     public Simplex SaveData(Simplex simplex) {
         simplex.setTPI(Float.parseFloat(df.format((float) (simplex.getTM() * Math.sqrt(simplex.getRovingHank())))));
         log.info(" TPI {}", simplex.getTPI());
@@ -42,12 +45,19 @@ public class SimplexService {
         log.info("{ } Simplex data ", simplex);
         return simplexRepository.save(simplex);
     }
-
-    public Object ViewData() {
+    /*
+     * get All Added Reading  from MachineReadingParameter schema
+     * */
+    public List<Simplex> ViewData() {
         return simplexRepository.findAll();
 
     }
 
+    /*
+     *   parameter Long machineI
+     *   it's hard delete
+     *   NOTE ->  develop a Soft Delete Machine Service
+     * */
     public void DeleteReading(Long id) {
         try {
             simplexRepository.deleteById(id);
@@ -58,10 +68,20 @@ public class SimplexService {
 
     }
 
+    /*
+     * parameter Long machineId
+     * get  Data By MachineId
+     * if data has not in the database then throw an exception ResourceNot Found
+     * */
     public Optional<Simplex> FindByData(Long id) {
         return Optional.ofNullable(simplexRepository.findById(id).orElseThrow(() -> new ResourceNotFound("can't find data")));
     }
 
+    /*
+     * parameter Start CreatedDate and End CreatedDate
+     * get  Data By CreatedDate
+     * if data has not in the database then throw an exception DateMisMatchException
+     * */
     public List<Simplex> FindData(Date start, Date end) {
         java.util.Date date = new java.util.Date();
 
@@ -76,6 +96,11 @@ public class SimplexService {
                 .collect(Collectors.toList());
     }
 
+    /*
+     * parameter Start CreatedDate
+     * get  Data By CreatedDate
+     * if data has not in the database then throw an exception DateMisMatchException
+     */
     public List<Simplex> FindBySingleDate(Date start) {
         return simplexRepository.findByCreatedAt(start)
                 .stream()

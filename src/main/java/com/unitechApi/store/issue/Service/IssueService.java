@@ -42,10 +42,7 @@ public class IssueService {
     }
 
     public List<IssueItem> findAll() {
-        return issueRepository.findAll()
-                .stream()
-                .sorted(Comparator.comparing(IssueItem::getIssueId).reversed())
-                .collect(Collectors.toList());
+        return issueRepository.findAll().stream().sorted(Comparator.comparing(IssueItem::getIssueId).reversed()).collect(Collectors.toList());
     }
 
     public IssueItem deleteIssueId(Long id) {
@@ -55,6 +52,13 @@ public class IssueService {
         }
         return null;
     }
+
+    /*
+     *   params issueId
+     *   params dta
+     *   by default issue are pending
+     *   change status  in issue
+     * */
 
     public Object changeStatus(long issueId, IssueItem dta) {
 
@@ -82,21 +86,33 @@ public class IssueService {
         return null;
     }
 
+    /*
+     * params status
+     * get All Issue by IssueStatus
+     * */
     public List<IssueItem> FindByStatus(IssueStatus status) {
 
-        return issueRepository.findByStatus(status)
-                .stream()
-                .sorted(Comparator.comparing(IssueItem::getIssueId).reversed())
-                .collect(Collectors.toList());
+        return issueRepository.findByStatus(status).stream().sorted(Comparator.comparing(IssueItem::getIssueId).reversed()).collect(Collectors.toList());
     }
+    /*
+     * params dateTime
+     * get All Issue By Date
+     * */
 
     public List<IssueItem> findByIssueData(Date dateTime) {
         return issueRepository.findByIssueDate(dateTime);
     }
 
+
     public List<IssueItem> FindByRaisedtrue(Boolean data) {
         return issueRepository.findByisRaised(data);
     }
+    /*
+     * params start
+     * params end
+     * params itemId
+     * get All Issue By between two Dates and itemId
+     * */
 
     public List<IssueItem> FindByIssueDateBetween(Date start, Date end, Long itemId) {
         return issueRepository.findByIssueDateBetween(start, end, itemId);

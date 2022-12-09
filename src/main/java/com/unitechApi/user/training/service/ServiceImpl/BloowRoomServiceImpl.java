@@ -18,7 +18,7 @@ public class BloowRoomServiceImpl implements BloowRoomService {
     }
 
     /**
-     * @param bloowRoomTraining 
+     * @param   bloowRoomTraining   bloowRoomTraining
      * @return bloowRoom Data Save
      */
     @Override
@@ -27,8 +27,8 @@ public class BloowRoomServiceImpl implements BloowRoomService {
     }
 
     /**
-     * @param b_t_id 
-     * @return
+     * @param b_t_id b_t_id
+     * @return get data by id
      */
     @Override
     public BloowRoomTraining getById(Long b_t_id) {
@@ -36,7 +36,7 @@ public class BloowRoomServiceImpl implements BloowRoomService {
     }
 
     /**
-     * @return 
+     * @return  get All Data form BloowRoomTraining
      */
     @Override
     public List<BloowRoomTraining> getAll() {

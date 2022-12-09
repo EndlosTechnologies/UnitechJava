@@ -18,20 +18,24 @@ import java.util.stream.Collectors;
 @Component
 public class JwtUtils {
     private static final Logger logger = LoggerFactory.getLogger(JwtUtils.class);
-
+    /*
+     *  this class provide Jwt token details
+     *   generate token
+     * validate token
+     * time period
+     * */
     @Value("${unitech.app.jwtSecret}")
     private String jwtSecret;
 
     @Value("${unitech.app.jwtExpirationMs}")
     private int jwtExpirationMs;
 
-    public String generateJwtToken(Authentication authentication)
-    {
+    public String generateJwtToken(Authentication authentication) {
 
         UserDetailsImpl userPrincipal = (UserDetailsImpl) authentication.getPrincipal();
         Map<String, Object> claims = new HashMap<>();
-        claims.put("roles",userPrincipal.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList()));
-        claims.put("userId",userPrincipal.getId());
+        claims.put("roles", userPrincipal.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList()));
+        claims.put("userId", userPrincipal.getId());
         return Jwts.builder().setClaims(claims)
                 .setSubject((userPrincipal.getUsername()))
                 .setIssuedAt(new Date())
@@ -39,19 +43,21 @@ public class JwtUtils {
                 .signWith(SignatureAlgorithm.HS512, jwtSecret)
                 .compact();
     }
+
     public <T> T getClaimFromToken(String token, Function<Claims, T> claimsResolver) {
         final Claims claims = GetAllClaimsFromToken(token);
         return claimsResolver.apply(claims);
     }
+
     public String getUserNameFromJwtToken(String token) {
         return getClaimFromToken(token, Claims::getSubject);
     }
 
 
-    private Claims GetAllClaimsFromToken(String token)
-    {
+    private Claims GetAllClaimsFromToken(String token) {
         return Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(token).getBody();
     }
+
     public boolean validateJwtToken(String authToken) {
         try {
             Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(authToken);

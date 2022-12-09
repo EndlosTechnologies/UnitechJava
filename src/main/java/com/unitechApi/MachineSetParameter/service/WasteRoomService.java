@@ -25,15 +25,26 @@ public class WasteRoomService {
         this.wasteRoomRepository = wasteRoomRepository;
     }
 
+    /*
+     * save Data with necessary calculation
+     * */
     public Wasteroom SaveData(Wasteroom wasteroom) {
         return wasteRoomRepository.save(wasteroom);
     }
 
-    public Object ViewData() {
+    /*
+     * get All Added Reading  from MachineReadingParameter schema
+     * */
+    public List<Wasteroom> ViewData() {
         return wasteRoomRepository.findAll();
 
     }
 
+    /*
+     *   parameter Long machineI
+     *   it's hard delete
+     *   NOTE ->  develop a Soft Delete Machine Service
+     * */
     public void DeleteReading(Long id) {
         try {
             wasteRoomRepository.deleteById(id);
@@ -43,9 +54,19 @@ public class WasteRoomService {
 
     }
 
+    /*
+     * parameter Long machineId
+     * get  Data By MachineId
+     * if data has not in the database then throw an exception ResourceNot Found
+     * */
     public Optional<Wasteroom> FindByData(Long id) {
         return Optional.ofNullable(wasteRoomRepository.findById(id).orElseThrow(() -> new ResourceNotFound("can't find data")));
     }
+    /*
+     * parameter Start CreatedDate and End CreatedDate
+     * get  Data By CreatedDate
+     * if data has not in the database then throw an exception DateMisMatchException
+     * */
 
     public List<Wasteroom> FindData(Date start, Date end) {
         java.util.Date date = new java.util.Date();
@@ -61,6 +82,11 @@ public class WasteRoomService {
                 .sorted(Comparator.comparing(o->o.getWasteroom().getId()))
                 .collect(Collectors.toList());
     }
+    /*
+     * parameter Start CreatedDate
+     * get  Data By CreatedDate
+     * if data has not in the database then throw an exception DateMisMatchException
+     * */
 
     public List<Wasteroom> FindBySingleDate(Date start ) {
         return wasteRoomRepository.findByCreatedAt(start)

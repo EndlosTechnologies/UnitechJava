@@ -26,14 +26,25 @@ public class PackingService {
         this.packingRepository = packingRepository;
     }
 
+    /*
+     * save Data with necessary calculation
+     * */
     public Packing SaveData(Packing packing) {
         return packingRepository.save(packing);
     }
 
-    public Object ViewData() {
+    /*
+     * get All Added Reading  from MachineReadingParameter schema
+     * */
+    public List<Packing> ViewData() {
         return packingRepository.findAll();
 
     }
+    /*
+     *   parameter Long machineI
+     *   it's hard delete
+     *   NOTE ->  develop a Soft Delete Machine Service
+     * */
 
     public void DeleteReading(Long id) {
         try {
@@ -44,9 +55,20 @@ public class PackingService {
 
     }
 
+    /*
+     * parameter Long machineId
+     * get  Data By MachineId
+     * if data has not in the database then throw an exception ResourceNot Found
+     * */
+
     public Optional<Packing> FindByData(Long id) {
         return Optional.ofNullable(packingRepository.findById(id).orElseThrow(() -> new ResourceNotFound("can't find data")));
     }
+    /*
+     * parameter Start CreatedDate and End CreatedDate
+     * get  Data By CreatedDate
+     * if data has not in the database then throw an exception DateMisMatchException
+     * */
 
     public List<Packing> FindData(Date start, Date end) {
         java.util.Date date = new java.util.Date();
@@ -59,14 +81,19 @@ public class PackingService {
 
         return packingRepository.findByCreatedAtBetween(start, end)
                 .stream()
-                .sorted(Comparator.comparing(o->o.getPacking().getId()))
+                .sorted(Comparator.comparing(o -> o.getPacking().getId()))
                 .collect(Collectors.toList());
     }
+    /*
+     * parameter Start CreatedDate
+     * get  Data By CreatedDate
+     * if data has not in the database then throw an exception DateMisMatchException
+     * */
 
     public List<Packing> FindBySingleDate(Date start) {
         return packingRepository.findByCreatedAt(start)
                 .stream()
-                .sorted(Comparator.comparing(o->o.getPacking().getId()))
+                .sorted(Comparator.comparing(o -> o.getPacking().getId()))
                 .collect(Collectors.toList());
     }
 

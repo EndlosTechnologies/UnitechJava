@@ -22,7 +22,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.lang.reflect.Modifier;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -101,8 +100,8 @@ public class StoreItemController {
 
     @GetMapping(value = "checkRemainItem/{itemId}")
     public ResponseEntity<?> checkRemainingItem(@PathVariable Long itemId) {
-        storeItemService.checkRemainingItem(itemId);
-        return new ResponseEntity<>(new MessageResponse("checked done "), HttpStatus.OK);
+        StoreItemModel storeItemModel = storeItemService.checkRemainingItem(itemId);
+        return new ResponseEntity<>(new MessageResponse("Remaining Item is ->" + storeItemModel.getRemainingItem()), HttpStatus.OK);
     }
 
     @RequestMapping(
@@ -124,7 +123,6 @@ public class StoreItemController {
         storeItem.setActivation(storeItemModel.getActivation());
         storeItem.setRemainingItem(storeItemModel.getRemainingItem());
         storeItem.setExpiryDays(storeItemModel.getExpiryDays());
-      //  storeItem.setQuantity(storeItemModel.getQuantity());
         log.info("frequency ,{}", storeItem);
         if (storeItemModel.getProductCategory() != null) {
             ProductCategory productCategory = productCategoryRepository.findById(storeItemModel.getProductCategory().getPid()).orElseThrow(() -> new ProductCategoryNotFound("product category Not found"));

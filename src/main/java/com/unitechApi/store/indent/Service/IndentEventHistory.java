@@ -15,6 +15,10 @@ public class IndentEventHistory {
     public IndentEventHistory(IndentEventRepository indentEventRepository) {
         this.indentEventRepository = indentEventRepository;
     }
+
+    /*
+    *  get All Indent By IndentId
+    * */
     public List<?> getAllIndentId(Long indentId)
     {
         return indentEventRepository.findByIndentId(indentId)

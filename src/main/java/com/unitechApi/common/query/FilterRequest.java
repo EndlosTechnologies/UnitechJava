@@ -19,6 +19,10 @@ import java.util.List;
 public class FilterRequest {
     private static final long serialVersionUID = 6293344849078612450L;
 
+    /*
+    * this class is created and used filter Request in json RequestBody
+    *
+    * */
     private String key;
 
     private Operator operator;

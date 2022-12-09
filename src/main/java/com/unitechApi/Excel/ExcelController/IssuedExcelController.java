@@ -41,13 +41,14 @@ public class IssuedExcelController {
         this.usageRepository = usageRepository;
         this.issueRepository = issueRepository;
         this.usageService = usageService;
-
         this.storeItemRepository = storeItemRepository;
         this.vendorRepository = vendorRepository;
     }
 
 
-
+    /*
+    *  excel download for department  wise
+    * */
 
 
     @GetMapping
@@ -65,6 +66,10 @@ public class IssuedExcelController {
         r.export(response);
         return new ResponseEntity<>(new MessageResponse("upload SuccessFully"), HttpStatus.OK);
     }
+
+    /*
+     *  excel download for issued  item between 2 dates
+     *      * */
     @GetMapping(value = "/issuedItem")
     public ResponseEntity<?> downloadIssuedItem(@RequestParam String itemName,
                                           @RequestParam Date start, @RequestParam Date end,
@@ -80,6 +85,10 @@ public class IssuedExcelController {
         issue.export(response);
         return new ResponseEntity<>(new MessageResponse("upload SuccessFully"), HttpStatus.OK);
     }
+
+    /*
+     *  excel download for issued  item between 1 date
+     *      * */
     @GetMapping(value = "/departmentIssuedItem")
     public ResponseEntity<?> downloadMachineWiseAndDate( @RequestParam(required = false) String deptname,
                                                          @RequestParam(required = false) Long id
@@ -97,6 +106,10 @@ public class IssuedExcelController {
         issue.export(response);
         return new ResponseEntity<>(new MessageResponse("upload SuccessFully"), HttpStatus.OK);
     }
+    /*
+     *  excel download for Store in  enter  between 1 dates
+     *
+     * */
     @GetMapping("/storeItem")
     public ResponseEntity<?> storeItemExcel(HttpServletResponse response) throws IOException {
         response.setContentType("application/octet-stream");
@@ -110,6 +123,9 @@ public class IssuedExcelController {
         itemExcel.export(response);
         return new ResponseEntity<>(new MessageResponse("Download SuccessFully"), HttpStatus.OK);
     }
+    /*
+     *  excel download for vendor  details
+      */
     @GetMapping(value = "/vendorExcel")
     public ResponseEntity<?> vendorDetails(HttpServletResponse response) throws IOException, ParseException {
         response.setContentType("application/octet-stream");

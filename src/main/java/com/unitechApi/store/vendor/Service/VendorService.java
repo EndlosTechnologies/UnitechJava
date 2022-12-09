@@ -37,10 +37,18 @@ public class VendorService {
         return vendorRepository.save(vendorModel);
     }
 
+
+    /*
+        params id
+        find Vendor details id
+    * */
     public VendorModel FindById(Long id) {
         return vendorRepository.findById(id).orElseThrow(() -> new ResourceNotFound("Sorry ! Vendor Not Found in System"));
     }
 
+    /*
+     *  getAll VendoDetails
+     * */
     public Object FindAll() {
         return vendorRepository.findAll();
     }
@@ -53,7 +61,11 @@ public class VendorService {
         vendorRepository.deleteById(id);
         return Optional.empty();
     }
-
+    /*
+        params start
+        params end
+        find All vendor between 2 dates
+    * */
     public List<VendorModel> FindDateByData(Date start, Date end) {
         java.util.Date date = new java.util.Date();
         if (date.before(start)) {
@@ -67,6 +79,10 @@ public class VendorService {
                 .collect(Collectors.toList());
     }
 
+    /*
+     * params pdate
+     * find a All Vendor by  pdate
+     * */
     public List<VendorModel> FindByParticularDate(Date pdate) {
         java.util.Date date = new java.util.Date();
         if (date.before(pdate)) {
@@ -78,6 +94,11 @@ public class VendorService {
                 .collect(Collectors.toList());
     }
 
+    /*
+     * params vendorId
+     * params itemId
+     * remove item id from vendor
+     * */
     public Object DeleteItem(Long vendorId, Long itemId) {
         VendorModel vendorModel = vendorRepository.findById(vendorId).get();
         StoreItemModel storeItemModel = storeItemRepository.findById(itemId).get();
@@ -85,22 +106,22 @@ public class VendorService {
         return vendorRepository.save(vendorModel);
     }
 
+    /*
+        params pagination
+    *  get All Vendor
+    *
+    *
+    * */
     public Page<VendorDto> findAllGetByDto(Pagination pagination) {
         return vendorRepository.findAll(pagination.getpageble())
                 .map(this::getByDto);
 
     }
 
-//    public List<VendorDto> getById(Long id) {
-//     return    vendorRepository.findById(id)
-//                .stream()
-//                .map(this::getByDto)
-//                .collect(Collectors.toList());
-//    }
-    public Page<VendorModel> getByAllVendor(SearchRequest request)
-    {
-        SearchSpecification<VendorModel> data=new SearchSpecification<>(request);
-        Pageable pageable=SearchSpecification.getPageable(request.getPage(), request.getSize());
+
+    public Page<VendorModel> getByAllVendor(SearchRequest request) {
+        SearchSpecification<VendorModel> data = new SearchSpecification<>(request);
+        Pageable pageable = SearchSpecification.getPageable(request.getPage(), request.getSize());
         return vendorRepository.findAll(pageable);
     }
 
@@ -154,8 +175,6 @@ public class VendorService {
 
         return vendorDto;
     }
-
-
 
 
 }

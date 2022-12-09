@@ -33,7 +33,7 @@ public class QuantityService {
     public List<?> saveAllData(List<IndentQuantity> indentQuantities) {
 
         return null;
-                //quantityRepository
+        //quantityRepository
 //                .saveAll(indentQuantities)
 //                    .stream()
 //                        .map((data) -> {
@@ -54,17 +54,27 @@ public class QuantityService {
     }
 
 
+    /*
+     *  params quantityId
+     * get QuantityData  by quantityId
+     *
+     * */
     public IndentQuantity findById(Long quantityId) {
         return quantityRepository.findById(quantityId)
                 .orElseThrow(() -> new ResourceNotFound("Resource Not Found"));
     }
+    /*
+     *  params indentId
+     * get QuantityList   by IndentId
+     *
+     * */
 
     public List<IndentQuantity> dataGetByIndentId(Long indentId) {
         return quantityRepository.findAllByIndentid(indentId);
     }
-    public Object DAta(Long itemId)
-    {
-        return quantityRepository.findByData(itemId ,itemId);
+
+    public Object DAta(Long itemId) {
+        return quantityRepository.findByData(itemId, itemId);
     }
 }
 

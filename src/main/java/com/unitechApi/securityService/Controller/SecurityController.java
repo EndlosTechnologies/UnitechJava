@@ -49,7 +49,7 @@ public class SecurityController {
     @GetMapping("/{id}")
     public ResponseEntity<?> GetById(@PathVariable Long id,Principal principal) {
         Optional<?> data = securityService.FindById(id);
-        eventRepository.save(new EventEntity("view By id Get Data",EventType.REQUEST_VIEW, principal.getName()));
+        eventRepository.save(new EventEntity("view By id",EventType.REQUEST_VIEW, principal.getName()));
         return new ResponseEntity<>(PageResponse.SuccessResponse(data), HttpStatus.OK);
     }
 

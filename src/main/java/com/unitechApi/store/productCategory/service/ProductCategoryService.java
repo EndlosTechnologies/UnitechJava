@@ -23,10 +23,15 @@ public class ProductCategoryService {
         this.productCategoryRepository = productCategoryRepository;
     }
 
+    // save ProductCategory
     public ProductCategory saveData(ProductCategory productCategory) {
 
         return productCategoryRepository.save(productCategory);
     }
+    /*
+     *  params id
+     *  get category by id
+     * */
 
     public ProductCategory findById(Long id) {
         return productCategoryRepository
@@ -34,6 +39,10 @@ public class ProductCategoryService {
                 .orElseThrow(() -> new ProductCategoryNotFound("Product Not Found :" + id));
     }
 
+    /*
+     *    params  id
+     * delete category
+     * */
     public Object deleteCategory(Long id) {
         if (findById(id).equals(id)) {
             productCategoryRepository.deleteById(id);
@@ -41,6 +50,9 @@ public class ProductCategoryService {
         return Optional.empty();
     }
 
+    /*
+     * getAll Category
+     * */
     public List<ProductCategory> findAllProductCategory() {
         return productCategoryRepository
                 .findAll()

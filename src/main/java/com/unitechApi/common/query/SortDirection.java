@@ -5,6 +5,10 @@ import javax.persistence.criteria.Order;
 import javax.persistence.criteria.Root;
 
 public enum SortDirection {
+
+    /*
+     * this class define  Sorting Direction using CriteriaBuilder
+     * */
     ASC {
         public <T> Order build(Root<T> root, CriteriaBuilder cb, SortRequest request) {
             return cb.asc(root.get(request.getKey()));

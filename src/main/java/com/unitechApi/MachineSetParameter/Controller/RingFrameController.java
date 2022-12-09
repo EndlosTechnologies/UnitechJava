@@ -7,7 +7,6 @@ import com.unitechApi.MachineSetParameter.repository.RingFrameRepossitory;
 import com.unitechApi.MachineSetParameter.service.RingframesService;
 import com.unitechApi.Payload.response.MessageResponse;
 import com.unitechApi.Payload.response.PageResponse;
-import com.unitechApi.Payload.response.Pagination;
 import com.unitechApi.addmachine.model.AddRingFramesMachine;
 import com.unitechApi.addmachine.repositroy.AddRingFrameRepossitory;
 import com.unitechApi.exception.ExceptionService.MachineNotFound;
@@ -16,7 +15,6 @@ import com.unitechApi.exception.ExceptionService.TimeExtendException;
 import com.unitechApi.exception.ExceptionService.UserNotFound;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -31,10 +29,10 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @RestController
 @CrossOrigin
@@ -126,7 +124,7 @@ public class RingFrameController {
         String headerValue = "attachment; filename=RingFrameData_" + currentDate + ".xlsx";
         response.setHeader(headerKey, headerValue);
         List<RingFrame> ListData = ringframesService.ExcelDateToPerDateReport(start);
-        log.info("data  in  {} ",ListData.stream().collect(Collectors.toList()));
+        log.info("data  in  {} ", new ArrayList<>(ListData));
 
 
         RingframeExcelService c = new RingframeExcelService(ListData);
@@ -187,7 +185,7 @@ public class RingFrameController {
     @PatchMapping("/updateshiftATwo/{id}")
     public ResponseEntity<?> UpdateShiftATwoReading(@PathVariable Long id, @RequestBody Map<String, Float> reading) {
         String timeColonPattern = "hh:mm:ss a";
-        DateTimeFormatter timeColonFormatter = DateTimeFormatter.ofPattern(timeColonPattern);
+        DateTimeFormatter timeColonFormatter = DateTimeFormatter.ofPattern("hh:mm:ss a");
         if (
                 LocalTime.now().isAfter(LocalTime.from(timeColonFormatter.parse("10:00:00 AM")))
                         &&
@@ -215,8 +213,9 @@ public class RingFrameController {
 
     @PatchMapping("/updateshiftAThree/{id}")
     public ResponseEntity<?> UpdateShiftAThreeReading(@PathVariable Long id, @RequestBody Map<String, Float> reading) {
-        String timeColonPattern = "hh:mm:ss a";
+        String timeColonPattern ="hh:mm:ss a";
         DateTimeFormatter timeColonFormatter = DateTimeFormatter.ofPattern(timeColonPattern);
+        System.out.println(timeColonFormatter.parse(timeColonPattern));
         if (
                 LocalTime.now().isAfter(LocalTime.from(timeColonFormatter.parse("00:00:00 PM")))
                         &&
@@ -224,7 +223,8 @@ public class RingFrameController {
                         ))
         ) {
             System.out.println(LocalTime.now());
-            RingFrame ringFrame = ringFrameRepossitory.findById(id).orElseThrow(() -> new ResourceNotFound("Resource Not Found"));
+            RingFrame ringFrame = ringFrameRepossitory.findById(id)
+                    .orElseThrow(() -> new ResourceNotFound("Resource Not Found"));
             RingFrameRest ringFrameRest = mapPersistenceToRestModelOne(ringFrame);
 
             reading.forEach((change, value) -> {
@@ -369,12 +369,11 @@ public class RingFrameController {
         if (
                 LocalTime.now().isAfter(LocalTime.from(timeColonFormatter.parse("10:00:00 PM")))
                         &&
-                        LocalTime.now().isBefore(LocalTime.from(timeColonFormatter.parse("11:59:59 PM")
-
-                        )) || (LocalTime.now().isAfter(LocalTime.from(timeColonFormatter.parse("00:00:00 AM")))
+                        LocalTime.now().isBefore(LocalTime.from(timeColonFormatter.parse("11:59:59 PM")))
+                        || (LocalTime.now().isAfter(LocalTime.from(timeColonFormatter.parse("00:00:00 AM")))
                         &&
-                        LocalTime.now().isBefore(LocalTime.from(timeColonFormatter.parse("00:20:00 AM")))
-                )) {
+                            LocalTime.now().isBefore(LocalTime.from(timeColonFormatter.parse("00:20:00 AM"))))
+           ) {
             System.out.println(LocalTime.now());
             RingFrame ringFrame = ringFrameRepossitory.findById(id).orElseThrow(() -> new ResourceNotFound("Resource Not Found"));
             RingFrameRest ringFrameRest = mapPersistenceToRestModelOne(ringFrame);
@@ -582,13 +581,17 @@ public class RingFrameController {
         ringFrame.setMachineId(ringFrameRest.getId());
         ringFrame.setShift_b_twoHoursTwo(ringFrameRest.getShift_b_twoHoursTwo());
         ringFrame.setAverageshift_a_HankEight((float) ((ringFrame.getShift_b_twoHoursTwo()/(2.204*ringFrame.getRingFrameCount())) * 1440 * ringFrame.getMachineEfficiency())/100);
+
         ringFrame.setAvervg_difference_b_twoHoursTwo((ringFrame.getAverageshift_a_HankEight() -
                 ringFrame.getProductionSpindle2HoursKg()) /
                 ringFrame.getProductionSpindle2HoursKg() * 100);
+
         ringFrame.setTotal_shift_prod_a(ringFrame.getShift_a_twoHoursOne() + ringFrame.getShift_a_twoHoursTwo() + ringFrame.getShift_a_twoHoursThree()
                 + ringFrame.getShift_a_twoHoursFour() + ringFrame.getShift_a_twoHoursFive() + ringFrame.getShift_a_twoHoursSix());
+
         ringFrame.setTotal_shift_prod_b(ringFrame.getShift_b_twoHoursOne() + ringFrame.getShift_b_twoHoursTwo() + ringFrame.getShift_b_twoHoursThree()
                 + ringFrame.getShift_b_twoHoursFour() + ringFrame.getShift_b_twoHoursFive() + ringFrame.getShift_b_twoHoursSix());
+
         ringFrame.setActual_producation(ringFrame.getTotal_shift_prod_a() + ringFrame.getTotal_shift_prod_b());
         ringFrame.setEfficiency((ringFrame.getActual_producation() / ringFrame.getNetProduction()) * 100);
         ringFrame.setTarget_prod_variance_kg(ringFrame.getActual_producation() - ringFrame.getNetProduction());

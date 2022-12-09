@@ -18,8 +18,8 @@ public class CardingServiceImpl implements CardingService {
     }
 
     /**
-     * @param cardingTraining 
-     * @return
+     * @param cardingTraining cardingTraining
+     * @return save cardingTraining
      */
     @Override
     public CardingTraining saveData(CardingTraining cardingTraining) {
@@ -27,8 +27,8 @@ public class CardingServiceImpl implements CardingService {
     }
 
     /**
-     * @param c_t_id 
-     * @return
+     * @param c_t_id c_t_id
+     * @return get cardingTraining by c_t_id
      */
     @Override
     public CardingTraining getById(Long c_t_id) {
@@ -36,7 +36,7 @@ public class CardingServiceImpl implements CardingService {
     }
 
     /**
-     * @return 
+     * @return  getAll cardingTraining
      */
     @Override
     public List<CardingTraining> getAll() {

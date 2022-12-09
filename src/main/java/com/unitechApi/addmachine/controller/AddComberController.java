@@ -38,7 +38,7 @@ public class AddComberController {
         if (addComberRepository.existsByName(addComber.getName())) {
             return ResponseEntity.badRequest().body(new MessageResponse("Already Exists " + addComber.getName()));
         }
-        return new ResponseEntity<>(addComberService.savemachine(addComber), HttpStatus.CREATED);
+        return new ResponseEntity<>(addComberService.saveComberMachine(addComber), HttpStatus.CREATED);
     }
 
     @GetMapping("/{id}")

@@ -51,7 +51,9 @@ public class IndentService {
         this.priceModelRepository = priceModelRepository;
     }
 
-
+    /*
+     * Save Indent using indent Model
+     * */
     public Indent saveData(Indent indent) {
 
         float dta = 0;
@@ -85,10 +87,21 @@ public class IndentService {
         return indent;
     }
 
-
+    /*
+     * Params ID
+     * get Indent By indentId
+     *
+     * */
     public Indent findByid(Long id) {
         return indentRepository.findById(id).orElseThrow(() -> new ResourceNotFound("Sorry ! Indent Was Not Found"));
     }
+
+    /*
+        params id
+        params  request
+    * update Indent Req
+    *
+    * */
 
     public Indent updateData(Long id, Map<Object, Object> request) {
         Indent req = indentRepository.findById(id).orElseThrow(() -> new ItemNotFound("Sorry ! Item Was Not Found"));
@@ -103,10 +116,12 @@ public class IndentService {
         return requestData;
     }
 
-
+    /*
+     * change state
+     *  admin to Done Process
+     * also cancel
+     * */
     public Object changeStatus(long itemId, Indent dta) {
-
-
         Indent itemRequest = indentRepository.findById(itemId).orElseThrow(() -> new ItemNotFound("Sorry ! Item Was Not Found"));
         User user = userRepository.getById(dta.getEmployee().getId());
         if (itemRequest.getIndentStatus() == IndentStatus.GM && dta.getIndentStatus() == IndentStatus.ADMIN) {
@@ -145,6 +160,12 @@ public class IndentService {
         return itemRequest;
     }
 
+    /*
+    params id
+    params VendorWisePriceModel
+    * update VendorPrice  using VendorWisePriceModel
+    *
+    * */
     public Object updateVendorPrice(Long priceId, VendorWisePriceModel vendorWisePriceModel) {
         VendorWisePriceModel priceUpdate = priceModelRepository.getById(priceId);
         StoreItemModel storeItemModel = storeItemRepository.getById(vendorWisePriceModel.getItemModelPrice().getItemId());
@@ -160,25 +181,39 @@ public class IndentService {
         return priceModelRepository.save(priceUpdate);
     }
 
+    /*
+        get All Indent
+    * */
     public List<Indent> findAll() {
         return indentRepository.findAll()
                 .stream()
                 .sorted(Comparator.comparing(Indent::getIndentId).reversed())
                 .collect(Collectors.toList());
     }
-
+    /*
+     *   params date date
+     *   get All indent  by Date
+     * */
 
     public List<Indent> findByCreatedDate(Date date) {
         return indentRepository.findByCreated(date);
     }
 
+    /*
+     * params indentStatus
+     * get Indent By indentStatus
+     * */
     public List<Indent> findByStatus(IndentStatus indentStatus) {
         return indentRepository.findByIndentStatus(indentStatus)
                 .stream()
                 .sorted(Comparator.comparing(Indent::getIndentId).reversed())
                 .collect(Collectors.toList());
     }
-
+    /*
+     *  params start
+     *  params end
+     *  get All Indent Between 2  dates
+     * */
 
     public Page<List<Indent>> findByListDateBetweenWithIndentNumber(Date start, Date end, Pagination pagination, String indentNumber) {
         if (indentNumber == null) {
@@ -187,6 +222,10 @@ public class IndentService {
         return indentRepository.ffindByDateBEtweenWithindentNumber(start, end, pagination.getpageble(), indentNumber);
     }
 
+    /*
+     *   params  indentNumber
+     *   get Indent By Indent Number
+     * */
     public List<?> findByIndnentNumber(String indentNumber) {
         return indentRepository.findByIndentNumber(indentNumber);
     }
@@ -198,6 +237,10 @@ public class IndentService {
     public Page<Indent> getByAll(String keyword, Pagination pagination) {
         return indentRepository.searchInAllIndent(keyword, pagination.getpageble());
     }
+    /*
+     * params request
+     *  get All data using Filter request
+     * */
 
     public Page<Indent> searchIndent(SearchRequest request) {
         SearchSpecification<Indent> specification = new SearchSpecification<>(request);

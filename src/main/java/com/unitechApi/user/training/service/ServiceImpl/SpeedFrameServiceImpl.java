@@ -18,8 +18,8 @@ public class SpeedFrameServiceImpl implements SpeedFrameService {
     }
 
     /**
-     * @param speedFrameTraining
-     * @return
+     * @param speedFrameTraining speedFrameTraining
+     * @return save speedFrameTraining data
      */
     @Override
     public SpeedFrameTrainingEntity saveData(SpeedFrameTrainingEntity speedFrameTraining) {
@@ -27,8 +27,8 @@ public class SpeedFrameServiceImpl implements SpeedFrameService {
     }
 
     /**
-     * @param s_t_id
-     * @return
+     * @param s_t_id s_t_id
+     * @return get speedFrameTraining data By id
      */
     @Override
     public SpeedFrameTrainingEntity getById(Long s_t_id) {
@@ -36,7 +36,7 @@ public class SpeedFrameServiceImpl implements SpeedFrameService {
     }
 
     /**
-     * @return
+     * @return get All {@link SpeedFrameTrainingRepository} Data
      */
     @Override
     public List<SpeedFrameTrainingEntity> getAll() {

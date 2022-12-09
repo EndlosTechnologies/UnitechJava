@@ -18,14 +18,20 @@ public class UserQualificationService {
         this.qualificationRepository = qualificationRepository;
     }
 
+    /*
+    * save Qualification data and  with parent object user
+    * */
     public QualificationModel savequalification(QualificationModel qualificationModel) throws Exception {
-        QualificationModel qualificationModel1 = qualificationRepository.save(qualificationModel);
-        if (qualificationModel == null) {
-            throw new Exception("Qualification Details are Empty");
-        }
-        return qualificationModel;
+
+        return qualificationRepository.save(qualificationModel);
     }
 
+    /*
+     * params id
+     * delete qualification By Id
+     *
+     * check parent Object
+     *     * */
     public void DeleteReading(Long id) {
         try {
             qualificationRepository.deleteById(id);
@@ -33,12 +39,20 @@ public class UserQualificationService {
             throw new ResourceNotFound("data already deleted present ");
         }
     }
-
+    /*
+     * params id
+     * return qualification data  by ID
+     * */
     public QualificationModel FindById(Long id) {
         QualificationModel qualificationModel = qualificationRepository.findById(id).orElseThrow(() -> new ResourceNotFound("Sorry !  i cann't Do This cause your Data Not Found"));
         return qualificationModel;
     }
 
+    /*
+     * params ID
+     * params field
+     * return update  qualification data   by ID
+     * */
     public QualificationModel UpdateData(Long Id, Map<Object, Object> fields) {
         QualificationModel qualificationModel = qualificationRepository.findById(Id).orElseThrow(() -> new ResourceNotFound("Sorry !  i cann't Do This cause your Data Not Found"));
 

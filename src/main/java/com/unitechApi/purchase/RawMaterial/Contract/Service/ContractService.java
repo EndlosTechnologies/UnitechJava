@@ -35,9 +35,19 @@ public class ContractService {
     public ContractModel Save(ContractModel contractModel) {
         return contractRepository.save(contractModel);
     }
+
+    /*
+     *
+     * @params id
+     *
+     *   return get contract data by ID
+     * */
     public ContractModel FindById(Long id) {
         return contractRepository.findById(id).orElseThrow(()->new ResourceNotFound("Can Not Find Any Contract"));
     }
+    /*
+    * return get All Contrtact
+    * */
     public Object FindAll()
     {
         return contractRepository.findAll();
@@ -54,6 +64,12 @@ public class ContractService {
 
         return null;
     }
+    /*
+     *
+     * @params start
+     * params end
+     * return get An contract By between 2 dates
+     * */
     public Page<ContractModel> FindCOntractByDate(Date start, Date end, Pagination pagination)
     {
         java.util.Date date = new java.util.Date();
@@ -65,11 +81,22 @@ public class ContractService {
         }
         return contractRepository.findByCreatedAtBetween(start, end, pagination.getpageble());
     }
+    /*
+     *
+     * @params pdate
+     *
+     * return get Data  By  pdate
+     *      * */
     public Page<ContractModel> FindByParticularDate(Date pdate, Pagination pagination)
     {
         return contractRepository.findByCreatedAt(pdate,pagination.getpageble());
     }
-
+    /*
+     *
+     * @params c_id
+     * params v_id
+     * return update item in contract data
+     * */
     public ContractModel UpdateIdItem(Long c_id, Long v_id)
     {
         ContractModel contractModel= contractRepository.findById(c_id).get();
@@ -78,6 +105,15 @@ public class ContractService {
         return contractRepository.save(contractModel);
     }
 
+
+
+
+    /*
+    *
+    * @params c_id
+    * params d_id
+    * return update item Delivery data
+    * */
 
     public Object UpdateIdItemDelivery(Long c_id, Long d_id) {
         ContractModel contractModel= contractRepository.findById(c_id).get();

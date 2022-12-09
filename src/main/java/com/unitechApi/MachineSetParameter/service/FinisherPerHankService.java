@@ -28,7 +28,9 @@ public class FinisherPerHankService {
     }
 
     DecimalFormat df = new DecimalFormat("#.###");
-
+    /*
+     * save Data with necessary calculation
+     * */
     public FinisherperHank save(FinisherperHank finisherperHank) {
         df.setMaximumFractionDigits(3);
         finisherperHank.setProductiononratekgdfper8hour(Float.parseFloat(df.format(CONSTANT * finisherperHank.getDeliveryspeed() * finisherperHank.getMachineefficency() / 100)));
@@ -37,12 +39,20 @@ public class FinisherPerHankService {
         log.info("{ } Finisher Data in Hank ", finisherperHank);
         return finisherperHankRepository.save(finisherperHank);
     }
+    /*
+     * get All Added Reading  from MachineReadingParameter schema
+     * */
 
-    public Object ViewData() {
+    public List<FinisherperHank> ViewData() {
         return finisherperHankRepository.findAll();
 
     }
 
+    /*
+     *   parameter Long machineI
+     *   it's hard delete
+     *   NOTE ->  develop a Soft Delete Machine Service
+     * */
     public void DeleteReading(Long id) {
         try {
             finisherperHankRepository.deleteById(id);
@@ -51,10 +61,20 @@ public class FinisherPerHankService {
         }
     }
 
+    /*
+     * parameter Long machineId
+     * get  Data By MachineId
+     * if data has not in the database then throw an exception ResourceNot Found
+     * */
     public Optional<FinisherperHank> FindByData(Long id) {
         return Optional.ofNullable(finisherperHankRepository.findById(id).orElseThrow(() -> new ResourceNotFound("can't find data")));
     }
 
+    /*
+     * parameter Start CreatedDate and End CreatedDate
+     * get  Data By CreatedDate
+     * if data has not in the database then throw an exception DateMisMatchException
+     * */
     public List<FinisherperHank> FindData(Date start, Date end) {
         java.util.Date date = new java.util.Date();
 
@@ -69,6 +89,11 @@ public class FinisherPerHankService {
                 .collect(Collectors.toList());
     }
 
+    /*
+     * parameter Start CreatedDate
+     * get  Data By CreatedDate
+     * if data has not in the database then throw an exception DateMisMatchException
+     * */
     public List<FinisherperHank> FindBySingleDate(Date start) {
         return finisherperHankRepository.findByCreatedAt(start)
                 .stream()

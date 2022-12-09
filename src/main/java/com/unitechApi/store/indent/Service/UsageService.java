@@ -22,6 +22,11 @@ public class UsageService {
         this.usageRepository = usageRepository;
     }
 
+    /*
+     * this method to define
+     *  when  item was  used to  which machine
+     * and when , which time
+     * */
     public void save(UsageItem usageItem) {
 
         this.usageRepository.save(usageItem);
@@ -34,11 +39,15 @@ public class UsageService {
                 .sorted(Comparator.comparing(UsageItem::getuId))
                 .collect(Collectors.toList());
     }
-    public List<UsageItem> allSaveData(List<UsageItem> data)
-    {
+
+    public List<UsageItem> allSaveData(List<UsageItem> data) {
         return usageRepository.saveAll(data);
     }
 
+    /*
+     *  params deptname
+     * get ALl Usage Reports  by DeptName
+     * */
     public List<UsageItem> findByDepName(String name) {
         return usageRepository.findByDeptName(name);
     }
@@ -120,6 +129,14 @@ public class UsageService {
         return null;
     }
 
+    /*
+     * params deptname
+     * params id
+     * params start
+     * params end
+     * params pagination
+     * get All report by All Parameter
+     * */
     public Page<UsageItem> findByCardingDataAndDeptName(String deptname, Long id, Date start, Date end, Pagination pagination) {
         if (deptname.equalsIgnoreCase("bloowroom")) {
             if (id == null) {

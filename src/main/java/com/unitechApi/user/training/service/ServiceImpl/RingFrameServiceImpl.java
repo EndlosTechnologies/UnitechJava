@@ -16,8 +16,8 @@ public class RingFrameServiceImpl implements RingFrameService {
     }
 
     /**
-     * @param ringFrameTraining
-     * @return
+     * @param ringFrameTraining ringFrameTraining
+     * @return save ringframeTrainigData save
      */
     @Override
     public RingFrameTraining saveData(RingFrameTraining ringFrameTraining) {
@@ -25,8 +25,8 @@ public class RingFrameServiceImpl implements RingFrameService {
     }
 
     /**
-     * @param r_t_id
-     * @return
+     * @param r_t_id r_t_id
+     * @return get All traini data By id
      */
     @Override
     public RingFrameTraining getById(Long r_t_id) {
@@ -34,7 +34,7 @@ public class RingFrameServiceImpl implements RingFrameService {
     }
 
     /**
-     * @return
+     * @return getAll
      */
     @Override
     public List<RingFrameTraining> getAll() {

@@ -20,6 +20,10 @@ public class SortRequest implements Serializable {
 
     private static final long serialVersionUID = 3194362295851723069L;
 
+    /*
+     * this class for Soring Request Generate
+     * And Sorting Direction is Define ASC and Desc
+     * */
     private String key;
 
     private SortDirection direction;

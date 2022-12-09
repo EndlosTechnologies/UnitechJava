@@ -29,6 +29,9 @@ public class FinisherperKgservice {
 
     DecimalFormat df = new DecimalFormat("#.###");
 
+    /*
+     * save Data with necessary calculation
+     * */
     public FinisherperKg SaveData(FinisherperKg finisherperKg) {
         df.setMaximumFractionDigits(3);
         finisherperKg.setProductiononratekgdfper8hour(Float.parseFloat(df.format((CONSTANT * finisherperKg.getDeliveryspeed() * finisherperKg.getMachineefficency()) / (finisherperKg.getSilverhank() * 100))));
@@ -38,10 +41,18 @@ public class FinisherperKgservice {
         return finisherRepository.save(finisherperKg);
     }
 
-    public Object ViewData() {
+    /*
+     * get All Added Reading  from MachineReadingParameter schema
+     * */
+    public List<FinisherperKg> ViewData() {
         return finisherRepository.findAll();
     }
 
+    /*
+     *   parameter Long machineI
+     *   it's hard delete
+     *   NOTE ->  develop a Soft Delete Machine Service
+     * */
     public void DeleteReading(Long id) {
         try {
             finisherRepository.deleteById(id);
@@ -49,11 +60,21 @@ public class FinisherperKgservice {
             throw new ResourceNotFound("data already deleted present " + ResourceNotFound.class);
         }
     }
+    /*
+     * parameter Long machineId
+     * get  Data By MachineId
+     * if data has not in the database then throw an exception ResourceNot Found
+     * */
 
     public Optional<FinisherperKg> FindByData(Long id) {
         return Optional.ofNullable(finisherRepository.findById(id).orElseThrow(() -> new ResourceNotFound("can't find data")));
     }
 
+    /*
+     * parameter Start CreatedDate and End CreatedDate
+     * get  Data By CreatedDate
+     * if data has not in the database then throw an exception DateMisMatchException
+     * */
     public List<FinisherperKg> FindData(Date start, Date end) {
         java.util.Date date = new java.util.Date();
 
@@ -69,6 +90,11 @@ public class FinisherperKgservice {
 
     }
 
+    /*
+     * parameter Start CreatedDate
+     * get  Data By CreatedDate
+     * if data has not in the database then throw an exception DateMisMatchException
+     * */
     public List<FinisherperKg> FindBySingleDate(Date start) {
         return finisherRepository.findByCreatedAt(start)
                 .stream()

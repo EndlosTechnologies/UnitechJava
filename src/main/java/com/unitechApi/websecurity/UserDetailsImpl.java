@@ -16,6 +16,8 @@ import java.util.stream.Collectors;
 public class UserDetailsImpl implements UserDetails {
     private static final long serialVersionUID = 1L;
 
+
+
     private Long id;
     private String username;
     private String email;
@@ -132,15 +134,6 @@ public class UserDetailsImpl implements UserDetails {
         this.datetime = datetime;
     }
 
-
-//
-//	public int getPin() {
-//		return pin;
-//	}
-//
-//	public void setPin(int pin) {
-//		this.pin = pin;
-//	}
 
     @Override
     public boolean isAccountNonExpired() {

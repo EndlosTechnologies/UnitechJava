@@ -28,7 +28,9 @@ public class CardingService {
 
     public static final float CONSTANT = (float) 0.0354;
     DecimalFormat df = new DecimalFormat("#.###");
-
+    /*
+     * save Data with necessary calculation
+     * */
     public Carding SaveData(Carding carding) {
         df.setMaximumFractionDigits(3);
         carding.setProductiononratekgcardperhour(Float.parseFloat(df.format(CONSTANT * carding.getDeliveryspeed() * carding.getMachineefficency() / (carding.getSilverhank() * 100))));
@@ -38,10 +40,17 @@ public class CardingService {
         log.info("{ } Carding Data ", carding);
         return cardingRepository.save(carding);
     }
-
+    /*
+     * get All Added Reading  from MachineReadingParameter schema
+     * */
     public List<Carding> ViewData() {
         return cardingRepository.findAll();
     }
+    /*
+     *   parameter Long machineI
+     *   it's hard delete
+     *   NOTE ->  develop a Soft Delete Machine Service
+     * */
     public void DeleteReading(Long id) {
         try {
             cardingRepository.deleteById(id);
@@ -49,11 +58,19 @@ public class CardingService {
             throw new ResourceNotFound("data already deleted present " + ResourceNotFound.class);
         }
     }
-
+    /*
+     * parameter Long machineId
+     * get  Data By MachineId
+     * if data has not in the database then throw an exception ResourceNot Found
+     * */
     public Optional<Carding> FindByData(Long id) {
         return Optional.ofNullable(cardingRepository.findById(id).orElseThrow(() -> new ResourceNotFound("can't find data")));
     }
-
+    /*
+     * parameter Start CreatedDate and End CreatedDate
+     * get  Data By CreatedDate
+     * if data has not in the database then throw an exception DateMisMatchException
+     * */
     public List<Carding> FindByDate(Date start, Date end) {
         java.util.Date date = new java.util.Date();
 
@@ -65,6 +82,11 @@ public class CardingService {
         return cardingRepository.findByCreatedAtBetween(start, end).stream().sorted(Comparator.comparing(o->o.getCardingMachine().getId())).collect(Collectors.toList());
     }
 
+    /*
+     * parameter Start CreatedDate
+     * get  Data By CreatedDate
+     * if data has not in the database then throw an exception DateMisMatchException
+     * */
     public List<Carding> FindBySingleDate(Date start) {
         return cardingRepository.findByCreatedAt(start).stream().sorted(Comparator.comparing(o->o.getCardingMachine().getId())).collect(Collectors.toList());
     }

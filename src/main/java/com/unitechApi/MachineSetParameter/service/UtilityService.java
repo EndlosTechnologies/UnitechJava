@@ -26,14 +26,25 @@ public class UtilityService {
         this.utilityRepository = utilityRepository;
     }
 
+    /*
+     * save Data with necessary calculation
+     * */
     public Utiliity SaveData(Utiliity utiliity) {
         return utilityRepository.save(utiliity);
     }
 
-    public Object ViewData() {
+    /*
+     * get All Added Reading  from MachineReadingParameter schema
+     * */
+    public List<Utiliity> ViewData() {
         return utilityRepository.findAll().stream().sorted(Comparator.comparing(Utiliity::getMachineId)).collect(Collectors.toList());
     }
 
+    /*
+     *   parameter Long machineI
+     *   it's hard delete
+     *   NOTE ->  develop a Soft Delete Machine Service
+     * */
     public void DeleteReading(Long id) {
         try {
             utilityRepository.deleteById(id);
@@ -43,11 +54,21 @@ public class UtilityService {
         }
 
     }
+    /*
+     * parameter Long machineId
+     * get  Data By MachineId
+     * if data has not in the database then throw an exception ResourceNot Found
+     * */
 
     public Optional<Utiliity> FindByData(Long id) {
         return Optional.ofNullable(utilityRepository.findById(id).orElseThrow(() -> new ResourceNotFound("can't find data")));
     }
 
+    /*
+     * parameter Start CreatedDate and End CreatedDate
+     * get  Data By CreatedDate
+     * if data has not in the database then throw an exception DateMisMatchException
+     * */
     public List<Utiliity> FindData(Date start, Date end) {
         java.util.Date date = new java.util.Date();
 
@@ -63,6 +84,11 @@ public class UtilityService {
                 .collect(Collectors.toList());
     }
 
+    /*
+     * parameter Start CreatedDate
+     * get  Data By CreatedDate
+     * if data has not in the database then throw an exception DateMisMatchException
+     * */
     public List<Utiliity> FindBySingleDate(Date start) {
         return utilityRepository.findByCreatedAt(start)
                 .stream()

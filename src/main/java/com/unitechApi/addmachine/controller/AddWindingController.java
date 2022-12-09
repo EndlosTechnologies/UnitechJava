@@ -4,10 +4,9 @@ import com.unitechApi.Payload.response.MessageResponse;
 import com.unitechApi.Payload.response.PageResponse;
 import com.unitechApi.addmachine.model.AddWindingMachine;
 import com.unitechApi.addmachine.repositroy.AddWindingRepository;
-import com.unitechApi.addmachine.service.AddWindinfService;
+import com.unitechApi.addmachine.service.AddWindingService;
 import com.unitechApi.exception.ExceptionService.ResourceNotFound;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.ReflectionUtils;
@@ -18,7 +17,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @RestController
 @CrossOrigin
@@ -26,11 +24,11 @@ import java.util.stream.Collectors;
 @Slf4j
 public class AddWindingController {
 
-    private final AddWindinfService addWindinfService;
+    private final AddWindingService addWindingService;
     private final AddWindingRepository addWindingRepository;
 
-    public AddWindingController(AddWindinfService addWindinfService, AddWindingRepository addWindingRepository) {
-        this.addWindinfService = addWindinfService;
+    public AddWindingController(AddWindingService addWindingService, AddWindingRepository addWindingRepository) {
+        this.addWindingService = addWindingService;
         this.addWindingRepository = addWindingRepository;
     }
 
@@ -39,27 +37,27 @@ public class AddWindingController {
         if (addWindingRepository.existsByName(addWindingMachine.getName())) {
             return ResponseEntity.badRequest().body(new MessageResponse("Already Exists " + addWindingMachine.getName()));
         }
-        return ResponseEntity.status(HttpStatus.CREATED).body(addWindinfService.SaveData(addWindingMachine));
+        return ResponseEntity.status(HttpStatus.CREATED).body(addWindingService.SaveData(addWindingMachine));
     }
 
     @GetMapping("/{id}")
     public Optional<AddWindingMachine> FindByidBlowRoom(@PathVariable Long id) {
-        return ResponseEntity.status(HttpStatus.OK).body(addWindinfService.FindByData(id)).getBody();
+        return ResponseEntity.status(HttpStatus.OK).body(addWindingService.FindByData(id)).getBody();
     }
 
     @GetMapping("/all")
     public ResponseEntity<Object> FindAll() {
-        return ResponseEntity.status(HttpStatus.OK).body(addWindinfService.ViewData());
+        return ResponseEntity.status(HttpStatus.OK).body(addWindingService.ViewData());
     }
 
     @DeleteMapping("/del/{id}")
     public void deleteByid(@PathVariable Long id) {
-        addWindinfService.DeleteReading(id);
+        addWindingService.DeleteReading(id);
     }
 
     @GetMapping("/status/")
     public ResponseEntity<?> FindByStatus(@RequestParam boolean status) {
-        List<AddWindingMachine> Data = addWindinfService.Status(status);
+        List<AddWindingMachine> Data = addWindingService.Status(status);
         return new ResponseEntity<>(PageResponse.SuccessResponse(Data), HttpStatus.OK);
     }
 

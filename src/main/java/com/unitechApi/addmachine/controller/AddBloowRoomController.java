@@ -58,12 +58,6 @@ public class AddBloowRoomController {
         addbloowroomservice.DeleteReading(id);
     }
 
-    @GetMapping("/status")
-    public ResponseEntity<?> FindByStatus(@RequestParam boolean status) {
-        List<AddBloowroom> Data = addbloowroomservice.Status(status);
-        return new ResponseEntity<>(PageResponse.SuccessResponse(Data), HttpStatus.OK);
-    }
-
     @PatchMapping("/update/{id}")
     public ResponseEntity<?> UpdateData(@PathVariable Long id, @RequestBody Map<Object, Object> fields) {
         Optional<AddBloowroom> addBloowRoom = Optional.ofNullable(addBloowRoomRepository.findById(id).orElseThrow(() -> new ResourceNotFound(
@@ -80,7 +74,7 @@ public class AddBloowRoomController {
                 ReflectionUtils.setField(field, addBloowRoom.get(), value);
                 log.info("field {}",field);
             });
-            AddBloowroom addBloowroom = addBloowRoomRepository.save(addBloowRoom.get());
+            addBloowRoomRepository.save(addBloowRoom.get());
 
         } else {
             throw new UserNotFound("User Not Found " + id);

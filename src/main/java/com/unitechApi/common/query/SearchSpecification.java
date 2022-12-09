@@ -1,16 +1,15 @@
 package com.unitechApi.common.query;
 
 
-import com.unitechApi.Payload.response.Pagination;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 
 import javax.persistence.criteria.*;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Slf4j
 @AllArgsConstructor
@@ -18,9 +17,10 @@ public class SearchSpecification<T> implements Specification<T> {
 
     private static final long serialVersionUID = -9153865343320750644L;
 
+    //Now it will not be serialized
     private final transient SearchRequest request;
 
-
+    // it's class valid filter request and sorting Request
 
     @Override
     public Predicate toPredicate(Root<T> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
@@ -40,9 +40,11 @@ public class SearchSpecification<T> implements Specification<T> {
         query.orderBy(orders);
         return predicate;
     }
+    // page -> page  Number of page
+    // size -> size of elements in page
 
     public static Pageable getPageable(Integer page, Integer size) {
-        return PageRequest.of(page,size);
+        return PageRequest.of(page, size);
     }
 
 }

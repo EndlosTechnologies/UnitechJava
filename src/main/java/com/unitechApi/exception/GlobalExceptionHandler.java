@@ -1,8 +1,7 @@
 package com.unitechApi.exception;
 
 import com.unitechApi.exception.ExceptionService.*;
-import com.unitechApi.exception.Model.ExceptionMOdel;
-import com.unitechApi.exception.Model.VadationErrorMessage;
+import com.unitechApi.exception.Model.ExceptionModel;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.http.HttpHeaders;
@@ -22,11 +21,11 @@ import java.util.stream.Collectors;
 
 @RestControllerAdvice
 @RequiredArgsConstructor
-public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
+public class   GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(DateMisMatchException.class)
     public ResponseEntity<?> handleDateMismatch(DateMisMatchException ex) {
-        ExceptionMOdel exceptionMOdel = new ExceptionMOdel();
+        ExceptionModel exceptionMOdel = new ExceptionModel();
         exceptionMOdel.setDetails(ex.getClass().getCanonicalName());
         exceptionMOdel.setDeveloperMessage(ex.fillInStackTrace().getMessage());
         exceptionMOdel.setStatus(HttpStatus.NOT_ACCEPTABLE.value());
@@ -52,7 +51,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler(Fileincorrect.class)
     public ResponseEntity<?> handleFileAreIncorrect(Fileincorrect ex,MethodArgumentNotValidException exception) {
 
-        ExceptionMOdel exceptionMOdel = new ExceptionMOdel();
+        ExceptionModel exceptionMOdel = new ExceptionModel();
         exceptionMOdel.setDetails(ex.getClass().getCanonicalName());
         exceptionMOdel.setDeveloperMessage(ex.fillInStackTrace().getMessage());
         exceptionMOdel.setStatus(HttpStatus.CONFLICT.value());
@@ -63,7 +62,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     }
     @ExceptionHandler(ImageException.class)
     public ResponseEntity<?> handleImgaeAlreadyExists(ImageException ex) {
-        ExceptionMOdel exceptionMOdel = new ExceptionMOdel();
+        ExceptionModel exceptionMOdel = new ExceptionModel();
         exceptionMOdel.setDetails(ex.getClass().getCanonicalName());
         exceptionMOdel.setDeveloperMessage(ex.fillInStackTrace().getMessage());
         exceptionMOdel.setStatus(HttpStatus.CONFLICT.value());
@@ -75,7 +74,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler(ResourceNotFound.class)
     public ResponseEntity<?> handleResourceNotFound(ResourceNotFound ex) {
 
-        ExceptionMOdel exceptionMOdel = new ExceptionMOdel();
+        ExceptionModel exceptionMOdel = new ExceptionModel();
         exceptionMOdel.setDetails(ex.getClass().getCanonicalName());
         exceptionMOdel.setDeveloperMessage(ex.fillInStackTrace().getMessage());
         exceptionMOdel.setStatus(HttpStatus.NOT_FOUND.value());
@@ -86,7 +85,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(UserNotFound.class)
     public ResponseEntity<?> handleUserNotFound(UserNotFound ex) {
-        ExceptionMOdel exceptionMOdel = new ExceptionMOdel();
+        ExceptionModel exceptionMOdel = new ExceptionModel();
         exceptionMOdel.setDetails(ex.getClass().getCanonicalName());
         exceptionMOdel.setDeveloperMessage(ex.fillInStackTrace().getMessage());
         exceptionMOdel.setStatus(HttpStatus.NOT_FOUND.value());
@@ -96,7 +95,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     }
     @ExceptionHandler(RoleNotFound.class)
     public ResponseEntity<?> handleRoleNotFound(RoleNotFound ex) {
-        ExceptionMOdel exceptionMOdel = new ExceptionMOdel();
+        ExceptionModel exceptionMOdel = new ExceptionModel();
         exceptionMOdel.setDetails(ex.getClass().getCanonicalName());
         exceptionMOdel.setDeveloperMessage(ex.fillInStackTrace().getMessage());
         exceptionMOdel.setStatus(HttpStatus.NOT_FOUND.value());
@@ -108,7 +107,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(TimeExtendException.class)
     public ResponseEntity<?> handleTimeMismatch(TimeExtendException ex) {
-        ExceptionMOdel exceptionMOdel = new ExceptionMOdel();
+        ExceptionModel exceptionMOdel = new ExceptionModel();
         exceptionMOdel.setDetails(ex.getClass().getCanonicalName());
         exceptionMOdel.setDeveloperMessage(ex.fillInStackTrace().getMessage());
         exceptionMOdel.setStatus(HttpStatus.NOT_ACCEPTABLE.value());
@@ -118,7 +117,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     }
     @ExceptionHandler(ProductCategoryNotFound.class)
     public ResponseEntity<?> handleProductCategoryNotFound(ProductCategoryNotFound ex) {
-        ExceptionMOdel exceptionMOdel = new ExceptionMOdel();
+        ExceptionModel exceptionMOdel = new ExceptionModel();
         exceptionMOdel.setDetails(ex.getClass().getCanonicalName());
         exceptionMOdel.setDeveloperMessage(ex.fillInStackTrace().getMessage());
         exceptionMOdel.setStatus(HttpStatus.NOT_ACCEPTABLE.value());
@@ -128,7 +127,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     }
     @ExceptionHandler(ItemNotFound.class)
     public ResponseEntity<?> handleItemNotFound(ItemNotFound ex) {
-        ExceptionMOdel exceptionMOdel = new ExceptionMOdel();
+        ExceptionModel exceptionMOdel = new ExceptionModel();
         exceptionMOdel.setDetails(ex.getClass().getCanonicalName());
         exceptionMOdel.setDeveloperMessage(ex.fillInStackTrace().getMessage());
         exceptionMOdel.setStatus(HttpStatus.NOT_ACCEPTABLE.value());
@@ -138,7 +137,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     }
     @ExceptionHandler(UnitNotFound.class)
     public ResponseEntity<?> handleUnitNotFound(UnitNotFound ex) {
-        ExceptionMOdel exceptionMOdel = new ExceptionMOdel();
+        ExceptionModel exceptionMOdel = new ExceptionModel();
         exceptionMOdel.setDetails(ex.getClass().getCanonicalName());
         exceptionMOdel.setDeveloperMessage(ex.fillInStackTrace().getMessage());
         exceptionMOdel.setStatus(HttpStatus.NOT_ACCEPTABLE.value());
@@ -148,7 +147,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     }
     @ExceptionHandler(OutOfStock.class)
     public ResponseEntity<?> handleUnitNotFound(OutOfStock ex) {
-        ExceptionMOdel exceptionMOdel = new ExceptionMOdel();
+        ExceptionModel exceptionMOdel = new ExceptionModel();
         exceptionMOdel.setDetails(ex.getClass().getCanonicalName());
         exceptionMOdel.setDeveloperMessage(ex.fillInStackTrace().getMessage());
         exceptionMOdel.setStatus(HttpStatus.NOT_FOUND.value());
@@ -158,7 +157,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     }
     @ExceptionHandler(PasswordIncorrect.class)
     public ResponseEntity<?> PasswordIncorrect(PasswordIncorrect ex) {
-        ExceptionMOdel exceptionMOdel = new ExceptionMOdel();
+        ExceptionModel exceptionMOdel = new ExceptionModel();
         exceptionMOdel.setDetails(ex.getClass().getCanonicalName());
         exceptionMOdel.setDeveloperMessage(ex.fillInStackTrace().getMessage());
         exceptionMOdel.setStatus(HttpStatus.UNAUTHORIZED.value());
@@ -168,7 +167,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     }
     @ExceptionHandler(AddItemException.class)
     public ResponseEntity<?> AddItemException(AddItemException ex) {
-        ExceptionMOdel exceptionMOdel = new ExceptionMOdel();
+        ExceptionModel exceptionMOdel = new ExceptionModel();
         exceptionMOdel.setDetails(ex.getClass().getCanonicalName());
         exceptionMOdel.setDeveloperMessage(ex.fillInStackTrace().getMessage());
         exceptionMOdel.setStatus(HttpStatus.UNAVAILABLE_FOR_LEGAL_REASONS.value());
@@ -178,7 +177,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     }
     @ExceptionHandler(MachineNotFound.class)
     public ResponseEntity<?> MachineNotFound(MachineNotFound ex) {
-        ExceptionMOdel exceptionMOdel = new ExceptionMOdel();
+        ExceptionModel exceptionMOdel = new ExceptionModel();
         exceptionMOdel.setDetails(ex.getClass().getCanonicalName());
         exceptionMOdel.setDeveloperMessage(ex.fillInStackTrace().getMessage());
         exceptionMOdel.setStatus(HttpStatus.NOT_FOUND.value());

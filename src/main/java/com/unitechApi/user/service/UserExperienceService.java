@@ -20,10 +20,17 @@ public class UserExperienceService {
         this.experienceRepository = experienceRepository;
     }
 
+    /*
+    * save experience and user object pass In requestBody
+    *
+    * */
     public ExperienceModel SaveUserExperienceDetails(ExperienceModel experienceModel) {
         return experienceRepository.save(experienceModel);
     }
-
+    /*
+    * params id
+    * delete experince By Id
+    *     * */
     public void DeleteReading(Long id) {
         try {
             experienceRepository.deleteById(id);
@@ -31,11 +38,18 @@ public class UserExperienceService {
             throw new ResourceNotFound("data already deleted present " + ResourceNotFound.class);
         }
     }
-
+    /*
+    * params id
+    * return Experience by ID
+    * */
     public Optional<ExperienceModel> FindByIdExperienceDetails(Long id) {
         return Optional.ofNullable(experienceRepository.findById(id).orElseThrow(() -> new UserNotFound("Sorry !  i cann't Do This cause your Data Not Found")));
     }
-
+    /*
+    * params ID
+    * params field
+    * return update  experienceData by ID
+    * */
     public ExperienceModel UpdateData(Long Id, Map<Object, Object> fields) {
         ExperienceModel experienceModel = experienceRepository.findById(Id).orElseThrow(() -> new ResourceNotFound("Sorry !  i cann't Do This cause your Data Not Found"));
         fields.forEach((key, values) -> {

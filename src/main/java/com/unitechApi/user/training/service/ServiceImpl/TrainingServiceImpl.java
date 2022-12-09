@@ -32,8 +32,8 @@ public class TrainingServiceImpl implements TrainingService {
     }
 
     /**
-     * @param trainingId
-     * @return
+     * @param trainingId trainingId
+     * @return get A trainingSession by trainingId
      */
     @Override
     public TrainingSession getById(Long trainingId) {
@@ -41,7 +41,7 @@ public class TrainingServiceImpl implements TrainingService {
     }
 
     /**
-     * @return
+     * @return getAll trainingSession
      */
     @Override
     public Page<TrainingSession> getAll(Pagination pagination) {
@@ -50,9 +50,9 @@ public class TrainingServiceImpl implements TrainingService {
     }
 
     /**
-     * @param trainingId
-     * @param trainingSession
-     * @return
+     * @param trainingId trainingId
+     * @param trainingSession trainingSession
+     * @return update trainingSession data
      */
     @Override
     public TrainingSession updateTrainingSession(Long trainingId, TrainingSession trainingSession) {

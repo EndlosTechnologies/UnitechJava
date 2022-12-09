@@ -68,9 +68,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .authenticationEntryPoint(unauthorizedHandler).and()
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
-
                 .authorizeRequests().antMatchers("/unitech/api/v1/**").permitAll()
-//                .antMatchers("/unitech/api/v1/purchase/contract/**").hasAuthority("ROLE_ADMIN").anyRequest().authenticated()
                 .antMatchers("/api/test/**").permitAll()
                 .anyRequest().authenticated();
 

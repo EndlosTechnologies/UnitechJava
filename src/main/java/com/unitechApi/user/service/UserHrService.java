@@ -18,14 +18,28 @@ public class UserHrService {
         this.hrRepository = hrRepository;
     }
 
+    /*
+     * save Hr details
+     *
+     * */
     public HrModel SaveHrDetails(HrModel hrModel) {
         return hrRepository.save(hrModel);
     }
 
+    /*
+     * params id
+     * return hr Detials by ID
+     * */
     public Optional<HrModel> findByHrModel(Long id) {
         return Optional.ofNullable(hrRepository.findById(id).orElseThrow(() -> new ResourceNotFound("Sorry !  i cann't Do This cause your Data Not Found")));
     }
 
+    /*
+     * params id
+     * delete Hr Details By Id
+     *
+     * check parent Object
+     *     * */
     public void DeleteReading(Long id) {
         try {
             hrRepository.deleteById(id);
@@ -34,6 +48,11 @@ public class UserHrService {
         }
     }
 
+    /*
+     * params ID
+     * params field
+     * return update  Hr Putted  by ID
+     * */
     public HrModel UpdateData(Long Id, Map<Object, Object> fields) {
         HrModel hrModel = hrRepository.findById(Id).orElseThrow(() -> new ResourceNotFound("Sorry !  i cann't Do This cause your Data Not Found"));
         fields.forEach((key, values) -> {

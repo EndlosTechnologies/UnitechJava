@@ -14,7 +14,7 @@
           <element id="module-output" name="unitech" />
         </element>
         <element id="directory" name="lib">
-          <element id="library" level="project" name="Maven: org.springframework.boot:spring-boot-starter-actuator:2.6.7" />
+          <element id="library" level="project" name="Maven: org.springframework.boot:spring-boot-starter-actuator:2.7.5" />
           <element id="library" level="project" name="Maven: org.springframework.boot:spring-boot-starter:2.6.7" />
           <element id="library" level="project" name="Maven: org.springframework.boot:spring-boot-starter-logging:2.6.7" />
           <element id="library" level="project" name="Maven: ch.qos.logback:logback-classic:1.2.11" />

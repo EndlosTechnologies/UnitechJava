@@ -1,5 +1,6 @@
 package com.unitechApi.MachineSetParameter.service;
 
+import com.unitechApi.MachineSetParameter.model.BloowRoom;
 import com.unitechApi.MachineSetParameter.model.DrawFramesPerHank;
 import com.unitechApi.MachineSetParameter.repository.DrawFramesPerHankRepository;
 import com.unitechApi.Payload.response.Pagination;
@@ -26,6 +27,9 @@ public class DrawFramesHankService {
     public DrawFramesHankService(DrawFramesPerHankRepository drawFramesPerHankRepository) {
         this.drawFramesPerHankRepository = drawFramesPerHankRepository;
     }
+    /*
+     * save Data with necessary calculation
+     * */
 
     public DrawFramesPerHank save(DrawFramesPerHank drawFramesPerHank) {
         df.setMaximumFractionDigits(3);
@@ -35,11 +39,40 @@ public class DrawFramesHankService {
         log.info(" { }DrawFrames In Hank Data ", drawFramesPerHank);
         return drawFramesPerHankRepository.save(drawFramesPerHank);
     }
+    /*
+     * get All Added Reading  from MachineReadingParameter schema
+     * */
+    public List<DrawFramesPerHank> ViewData() {
+        return drawFramesPerHankRepository.findAll();
+    }
+    /*
+     *   parameter Long machineI
+     *   it's hard delete
+     *   NOTE ->  develop a Soft Delete Machine Service
+     * */
+    public void DeleteReading(Long id) {
+        try {
+            drawFramesPerHankRepository.deleteById(id);
+        } catch (ResourceNotFound e) {
+            throw new ResourceNotFound("data already deleted present " + id + ": ");
+        }
+    }
+
+    /*
+     * parameter Long machineId
+     * get  Data By MachineId
+     * if data has not in the database then throw an exception ResourceNot Found
+     * */
 
     public DrawFramesPerHank FindByData(Long id) {
 
         return drawFramesPerHankRepository.findById(id).orElseThrow(() -> new ResourceNotFound("can't find data"));
     }
+    /*
+     * parameter Start CreatedDate and End CreatedDate
+     * get  Data By CreatedDate
+     * if data has not in the database then throw an exception DateMisMatchException
+     * */
 
     public List<DrawFramesPerHank> FindByDate(Date start, Date end) {
         java.util.Date date = new java.util.Date();
@@ -55,6 +88,11 @@ public class DrawFramesHankService {
                 .collect(Collectors.toList());
     }
 
+    /*
+     * parameter Start CreatedDate
+     * get  Data By CreatedDate
+     * if data has not in the database then throw an exception DateMisMatchException
+     * */
     public List<DrawFramesPerHank> FindBySingleDate(Date start) {
         return drawFramesPerHankRepository.findByCreatedAt(start)
                 .stream()

@@ -20,15 +20,22 @@ public class DoService {
         this.doRepository = doRepository;
         this.contractRepository = contractRepository;
     }
-
+    /*
+    * save  DeliveryOrder
+    * */
     public DeliveryOrderModel SaveData(DeliveryOrderModel deliveryOrderModel) {
         DeliveryOrderModel Model = doRepository.save(deliveryOrderModel);
         return Model;
     }
 
+    /*
+    params id
+    * get DeliveryOrder data By Id
+    * */
     public DeliveryOrderModel GetOrderByid(Long id) {
         return doRepository.findById(id).orElseThrow(() -> new ResourceNotFound("sorry Can Not Find A Any Resource"));
     }
+
 
     public DeliveryOrderModel DeleteData(Long Doid) {
         Optional<DeliveryOrderModel> doModel = Optional.ofNullable(doRepository.findById(Doid).orElseThrow(() -> new ResourceNotFound("Resource Not Found " + Doid)));
@@ -37,7 +44,12 @@ public class DoService {
         return null;
     }
 
-
+    /*
+    * params doId
+    * params changes
+    * return update DeliveryOrder in by doid
+    *
+    * */
     public Object updateData(Long doId, Map<String, Object> changes) {
         DeliveryOrderModel deliveryOrderModel = doRepository.findById(doId).orElseThrow(() -> new ResourceNotFound("Sorry !  i cann't Do This cause your Data Not Found"));
         changes.forEach((key, values) -> {

@@ -56,7 +56,11 @@ public class PoStoreService {
         this.indentEventRepository = indentEventRepository;
         this.userRepository = userRepository;
     }
-
+    /*
+    * save Po
+    *  set a price Vendor Price Model
+    *   and set poPrice in PoPrice Model
+    * */
     public PoStore saveData(PoStore poStore) {
         float totalAmount = 0;
         Indent indent = indentRepository.getById(poStore.getIndentDAta().getIndentId());
@@ -84,10 +88,6 @@ public class PoStoreService {
         return poStoreRepository.save(poStore);
 
     }
-
-//    public List<?> findByLock() {
-//        return poPriceRepository.findByLock();
-//    }
 
     public PoStore findById(Long poId) {
         return poStoreRepository.findById(poId).orElseThrow(() -> new ResourceNotFound("Resource Not Found " + poId));
@@ -122,8 +122,10 @@ public class PoStoreService {
     public List<PoByIndentView> findByIndentId(Long indentId) {
         return poStoreRepository.getIndentId(indentId);
     }
-
-
+    /*
+    *
+    * Multiple Po save And Multiple price SAVE PoPrice
+    * */
     public PoStore doublePosaveData(PoStore poStore) {
         AtomicReference<Float> totalAmount = new AtomicReference<>((float) 0);
         Indent indent = indentRepository.getById(poStore.getIndentDAta().getIndentId());

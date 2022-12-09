@@ -28,13 +28,26 @@ public class UnitService {
 
 
 
+    /*
+    * save Unit
+    * */
     public Unit saveData(Unit unit) {
         return unitRepository.save(unit);
     }
-
+    /*
+    * params id
+    * get Unit by unitId
+    *
+    * */
     public Optional<Unit> findById(Long id) {
         return Optional.of(unitRepository.findById(id)).orElseThrow(() -> new UnitNotFound("Unit Not Found " + id));
     }
+
+    /*
+      parameter Long id
+    * it's hard delete
+    NOTE ->  develop a Soft Delete Machine Service
+    * */
 
     public Unit deleteData(Long id) {
         Optional<Unit> data = Optional.ofNullable(unitRepository.findById(id).orElseThrow(() -> new UnitNotFound("Unit Not Found " + id)));
@@ -44,16 +57,30 @@ public class UnitService {
         return null;
     }
 
+    /*
+    * getAll Unit
+    * */
     public List<Unit> findAll() {
         return unitRepository.findAll()
                 .stream()
                 .sorted(Comparator.comparing(Unit::getUid))
                 .collect(Collectors.toList());
     }
+
+    /*
+    * params  name
+    * get Unit by unitname
+    * */
     public List<Unit> findByUnitName(String name)
     {
         return unitRepository.findByUnitName(name);
     }
+
+    /*
+    * params date
+    *
+    * get All Unit By date
+    * */
     public List<Unit>  findByDate(Date date)
     {
         return unitRepository.findByCreated(date);

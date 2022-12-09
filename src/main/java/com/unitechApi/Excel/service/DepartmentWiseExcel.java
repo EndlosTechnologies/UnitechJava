@@ -7,6 +7,8 @@ import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFFont;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.builder.SpringApplicationBuilder;
 
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
@@ -23,10 +25,13 @@ public class DepartmentWiseExcel {
     private XSSFWorkbook workbook;
     private XSSFSheet sheet;
     private List<UsageItem> ListItem;
+
     public DepartmentWiseExcel(List<UsageItem> listData) {
         this.ListItem = listData;
         workbook = new XSSFWorkbook();
     }
+
+
     private void writeHeaderLine() throws ParseException {
         sheet = workbook.createSheet("Department Item Data");
         Row row = sheet.createRow(1);
@@ -44,6 +49,12 @@ public class DepartmentWiseExcel {
         createCell(row, 6, "Status", style);
 
     }
+
+    /*
+     * this method create for
+     *
+     * write data in Excel from db
+     * */
     private void writeDataLine() throws ParseException {
 
         int rowcount = 2;
@@ -69,6 +80,12 @@ public class DepartmentWiseExcel {
             createCell(row, countRow++, usageItem.getIssuedItem().getStatus(), style);
         }
     }
+    /*
+    thia method create for Field Validation
+    for cell
+    * */
+
+
     private void createCell(Row row, int i, Object value, CellStyle style) throws ParseException {
 //        CellStyle cellStyle = workbook.createCellStyle();
 //        CreationHelper createHelper = workbook.getCreationHelper();
@@ -109,4 +126,6 @@ public class DepartmentWiseExcel {
         workbook.close();
         outputStream.close();
     }
+
+
 }

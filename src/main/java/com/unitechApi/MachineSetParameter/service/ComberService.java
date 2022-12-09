@@ -1,5 +1,6 @@
 package com.unitechApi.MachineSetParameter.service;
 
+import com.unitechApi.MachineSetParameter.model.BloowRoom;
 import com.unitechApi.MachineSetParameter.model.Comber;
 import com.unitechApi.MachineSetParameter.repository.ComberRepository;
 import com.unitechApi.addmachine.model.AddComber;
@@ -30,6 +31,9 @@ public class ComberService {
 
     DecimalFormat df = new DecimalFormat("#.###");
 
+    /*
+     * save Data with necessary calculation
+     * */
     public Comber SaveData(Comber comber) {
         df.setMaximumFractionDigits(3);
         comber.setProductioMc8Hour(Float.parseFloat(df.format((CONSTANT * comber.getComberSpeedRpm() * comber.getFeedNip() * comber.getLapWeight() * comber.getMachineEfficency() * (100 - comber.getNoil())) / (100 * 100))));
@@ -39,6 +43,11 @@ public class ComberService {
         log.info("{ } Comber Data ", comber);
         return comberRepository.save(comber);
     }
+    /*
+     * parameter Long machineId
+     * get  Data By MachineId
+     * if data has not in the database then throw an exception ResourceNot Found
+     * */
 
     public Comber FindById(Long id) {
         Optional<Comber> comber = comberRepository.findById(id);
@@ -48,6 +57,18 @@ public class ComberService {
         return comber.get();
 
     }
+
+    /*
+     * get All Added Reading  from MachineReadingParameter schema
+     * */
+    public List<Comber> ViewData() {
+        return comberRepository.findAll();
+    }
+    /*
+     * parameter Start CreatedDate and End CreatedDate
+     * get  Data By CreatedDate
+     * if data has not in the database then throw an exception DateMisMatchException
+     * */
 
     public List<Comber> FindByDate(Date start, Date end) {
         java.util.Date date = new java.util.Date();
@@ -59,16 +80,24 @@ public class ComberService {
         }
         return comberRepository.findByCreatedAtBetween(start, end)
                 .stream()
-                .sorted(Comparator.comparing(O->O.getAddcomber().getId()))
+                .sorted(Comparator.comparing(O -> O.getAddcomber().getId()))
                 .collect(Collectors.toList());
     }
 
+    /*
+     * parameter Start CreatedDate
+     * get  Data By CreatedDate
+     * if data has not in the database then throw an exception DateMisMatchException
+     * */
     public List<Comber> FindBySingleDate(Date start) {
         return comberRepository.findByCreatedAt(start)
                 .stream()
-                .sorted(Comparator.comparing(O->O.getAddcomber().getId()))
+                .sorted(Comparator.comparing(O -> O.getAddcomber().getId()))
                 .collect(Collectors.toList());
     }
+    /*
+     * update comberMachine Add comberReading class
+     * */
 
     public Comber updateid(Long co_r_id, Long co_a_id) {
         AddComber addComber = addComberRepository.findById(co_a_id).get();

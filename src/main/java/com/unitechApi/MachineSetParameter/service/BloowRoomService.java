@@ -30,7 +30,9 @@ public class BloowRoomService {
     public static final float CONSTANT = (float) 0.0354;
     DecimalFormat df = new DecimalFormat("0.000");
 
-
+    /*
+     * save Data with necessary calculation
+     * */
     public BloowRoom SaveData(BloowRoom bloowroom) {
         //df.setMinimumFractionDigits(3);
 
@@ -39,15 +41,23 @@ public class BloowRoomService {
         bloowroom.setMachineefficencykgcardpershift(Float.parseFloat(df.format(bloowroom.getProductiononratekgcardperhour() * 12)));
         bloowroom.setMachineefficencykgcardpersixhours(Float.parseFloat(df.format(bloowroom.getMachineefficencykgcardpershift() / 2)));
         bloowroom.setMachineefficencykgcardperday(Float.parseFloat(df.format(bloowroom.getMachineefficencykgcardpershift() * 2)));
-        log.info("  Bloow Room Data Added{}", bloowroom);
+        log.info("Bloow Room Data Added{}", bloowroom);
         return bloowRoomRepository.save(bloowroom);
     }
 
 
-    public Object ViewData() {
+    /*
+     * get All Added Reading  from MachineReadingParameter schema
+     * */
+    public List<BloowRoom> ViewData() {
         return bloowRoomRepository.findAll();
     }
 
+    /*
+     *   parameter Long machineI
+     *   it's hard delete
+     *   NOTE ->  develop a Soft Delete Machine Service
+     * */
     public void DeleteReading(Long id) {
         try {
             bloowRoomRepository.deleteById(id);
@@ -55,11 +65,21 @@ public class BloowRoomService {
             throw new ResourceNotFound("data already deleted present " + id + ": ");
         }
     }
+    /*
+     * parameter Long machineId
+     * get  Data By MachineId
+     * if data has not in the database then throw an exception ResourceNot Found
+     * */
 
     public Optional<BloowRoom> FindByData(Long id) {
         return Optional.ofNullable(bloowRoomRepository.findById(id).orElseThrow(() -> new ResourceNotFound("can't find data")));
     }
 
+    /*
+     * parameter Start CreatedDate and End CreatedDate
+     * get  Data By CreatedDate
+     * if data has not in the database then throw an exception DateMisMatchException
+     * */
     public List<BloowRoom> FindByDate(Date start, Date end) {
         java.util.Date date = new java.util.Date();
 
@@ -70,14 +90,19 @@ public class BloowRoomService {
         }
         return bloowRoomRepository.findByCreatedAtBetween(start, end)
                 .stream()
-                .sorted(Comparator.comparing(o->o.getAddBloowroom().getId()))
+                .sorted(Comparator.comparing(o -> o.getAddBloowroom().getId()))
                 .collect(Collectors.toList());
     }
 
+    /*
+     * parameter Start CreatedDate
+     * get  Data By CreatedDate
+     * if data has not in the database then throw an exception DateMisMatchException
+     * */
     public List<BloowRoom> listOfData(Date starts) {
         return bloowRoomRepository.findByCreatedAt(starts)
                 .stream()
-                .sorted(Comparator.comparing(o->o.getAddBloowroom().getId()))
+                .sorted(Comparator.comparing(o -> o.getAddBloowroom().getId()))
                 .collect(Collectors.toList());
     }
 
@@ -85,14 +110,14 @@ public class BloowRoomService {
     public List<BloowRoom> ExcelDateToDateReport(Date start, Date end) {
         return bloowRoomRepository.findByShiftdateBetween(start, end)
                 .stream()
-                .sorted(Comparator.comparing(o->o.getAddBloowroom().getId()))
+                .sorted(Comparator.comparing(o -> o.getAddBloowroom().getId()))
                 .collect(Collectors.toList());
     }
 
     public List<BloowRoom> ExcelDateToPerDateReport(Date start) {
         return bloowRoomRepository.findByShiftdate(start)
                 .stream()
-                .sorted(Comparator.comparing(o->o.getAddBloowroom().getId()))
+                .sorted(Comparator.comparing(o -> o.getAddBloowroom().getId()))
                 .collect(Collectors.toList());
 
     }

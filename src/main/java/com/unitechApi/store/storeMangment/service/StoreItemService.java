@@ -31,23 +31,41 @@ public class StoreItemService {
         this.storeItemRepository = storeItemRepository;
         this.vendorRepository = vendorRepository;
     }
-
+    /*
+    * save item
+    * */
     public StoreItemModel saveData(StoreItemModel storeItemModel) {
         return storeItemRepository.save(storeItemModel);
     }
 
-    public void checkRemainingItem(Long id)
+    /*
+    * params id
+    *
+    * get Item by Id and Check Reaming Item
+    * */
+    public StoreItemModel checkRemainingItem(Long id)
     {
         StoreItemModel storeItemModel = storeItemRepository.findById(id).orElseThrow(() -> new ItemNotFound("item Not Found"));
                if (storeItemModel.getQuantity()<storeItemModel.getRemainingItem())
         {
             throw new AddItemException("Sorry You Can't take item in Store ! Please add Item in store ");
         }
+        return storeItemModel;
     }
+    /*
+     * params id
+     *
+     * get Item by ID
+     * */
     public StoreItemModel findById(Long id) {
         return storeItemRepository.findById(id).orElseThrow(() -> new ItemNotFound("item Not Found"));
     }
-
+    /*
+    * params id
+    * params itemData
+    *
+    * partially update Data  in item
+    * */
     public StoreItemModel updateItem(Long id, Map<Object, Object> itemData) {
         StoreItemModel itemId = storeItemRepository.findById(id).orElseThrow(() -> new ItemNotFound("item Not Found"));
         itemData.forEach((key, value) -> {
@@ -60,6 +78,9 @@ public class StoreItemService {
 
         return storeItemRepository.save(itemId);
     }
+    /*
+    * get All item
+    * */
 
     public List<StoreItemModel> findAll() {
         return storeItemRepository.findAll()
@@ -68,18 +89,34 @@ public class StoreItemService {
                 .collect(Collectors.toList());
     }
 
+    /*
+    * params name
+    *  get All Item by itemName
+    * */
     public List<StoreItemModel> findByItemName(String name) {
         return storeItemRepository.findByItemName(name);
     }
 
+    /*
+     * params name
+     *  get All Item by DnoNumber
+     * */
     public List<StoreItemModel> findByDno(String name) {
         return storeItemRepository.findByDrawingNo(name);
     }
 
+    /*
+     * params name
+     *  get All Item by itemCnoNumber
+     * */
     public List<StoreItemModel> findByCno(String name) {
         return storeItemRepository.findByCatalogNo(name);
     }
 
+    /*
+     * params date
+     *  get All Item by date
+     * */
     public List<StoreItemModel> findByCreatedDate(Date date) {
         return storeItemRepository.findByCreated(date);
     }
@@ -101,13 +138,6 @@ public class StoreItemService {
         return storeItemRepository.findAll(data,pageable);
     }
 
-//    public void deleteVendor(long item_id, long vendor_id)
-//    {
-//        StoreItemModel storeItemModel = storeItemRepository.findById(item_id).orElseThrow(() -> new ItemNotFound("item Not Found"));
-//        VendorModel vendorModel=vendorRepository.findById(vendor_id).orElseThrow(() -> new ResourceNotFound("Vendor Not Found"));
-//        storeItemModel.deleteVendor(vendorModel);
-//        storeItemRepository.save(storeItemModel);
-//    }
 
 }
 

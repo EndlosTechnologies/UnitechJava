@@ -14,6 +14,12 @@ import java.util.List;
 
 @Slf4j
 public enum Operator {
+    /*
+    *
+    * this class define
+    *  different type of operator working as a CriteriaBuilder
+    *   result will be depended on Operator
+    * */
     EQUAL {
         public <T> Predicate build(Root<T> root, CriteriaBuilder cb, FilterRequest request, Predicate predicate) {
             Object value = request.getFieldType().parse(request.getValue().toString());

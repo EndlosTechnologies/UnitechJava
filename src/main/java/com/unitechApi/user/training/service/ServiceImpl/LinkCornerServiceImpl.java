@@ -18,8 +18,8 @@ public class LinkCornerServiceImpl implements LinkCornerService {
     }
 
     /**
-     * @param linkCornerTraining
-     * @return
+     * @param linkCornerTraining linkCornerTraining
+     * @return save Data link corner trainingData
      */
     @Override
     public LinkCornerTraining saveData(LinkCornerTraining linkCornerTraining) {
@@ -27,8 +27,8 @@ public class LinkCornerServiceImpl implements LinkCornerService {
     }
 
     /**
-     * @param l_t_id
-     * @return
+     * @param l_t_id l_t_id
+     * @return get By id
      */
     @Override
     public LinkCornerTraining getById(Long l_t_id) {
@@ -36,7 +36,7 @@ public class LinkCornerServiceImpl implements LinkCornerService {
     }
 
     /**
-     * @return
+     * @return get All Data from Link corner Training
      */
     @Override
     public List<LinkCornerTraining> getAll() {

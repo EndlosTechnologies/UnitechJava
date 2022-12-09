@@ -16,15 +16,17 @@ import java.util.stream.Collectors;
 
 @Slf4j
 @Service
-public class DrawframesService {
+public class DrawFramesService {
     public static final float CONSTANT = (float) 0.2835;
     private final DrawFramesRepository drawFramesRepository;
     DecimalFormat df = new DecimalFormat("#.###");
 
-    public DrawframesService(DrawFramesRepository drawFramesRepository) {
+    public DrawFramesService(DrawFramesRepository drawFramesRepository) {
         this.drawFramesRepository = drawFramesRepository;
     }
-
+    /*
+     * save Data with necessary calculation
+     * */
     public Drawframesperkg SaveData(Drawframesperkg drawframesperkg) {
         df.setMaximumFractionDigits(3);
         drawframesperkg.setProductiononratekgdfper8hour(Float.parseFloat(df.format(((CONSTANT * drawframesperkg.getDeliveryspeed() * drawframesperkg.getMachineefficency()) / (drawframesperkg.getSilverhank() * 100)) * 2)));
@@ -34,20 +36,37 @@ public class DrawframesService {
         log.info("{ } DrawFrames Data In KG ", drawframesperkg);
         return drawFramesRepository.save(drawframesperkg);
     }
-
-    public Object ViewData() {
+    /*
+     * get All Added Reading  from MachineReadingParameter schema
+     * */
+    public List<Drawframesperkg> ViewData() {
         return drawFramesRepository.findAll();
 
     }
+    /*
+     *   parameter Long machineI
+     *   it's hard delete
+     *   NOTE ->  develop a Soft Delete Machine Service
+     * */
 
     public void DeleteReading(Long id) throws ResourceNotFound {
         drawFramesRepository.deleteById(id);
     }
 
+    /*
+     * parameter Long machineId
+     * get  Data By MachineId
+     * if data has not in the database then throw an exception ResourceNot Found
+     * */
     public Optional<Drawframesperkg> FindByData(Long id) {
         return Optional.ofNullable(drawFramesRepository.findById(id).orElseThrow(() -> new ResourceNotFound("can't find data")));
     }
 
+    /*
+     * parameter Start CreatedDate and End CreatedDate
+     * get  Data By CreatedDate
+     * if data has not in the database then throw an exception DateMisMatchException
+     * */
     public List<Drawframesperkg> FindByDate(Date start, Date end) {
         java.util.Date date = new java.util.Date();
 
@@ -61,6 +80,11 @@ public class DrawframesService {
                 .sorted(Comparator.comparing(o->o.getDrawFramesMachine().getId()))
                 .collect(Collectors.toList());
     }
+    /*
+     * parameter Start CreatedDate
+     * get  Data By CreatedDate
+     * if data has not in the database then throw an exception DateMisMatchException
+     * */
 
     public List<Drawframesperkg> FindBySingleDate(Date start) {
         return drawFramesRepository.findByCreatedAt(start)

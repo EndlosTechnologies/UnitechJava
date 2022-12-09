@@ -11,10 +11,13 @@ import java.util.Date;
 import java.util.Set;
 
 public class SignupRequest {
+
+    /*
+     * this class used for login request
+     * */
     @NotBlank
     @Size(min = 3, max = 20)
     private String username;
-
     @NotBlank
     @Size(max = 50)
     @Email

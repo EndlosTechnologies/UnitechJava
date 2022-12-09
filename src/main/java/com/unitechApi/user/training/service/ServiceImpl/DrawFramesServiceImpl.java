@@ -18,8 +18,8 @@ public class DrawFramesServiceImpl implements DrawFramesService {
     }
 
     /**
-     * @param drawFramesTraining
-     * @return
+     * @param drawFramesTraining drawFramesTraining
+     * @return save drawFramesTraining data
      */
     @Override
     public DrawFramesTraining saveData(DrawFramesTraining drawFramesTraining) {
@@ -27,8 +27,8 @@ public class DrawFramesServiceImpl implements DrawFramesService {
     }
 
     /**
-     * @param d_t_id
-     * @return
+     * @param d_t_id d_t_id
+     * @return get drawFramesTraining by Id
      */
     @Override
     public DrawFramesTraining getById(Long d_t_id) {
@@ -36,7 +36,7 @@ public class DrawFramesServiceImpl implements DrawFramesService {
     }
 
     /**
-     * @return
+     * @return get All drawFramesTraining data
      */
     @Override
     public List<DrawFramesTraining> getAll() {

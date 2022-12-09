@@ -15,7 +15,6 @@ import com.unitechApi.jwt.JwtUtils;
 import com.unitechApi.user.Repository.*;
 import com.unitechApi.user.model.*;
 import com.unitechApi.user.service.Notification;
-import com.unitechApi.user.service.UserNotificationService;
 import com.unitechApi.websecurity.UserDetailsImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

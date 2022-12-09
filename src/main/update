@@ -1,1 +1,25 @@
-upload in update b
+Backend Technology
+    Language   ->  java
+    version    ->  oracle 1.8
+    frameworks ->  Spring
+    version    ->  2.6.7
+                dependency
+                     -> spring-boot-starter-actuator
+                     -> spring-boot-starter-data-jpa
+                     -> spring-boot-starter-security
+                     -> spring-boot-starter-web
+                     -> spring-boot-devtools
+                     -> org.apache.commons
+                     -> org.postgresql
+                     -> spring-boot-starter-tomcat
+                     -> org.apache.poi (for Excel)
+                     -> spring-boot-starter-validation
+                     -> io.jsonwebtoken (jwt token)
+                     -> spring-boot-starter-websocket
+
+    Database   -> postgreSql
+    Version    -> 15.1
+    Note       -> other DataBase Properties config in  application.properties File
+
+Frontend Technology
+    Angular 12.1.0

@@ -4,7 +4,7 @@ import com.unitechApi.MachineSetParameter.DtoRest.DrawFramesPerKgRest;
 import com.unitechApi.MachineSetParameter.ExcelService.DrawFramesKgExcelService;
 import com.unitechApi.MachineSetParameter.model.Drawframesperkg;
 import com.unitechApi.MachineSetParameter.repository.DrawFramesRepository;
-import com.unitechApi.MachineSetParameter.service.DrawframesService;
+import com.unitechApi.MachineSetParameter.service.DataframesService;
 import com.unitechApi.Payload.response.MessageResponse;
 import com.unitechApi.Payload.response.PageResponse;
 import com.unitechApi.addmachine.model.AddDrawFramesMachine;
@@ -35,36 +35,36 @@ import java.util.Optional;
 @RequestMapping("/unitech/api/v1/machine/drawframes")
 public class DrawFramesController {
 
-    private final DrawframesService drawframesService;
+    private final DataframesService dataframesService;
     private final DrawFramesRepository drawFramesRepository;
     private final AddDrawFramesRepository addDrawFramesRepository;
 
-    public DrawFramesController(DrawframesService drawframesService, DrawFramesRepository drawFramesRepository, AddDrawFramesRepository addDrawFramesRepository) {
-        this.drawframesService = drawframesService;
+    public DrawFramesController(DataframesService dataframesService, DrawFramesRepository drawFramesRepository, AddDrawFramesRepository addDrawFramesRepository) {
+        this.dataframesService = dataframesService;
         this.drawFramesRepository = drawFramesRepository;
         this.addDrawFramesRepository = addDrawFramesRepository;
     }
 
     @PostMapping("/save")
     public ResponseEntity<Drawframesperkg> SaveData(@RequestBody Drawframesperkg drawframesperkg) {
-        return ResponseEntity.ok(drawframesService.SaveData(drawframesperkg));
+        return ResponseEntity.ok(dataframesService.SaveData(drawframesperkg));
 
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<Optional<Drawframesperkg>> findByid(@PathVariable Long id) {
 
-        return ResponseEntity.ok(drawframesService.FindByData(id));
+        return ResponseEntity.ok(dataframesService.FindByData(id));
     }
 
     @GetMapping("/all")
     public ResponseEntity<Object> findall() {
-        return ResponseEntity.ok(drawframesService.ViewData());
+        return ResponseEntity.ok(dataframesService.ViewData());
     }
 
     @DeleteMapping("/del/{id}")
     public void deleteByid(@PathVariable Long id) {
-        drawframesService.DeleteReading(id);
+        dataframesService.DeleteReading(id);
     }
 
     @PatchMapping("/update")
@@ -87,7 +87,7 @@ public class DrawFramesController {
     public ResponseEntity<?> getRecordByCreatedDate(@RequestParam Date start, @RequestParam Date end) {
 
 
-        List<Drawframesperkg> pagecontent = drawframesService.FindByDate(start, end);
+        List<Drawframesperkg> pagecontent = dataframesService.FindByDate(start, end);
         return new ResponseEntity<>(PageResponse.SuccessResponse(pagecontent), HttpStatus.OK);
     }
 
@@ -95,7 +95,7 @@ public class DrawFramesController {
     @GetMapping("/searchsingle")
     public ResponseEntity<?> ParticularDate(@RequestParam Date start) {
 
-        List<Drawframesperkg> bloowRooms = drawframesService.FindBySingleDate(start);
+        List<Drawframesperkg> bloowRooms = dataframesService.FindBySingleDate(start);
         return new ResponseEntity<>(PageResponse.SuccessResponse(bloowRooms), HttpStatus.OK);
     }
 
@@ -120,7 +120,7 @@ public class DrawFramesController {
         String headerKey = "Content-Disposition";
         String headerValue = "attachment; filename=drawFramesData_" + currentDate + ".xlsx";
         response.setHeader(headerKey, headerValue);
-        List<Drawframesperkg> ListData = drawframesService.ExcelDateToDateReport(start, end);
+        List<Drawframesperkg> ListData = dataframesService.ExcelDateToDateReport(start, end);
         ListData.forEach(carding -> System.out.println(carding));
 
         DrawFramesKgExcelService c = new DrawFramesKgExcelService(ListData);
@@ -138,7 +138,7 @@ public class DrawFramesController {
         String headerKey = "Content-Disposition";
         String headerValue = "attachment; filename=drawFramesData_" + currentDate + ".xlsx";
         response.setHeader(headerKey, headerValue);
-        List<Drawframesperkg> ListData = drawframesService.ExcelDateToPerDateReport(start);
+        List<Drawframesperkg> ListData = dataframesService.ExcelDateToPerDateReport(start);
         ListData.forEach(carding -> System.out.println(carding));
 
         DrawFramesKgExcelService c = new DrawFramesKgExcelService(ListData);

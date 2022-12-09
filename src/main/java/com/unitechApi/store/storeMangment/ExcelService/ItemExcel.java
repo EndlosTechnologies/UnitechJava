@@ -26,7 +26,7 @@ public class ItemExcel {
         this.ListItem = listItem;
     }
 
-
+    // this method create for write a header Line in Excel
     private void writeHeaderLine() {
         sheet= workbook.createSheet("itemList");
         Row row= sheet.createRow(2);
@@ -51,6 +51,10 @@ public class ItemExcel {
         createCell(row,11,"item Category",style);
         createCell(row,12,"item unit",style);
     }
+    /*
+    thia method create for Field Validation
+    for cell
+    * */
     private void createCell(Row row, int i, Object value, CellStyle style) {
 
         sheet.autoSizeColumn(i);
@@ -69,6 +73,11 @@ public class ItemExcel {
         }
         cell.setCellStyle(style);
     }
+    /*
+     * this method create for
+     *
+     * write data in Excel from db
+     * */
     private void writeDateLine() {
         int rowcount= 5;
         XSSFFont font=workbook.createFont();

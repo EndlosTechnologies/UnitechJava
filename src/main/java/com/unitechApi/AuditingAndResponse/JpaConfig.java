@@ -17,6 +17,10 @@ public class JpaConfig {
         return () -> getCurrentAuthentication().map(Authentication::getName);
     }
 
+    /*
+     * this class get current user as String   using Authentication Builder
+     *
+     * */
     private Optional<Authentication> getCurrentAuthentication() {
         return Optional.ofNullable(SecurityContextHolder.getContext().getAuthentication());
     }

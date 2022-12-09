@@ -22,14 +22,25 @@ public class WindingService {
 
 
 
+    /*
+     * save Data with necessary calculation
+     * */
     public Winding SaveData(Winding winding) {
         return windingRepository.save(winding);
     }
 
-    public Object ViewData() {
+    /*
+     * get All Added Reading  from MachineReadingParameter schema
+     * */
+    public List<Winding> ViewData() {
         return windingRepository.findAll();
 
     }
+    /*
+     *   parameter Long machineI
+     *   it's hard delete
+     *   NOTE ->  develop a Soft Delete Machine Service
+     * */
     public void DeleteReading(Long id) {
         try {
             windingRepository.deleteById(id);
@@ -39,10 +50,20 @@ public class WindingService {
         }
 
     }
+    /*
+     * parameter Long machineId
+     * get  Data By MachineId
+     * if data has not in the database then throw an exception ResourceNot Found
+     * */
 
     public Optional<Winding> FindByData(Long id) {
         return Optional.ofNullable(windingRepository.findById(id).orElseThrow(() -> new ResourceNotFound("can't find data")));
     }
+    /*
+     * parameter Start CreatedDate and End CreatedDate
+     * get  Data By CreatedDate
+     * if data has not in the database then throw an exception DateMisMatchException
+     * */
     public List<Winding> FindData(Date start, Date end) {
         java.util.Date date = new java.util.Date();
 
@@ -54,6 +75,11 @@ public class WindingService {
 
         return windingRepository.findByCreatedAtBetween(start, end);
     }
+    /*
+     * parameter Start CreatedDate
+     * get  Data By CreatedDate
+     * if data has not in the database then throw an exception DateMisMatchException
+     * */
     public List<Winding> FindBySingleDate(Date start)
     {
         return  windingRepository.findByCreatedAt(start);

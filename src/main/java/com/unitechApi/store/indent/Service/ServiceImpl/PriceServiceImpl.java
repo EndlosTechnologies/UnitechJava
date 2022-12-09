@@ -39,8 +39,8 @@ public class PriceServiceImpl implements PriceService {
     }
 
     /**
-     * @param id
-     * @return get All Data By Id
+     * @param id id
+     * @return get All Data By ID
      */
     @Override
     public VendorWisePriceModel findById(Long id) {
@@ -49,7 +49,7 @@ public class PriceServiceImpl implements PriceService {
 
     /**
      * @param indentId
-     * @return
+     * @return get All Data getByIndentId
      */
     @Override
     public List<VendorWisePriceModel> findByIndentId(Long indentId) {
@@ -59,14 +59,9 @@ public class PriceServiceImpl implements PriceService {
                 .collect(Collectors.toList());
     }
 
-    /**
-     * @param indentId
-     * @return
-     */
-
 
     /**
-     * @param vendorWisePriceModel
+     * @param vendorWisePriceModel vendorWisePriceModel
      * @return save data
      */
     @Override
@@ -74,7 +69,7 @@ public class PriceServiceImpl implements PriceService {
         StoreItemModel storeItemModel = storeItemRepository.getById(vendorWisePriceModel.getItemModelPrice().getItemId());
         Indent indent = indentRepository.getById(vendorWisePriceModel.getIndentPrice().getIndentId());
         List<Indent> indentdata = indentRepository.getAllByIndentId(vendorWisePriceModel.getIndentPrice().getIndentId());
-        log.info("List GetAllById {}",indentdata);
+        log.info("List GetAllById {}", indentdata);
         List<Indent> datr = Arrays.asList(indent);
         for (IndentQuantity i : indent.getIndentQuantityList()) {
             vendorWisePriceModel.setItemQuantity(i.getQuantity());
@@ -87,8 +82,8 @@ public class PriceServiceImpl implements PriceService {
         }
 
         for (Indent i : indentdata) {
-          //  if ()
-            log.info("data lose{}",i.toString());
+            //  if ()
+            log.info("data lose{}", i.toString());
         }
 
 
@@ -96,8 +91,8 @@ public class PriceServiceImpl implements PriceService {
     }
 
     /**
-     * @param id 
-     * @return
+     * @param id id
+     * @return get By All data By ID
      */
     @Override
     public List<?> countDistinctByVendorModelDataId(Long id) {
@@ -105,8 +100,8 @@ public class PriceServiceImpl implements PriceService {
     }
 
     /**
-     * @param indentId 
-     * @return
+     * @param indentId indentId
+     * @return get Distinct Data By itemId
      */
     @Override
     public List<?> getDistinctByItemId(Long indentId) {
@@ -114,13 +109,13 @@ public class PriceServiceImpl implements PriceService {
     }
 
     /**
-     * @param vendorId 
-     * @param itemId
-     * @param indentId
-     * @return
+     * @param vendorId vendorId
+     * @param itemId   itemId
+     * @param indentId indentId
+     * @return get Data From where indentId and itemId,indentId
      */
     @Override
     public List<VendorWisePriceModel> getAllByVendorIdAndItemId(Long vendorId, Long itemId, Long indentId) {
-        return priceModelRepository.getAllByVendorIdAndItemId(vendorId,itemId,indentId);
+        return priceModelRepository.getAllByVendorIdAndItemId(vendorId, itemId, indentId);
     }
 }

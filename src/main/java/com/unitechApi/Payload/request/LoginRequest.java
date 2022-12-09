@@ -4,6 +4,9 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
 
 public class LoginRequest {
+    /*
+    * this class used for login request
+    * */
     @NotBlank
     @Pattern(regexp = "^[0-9]{10}$", message = "enter valid Number ")
     private String phoneno;

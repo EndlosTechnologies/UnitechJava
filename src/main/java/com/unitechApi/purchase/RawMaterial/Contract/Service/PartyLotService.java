@@ -21,14 +21,27 @@ public class PartyLotService {
         this.contractRepository = contractRepository;
     }
 
+    /*
+    * save partylot
+    * */
     public PartyLotModel saveData(PartyLotModel partyLotModel) {
         return partyLotRepository.save(partyLotModel);
     }
 
+    /*
+     *
+     * @params partyId
+     *
+     *   return get party-lot data by ID
+     * */
     public PartyLotModel FindById(Long partyId) {
         return partyLotRepository.findById(partyId).orElseThrow(() -> new ResourceNotFound("Resource Not Found"));
     }
 
+    /*
+    * return
+    *    get All partyLot with Assign aor nor
+    * */
     public Object FindAll() {
         return partyLotRepository.findAll();
     }
@@ -41,6 +54,13 @@ public class PartyLotService {
         return Optional.empty();
     }
 
+
+    /*
+     *
+     * @params c_id
+     * params d_id
+     * return update partylot in contract  data
+     * */
     public PartyLotModel UpdateId(Long c_id, Long p_id) {
         ContractModel contractModel = contractRepository.findById(c_id).orElseThrow(() -> new ResourceNotFound("Resource Not Found"));
         PartyLotModel partyLotModel = partyLotRepository.findById(p_id).orElseThrow(() -> new ResourceNotFound("Resource Not Found"));
